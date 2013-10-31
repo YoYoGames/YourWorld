@@ -1,2 +1,3 @@
-LivingCityEngine
-================
+YoYo Games City Engine
+======================
+
