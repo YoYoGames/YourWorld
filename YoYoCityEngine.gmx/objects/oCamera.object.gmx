@@ -34,6 +34,8 @@ CameraX = 0;
 CameraY = 0;
 CameraZ = -1000;
 global.Camera = id;
+global.Map = -1;
+
 
 XAngle = 0;
 YAngle = 0;
@@ -465,19 +467,26 @@ if( os_type ==os_android ){
 d3d_transform_set_identity();
 d3d_set_perspective(false);              
 
-if( os_type ==os_android ){
-    if( surface_exists(screen) ){
-        draw_surface_stretched(screen,0,0,1920,1080);
-    }
-}
-
-
-
 if( global.WaitText!="" )
 {
         draw_set_font(arial);
         draw_outline( 400,(room_height/2)-20, global.WaitText, c_white );
 }else{
+    if( os_type ==os_android ){
+        if( surface_exists(screen) ){
+            draw_surface_stretched(screen,0,0,1920,1080);
+        }
+    }
+    if( instance_exists(global.Map)){
+        if( surface_exists(global.Map.DiffuseSurface) ){
+            draw_surface_stretched(global.Map.DiffuseSurface,0,0,window_get_width(),window_get_height());
+        }
+        //if( surface_exists(global.Map.SelectionSurface) ){
+        //    draw_surface_stretched(global.Map.SelectionSurface,window_get_width()/2,0,window_get_width()/2,window_get_height());
+        //}
+    }
+    
+    
     draw_set_font(arial);
     var s,aa,vs;      
     switch(display_aa)
@@ -500,9 +509,10 @@ if( global.WaitText!="" )
 
     s = "AA Levels available="+string(aa);
     s = s+ "   (VSYNC:"+vs+")";
+    s = s+ " px="+string(Map.MouseX)+",py="+string(Map.MouseY);
     draw_outline( 40,2, s, c_white );
     
-    s = "fps="+string(fps)+"  cubes="+string(global.cubes)+"  polys="+string(global.CurrentPolyCount)+", total="+string(global.polys);
+    s = "fps="+string(fps)+"  cubes="+string(global.cubes)+"  polys="+string(global.CurrentPolyCount)+", total="+string(global.polys)+"  p="+string(Map.PickedColour);
     draw_outline( 40,22, s, c_white );
 
     s = "clip  ("+string(GroundX1)+"px,"+string(GroundY1)+"px)   ("+string(GroundX2)+"px,"+string(GroundY2)+"px)";
@@ -515,6 +525,10 @@ if( global.WaitText!="" )
     
     s = "clip  ("+string(gx1)+","+string(gy1)+")   ("+string(gx2)+","+string(gy2)+")";
     draw_outline( 40,62, s, c_white );    
+
+    s = "cube=("+string(Map.PickX)+","+string(Map.PickY)+","+string(Map.PickZ)+") - face="+GetFace(Map.Face);
+    draw_outline( 40,82, s, c_white );    
+
 }
     
 

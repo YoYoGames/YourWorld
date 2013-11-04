@@ -37,6 +37,7 @@ vertex_begin(Mesh, CityFormat);
                 // Look up column
                 var u,d,l,r,lid,base,block,a,z,len; 
                 
+                var col = (yy*(MapDepth*MapWidth))+(xx*MapDepth);
                 a = ds_grid_get(themap,xx,yy);                          
 
                 z=0;    
@@ -55,8 +56,7 @@ vertex_begin(Mesh, CityFormat);
                         lid=info[5];
                         base=info[6];
                         var flags = info[0];
-                        
-                        AddCube(Mesh, x,y-CubeEdge,z,  x+CubeEdge,y,z+CubeEdge, $c0c0c0, t,b,l,r,lid,base, flags );
+                        AddCube(Mesh, x,y-CubeEdge,z,  x+CubeEdge,y,z+CubeEdge, col+(zz|$80000000), t,b,l,r,lid,base, flags );
                     }
                     z-=sp;
                 }

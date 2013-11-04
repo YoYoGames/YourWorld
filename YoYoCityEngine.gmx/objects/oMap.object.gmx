@@ -45,13 +45,50 @@ CreateMap(256,256,6, 16, 0,7,7, 64,70);
 vertex_format_begin();
 vertex_format_add_position_3d();
 vertex_format_add_normal();
-//vertex_format_add_colour();
+vertex_format_add_colour();
 vertex_format_add_textcoord();
 CityFormat = vertex_format_end();
 global.CityFormat = CityFormat;
 
+DiffuseSurface = -1;
+SelectionSurface = -1;
+PickedColour="$00000000";
+DoPick=false;
+MouseX=0;
+MouseY=0;
+PickY=-1;
+PickX=-1;
+PickZ=-1;
+Face=-1;
 
 //buffer_delete(map_buff);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="53">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>MouseX = mouse_x;
+MouseY = mouse_y;
+DoPick = true;
+
+
 </string>
           </argument>
         </arguments>
@@ -75,6 +112,13 @@ global.CityFormat = CityFormat;
           <argument>
             <kind>1</kind>
             <string>var camera = global.Camera;
+if( !surface_exists(DiffuseSurface) ){
+    DiffuseSurface = surface_create(view_wport[0],view_hport[0] );
+}
+if( !surface_exists(SelectionSurface) ){
+    SelectionSurface = surface_create(view_wport[0],view_hport[0] );
+}
+
 
 // Work out visible map bounds.
 var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize );
@@ -97,7 +141,16 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
        
         d3d_set_lighting(false);
         draw_enable_alphablend(false);
-        shader_set( SimpleShader );
+
+        var cam = global.Camera;
+
+        surface_set_target(DiffuseSurface);
+        surface_set_target_ext(1,SelectionSurface);
+        draw_clear_alpha(c_black,0);
+        d3d_set_projection_ext(cam.CameraX,cam.CameraY,cam.CameraZ,  cam.CameraX,cam.CameraY,1024, 0,1,0,  cam.FOV, cam.AspectRatio,  32, 20000.0);
+        
+        
+        shader_set( RenderPlusSelection );
         var texture;
         texture = sprite_get_texture(StyleSprite,0);
         
@@ -118,11 +171,52 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
             }
         }        
         shader_reset();
-        draw_enable_alphablend(true);
+        draw_enable_alphablend(true);        
+        surface_reset_target();
+        
 
-       d3d_set_lighting(false);              
+        
+        if( DoPick )
+        {
+            var col = surface_getpixel( SelectionSurface, MouseX,MouseY );
+            PickedColour=Hex(col);
+            var c = col&amp;$3ffffff;
+            PickY = c div (MapDepth*MapWidth);
+            PickX = (c-(PickY*(MapDepth*MapWidth))) div (MapDepth);
+            PickZ = floor(c mod MapDepth);
+            Face = (col&gt;&gt;26)&amp;7;
+            DoPick=false;
+        }
+        
+                
+        d3d_set_lighting(false);              
        
 }
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="32">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>surface_save(DiffuseSurface,"background.png");
+surface_save(SelectionSurface,"selection.png");
 
 </string>
           </argument>

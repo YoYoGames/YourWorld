@@ -33,10 +33,6 @@ var tile5 = argument13;
 
 var flags = argument14;
 
-var col1=$ffff0000;
-var col2=$ff0000ff;
-var col3=$ffff00ff;
-var col4=$ff00ff00;
 
 // get textel sizes based on the tile+border size
 var PerRow = floor(sprite_get_width(StyleSprite)/TileBorder);     // Number of tiles per row
@@ -55,6 +51,8 @@ if( tile0>=0 ){
     u = (floor(tile0 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
     v = (floor(tile0 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
     
+    var c=col|(1<<26);
+    
     uvs[0]=u+Width64;
     uvs[1]=v;
     uvs[2]=u+Width64;
@@ -69,27 +67,33 @@ if( tile0>=0 ){
     
     vertex_position_3d(buff, x1,y2,z1);
     vertex_normal(buff, 0,1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
     vertex_position_3d(buff, x1,y2,z2);
     vertex_normal(buff, 0,1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
     vertex_position_3d(buff, x2,y2,z2);
     vertex_normal(buff, 0,1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
     
 
     vertex_position_3d(buff, x2,y2,z2);
     vertex_normal(buff, 0,1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
 
     vertex_position_3d(buff, x2,y2,z1);
     vertex_normal(buff, 0,1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
     vertex_position_3d(buff, x1,y2,z1);
     vertex_normal(buff, 0,1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
     global.polys+=2;
@@ -101,6 +105,9 @@ if( tile0>=0 ){
 if( tile1>=0 ){
     u = (floor(tile1 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
     v = (floor(tile1 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
+    
+    var c=col|(2<<26);
+    
     uvs[0]=u;
     uvs[1]=v;
     uvs[2]=u+Width64;
@@ -123,6 +130,7 @@ if( tile1>=0 ){
         vertex_position_3d(buff, x1,y2,z1);
     }
     vertex_normal(buff, 0,-1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
     if( flatlr == 0 ){
@@ -131,6 +139,7 @@ if( tile1>=0 ){
         vertex_position_3d(buff, x2,y2,z1);
     }
     vertex_normal(buff, 0,-1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
     if( flatlr == 0 ){
@@ -139,6 +148,7 @@ if( tile1>=0 ){
         vertex_position_3d(buff, x2,y2,z2);
     }
     vertex_normal(buff, 0,-1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
     
     
@@ -150,6 +160,7 @@ if( tile1>=0 ){
         vertex_position_3d(buff, x2,y2,z2);    
     }
     vertex_normal(buff, 0,-1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
 
     if( flatlr == 0 ){
@@ -158,6 +169,7 @@ if( tile1>=0 ){
         vertex_position_3d(buff, x1,y2,z2);
     }
     vertex_normal(buff, 0,-1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
     if( flatlr == 0 ){
@@ -166,6 +178,7 @@ if( tile1>=0 ){
         vertex_position_3d(buff, x1,y2,z1);
     }
     vertex_normal(buff, 0,-1,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
     global.polys+=2;
@@ -177,6 +190,9 @@ if( tile1>=0 ){
 if( tile2>=0 ){
     u = (floor(tile2 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
     v = (floor(tile2 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
+    
+    var c=col|(3<<26);
+    
     uvs[0]=u+Width64;
     uvs[1]=v;
     uvs[2]=u+Width64;
@@ -192,27 +208,33 @@ if( tile2>=0 ){
         
     vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, -1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
     vertex_position_3d(buff, x1,y1,z2);
     vertex_normal(buff, -1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
     vertex_position_3d(buff, x1,y2,z2);
     vertex_normal(buff, -1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
     
 
     vertex_position_3d(buff, x1,y2,z2);
     vertex_normal(buff, -1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
 
     vertex_position_3d(buff, x1,y2,z1);
     vertex_normal(buff, -1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
     vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, -1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
     
     global.polys+=2;
@@ -223,6 +245,9 @@ if( tile2>=0 ){
 if( tile3>=0 ){
     u = (floor(tile3 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
     v = (floor(tile3 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
+    
+    var c=col|(4<<26);
+        
     uvs[0]=u+Width64;
     uvs[1]=v;
     uvs[2]=u;
@@ -244,6 +269,7 @@ if( tile3>=0 ){
         vertex_position_3d(buff, x1,y1,z1);
     }
     vertex_normal(buff, 1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
     if(flatlr==0){
@@ -252,6 +278,7 @@ if( tile3>=0 ){
         vertex_position_3d(buff, x1,y2,z1);
     }
     vertex_normal(buff, 1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
     if(flatlr==0){
@@ -260,6 +287,7 @@ if( tile3>=0 ){
         vertex_position_3d(buff, x1,y2,z2); 
     }
     vertex_normal(buff, 1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
     
 
@@ -271,6 +299,7 @@ if( tile3>=0 ){
         vertex_position_3d(buff, x1,y2,z2); 
     }
     vertex_normal(buff, 1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
 
     if(flatlr==0){
@@ -279,6 +308,7 @@ if( tile3>=0 ){
         vertex_position_3d(buff, x1,y1,z2);
     }
     vertex_normal(buff, 1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
     if(flatlr==0){
@@ -287,6 +317,7 @@ if( tile3>=0 ){
         vertex_position_3d(buff, x1,y1,z1);
     }
     vertex_normal(buff, 1,0,0);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
     
     global.polys+=2;
@@ -299,6 +330,8 @@ if( tile4>=0 ){
     tile4+=TopBase;
     u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border)+ (OneOverW/2);
     v = (floor(tile4 / PerRow) * TileBorder)*OneOverH + (OneOverH*border)+ (OneOverH/2);
+
+    var c=col|(5<<26);
 
     uvs[0]=u;
     uvs[1]=v;
@@ -331,27 +364,33 @@ if( tile4>=0 ){
     
     vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
     vertex_position_3d(buff, x1,y2,z1);
     vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
     vertex_position_3d(buff, x2,y2,z1);
     vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
     
 
     vertex_position_3d(buff, x2,y2,z1);
     vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
 
     vertex_position_3d(buff, x2,y1,z1);
     vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
     vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
     
     global.polys+=2;

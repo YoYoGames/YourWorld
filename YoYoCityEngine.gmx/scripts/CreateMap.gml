@@ -97,10 +97,10 @@ block_info[1]=info;
 
 info=0;            // reset array pointer
 info[0] =  0;      // block flags (32bits)
-info[1] = -1;      // left
-info[2] = -1;      // right
-info[3] = -1;      // top
-info[4] = -1;      // bottom
+info[1] = 1;      // left
+info[2] = 1;      // right
+info[3] = 1;      // top
+info[4] = 1;      // bottom
 info[5] = _pavement+1; // lid
 info[6] = -1;      // behind (usually hidden)
 block_info[2]=info;
