@@ -52,6 +52,10 @@ global.CityFormat = CityFormat;
 
 
 //buffer_delete(map_buff);
+
+// DL: MRT surfaces
+surfMRT0 = -1;
+surfMRT1 = -1;
 </string>
           </argument>
         </arguments>
@@ -76,6 +80,16 @@ global.CityFormat = CityFormat;
             <kind>1</kind>
             <string>var camera = global.Camera;
 
+// DL: Maintain surfaces
+if(!surface_exists(surfMRT0))
+{
+    surfMRT0 = surface_create(view_wview[0], view_hview[0]);
+}
+if(!surface_exists(surfMRT1))
+{
+    surfMRT1 = surface_create(view_wview[0], view_hview[0]);
+}
+
 // Work out visible map bounds.
 var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize );
 var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize );
@@ -83,8 +97,18 @@ var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCache
 var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
 global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
+surface_set_target_ext(0, surfMRT0);
+surface_set_target_ext(1, surfMRT1);
+
+//surface_set_target(surfMRT0);
        
-{           
+{
+        d3d_start();
+        d3d_set_perspective(true);
+        d3d_set_hidden(true);
+        d3d_set_culling(true); 
+        //d3d_set_projection_perspective(0,0, room_width, room_height, 90);
+        d3d_set_projection_ext(camera.CameraX,camera.CameraY,camera.CameraZ,  camera.CameraX,camera.CameraY,1024, 0,1,0,  camera.FOV, camera.AspectRatio,  32, 20000.0);
        draw_set_color(c_red);
        d3d_set_lighting(true);
        d3d_light_define_direction(0,0.5,0,1, c_white);
@@ -97,7 +121,9 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
        
         d3d_set_lighting(false);
         draw_enable_alphablend(false);
-        shader_set( SimpleShader );
+        draw_clear(c_red);
+        //shader_set( SimpleShader );
+        shader_set( SimpleShaderHLSL );
         var texture;
         texture = sprite_get_texture(StyleSprite,0);
         
@@ -118,12 +144,15 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
             }
         }        
         shader_reset();
+        d3d_transform_set_identity();
+        d3d_set_perspective(false);
         draw_enable_alphablend(true);
 
        d3d_set_lighting(false);              
        
 }
 
+surface_reset_target();
 </string>
           </argument>
         </arguments>

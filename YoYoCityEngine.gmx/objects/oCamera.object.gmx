@@ -51,11 +51,6 @@ global.Map = -1;
 global.CurrentPolyCount = 0;
 
 {
-        d3d_start();
-        d3d_set_perspective(true);
-        d3d_set_hidden(true);
-        d3d_set_culling(true);        
-        d3d_set_projection_perspective(0,0, room_width, room_height, 90);  
         rotationx = 0.0
         vsync = false;
         AA = 0;
@@ -139,6 +134,15 @@ if( os_type ==os_android ){
         view_surface_id[0] = screen;
     }
 }
+
+/*if(instance_exists(oMap))
+{
+    var tMap = instance_find(oMap, 0);
+    if(surface_exists(tMap.surfMRT0))
+    {
+        view_surface_id[0] = tMap.surfMRT0;
+    }
+}*/
 </string>
           </argument>
         </arguments>
@@ -461,17 +465,30 @@ if( os_type ==os_android ){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw GUI
-d3d_transform_set_identity();
-d3d_set_perspective(false);              
+            <string>/// Draw GUI           
 
-if( os_type ==os_android ){
+/*if( os_type ==os_android ){
     if( surface_exists(screen) ){
         draw_surface_stretched(screen,0,0,1920,1080);
     }
+}*/
+
+if(instance_exists(oMap))
+{
+    var tMap = instance_find(oMap, 0);
+    if(surface_exists(tMap.surfMRT0))
+    {
+        draw_enable_alphablend(false);
+        draw_surface_ext(tMap.surfMRT0, 0, 0, 1, 1, 0, c_white, 1);
+        draw_enable_alphablend(true);
+    }
+    /*if(surface_exists(tMap.surfMRT1))
+    {
+        draw_enable_alphablend(false);
+        draw_surface_ext(tMap.surfMRT1, 0, 0, 0.25, 0.25, 0, c_white, 1);
+        draw_enable_alphablend(true);
+    }*/
 }
-
-
 
 if( global.WaitText!="" )
 {
@@ -556,7 +573,7 @@ if( global.WaitText!="" )
         ly = ly*d;
         lz = lz*d;    
               
-       d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
+       //d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
        global.CurrentPolyCount = 0;
     }       
 }
