@@ -526,7 +526,7 @@ if( global.WaitText!="" )
     s = "clip  ("+string(gx1)+","+string(gy1)+")   ("+string(gx2)+","+string(gy2)+")";
     draw_outline( 40,62, s, c_white );    
 
-    s = "cube=("+string(Map.PickX)+","+string(Map.PickY)+","+string(Map.PickZ)+") - face="+GetFace(Map.Face);
+    s = "cube=("+string(Map.PickX)+","+string(Map.PickY)+","+string(Map.PickZ)+") - face="+GetFace(Map.PickFace);
     draw_outline( 40,82, s, c_white );    
 
 }

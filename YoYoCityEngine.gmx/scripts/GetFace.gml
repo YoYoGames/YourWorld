@@ -6,5 +6,6 @@ switch(argument0)
     case 3: return "left";
     case 4: return "right";
     case 5: return "lid";
+    case 6: return "base";
 }
 return "none";

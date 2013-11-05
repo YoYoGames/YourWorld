@@ -59,7 +59,7 @@ MouseY=0;
 PickY=-1;
 PickX=-1;
 PickZ=-1;
-Face=-1;
+PickFace=-1;
 EditMode = 1;
 PickButton=0;
 //buffer_delete(map_buff);
@@ -88,16 +88,28 @@ PickButton=0;
             <string>if( DoPick==2 )
 {
     if( EditMode==1 ){
-        show_debug_message("click ("+string(PickX)+","+string(PickY)+","+string(PickZ)+")");
+        //show_debug_message("click ("+string(PickX)+","+string(PickY)+","+string(PickZ)+")");
 
         if( PickButton==1 )
         {
-            if( PickZ&lt;(MapDepth-1) )
+            var xx,yy,zz;
+            dx=0;
+            dy=0;
+            dz=0;
+            xx=PickX;
+            yy=PickY;
+            zz=PickZ; 
+            switch(PickFace){
+                case 1:yy--; break;
+                case 2:yy++; break;
+                case 3:xx--; break;
+                case 4:xx++; break;
+                case 5:zz++; break;
+                case 6:zz--; break;
+            }
+
+            if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
             {
-                var xx,yy,zz;
-                xx=PickX;
-                yy=PickY;
-                zz=PickZ+1; // set the block ABOVE
         
                 var blk = AllocBlock(xx,yy,zz);
                 
@@ -286,7 +298,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
             PickY = c div (MapDepth*MapWidth);
             PickX = (c-(PickY*(MapDepth*MapWidth))) div (MapDepth);
             PickZ = floor(c mod MapDepth);
-            Face = (col&gt;&gt;26)&amp;7;
+            PickFace = (col&gt;&gt;26)&amp;7;
             DoPick=2;
         }
         
@@ -295,6 +307,55 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
        
 }
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="113">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var buff = buffer_load("test.map");
+LoadMap(id,buff);
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="112">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var buff = SaveMap(id);
+buffer_save(buff,"test.map");
 </string>
           </argument>
         </arguments>
