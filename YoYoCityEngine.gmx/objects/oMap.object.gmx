@@ -38,7 +38,7 @@ if( os_browser==browser_not_a_browser ){
 
 StyleSprite=sStyle1;
 //CreatreMap(width,height,depth, gridcachesize, sidebase,topbase,pavement, tilesize,tileborder);
-CreateMap(256,256,6, 16, 0,7,7, 64,70);
+CreateMap(256,256,10, 16, 0,7,7, 64,70);
 
 
 // Create the Vertex Format we'll use
@@ -60,8 +60,107 @@ PickY=-1;
 PickX=-1;
 PickZ=-1;
 Face=-1;
-
+EditMode = 1;
+PickButton=0;
 //buffer_delete(map_buff);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if( DoPick==2 )
+{
+    if( EditMode==1 ){
+        show_debug_message("click ("+string(PickX)+","+string(PickY)+","+string(PickZ)+")");
+
+        if( PickButton==1 )
+        {
+            if( PickZ&lt;(MapDepth-1) )
+            {
+                var xx,yy,zz;
+                xx=PickX;
+                yy=PickY;
+                zz=PickZ+1; // set the block ABOVE
+        
+                var blk = AllocBlock(xx,yy,zz);
+                
+                info[0] =  0;      // block flags (32bits)
+                info[1] = 1;      // left
+                info[2] = 1;      // right
+                info[3] = 1;      // top
+                info[4] = 1;      // bottom
+                info[5] = 1;      // lid
+                info[6] = 1;      // behind (usually hidden)
+                block_info[blk]=info;
+                FreeCacheEntry(xx,yy);   
+            }
+        }
+        if( PickButton==2 )
+        {
+            if( PickZ&gt;0 )
+            {
+                var xx,yy,zz;
+                xx=PickX;
+                yy=PickY;
+                zz=PickZ; // set the block ABOVE
+        
+                FreeBlock(xx,yy,zz);
+                FreeCacheEntry(xx,yy);   
+            }
+        }
+        PickButton=0;  
+               
+    }
+    
+    
+    DoPick=0;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="54">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if( DoPick!=0 ) exit;
+MouseX = mouse_x;
+MouseY = mouse_y;
+PickButton=2;
+DoPick = 1;
+
+
 </string>
           </argument>
         </arguments>
@@ -84,9 +183,11 @@ Face=-1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>MouseX = mouse_x;
+            <string>if( DoPick!=0 ) exit;
+MouseX = mouse_x;
 MouseY = mouse_y;
-DoPick = true;
+PickButton=1;
+DoPick = 1;
 
 
 </string>
@@ -176,7 +277,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         
 
         
-        if( DoPick )
+        if( DoPick==1 )
         {
             var col = surface_getpixel( SelectionSurface, MouseX,MouseY );
             PickedColour=Hex(col);
@@ -186,7 +287,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
             PickX = (c-(PickY*(MapDepth*MapWidth))) div (MapDepth);
             PickZ = floor(c mod MapDepth);
             Face = (col&gt;&gt;26)&amp;7;
-            DoPick=false;
+            DoPick=2;
         }
         
                 
