@@ -69,6 +69,7 @@ PickZ=-1;
 PickFace=-1;
 EditMode = 1;
 PickButton=0;
+LastFileName="mymap.city";
 //buffer_delete(map_buff);
 </string>
           </argument>
@@ -95,8 +96,7 @@ PickButton=0;
             <string>if( DoPick==2 )
 {
     if( EditMode==1 ){
-        //show_debug_message("click ("+string(PickX)+","+string(PickY)+","+string(PickZ)+")");
-
+        // Left click
         if( PickButton==1 )
         {
             var xx,yy,zz;
@@ -131,6 +131,7 @@ PickButton=0;
                 FreeCacheEntry(xx,yy);   
             }
         }
+        // Right click
         if( PickButton==2 )
         {
             if( PickZ&gt;0 )
@@ -144,6 +145,32 @@ PickButton=0;
                 FreeCacheEntry(xx,yy);   
             }
         }
+        // middle "paint"
+        if( PickButton==3 )
+        {
+            var SideBlock = 2;
+            var LidBlock = 15;
+            var xx,yy,zz;
+            xx=PickX;
+            yy=PickY;
+            zz=PickZ; 
+            if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
+            {
+                var blk = MakeUnique(xx,yy,zz);
+                var info = block_info[blk];
+                switch(PickFace){
+                    case 1: info[BLK_TOP]=SideBlock; break;
+                    case 2: info[BLK_BOTTOM]=SideBlock; break;
+                    case 3: info[BLK_LEFT]=SideBlock; break;
+                    case 4: info[BLK_RIGHT]=SideBlock; break;
+                    case 5: info[BLK_LID]=LidBlock; break;
+                    case 6: info[BLK_BASE]=LidBlock; break;
+                }
+                block_info[blk] = info;
+                FreeCacheEntry(xx,yy);   
+            }
+        }
+        
         PickButton=0;  
                
     }
@@ -206,6 +233,35 @@ DoPick = 1;
 MouseX = mouse_x;
 MouseY = mouse_y;
 PickButton=1;
+DoPick = 1;
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="52">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if( DoPick!=0 ) exit;
+MouseX = mouse_x;
+MouseY = mouse_y;
+PickButton=3;
 DoPick = 1;
 
 
@@ -321,9 +377,14 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var buff = buffer_load("test.map");
-LoadMap(id,buff);
-
+            <string>if( !HTML5 ) {
+    var filename = get_open_filename("YoYo City Maps|*.city",LastFileName);
+    if( filename!=""){
+        LastFileName=filename;
+        var buff = buffer_load(LastFileName);
+        LoadMap(id,buff);
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -346,8 +407,15 @@ LoadMap(id,buff);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var buff = SaveMap(id);
-buffer_save(buff,"test.map");
+            <string>if( !HTML5 ) {
+    var buff = SaveMap(id);
+    var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
+    if( filename!="" ){
+        LastFileName=filename;
+        buffer_save(buff, LastFileName);
+    }
+}
+
 </string>
           </argument>
         </arguments>

@@ -30,6 +30,7 @@
         <script>scripts\CreateMap.gml</script>
         <script>scripts\PullUpRegion.gml</script>
         <script>scripts\AllocBlock.gml</script>
+        <script>scripts\MakeUnique.gml</script>
         <script>scripts\FreeBlock.gml</script>
         <script>scripts\FreeMap.gml</script>
       </scripts>
@@ -72,6 +73,14 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
+  <constants number="6">
+    <constant name="BLK_LEFT">1</constant>
+    <constant name="BLK_RIGHT">2</constant>
+    <constant name="BLK_TOP">3</constant>
+    <constant name="BLK_BOTTOM">4</constant>
+    <constant name="BLK_LID">5</constant>
+    <constant name="BLK_BASE">6</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
