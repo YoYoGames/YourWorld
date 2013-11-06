@@ -7,6 +7,8 @@
 //
 // http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/
 //
+
+
 if( Map>=0 ){
     var Hfar = 2*tan(degtorad(FOV)/2)*(abs(CameraZ)); //+(Map.MapDepth*64));
     var Wfar = Hfar*AspectRatio;

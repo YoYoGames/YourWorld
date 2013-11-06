@@ -248,7 +248,14 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         surface_set_target(DiffuseSurface);
         surface_set_target_ext(1,SelectionSurface);
         draw_clear_alpha(c_black,0);
-        d3d_set_projection_ext(cam.CameraX,cam.CameraY,cam.CameraZ,  cam.CameraX,cam.CameraY,1024, 0,1,0,  cam.FOV, cam.AspectRatio,  32, 20000.0);
+        
+        /*oCamera.zup =1;
+        if (keyboard_check(vk_delete))
+            {
+            oCamera.zup=-1;
+            }*/
+        with(oCamera) d3d_set_projection(CameraX,CameraY,CameraZ,CameraX+cos(dir*pi/180),CameraY-sin(dir*pi/180),CameraZ+tan(zdir*pi/180),0,0,-1);
+        //d3d_set_projection_ext(cam.CameraX,cam.CameraY,cam.CameraZ,  cam.CameraX,cam.CameraY,1024, 0,1,0,  cam.FOV, cam.AspectRatio,  32, 20000.0);
         
         
         shader_set( RenderPlusSelection );

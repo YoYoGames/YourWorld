@@ -30,6 +30,10 @@
 //
 screen=-1;
 
+//Directions the camera is facing (X/Y axis and Z axis)
+dir=0
+zdir=180
+
 CameraX = 0;
 CameraY = 0;
 CameraZ = -1000;
@@ -145,6 +149,44 @@ if( os_type ==os_android ){
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Camera controls
+
+//Set four temporary variables to whether the player is pressing each of the four direction buttons
+var Cl,Cu,Cr,Cd;
+Cu=keyboard_check(ord("W")) or keyboard_check(vk_up);
+Cl=keyboard_check(ord("A")) or keyboard_check(vk_left);
+Cd=keyboard_check(ord("S")) or keyboard_check(vk_down);
+Cr=keyboard_check(ord("D")) or keyboard_check(vk_right);
+
+//Forward/backward and strafing speed (quartered if you're holding left shift)
+var CameraVSpeed=global.YSpeed; if keyboard_check(vk_lshift) CameraVSpeed/=4;
+var CameraHSpeed=global.XSpeed; if keyboard_check(vk_lshift) CameraHSpeed/=4;
+
+//Move the camera if you're telling it to
+if Cu {CameraX+=lengthdir_x(CameraVSpeed,dir   );CameraY+=lengthdir_y(CameraVSpeed,dir   );}
+if Cl {CameraX+=lengthdir_x(CameraHSpeed,dir-90);CameraY+=lengthdir_y(CameraHSpeed,dir-90);}
+if Cd {CameraX-=lengthdir_x(CameraVSpeed,dir   );CameraY-=lengthdir_y(CameraVSpeed,dir   );}
+if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpeed,dir+90);}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="5" enumb="90">
       <action>
@@ -163,7 +205,7 @@ if( os_type ==os_android ){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>FOV += 0.5;
+            <string>//FOV += 0.5;
 </string>
           </argument>
         </arguments>
@@ -186,7 +228,7 @@ if( os_type ==os_android ){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>FOV -= 0.5;
+            <string>//FOV -= 0.5;
 </string>
           </argument>
         </arguments>
@@ -233,114 +275,6 @@ if( os_type ==os_android ){
           <argument>
             <kind>1</kind>
             <string>ZAngle += 0.5;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="40">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if( keyboard_check(vk_lshift) ){
-    CameraY -= global.YSpeed/4;
-}else{
-    CameraY -= global.YSpeed;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="39">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if( keyboard_check(vk_lshift) ){
-    CameraX += global.XSpeed/4;
-}else{
-    CameraX += global.XSpeed;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="38">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if( keyboard_check(vk_lshift) ){
-    CameraY += global.YSpeed/4;
-}else{
-    CameraY += global.YSpeed;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="37">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if( keyboard_check(vk_lshift) ){
-    CameraX -= global.XSpeed/4;
-}else{
-    CameraX -= global.XSpeed;
-}
 </string>
           </argument>
         </arguments>
@@ -559,8 +493,8 @@ if( global.WaitText!="" )
     if( global.WaitText!="" )
     {
     }else{
-
-       // Work out unit light vector
+    
+        // Work out unit light vector
         var lx,ly,lz;
         lx = 0.5;
         ly = 0.0;
@@ -568,10 +502,17 @@ if( global.WaitText!="" )
         var d = 1.0/sqrt(lx*lx+ly*ly+lz*lz);
         lx = lx*d;
         ly = ly*d;
-        lz = lz*d;    
+        lz = lz*d;
+        
+        dir += (display_mouse_get_x()-display_get_width()/2)/6
+        zdir += (display_mouse_get_y()-display_get_height()/2)/6
+        zdir = clamp(zdir,-80,+80)
+        display_mouse_set(display_get_width()/2,display_get_height()/2)    
+        
+        //d3d_set_projection(CameraX,CameraY,CameraZ+12,CameraX+cos(dir*pi/180),CameraY-sin(dir*pi/180),CameraZ+12-tan(zdir*pi/180),0,0,1);
               
-       d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
-       global.CurrentPolyCount = 0;
+        d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
+        global.CurrentPolyCount = 0;
     }       
 }
 
