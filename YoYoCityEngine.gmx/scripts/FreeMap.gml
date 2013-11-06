@@ -9,7 +9,6 @@ for(var yy=0;yy<MapHeight;yy++){
 }
 ds_grid_destroy(Map);
 Map=-1;
-Cache=-1;
 
 // Next destroy the cache
 var gw=(MapWidth+GridCacheSize-1)/GridCacheSize;
@@ -20,6 +19,7 @@ for(var yy=0;yy<gh;yy++){
     }
 }
 ds_grid_destroy(Cache);
+Cache=-1;
 
 // Now delete the block_info structs
 var len = array_length_1d(block_info);
