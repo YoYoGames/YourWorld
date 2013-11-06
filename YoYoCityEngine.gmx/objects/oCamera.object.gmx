@@ -482,7 +482,7 @@ if( global.WaitText!="" )
             draw_surface_stretched(global.Map.DiffuseSurface,0,0,window_get_width(),window_get_height());
         }
         //if( surface_exists(global.Map.SelectionSurface) ){
-        //    draw_surface_stretched(global.Map.SelectionSurface,window_get_width()/2,0,window_get_width()/2,window_get_height());
+        //    draw_surface_stretched(global.Map.SelectionSurface,0,0,window_get_width(),window_get_height());
         //}
     }
     
@@ -560,7 +560,7 @@ if( global.WaitText!="" )
     {
     }else{
 
-       // Work out unit light vector
+        // Work out unit light vector
         var lx,ly,lz;
         lx = 0.5;
         ly = 0.0;
@@ -569,9 +569,9 @@ if( global.WaitText!="" )
         lx = lx*d;
         ly = ly*d;
         lz = lz*d;    
-              
-       d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
-       global.CurrentPolyCount = 0;
+               
+        SetProjection();
+        global.CurrentPolyCount = 0;
     }       
 }
 

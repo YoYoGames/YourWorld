@@ -40,6 +40,13 @@ StyleSprite=sStyle1;
 //CreatreMap(width,height,depth, gridcachesize, sidebase,topbase,pavement, tilesize,tileborder);
 CreateMap(256,256,10, 16, 0,7,7, 64,70);
 
+// HTML5?
+HTML5=false;
+CityShader=RenderPlusSelection;
+if( os_browser != browser_not_a_browser ){
+    HTML5=true;
+    CityShader=SimpleShader;
+}
 
 // Create the Vertex Format we'll use
 vertex_format_begin();
@@ -242,55 +249,40 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
        
 {           
-       draw_set_color(c_red);
-       d3d_set_lighting(true);
-       d3d_light_define_direction(0,0.5,0,1, c_white);
-       d3d_light_enable(0,true);
-       
-       d3d_transform_set_rotation_z( camera.ZAngle );
-       d3d_transform_add_rotation_x( camera.XAngle );
-       
+        draw_set_color(c_red);
+        d3d_set_lighting(true);
+        d3d_light_define_direction(0,0.5,0,1, c_white);
+        d3d_light_enable(0,true);
         
-       
+        d3d_transform_set_rotation_z( camera.ZAngle );
+        d3d_transform_add_rotation_x( camera.XAngle );
         d3d_set_lighting(false);
-        draw_enable_alphablend(false);
-
-        var cam = global.Camera;
-
+        
+        // First set surfaces and reset projection
         surface_set_target(DiffuseSurface);
-        surface_set_target_ext(1,SelectionSurface);
+        if(!HTML5) surface_set_target_ext(1,SelectionSurface);
         draw_clear_alpha(c_black,0);
-        d3d_set_projection_ext(cam.CameraX,cam.CameraY,cam.CameraZ,  cam.CameraX,cam.CameraY,1024, 0,1,0,  cam.FOV, cam.AspectRatio,  32, 20000.0);
-        
-        
-        shader_set( RenderPlusSelection );
-        var texture;
-        texture = sprite_get_texture(StyleSprite,0);
-        
-
-        global.TileCacheCreationCount = 2;
-        var CacheWidth = floor(MapWidth/GridCacheSize);
-        var CacheHeight = floor(MapWidth/GridCacheSize);
-        for(var yy=gy1;yy&lt;gy2;yy++){
-            for(var xx=gx1;xx&lt;gx2;xx++){
-                if( xx&gt;=0 &amp;&amp; xx&lt;CacheWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;CacheHeight)
-                {
-                    var MeshA = GetCacheEntry(xx,yy);
-                    if( is_array(MeshA) ){
-                        vertex_submit(MeshA[0], pr_trianglelist,texture);
-                        global.CurrentPolyCount += MeshA[1];
-                    }
-                }
-            }
-        }        
-        shader_reset();
-        draw_enable_alphablend(true);        
+        SetProjection();
+         
+        // Now render the map
+        var texture = sprite_get_texture(StyleSprite,0); 
+        RenderMap( gx1,gy1,gx2,gy2, texture, CityShader );
         surface_reset_target();
-        
+         
 
         
         if( DoPick==1 )
         {
+            if( HTML5 )
+            {
+                // In HTML5 we can't do multiple render targets, so render the "pick" surface as a second pass
+                surface_set_target(SelectionSurface);
+                SetProjection();
+                draw_clear_alpha(c_black,0);
+                var texture = sprite_get_texture(StyleSprite,0); 
+                RenderMap( gx1,gy1,gx2,gy2, texture, RenderSelection );
+                surface_reset_target();
+            }
             var col = surface_getpixel( SelectionSurface, MouseX,MouseY );
             PickedColour=Hex(col);
             var c = col&amp;$3ffffff;

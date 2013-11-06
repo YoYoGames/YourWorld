@@ -1,5 +1,5 @@
 //
-// City rendering shader (no selection)
+// City "selection" rendering 
 //
 attribute vec3 in_Position;                  // (x,y,z)
 attribute vec3 in_Normal;                    // (nx,ny,nz)     
@@ -19,17 +19,18 @@ void main()
 }
 
 //######################_==_YOYO_SHADER_MARKER_==_######################@~//
-// City rendering shader (no selection)
+// City "selection" rendering 
 //
 varying vec2    v_vTexcoord;
-varying vec4    v_vColour;          // dont use this
+varying vec4    v_vColour;
 
 void main()
 {
     // get a pixel from the tile, and set the pixel colour for drawing with
-    gl_FragColor = texture2D( gm_BaseTexture, v_vTexcoord );
+    vec4 pix = texture2D( gm_BaseTexture, v_vTexcoord );
+    gl_FragColor = v_vColour;
 
     // Do alpha test (not available as a global state in WebGL)
-    if (gl_FragColor.a < ((1.0/255.0)*250.0) ) discard; //<= (1.0/253.0)) discard;
+    if (pix.a < ((1.0/255.0)*250.0) ) discard; //<= (1.0/253.0)) discard;
 }
 
