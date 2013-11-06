@@ -31,6 +31,7 @@
         <script>scripts\PullUpRegion.gml</script>
         <script>scripts\AllocBlock.gml</script>
         <script>scripts\FreeBlock.gml</script>
+        <script>scripts\FreeMap.gml</script>
       </scripts>
       <scripts name="Mesh">
         <script>scripts\GetCacheEntry.gml</script>

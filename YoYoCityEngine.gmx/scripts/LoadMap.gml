@@ -9,7 +9,7 @@ var _buff = argument1;
 
 with(_map)
 {
-    //FreeMap();
+    FreeMap();
     var version = buffer_read(_buff,buffer_u16);
     
     MapWidth = buffer_read(_buff,buffer_u16);
@@ -26,6 +26,7 @@ with(_map)
     
     Cache = ds_grid_create(MapWidth,MapHeight);             // Mesh cache
     Map = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for the map
+    FreeList = ds_stack_create();                           // create a new block_info free list
 
     
     // For uncompressed, we simply read the steam into the map...
@@ -80,6 +81,12 @@ with(_map)
             ds_grid_set(Map,xx,yy,Arr);
         }
     }    
+    
+    // Now recreate the free list
+    var len=array_length_1d(RefCount);
+    for(var xx=0;xx<len;xx++){
+        if( RefCount[xx]==0 ) ds_stack_push(FreeList,xx);
+    }
 }
 
 

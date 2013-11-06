@@ -44,6 +44,7 @@ TileSize = _tilesize;              // pixel size of all tiles
 TileBorder = _tileborder;          // size or tile + surrounding border
 PavementTile = _pavement;          // simple pavement tile
 GridCacheSize = _gridcachesize;    // Size of a cache block
+FreeList = ds_stack_create();      // create a new block_info free list
 
 show_debug_message("w="+string(MapWidth)+", h="+string(MapHeight)+", d="+string(MapDepth)+", sb="+string(SideBase)+
                     ", tb="+string(TopBase)+", ts="+string(TileSize)+", tb="+string(TileBorder));
@@ -94,6 +95,8 @@ info[5] = _pavement; // lid
 info[6] = -1;      // behind (usually hidden)
 block_info[1]=info;
     
+/*
+// This sticks a debug column at the top left of the map
 
 info=0;            // reset array pointer
 info[0] =  0;      // block flags (32bits)
@@ -119,4 +122,4 @@ for(var aa=6;aa<MapDepth;aa++){
     RefCount[0]++;
 }
 ds_grid_set(Map,0,0,a);
-
+*/
