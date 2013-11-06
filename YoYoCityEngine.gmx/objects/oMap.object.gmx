@@ -40,6 +40,13 @@ StyleSprite=sStyle1;
 //CreatreMap(width,height,depth, gridcachesize, sidebase,topbase,pavement, tilesize,tileborder);
 CreateMap(256,256,10, 16, 0,7,7, 64,70);
 
+// HTML5?
+HTML5=false;
+CityShader=RenderPlusSelection;
+if( os_browser != browser_not_a_browser ){
+    HTML5=true;
+    CityShader=SimpleShader;
+}
 
 // Create the Vertex Format we'll use
 vertex_format_begin();
@@ -62,6 +69,7 @@ PickZ=-1;
 PickFace=-1;
 EditMode = 1;
 PickButton=0;
+LastFileName="mymap.city";
 //buffer_delete(map_buff);
 </string>
           </argument>
@@ -88,8 +96,7 @@ PickButton=0;
             <string>if( DoPick==2 )
 {
     if( EditMode==1 ){
-        //show_debug_message("click ("+string(PickX)+","+string(PickY)+","+string(PickZ)+")");
-
+        // Left click
         if( PickButton==1 )
         {
             var xx,yy,zz;
@@ -124,6 +131,7 @@ PickButton=0;
                 FreeCacheEntry(xx,yy);   
             }
         }
+        // Right click
         if( PickButton==2 )
         {
             if( PickZ&gt;0 )
@@ -137,6 +145,32 @@ PickButton=0;
                 FreeCacheEntry(xx,yy);   
             }
         }
+        // middle "paint"
+        if( PickButton==3 )
+        {
+            var SideBlock = 2;
+            var LidBlock = 15;
+            var xx,yy,zz;
+            xx=PickX;
+            yy=PickY;
+            zz=PickZ; 
+            if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
+            {
+                var blk = MakeUnique(xx,yy,zz);
+                var info = block_info[blk];
+                switch(PickFace){
+                    case 1: info[BLK_TOP]=SideBlock; break;
+                    case 2: info[BLK_BOTTOM]=SideBlock; break;
+                    case 3: info[BLK_LEFT]=SideBlock; break;
+                    case 4: info[BLK_RIGHT]=SideBlock; break;
+                    case 5: info[BLK_LID]=LidBlock; break;
+                    case 6: info[BLK_BASE]=LidBlock; break;
+                }
+                block_info[blk] = info;
+                FreeCacheEntry(xx,yy);   
+            }
+        }
+        
         PickButton=0;  
                
     }
@@ -207,6 +241,35 @@ DoPick = 1;
         </arguments>
       </action>
     </event>
+    <event eventtype="6" enumb="52">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if( DoPick!=0 ) exit;
+MouseX = mouse_x;
+MouseY = mouse_y;
+PickButton=3;
+DoPick = 1;
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -242,58 +305,40 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
        
 {           
-       draw_set_color(c_red);
-       d3d_set_lighting(true);
-       d3d_light_define_direction(0,0.5,0,1, c_white);
-       d3d_light_enable(0,true);
-       
-       d3d_transform_set_rotation_z( camera.ZAngle );
-       d3d_transform_add_rotation_x( camera.XAngle );
-       
+        draw_set_color(c_red);
+        d3d_set_lighting(true);
+        d3d_light_define_direction(0,0.5,0,1, c_white);
+        d3d_light_enable(0,true);
         
-       
+        d3d_transform_set_rotation_z( camera.ZAngle );
+        d3d_transform_add_rotation_x( camera.XAngle );
         d3d_set_lighting(false);
-        draw_enable_alphablend(false);
-
-        var cam = global.Camera;
-
+        
+        // First set surfaces and reset projection
         surface_set_target(DiffuseSurface);
-        surface_set_target_ext(1,SelectionSurface);
+        if(!HTML5) surface_set_target_ext(1,SelectionSurface);
         draw_clear_alpha(c_black,0);
-        
-        //with(oCamera) d3d_set_projection(CameraX,CameraY,CameraZ,CameraX+cos(dir*pi/180),CameraY-sin(dir*pi/180),CameraZ+tan(zdir*pi/180),0,0,-1);
-        //d3d_set_projection_ext(cam.CameraX,cam.CameraY,cam.CameraZ,  cam.CameraX,cam.CameraY,1024, 0,1,0,  cam.FOV, cam.AspectRatio,  32, 20000.0);
-        
         SetProjection();
-        
-        shader_set( RenderPlusSelection );
-        var texture;
-        texture = sprite_get_texture(StyleSprite,0);
-        
-
-        global.TileCacheCreationCount = 2;
-        var CacheWidth = floor(MapWidth/GridCacheSize);
-        var CacheHeight = floor(MapWidth/GridCacheSize);
-        for(var yy=gy1;yy&lt;gy2;yy++){
-            for(var xx=gx1;xx&lt;gx2;xx++){
-                if( xx&gt;=0 &amp;&amp; xx&lt;CacheWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;CacheHeight)
-                {
-                    var MeshA = GetCacheEntry(xx,yy);
-                    if( is_array(MeshA) ){
-                        vertex_submit(MeshA[0], pr_trianglelist,texture);
-                        global.CurrentPolyCount += MeshA[1];
-                    }
-                }
-            }
-        }        
-        shader_reset();
-        draw_enable_alphablend(true);        
+         
+        // Now render the map
+        var texture = sprite_get_texture(StyleSprite,0); 
+        RenderMap( gx1,gy1,gx2,gy2, texture, CityShader );
         surface_reset_target();
-        
+         
 
         
         if( DoPick==1 )
         {
+            if( HTML5 )
+            {
+                // In HTML5 we can't do multiple render targets, so render the "pick" surface as a second pass
+                surface_set_target(SelectionSurface);
+                SetProjection();
+                draw_clear_alpha(c_black,0);
+                var texture = sprite_get_texture(StyleSprite,0); 
+                RenderMap( gx1,gy1,gx2,gy2, texture, RenderSelection );
+                surface_reset_target();
+            }
             var col = surface_getpixel( SelectionSurface, MouseX,MouseY );
             PickedColour=Hex(col);
             var c = col&amp;$3ffffff;
@@ -332,9 +377,14 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var buff = buffer_load("test.map");
-LoadMap(id,buff);
-
+            <string>if( !HTML5 ) {
+    var filename = get_open_filename("YoYo City Maps|*.city",LastFileName);
+    if( filename!=""){
+        LastFileName=filename;
+        var buff = buffer_load(LastFileName);
+        LoadMap(id,buff);
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -357,8 +407,15 @@ LoadMap(id,buff);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var buff = SaveMap(id);
-buffer_save(buff,"test.map");
+            <string>if( !HTML5 ) {
+    var buff = SaveMap(id);
+    var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
+    if( filename!="" ){
+        LastFileName=filename;
+        buffer_save(buff, LastFileName);
+    }
+}
+
 </string>
           </argument>
         </arguments>

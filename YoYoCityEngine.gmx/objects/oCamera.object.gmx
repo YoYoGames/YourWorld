@@ -40,7 +40,6 @@ CameraZ = -1000;
 global.Camera = id;
 global.Map = -1;
 
-global.Mode=mode_play
 
 XAngle = 0;
 YAngle = 0;
@@ -56,7 +55,7 @@ GroundY2=0;
 Map = -1;
 global.Map = -1;
 global.CurrentPolyCount = 0;
-
+global.Mode=MODE_PLAY;
 {
         d3d_start();
         d3d_set_perspective(true);
@@ -176,8 +175,19 @@ Cd=keyboard_check(ord("S")) or keyboard_check(vk_down);
 Cr=keyboard_check(ord("D")) or keyboard_check(vk_right);
 
 //Forward/backward and strafing speed (quartered if you're holding left shift)
-var CameraVSpeed=global.YSpeed; if keyboard_check(vk_lshift) CameraVSpeed/=4; if global.Mode==mode_play CameraVSpeed*=-1;
-var CameraHSpeed=global.XSpeed; if keyboard_check(vk_lshift) CameraHSpeed/=4; if global.Mode==mode_play CameraHSpeed*=-1;
+var CameraVSpeed=global.YSpeed; 
+var CameraHSpeed=global.XSpeed; 
+
+if(keyboard_check(vk_lshift) )
+{
+    CameraVSpeed/=4; 
+    CameraHSpeed/=4; 
+}
+if((global.Mode==MODE_PLAY) )
+{
+    CameraVSpeed*=-1;
+    CameraHSpeed*=-1;
+}
 
 //Move the camera if you're telling it to
 if Cu {CameraX+=lengthdir_x(CameraVSpeed,dir   );CameraY+=lengthdir_y(CameraVSpeed,dir   );}
@@ -419,7 +429,7 @@ if( global.WaitText!="" )
             draw_surface_stretched(global.Map.DiffuseSurface,0,0,window_get_width(),window_get_height());
         }
         //if( surface_exists(global.Map.SelectionSurface) ){
-        //    draw_surface_stretched(global.Map.SelectionSurface,window_get_width()/2,0,window_get_width()/2,window_get_height());
+        //    draw_surface_stretched(global.Map.SelectionSurface,0,0,window_get_width(),window_get_height());
         //}
     }
     
@@ -466,7 +476,7 @@ if( global.WaitText!="" )
     s = "cube=("+string(Map.PickX)+","+string(Map.PickY)+","+string(Map.PickZ)+") - face="+GetFace(Map.PickFace);
     draw_outline( 40,82, s, c_white );    
     
-    var modestring=string(global.Mode); if global.Mode==mode_edit modestring="Edit"; if global.Mode==mode_play modestring="Play";
+    var modestring=string(global.Mode); if global.Mode==MODE_EDIT modestring="Edit"; if global.Mode==MODE_PLAY modestring="Play";
     s = "mode="+modestring+" (&lt;M&gt; switch)";
     draw_outline( 40,102, s, c_white );
 }
@@ -510,7 +520,7 @@ if( global.WaitText!="" )
         ly = ly*d;
         lz = lz*d;
         
-        if global.Mode==mode_edit
+        if global.Mode==MODE_EDIT
         {
             dir += (display_mouse_get_x()-display_get_width()/2)/6
             zdir += (display_mouse_get_y()-display_get_height()/2)/6
@@ -583,10 +593,12 @@ display_reset(AA, vsync);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.Mode=(global.Mode+1) mod (mode_max+1)
-display_mouse_set(display_get_width()/2,display_get_height()/2)
+            <string>global.Mode+=1;
+if (global.Mode&gt;=MODE_MAX) global.Mode=1;
 
-if global.Mode==mode_edit dir+=180
+display_mouse_set(display_get_width()/2,display_get_height()/2);
+
+if (global.Mode==MODE_EDIT) dir+=180;
 </string>
           </argument>
         </arguments>

@@ -30,6 +30,7 @@
         <script>scripts\CreateMap.gml</script>
         <script>scripts\PullUpRegion.gml</script>
         <script>scripts\AllocBlock.gml</script>
+        <script>scripts\MakeUnique.gml</script>
         <script>scripts\FreeBlock.gml</script>
         <script>scripts\FreeMap.gml</script>
       </scripts>
@@ -37,6 +38,7 @@
         <script>scripts\GetCacheEntry.gml</script>
         <script>scripts\GenerateCacheEntry.gml</script>
         <script>scripts\FreeCacheEntry.gml</script>
+        <script>scripts\RenderMap.gml</script>
       </scripts>
       <scripts name="Camera">
         <script>scripts\CalcClipSpace.gml</script>
@@ -48,14 +50,15 @@
         <script>scripts\CompressBuffer.gml</script>
       </scripts>
       <scripts name="IO">
-        <script>scripts\LoadMap.gml</script>
         <script>scripts\SaveMap.gml</script>
+        <script>scripts\LoadMap.gml</script>
       </scripts>
     </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
     <shader type="HLSL9">shaders\RenderPlusSelection.shader</shader>
+    <shader type="GLSLES">shaders\RenderSelection.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\arial</font>
@@ -70,10 +73,16 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="3">
-    <constant name="mode_edit">0</constant>
-    <constant name="mode_play">1</constant>
-    <constant name="mode_max">1</constant>
+  <constants number="9">
+    <constant name="MODE_EDIT">1</constant>
+    <constant name="MODE_PLAY">2</constant>
+    <constant name="MODE_MAX">3</constant>
+    <constant name="BLK_LEFT">1</constant>
+    <constant name="BLK_RIGHT">2</constant>
+    <constant name="BLK_TOP">3</constant>
+    <constant name="BLK_BOTTOM">4</constant>
+    <constant name="BLK_LID">5</constant>
+    <constant name="BLK_BASE">6</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
