@@ -40,6 +40,7 @@ CameraZ = -1000;
 global.Camera = id;
 global.Map = -1;
 
+global.Mode=mode_play
 
 XAngle = 0;
 YAngle = 0;
@@ -70,7 +71,7 @@ global.CurrentPolyCount = 0;
        
         global.XSpeed = 16;
         global.YSpeed = 16;
-        global.ZSpeed = 64;
+        global.ZSpeed = 32;
         global.TiltSpeed = 0.5;
         
         global.ZPos = 0;
@@ -175,8 +176,8 @@ Cd=keyboard_check(ord("S")) or keyboard_check(vk_down);
 Cr=keyboard_check(ord("D")) or keyboard_check(vk_right);
 
 //Forward/backward and strafing speed (quartered if you're holding left shift)
-var CameraVSpeed=global.YSpeed; if keyboard_check(vk_lshift) CameraVSpeed/=4;
-var CameraHSpeed=global.XSpeed; if keyboard_check(vk_lshift) CameraHSpeed/=4;
+var CameraVSpeed=global.YSpeed; if keyboard_check(vk_lshift) CameraVSpeed/=4; if global.Mode==mode_play CameraVSpeed*=-1;
+var CameraHSpeed=global.XSpeed; if keyboard_check(vk_lshift) CameraHSpeed/=4; if global.Mode==mode_play CameraHSpeed*=-1;
 
 //Move the camera if you're telling it to
 if Cu {CameraX+=lengthdir_x(CameraVSpeed,dir   );CameraY+=lengthdir_y(CameraVSpeed,dir   );}
@@ -348,6 +349,8 @@ if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpe
 }else{
     CameraZ += global.ZSpeed;
 }
+
+CameraZ=min(-32,CameraZ)
 </string>
           </argument>
         </arguments>
@@ -460,9 +463,12 @@ if( global.WaitText!="" )
     s = "clip  ("+string(gx1)+","+string(gy1)+")   ("+string(gx2)+","+string(gy2)+")";
     draw_outline( 40,62, s, c_white );    
 
-    s = "cube=("+string(Map.PickX)+","+string(Map.PickY)+","+string(Map.PickZ)+") - face="+GetFace(Map.Face);
+    s = "cube=("+string(Map.PickX)+","+string(Map.PickY)+","+string(Map.PickZ)+") - face="+GetFace(Map.PickFace);
     draw_outline( 40,82, s, c_white );    
-
+    
+    var modestring=string(global.Mode); if global.Mode==mode_edit modestring="Edit"; if global.Mode==mode_play modestring="Play";
+    s = "mode="+modestring+" (&lt;M&gt; switch)";
+    draw_outline( 40,102, s, c_white );
 }
     
 
@@ -504,14 +510,22 @@ if( global.WaitText!="" )
         ly = ly*d;
         lz = lz*d;
         
-        dir += (display_mouse_get_x()-display_get_width()/2)/6
-        zdir += (display_mouse_get_y()-display_get_height()/2)/6
-        zdir = clamp(zdir,-80,+80)
-        display_mouse_set(display_get_width()/2,display_get_height()/2)    
+        if global.Mode==mode_edit
+        {
+            dir += (display_mouse_get_x()-display_get_width()/2)/6
+            zdir += (display_mouse_get_y()-display_get_height()/2)/6
+            zdir = clamp(zdir,-80,+80)
+            display_mouse_set(display_get_width()/2,display_get_height()/2)
+        }
+        else
+        {
+            dir = 90;
+            zdir = +80;
+        }    
         
-        //d3d_set_projection(CameraX,CameraY,CameraZ+12,CameraX+cos(dir*pi/180),CameraY-sin(dir*pi/180),CameraZ+12-tan(zdir*pi/180),0,0,1);
-              
-        d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
+        SetProjection();      
+        //d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
+        
         global.CurrentPolyCount = 0;
     }       
 }
@@ -547,6 +561,32 @@ else
     
     
 display_reset(AA, vsync);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="77">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.Mode=(global.Mode+1) mod (mode_max+1)
+display_mouse_set(display_get_width()/2,display_get_height()/2)
+
+if global.Mode==mode_edit dir+=180
 </string>
           </argument>
         </arguments>

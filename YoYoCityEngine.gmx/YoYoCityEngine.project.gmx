@@ -31,6 +31,7 @@
         <script>scripts\PullUpRegion.gml</script>
         <script>scripts\AllocBlock.gml</script>
         <script>scripts\FreeBlock.gml</script>
+        <script>scripts\FreeMap.gml</script>
       </scripts>
       <scripts name="Mesh">
         <script>scripts\GetCacheEntry.gml</script>
@@ -39,10 +40,16 @@
       </scripts>
       <scripts name="Camera">
         <script>scripts\CalcClipSpace.gml</script>
+        <script>scripts\SetProjection.gml</script>
       </scripts>
       <scripts name="Utils">
         <script>scripts\GetFace.gml</script>
         <script>scripts\Hex.gml</script>
+        <script>scripts\CompressBuffer.gml</script>
+      </scripts>
+      <scripts name="IO">
+        <script>scripts\LoadMap.gml</script>
+        <script>scripts\SaveMap.gml</script>
       </scripts>
     </scripts>
   </scripts>
@@ -63,6 +70,11 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
+  <constants number="3">
+    <constant name="mode_edit">0</constant>
+    <constant name="mode_play">1</constant>
+    <constant name="mode_max">1</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
