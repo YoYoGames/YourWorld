@@ -55,6 +55,9 @@
         <script>scripts\MakeUnique.gml</script>
         <script>scripts\AllocBlock.gml</script>
         <script>scripts\AddBlock.gml</script>
+        <script>scripts\DeleteBlock.gml</script>
+        <script>scripts\GetBlock.gml</script>
+        <script>scripts\GetBlockIndex.gml</script>
       </scripts>
     </scripts>
   </scripts>
