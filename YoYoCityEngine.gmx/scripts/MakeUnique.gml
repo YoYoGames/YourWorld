@@ -8,6 +8,20 @@ var _z=argument2;
 
 // Get the length of the block list (if we need another one, it goes on the end)
 var column = ds_grid_get(Map,_x,_y);
+
+// First, check to see if we need to expand the array to include the requested _Z
+var len = array_length_1d( column );
+if( (len-1)<_z ){
+    // if we have to expand the array, then the requested block will point to 
+    // "cube" 0, which will have more than one ref, so it'll fall through into the 
+    // make unique part, and so the array will THEN be written into the grid.
+    for(var i=len;i<=_z;i++){
+        column[i]=0;           // fill with block "0"
+        RefCount[0]++;
+    }
+}
+
+
 var oldblock = column[_z];
 
 // If only THIS block points here, then just modify it directly.

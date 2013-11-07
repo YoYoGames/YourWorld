@@ -53,7 +53,7 @@ show_debug_message("w="+string(MapWidth)+", h="+string(MapHeight)+", d="+string(
 Cache = ds_grid_create(MapWidth,MapHeight);             // Mesh cache
 Map = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for the map
 RefCount = 0;
-RefCount[0]=0;
+RefCount[0]=1;      // block "0" must ALWAYS have a ref
 RefCount[1]=0;
 RefCount[2]=0;
 RefMax=2;
@@ -63,10 +63,10 @@ for(var yy=0;yy<MapHeight;yy++){
 
         a[0]=1;        
         RefCount[1]++;
-        for(var aa=1;aa<MapDepth;aa++){
+        /*for(var aa=1;aa<MapDepth;aa++){
             a[aa] = 0;
             RefCount[0]++;
-        }
+        }*/
         ds_grid_set(Map,xx,yy,a);
         ds_grid_set(Cache,xx,yy,-1);                     // clear cache entry
     }
@@ -76,23 +76,25 @@ block_info=0;
 
 // block/cube 0 reserved for "empty"
 var info = 0;
-info[0] =  0;      // block flags (32bits)
-info[1] = -1;      // left
-info[2] = -1;      // right
-info[3] = -1;      // top
-info[4] = -1;      // bottom
-info[5] = -1;      // lid
-info[6] = -1;      // behind (usually hidden)
+info[BLK_LEFT]   = -1;      // left
+info[BLK_RIGHT]  = -1;      // right
+info[BLK_TOP]    = -1;      // top
+info[BLK_BOTTOM] = -1;      // bottom
+info[BLK_LID]    = -1;      // lid
+info[BLK_BASE]   = -1;      // behind (usually hidden)
+info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
+info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
 block_info[0]=info;
     
 info=0;            // reset array pointer
-info[0] =  0;      // block flags (32bits)
-info[1] = -1;      // left
-info[2] = -1;      // right
-info[3] = -1;      // top
-info[4] = -1;      // bottom
-info[5] = _pavement; // lid
-info[6] = -1;      // behind (usually hidden)
+info[BLK_LEFT]   = -1;      // left
+info[BLK_RIGHT]  = -1;      // right
+info[BLK_TOP]    = -1;      // top
+info[BLK_BOTTOM] = -1;      // bottom
+info[BLK_LID]    = _pavement;      // lid
+info[BLK_BASE]   = -1;      // behind (usually hidden)
+info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
+info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
 block_info[1]=info;
     
 /*

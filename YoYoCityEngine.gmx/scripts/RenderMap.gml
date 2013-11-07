@@ -20,6 +20,10 @@
     global.TileCacheCreationCount = 2;
     var CacheWidth = floor(MapWidth/GridCacheSize);
     var CacheHeight = floor(MapWidth/GridCacheSize);
+    if( _gx1>CacheWidth ) _gx1=CacheWidth;
+    if( _gx2>CacheWidth ) _gx2=CacheWidth;
+    if( _gy1>CacheHeight ) _gy1=CacheHeight;
+    if( _gy2>CacheHeight ) _gy2=CacheHeight;
     for(var yy=_gy1;yy<_gy2;yy++){
         for(var xx=_gx1;xx<_gx2;xx++){
             if( xx>=0 && xx<CacheWidth) && (yy>=0 && yy<CacheHeight)

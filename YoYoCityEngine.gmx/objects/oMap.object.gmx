@@ -39,6 +39,7 @@ if( os_browser==browser_not_a_browser ){
 StyleSprite=sStyle1;
 //CreatreMap(width,height,depth, gridcachesize, sidebase,topbase,pavement, tilesize,tileborder);
 CreateMap(256,256,10, 16, 0,7,7, 64,70);
+//CreateMap(8,8,10, 8, 0,7,7, 64,70);
 
 // HTML5?
 HTML5=false;
@@ -116,18 +117,8 @@ LastFileName="mymap.city";
             }
 
             if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
-            {
-        
-                var blk = AllocBlock(xx,yy,zz);
-                
-                info[0] =  0;      // block flags (32bits)
-                info[1] = 1;      // left
-                info[2] = 1;      // right
-                info[3] = 1;      // top
-                info[4] = 1;      // bottom
-                info[5] = 1;      // lid
-                info[6] = 1;      // behind (usually hidden)
-                block_info[blk]=info;
+            {        
+                var blk = AddBlock(xx,yy,zz);
                 FreeCacheEntry(xx,yy);   
             }
         }
@@ -385,6 +376,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         LoadMap(id,buff);
     }
 }
+
 </string>
           </argument>
         </arguments>
@@ -412,7 +404,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
     var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
     if( filename!="" ){
         LastFileName=filename;
-        buffer_save(buff, LastFileName);
+        buffer_save_ext(buff, LastFileName, 0, buffer_tell(buff));
     }
 }
 
