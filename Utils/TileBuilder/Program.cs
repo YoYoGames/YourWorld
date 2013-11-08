@@ -21,6 +21,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using TileBuilder.MapCreation;
 
 namespace TileBuilder
 {
@@ -271,6 +272,30 @@ namespace TileBuilder
             return null;
         }
 
+
+
+	    // #############################################################################################
+	    /// Function:<summary>
+	    ///          	
+	    ///          </summary>
+	    ///
+	    /// In:		<param name="_png"></param>
+	    /// Out:	<returns>
+	    ///				
+	    ///			</returns>
+	    // #############################################################################################
+        public static Map GenerateMap(string _png)
+        {
+            Tile tile = new Tile(_png );
+            Map map =new Map(tile);
+            map.Generate();
+            map.Save(@"C:\Users\Mike\Documents\maps\test.city");
+
+
+            return map;
+        }
+
+
 	    // #############################################################################################
 	    /// Function:<summary>
 	    ///          	
@@ -286,13 +311,20 @@ namespace TileBuilder
                 MessageBox.Show("Drag a folder onto the .EXE. The file _TILES_.PNG will be saved in that folder");
                 return;
             }
-            string message = LoadTiles(args[0]);
-            if(message!=null)
-            {
-                MessageBox.Show("Error loading tiles\n"+message);
-                return;
+
+            // If its a single image, then build a MAP using it!
+            if( args[0].EndsWith(".png")){
+                Map m = GenerateMap(args[0]);
+
+            }else{
+                string message = LoadTiles(args[0]);
+                if(message!=null)
+                {
+                    MessageBox.Show("Error loading tiles\n"+message);
+                    return;
+                }
+                BuildTileMap( args[0] );
             }
-            BuildTileMap( args[0] );
         }
     }
 }
