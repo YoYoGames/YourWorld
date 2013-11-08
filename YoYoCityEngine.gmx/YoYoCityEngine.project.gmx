@@ -43,6 +43,10 @@
       <scripts name="Camera">
         <script>scripts\CalcClipSpace.gml</script>
         <script>scripts\SetProjection.gml</script>
+        <scripts name="ViewFrustum">
+          <script>scripts\InitViewFrustum.gml</script>
+          <script>scripts\GenerateViewFrustum.gml</script>
+        </scripts>
       </scripts>
       <scripts name="Utils">
         <script>scripts\GetFace.gml</script>

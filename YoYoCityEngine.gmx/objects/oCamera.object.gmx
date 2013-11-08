@@ -47,6 +47,9 @@ ZAngle = 0;
 FOV = 80;
 AspectRatio = room_width/room_height;
 
+// Initialise view frustum
+InitViewFrustum();
+
 // clip zone based on camera position and height
 GroundX1=0;
 GroundY1=0;
@@ -66,7 +69,7 @@ global.Mode=MODE_PLAY;
         vsync = false;
         AA = 0;
 
-       
+        
        
         global.XSpeed = 16;
         global.YSpeed = 16;
@@ -539,8 +542,6 @@ if( global.WaitText!="" )
         global.CurrentPolyCount = 0;
     }       
 }
-
-
 </string>
           </argument>
         </arguments>

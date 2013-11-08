@@ -24,6 +24,10 @@
         for(var xx=_gx1;xx<_gx2;xx++){
             if( xx>=0 && xx<CacheWidth) && (yy>=0 && yy<CacheHeight)
             {
+                //
+                
+                
+                
                 var MeshA = GetCacheEntry(xx,yy);
                 if( is_array(MeshA) ){
                     vertex_submit(MeshA[0], pr_trianglelist,_texture);
