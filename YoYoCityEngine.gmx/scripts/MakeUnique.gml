@@ -17,7 +17,7 @@ if( (len-1)<_z ){
     // make unique part, and so the array will THEN be written into the grid.
     for(var i=len;i<=_z;i++){
         column[i]=0;           // fill with block "0"
-        RefCount[0]++;
+        IncRef(0);
     }
 }
 
@@ -25,10 +25,10 @@ if( (len-1)<_z ){
 var oldblock = column[_z];
 
 // If only THIS block points here, then just modify it directly.
-if( RefCount[oldblock]==1 ) return oldblock;
+if( GetRef(oldblock)==1 ) return oldblock;
 
 // First, do we have any "spare" blocks on the free list?
-var NewBlock = array_length_1d( block_info );
+var NewBlock =  ds_list_size(block_info);
 if( ds_stack_size(FreeList)!=0 ){
     NewBlock=ds_stack_pop(FreeList);            // if so, use that first
 }
@@ -36,13 +36,16 @@ column[_z] = NewBlock;
 ds_grid_set(Map,_x,_y,column);
 
 // Copy all the details of the OLD block
+OldInfo = ds_list_find_value( block_info, oldblock );
+
 var info = 0;
-OldInfo = block_info[oldblock];
 var size = array_length_1d(OldInfo);
 for(var i=0;i<size;i++){
     info[i]=OldInfo[i];    
 }
-block_info[NewBlock]=info;
-RefCount[NewBlock]=1;
+
+// Add the new block to the end of the block_info list
+ds_list_add( block_info,info );
+AddRef(1);
 return NewBlock;
 

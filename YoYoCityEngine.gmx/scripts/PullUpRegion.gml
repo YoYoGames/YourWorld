@@ -12,6 +12,7 @@ var _x2 = argument2;
 var _y2 = argument3;
 var _height = argument4;
 
+/*
 for(var yy=_y1;yy<y2;yy++)
 {
     for(var xx=_x1;xx<x2;xx++)
@@ -39,6 +40,8 @@ for(var yy=_y1;yy<y2;yy++)
         }
     }
 }
+*/
+
 
 
 

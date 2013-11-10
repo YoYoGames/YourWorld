@@ -281,8 +281,8 @@ if( !surface_exists(SelectionSurface) ){
 
 
 // Work out visible map bounds.
-var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize );
-var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize );
+var gx1 = floor( (camera.GroundX1/TileSize)/GridCacheSize );
+var gy1 = floor( (camera.GroundY1/TileSize)/GridCacheSize );
 var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
 var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
 global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);

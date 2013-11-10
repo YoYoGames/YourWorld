@@ -45,6 +45,13 @@
         <script>scripts\Hex.gml</script>
         <script>scripts\CompressBuffer.gml</script>
         <script>scripts\FreeMap.gml</script>
+        <scripts name="RefCount">
+          <script>scripts\IncRef.gml</script>
+          <script>scripts\DecRef.gml</script>
+          <script>scripts\GetRef.gml</script>
+          <script>scripts\SetRef.gml</script>
+          <script>scripts\AddRef.gml</script>
+        </scripts>
       </scripts>
       <scripts name="IO">
         <script>scripts\SaveMap.gml</script>

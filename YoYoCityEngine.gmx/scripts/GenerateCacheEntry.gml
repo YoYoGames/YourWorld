@@ -48,7 +48,7 @@ vertex_begin(Mesh, CityFormat);
                     if( block>0 )
                     {
                         // if not empty
-                        var info = blockinfo[block];
+                        var info = ds_list_find_value(blockinfo, block);
                         l = info[BLK_LEFT];
                         r = info[BLK_RIGHT];
                         t = info[BLK_TOP];

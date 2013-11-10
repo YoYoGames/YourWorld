@@ -22,6 +22,6 @@ if( (len-1)<_z ) return -1;
 var block = column[_z];
 
 // return the block info
-return block_info[block];
+return ds_list_find_value(block_info,block);
 
 

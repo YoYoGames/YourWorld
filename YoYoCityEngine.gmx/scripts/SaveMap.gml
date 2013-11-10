@@ -15,8 +15,8 @@ with(_map)
     var buff = buffer_create(1024*1024*4,buffer_grow,1);
 
     // Map version
-    buffer_write(buff,buffer_u16, 3);
-    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 3);
+    buffer_write(buff,buffer_u32, 0);       // spare space.
     buffer_write(buff,buffer_u32, 0);
     buffer_write(buff,buffer_u32, 0);
     buffer_write(buff,buffer_u32, 0);
@@ -42,7 +42,7 @@ with(_map)
             var cnt = array_length_1d(Arr);
             buffer_write(raw,buffer_u16,cnt);       // size of column
             for(var zz=0;zz<cnt;zz++){
-                buffer_write(raw,buffer_u16,Arr[zz]);
+                buffer_write(raw,buffer_u32,Arr[zz]);
             }
         }
     }
@@ -63,12 +63,12 @@ with(_map)
     }
 
     // Write out number of block info structs we have    
-    size = array_length_1d( block_info );
-    buffer_write(buff, buffer_u16, size );
+    size = ds_list_size( block_info );
+    buffer_write(buff, buffer_u32, size );
     
     // write out info's
     for(var i=0;i<size;i++;){
-        var info = block_info[i];
+        var info = ds_list_find_value(block_info,i);
         var len = array_length_1d(info);
         for(var l=0;l<BLK_FLAGS1;l++){
             buffer_write(buff, buffer_u16, info[l]);

@@ -28,36 +28,36 @@ if( _replace )
     var blk = GetBlockIndex(_x-1,_y,_z)
     if( blk>0 ){
         blk = MakeUnique(_x-1,_y,_z);
-        var inf= block_info[blk];           // get the info we're about change
+        var inf= ds_list_find_value(block_info,blk);           // get the info we're about change
         inf[BLK_RIGHT]=_side;                 // clear the block
-        block_info[blk]=inf;
+        ds_list_replace(block_info,blk,inf);
     }
 
     // Check block to the right
     var blk = GetBlockIndex(_x+1,_y,_z)
     if( blk>0 ){
         blk = MakeUnique(_x+1,_y,_z);
-        var inf= block_info[blk];           // get the info we're about change
+        var inf= ds_list_find_value(block_info,blk);           // get the info we're about change
         inf[BLK_LEFT]=_side;                 // clear the block
-        block_info[blk]=inf;
+        ds_list_replace(block_info,blk,inf);
     }
 
     // Check block to the bottom
     var blk = GetBlockIndex(_x,_y-1,_z)
     if( blk>0 ){
         blk = MakeUnique(_x,_y-1,_z);
-        var inf= block_info[blk];           // get the info we're about change
+        var inf= ds_list_find_value(block_info,blk);           // get the info we're about change
         inf[BLK_BOTTOM]=_side;                 // clear the block
-        block_info[blk]=inf;
+        ds_list_replace(block_info,blk,inf);
     }
     
     // Check block to the top
     var blk = GetBlockIndex(_x,_y+1,_z)
     if( blk>0 ){
         blk = MakeUnique(_x,_y+1,_z);
-        var inf= block_info[blk];           // get the info we're about change
+        var inf= ds_list_find_value(block_info,blk);           // get the info we're about change
         inf[BLK_TOP]=_side;                 // clear the block
-        block_info[blk]=inf;
+        ds_list_replace(block_info,blk,inf);
     }
 
     
@@ -65,9 +65,9 @@ if( _replace )
     var blk = GetBlockIndex(_x,_y,_z-1)
     if( blk>0 ){
         blk = MakeUnique(_x,_y,_z-1);
-        var inf= block_info[blk];           // get the info we're about change
+        var inf= ds_list_find_value(block_info,blk);           // get the info we're about change
         inf[BLK_LID]=_lid;                 // clear the block
-        block_info[blk]=inf;
+        ds_list_replace(block_info,blk,inf);
     }
 
    
@@ -75,9 +75,9 @@ if( _replace )
     var blk = GetBlockIndex(_x,_y,_z+1)
     if( blk>0 ){
         blk = MakeUnique(_x,_y,_z+1);
-        var inf= block_info[blk];           // get the info we're about change
+        var inf= ds_list_find_value(block_info,blk);           // get the info we're about change
         inf[BLK_BASE]=_lid;                 // clear the block
-        block_info[blk]=inf;
+        ds_list_replace(block_info,blk,inf);
     }
          
     
