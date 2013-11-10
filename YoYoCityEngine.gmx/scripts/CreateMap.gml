@@ -20,6 +20,7 @@ _tilesize = 64;
 _tileborder = 70;
 _pavement = 0;
 _gridcachesize = 32;
+_groundlevel = 4;
 
 var c = argument_count;
 if( c>0 ) _width = argument[0];
@@ -44,6 +45,7 @@ TileSize = _tilesize;              // pixel size of all tiles
 TileBorder = _tileborder;          // size or tile + surrounding border
 PavementTile = _pavement;          // simple pavement tile
 GridCacheSize = _gridcachesize;    // Size of a cache block
+GroundLevel = _groundlevel;         // set the ground level (under pavement)
 FreeList = ds_stack_create();      // create a new block_info free list
 
 show_debug_message("w="+string(MapWidth)+", h="+string(MapHeight)+", d="+string(MapDepth)+", sb="+string(SideBase)+
@@ -53,13 +55,17 @@ show_debug_message("w="+string(MapWidth)+", h="+string(MapHeight)+", d="+string(
 Cache = ds_grid_create(MapWidth,MapHeight);             // Mesh cache
 Map = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for the map
 RefCount = ds_list_create();
-AddRef(1);                          // block "0" must ALWAYS have a ref
-AddRef((MapHeight*MapWidth));       // empty map is filled woth pavement
+AddRef(1);                                              // block "0" must ALWAYS have a ref
+AddRef(((MapHeight*MapWidth)*GroundLevel)+1);                         // block "1"  is "almost" empty
+AddRef((MapHeight*MapWidth)+1);                         // empty map is filled woth pavement
 
 for(var yy=0;yy<MapHeight;yy++){
     for(var xx=0;xx<MapWidth;xx++){
         var a=0;
-        a[0]=1;                                         // point at bock
+        for(var g=0;g<GroundLevel;g++){
+            a[g]=1;                                         // point at bock
+        }
+        a[GroundLevel]=2;                                         // point at bock
         ds_grid_set(Map,xx,yy,a);
         ds_grid_set(Cache,xx,yy,-1);                     // clear cache entry
     }
@@ -78,6 +84,19 @@ info[BLK_BASE]   = -1;      // behind (usually hidden)
 info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
 info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
 ds_list_add( block_info, info );
+
+// "Almost" empty. Used for under pavement so we can "dig"
+var info = 0;
+info[BLK_LEFT]   = -1;      // left
+info[BLK_RIGHT]  = -1;      // right
+info[BLK_TOP]    = -1;      // top
+info[BLK_BOTTOM] = -1;      // bottom
+info[BLK_LID]    = -1;      // lid
+info[BLK_BASE]   = -1;      // behind (usually hidden)
+info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
+info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
+ds_list_add( block_info, info );
+
     
 info=0;            // reset array pointer
 info[BLK_LEFT]   = -1;      // left

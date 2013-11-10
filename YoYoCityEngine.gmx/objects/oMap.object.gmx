@@ -141,7 +141,7 @@ LastFileName="mymap.city";
             if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
             {
                 var blk = MakeUnique(xx,yy,zz);
-                var info = block_info[blk];
+                var info = ds_list_find_value( block_info, blk );
                 switch(PickFace){
                     case 1: info[BLK_TOP]=SideBlock; break;
                     case 2: info[BLK_BOTTOM]=SideBlock; break;
@@ -150,7 +150,7 @@ LastFileName="mymap.city";
                     case 5: info[BLK_LID]=LidBlock; break;
                     case 6: info[BLK_BASE]=LidBlock; break;
                 }
-                block_info[blk] = info;
+                ds_list_replace(block_info,blk,info);
                 FreeCacheEntry(xx,yy);   
             }
         }
@@ -281,10 +281,10 @@ if( !surface_exists(SelectionSurface) ){
 
 
 // Work out visible map bounds.
-var gx1 = floor( (camera.GroundX1/TileSize)/GridCacheSize );
-var gy1 = floor( (camera.GroundY1/TileSize)/GridCacheSize );
-var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
-var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
+var gx1 = floor( (camera.GroundX1/TileSize)/GridCacheSize )-1;
+var gy1 = floor( (camera.GroundY1/TileSize)/GridCacheSize )-1;
+var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
+var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
 global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
        
@@ -323,7 +323,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
                 RenderMap( gx1,gy1,gx2,gy2, texture, RenderSelection );
                 surface_reset_target();
             }
-            var col = surface_getpixel( SelectionSurface, MouseX,MouseY );
+            var col = surface_getpixel_ext( SelectionSurface, MouseX,MouseY );
             PickedColour=Hex(col);
             var c = col&amp;$3ffffff;
             c = ((c&gt;&gt;16)&amp;$ff) | (c&amp;$ff00ff00) | ((c&amp;$ff)&lt;&lt;16);          // swap R&amp;B channels so we get ARGB again

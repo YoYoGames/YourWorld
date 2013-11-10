@@ -289,7 +289,8 @@ namespace TileBuilder
             Tile tile = new Tile(_png );
             Map map =new Map(tile);
             map.Generate();
-            map.Save(@"C:\Users\Mike\Documents\maps\test.city");
+            string out_file = Path.GetDirectoryName(_png)+"\\"+Path.GetFileNameWithoutExtension(_png)+".city";
+            map.Save(out_file);
 
 
             return map;

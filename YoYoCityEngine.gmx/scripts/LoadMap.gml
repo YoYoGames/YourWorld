@@ -65,7 +65,6 @@ with(_map)
 
     // reset refcount array
     RefCount = ds_list_create();
-    AddRef(1);
         
     
     // read in info's
@@ -81,6 +80,9 @@ with(_map)
         ds_list_add(block_info,info);
         ds_list_add(RefCount,0);
     }
+    IncRef(0);      // block 0 and 1 (empty+pavement) are special. 
+    IncRef(1);      // Keep them always
+
         
 
   
@@ -103,7 +105,7 @@ with(_map)
 
         
     // Now recreate the free list
-    var len=array_length_1d(RefCount);
+    var len=ds_list_size(RefCount);
     show_debug_message("Build Free list (infos allocated: "+string(len)+")");
     for(var xx=0;xx<len;xx++){
         if( GetRef(xx)==0 ) {

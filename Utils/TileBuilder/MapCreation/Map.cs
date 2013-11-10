@@ -53,7 +53,8 @@ namespace TileBuilder.MapCreation
         public int Residential { get; set; }
         public int Comercial { get; set; }
         public int Industrial { get; set; }
-        
+
+        public int GroundLevel = 3;
 
         public List<int>[] map;
         private Tile m_Tile;
@@ -62,7 +63,7 @@ namespace TileBuilder.MapCreation
 
 
         public Map(int _width, int _height, int _depth, int _lidbase, int _pavement){
-            Reset(_width,_height,_depth);
+            Reset(_width,_height,_depth,4);
             LidBase = _lidbase;
             Pavement = _pavement;
         }
@@ -78,7 +79,7 @@ namespace TileBuilder.MapCreation
         public Map(Tile _tile)
         {
             m_Tile = _tile;
-            Reset(_tile.Width, _tile.Height, 10);
+            Reset(_tile.Width, _tile.Height, 16,4);
             LidBase = 7;
             Pavement = 7;
         }
@@ -95,20 +96,29 @@ namespace TileBuilder.MapCreation
 	    ///			<param name="_depth"></param>
 	    ///
 	    // #############################################################################################
-        public void Reset(int _width, int _height, int _depth)
+        public void Reset(int _width, int _height, int _depth, int _groundlevel)
         {
             Width = _width;
             Height = _height;
             Depth = _depth;
+            GroundLevel = _groundlevel;
+
             BlockInfo = new List<block_info>();
             FreeList = new Stack<int>();
             map = new List<int>[_width*_height];
 
 
             BlockInfo.Add(new block_info());            // block "0" is empty
-            block_info b = new block_info();            // block "1" is pavement;
+            BlockInfo[0].Ref = 1; // (_width * _height) + 1; ;
+
+            BlockInfo.Add(new block_info());            // block "1" is "almost" empty
+            BlockInfo[0].Ref = (_width * _height * GroundLevel) + 1; ;
+            
+            block_info b = new block_info();            // block "2" is pavement;
             b.Lid = Pavement;
+            b.Ref = (_width * _height)+1;
             BlockInfo.Add(b);
+
 
 
             for (int y = 0; y < _height; y++)
@@ -117,8 +127,10 @@ namespace TileBuilder.MapCreation
                 for (int x = 0; x < _width; x++)
                 {
                     map[x+index] = new List<int>();
-                    map[x + index].Add(1);              // Build pavement at ground level
-                    BlockInfo[1].Ref++;
+                    for(int g=0;g<GroundLevel;g++){
+                        map[x + index].Add(1);              // Water level has nothing by default
+                    }
+                    map[x + index].Add(2);              // Build pavement at ground level (one block up)
                 }
             }
 
@@ -203,9 +215,11 @@ namespace TileBuilder.MapCreation
 
             // More than one block pointing at this one?
             if (BlockInfo[b].Ref ==1) return b;
+            BlockInfo[b].Ref--;
 
             // If so, need a new block here....
             int nb = AllocBlock();
+            BlockInfo[nb].Ref++;
 
             // Now copy the old info
             BlockInfo[nb].Copy(BlockInfo[b]);
@@ -229,6 +243,7 @@ namespace TileBuilder.MapCreation
         // #############################################################################################
         public int Get(int _x, int _y, int _z)
         {
+            if (_x < 0 || _x >= Width || _y< 0 || _y >= Height) return -1;
             List<int> column = map[_x + (_y * Width)];
             if (column.Count <= _z) return -1;              // no block at that location
             return column[_z];
@@ -272,7 +287,7 @@ namespace TileBuilder.MapCreation
             block_info info = BlockInfo[b];       // get the block
             for (int i = 0; i < 6; i++)
             {
-                if (info[i] != 0) return;
+                if (info[i] != -1) return;
             }
             column[_z] = 0;
             FreeBlock(b);
@@ -301,7 +316,7 @@ namespace TileBuilder.MapCreation
             if( b != -1 )
             {
                 int newindex = MakeUnique(_x-1, _y, _z);
-                BlockInfo[info_index].Right = -1;
+                BlockInfo[newindex].Right = -1;
                 info.Left = -1;
                 CompressBlock(_x - 1, _y, _z);
             }
@@ -311,28 +326,28 @@ namespace TileBuilder.MapCreation
             if (b != -1)
             {
                 int newindex = MakeUnique(_x + 1, _y, _z);
-                BlockInfo[info_index].Left = -1;
+                BlockInfo[newindex].Left = -1;
                 info.Right = -1;
                 CompressBlock(_x + 1, _y, _z);
             }
 
-            // Top
+            // Bottom
             b = Get(_x, _y+1, _z);
             if (b != -1)
             {
                 int newindex = MakeUnique(_x, _y+1, _z);
-                BlockInfo[info_index].Bottom = -1;
-                info.Top = -1;
+                BlockInfo[newindex].Top = -1;
+                info.Bottom = -1;
                 CompressBlock(_x, _y+1, _z);
             }
 
-            // Bottom
+            // Top
             b = Get(_x, _y - 1, _z);
             if (b != -1)
             {
                 int newindex = MakeUnique(_x, _y - 1, _z);
-                BlockInfo[info_index].Top = -1;
-                info.Bottom = -1;
+                BlockInfo[newindex].Bottom = -1;
+                info.Top = -1;
                 CompressBlock(_x, _y - 1, _z);
             }
 
@@ -341,7 +356,7 @@ namespace TileBuilder.MapCreation
             if (b != -1)
             {
                 int newindex = MakeUnique(_x, _y, _z+1);
-                BlockInfo[info_index].Base = -1;
+                BlockInfo[newindex].Base = -1;
                 info.Lid = -1;
                 CompressBlock(_x, _y, _z+1);
             }
@@ -351,9 +366,76 @@ namespace TileBuilder.MapCreation
             if (b != -1)
             {
                 int newindex = MakeUnique(_x, _y, _z-1);
-                BlockInfo[info_index].Lid = -1;
+                BlockInfo[newindex].Lid = -1;
                 info.Base = -1;
                 CompressBlock(_x, _y, _z - 1);
+            }
+
+        }
+
+
+        // #############################################################################################
+        /// Function:<summary>
+        ///          	Delete a block at x,y,z, making it unique if it has to
+        ///          </summary>
+        ///
+        /// In:		<param name="_x">x coordinate</param>
+        ///			<param name="_y">y coordinate</param>
+        ///			<param name="_z">z coordinate</param>
+        ///			<param name="_block">block to set</param>
+        ///
+        // #############################################################################################
+        public void Delete(int _x, int _y, int _z)
+        {
+            int fr = Get(_x, _y, _z);
+            FreeBlock(fr);
+
+            // Left
+            int b = Get(_x - 1, _y, _z);
+            if (b != -1)
+            {
+                int newindex = MakeUnique(_x - 1, _y, _z);
+                BlockInfo[newindex].Right = 1;
+            }
+
+            // Right
+            b = Get(_x + 1, _y, _z);
+            if (b != -1)
+            {
+                int newindex = MakeUnique(_x + 1, _y, _z);
+                BlockInfo[newindex].Left = 1;
+            }
+
+            // Bottom
+            b = Get(_x, _y + 1, _z);
+            if (b != -1)
+            {
+                int newindex = MakeUnique(_x, _y + 1, _z);
+                BlockInfo[newindex].Top = 1;
+            }
+
+            // Top
+            b = Get(_x, _y - 1, _z);
+            if (b != -1)
+            {
+                int newindex = MakeUnique(_x, _y - 1, _z);
+                BlockInfo[newindex].Bottom = 1;
+            }
+
+            // Lid
+            b = Get(_x, _y, _z + 1);
+            if (b != -1)
+            {
+                int newindex = MakeUnique(_x, _y, _z + 1);
+                BlockInfo[newindex].Base = 1;
+            }
+
+            // Base
+            b = Get(_x, _y, _z - 1);
+            if (b != -1)
+            {
+                int newindex = MakeUnique(_x, _y, _z - 1);
+                BlockInfo[newindex].Lid = 1;
             }
 
         }
@@ -397,14 +479,18 @@ namespace TileBuilder.MapCreation
             Industrial = 0;
 
 
-            // reset block info, and add space
-            BlockInfo = new List<block_info>();
-            AddBlockInfo( new block_info() );            // block "0" is empty
-
-
-            b = new block_info();            // block "1" is pavement;
-            b.Lid = Pavement;
-            Pavement = AddBlockInfo(b);
+            // Don't reset the map, REF counts are still valid
+            //BlockInfo = new List<block_info>();
+            //AddBlockInfo( new block_info() );            // block "0" is empty
+            //b = new block_info();            // block "1" is pavement;
+            //b.Lid = Pavement;
+            //Pavement = AddBlockInfo(b);
+            block_info p = BlockInfo[1];
+            //p.Left = 6;
+            //p.Right = 6;
+            //p.Top = 6;
+            //p.Bottom = 6;
+            Pavement = 1;
 
             // Make a pavement2  block
             b = new block_info();            // block "1" is pavement;
@@ -518,18 +604,17 @@ namespace TileBuilder.MapCreation
 	    ///			<param name="_block"></param>
 	    ///
 	    // #############################################################################################
-        private void AddBuilding( int _x,int _y,int _col, int _min, int _max, int _block)
+        private void AddBuilding( int _x,int _y, int _groundlevel, int _col, int _min, int _max, int _block)
         {
             List<Coords> FinalList =  GetCoordList(_x, _y, (UInt32)_col );
             int h = rand.Next(_min, _max);
             foreach (Coords c in FinalList)
             {
                 // Make a column of blocks
-                Set(c.x, c.y, 0, Pavement);
-                for (int i = 1; i <= h; i++)
+                Set(c.x, c.y, _groundlevel, 1);
+                for (int i = _groundlevel+1; i <= (_groundlevel+h); i++)
                 {
                     Add(c.x, c.y, i, _block);
-                    //Set(c.x, c.y, i, _block);
                 }
             }
         }
@@ -545,7 +630,24 @@ namespace TileBuilder.MapCreation
         public void Generate(  )
         {
             if (m_Tile == null) return;
+
+            Reset(m_Tile.Width, m_Tile.Height, 16,4);
             BuildBlockInfos();
+
+
+/*            Set(1, 1, GroundLevel, 1);
+            Add(1, 1, GroundLevel + 1, Comercial);
+            Set(1, 2, GroundLevel, 1);
+            Add(1, 2, GroundLevel + 1, Comercial);
+            Set(1, 3, GroundLevel, 1);
+            Add(1, 3, GroundLevel + 1, Comercial);
+            Set(2, 1, GroundLevel, 1);
+            Add(2, 1, GroundLevel + 1, Comercial);
+            Set(2, 2, GroundLevel, 1);
+            Add(2, 2, GroundLevel + 1, Comercial);
+            Set(2, 3, GroundLevel, 1);
+            Add(2, 3, GroundLevel + 1, Comercial);
+            //return;*/
 
 
             /*
@@ -579,17 +681,17 @@ namespace TileBuilder.MapCreation
                     col &=0xffffff;
                     switch (col)
                     {
-                        case 0x999999: Set(x, y, 0, Pavement); break;
-                        case 0xcccccc: Set(x, y, 0, Pavement2); break;
-                        case 0x404040: Set(x, y, 0, Road); break;
-                        case 0x00cc33: Set(x, y, 0, Grass); break;
-                        case 0x0094ff: Set(x, y, 0, Water); break;
-                        case 0x009933: Set(x, y, 0, Field1); break;
-                        case 0x947a4b: Set(x, y, 0, Field2); break;
-                        case 0x99ff66: Set(x, y, 0, Field3); break;
-                        case 0xffff00: AddBuilding(x,y, 0xffff00, ResidentialMin,ResidentialMax, Residential); break;
-                        case 0x0033ff: AddBuilding(x, y, 0x0033ff, ComercialMin, ComercialMax, Comercial); break;
-                        case 0xff0033: AddBuilding(x, y, 0xff0033, IndustrialMin, IndustrialMax, Industrial); break; 
+                        case 0x999999: Set(x, y, GroundLevel, Pavement); break;
+                        case 0xcccccc: Set(x, y, GroundLevel, Pavement2); break;
+                        case 0x404040: Set(x, y, GroundLevel, Road); break;
+                        case 0x00cc33: Set(x, y, GroundLevel, Grass); break;
+                        case 0x0094ff: Set(x, y, GroundLevel, Water); break;
+                        case 0x009933: Set(x, y, GroundLevel, Field1); break;
+                        case 0x947a4b: Set(x, y, GroundLevel, Field2); break;
+                        case 0x99ff66: Set(x, y, GroundLevel, Field3); break;
+                        case 0xffff00: AddBuilding(x, y, GroundLevel, 0xffff00, ResidentialMin, ResidentialMax, Residential); break;
+                        case 0x0033ff: AddBuilding(x, y, GroundLevel, 0x0033ff, ComercialMin, ComercialMax, Comercial); break;
+                        case 0xff0033: AddBuilding(x, y, GroundLevel, 0xff0033, IndustrialMin, IndustrialMax, Industrial); break; 
                         //case 0x999999: Set(x, y, 0, Pavement); break;
                         //case 0x999999: Set(x, y, 0, Pavement); break;
 

@@ -6,6 +6,9 @@ var _x=argument0;
 var _y=argument1;
 var _z=argument2;
 
+// Cant make this one unique?
+if( _x<0 || x>=MapWidth || _y<0 || y>=MapWidth ) return -1;
+
 // Get the length of the block list (if we need another one, it goes on the end)
 var column = ds_grid_get(Map,_x,_y);
 
