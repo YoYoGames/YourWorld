@@ -13,7 +13,7 @@
     var _texture = argument4
     var _shader = argument5
     
-    frustum_build();
+    //frustum_build();
 
     draw_enable_alphablend(false);
     shader_set( _shader );
@@ -56,7 +56,9 @@
             {
                 var MeshA = GetCacheEntry(xx,yy);
                 if( is_array(MeshA) ){
-                    vertex_submit(MeshA[0], pr_trianglelist,_texture);
+                    if( MeshA[0]!=-1 ){
+                        vertex_submit(MeshA[0], pr_trianglelist,_texture);
+                    }
                     global.CurrentPolyCount += MeshA[1];
                 }
             }

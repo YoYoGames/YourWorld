@@ -109,10 +109,10 @@ namespace TileBuilder.MapCreation
 
 
             BlockInfo.Add(new block_info());            // block "0" is empty
-            BlockInfo[0].Ref = 1; // (_width * _height) + 1; ;
+            BlockInfo[0].Ref = 1; 
 
             BlockInfo.Add(new block_info());            // block "1" is "almost" empty
-            BlockInfo[0].Ref = (_width * _height * GroundLevel) + 1; ;
+            BlockInfo[1].Ref = (_width * _height * GroundLevel) + 1; ;
             
             block_info b = new block_info();            // block "2" is pavement;
             b.Lid = Pavement;
@@ -130,7 +130,7 @@ namespace TileBuilder.MapCreation
                     for(int g=0;g<GroundLevel;g++){
                         map[x + index].Add(1);              // Water level has nothing by default
                     }
-                    map[x + index].Add(2);              // Build pavement at ground level (one block up)
+                    map[x + index].Add(2);                  // Build pavement at ground level (one block up)
                 }
             }
 
@@ -167,6 +167,7 @@ namespace TileBuilder.MapCreation
 	    // #############################################################################################
         public void FreeBlock(int _b)
         {
+            BlockInfo[_b].Ref=0;
             FreeList.Push(_b);
         }
 
@@ -485,12 +486,13 @@ namespace TileBuilder.MapCreation
             //b = new block_info();            // block "1" is pavement;
             //b.Lid = Pavement;
             //Pavement = AddBlockInfo(b);
-            block_info p = BlockInfo[1];
+            block_info p = BlockInfo[2];
+            p.Lid = Pavement;
             //p.Left = 6;
             //p.Right = 6;
             //p.Top = 6;
             //p.Bottom = 6;
-            Pavement = 1;
+            Pavement = 2;
 
             // Make a pavement2  block
             b = new block_info();            // block "1" is pavement;
@@ -745,7 +747,8 @@ namespace TileBuilder.MapCreation
                         buff.Write((UInt16)column.Count);
                         foreach (int i in column)
                         {
-                            buff.Write((UInt32)i);
+                            buff.Write(((UInt16)(i & 0xffff)));
+                            buff.Write( ((Byte) ((i>>16)&0xff)) );
                         }
                     }
                 }

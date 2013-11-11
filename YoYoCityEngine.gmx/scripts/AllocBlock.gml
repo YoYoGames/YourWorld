@@ -26,11 +26,14 @@ var block = column[_z];
 if( RefCount[block]==1 ) return block;
 
 // New block will go on the END of current list
-var NewBlock = array_length_1d( block_info );   
+var NewBlock = block_info_size; //array_length_1d( block_info );   
 
 // but firstdo we have any "spare" blocks on the free list?
 if( ds_stack_size(FreeList)!=0 ){
     NewBlock=ds_stack_pop(FreeList);            // if so, use that first
+}else{
+    // if none free, we're adding a new one
+    block_info_size++;
 }
 column[_z] = NewBlock;
 ds_grid_set(Map,_x,_y,column);
