@@ -13,10 +13,36 @@
     var _texture = argument4
     var _shader = argument5
     
+    frustum_build();
 
     draw_enable_alphablend(false);
     shader_set( _shader );
-       
+/*
+    global.TileCacheCreationCount = 2;
+    var scale = GridCacheSize*TileSize;
+    var cx = (GridCacheSize*TileSize)/2;
+    var cy = (GridCacheSize*TileSize)/2;
+    var cz = (GridCacheSize*TileSize)/2;
+    var rad = sqrt(cz*cz + cx*cx + cy*cy);
+    var max_gx = floor(MapWidth/GridCacheSize);
+    var scale = GridCacheSize*TileSize;
+    var half_scale = scale/2;
+    for(var yy=0;yy<max_gx;yy++){
+        for(var xx=0;xx<max_gx;xx++){
+            var sx = (xx*scale)+half_scale;
+            var sy = (-yy*scale)-half_scale;
+            var inout = frustum_test_sphere( sx,sy,0, rad );
+            if( inout) {
+                var MeshA = GetCacheEntry(xx,yy);
+                if( is_array(MeshA) ){
+                    vertex_submit(MeshA[0], pr_trianglelist,_texture);
+                    global.CurrentPolyCount += MeshA[1];
+                }
+            }
+        }
+    }
+*/
+           
     global.TileCacheCreationCount = 2;
     var CacheWidth = floor(MapWidth/GridCacheSize);
     var CacheHeight = floor(MapWidth/GridCacheSize);
@@ -36,6 +62,7 @@
             }
         }
     }        
+
     shader_reset();
     draw_enable_alphablend(true);        
 }

@@ -36,6 +36,7 @@ if( os_browser==browser_not_a_browser ){
 }
 */
 
+
 StyleSprite=sStyle1;
 //CreatreMap(width,height,depth, gridcachesize, sidebase,topbase,pavement, tilesize,tileborder);
 //CreateMap(256,256,10, 16, 0,7,7, 64,70);
@@ -73,6 +74,11 @@ EditMode = 1;
 PickButton=0;
 LastFileName="mymap.city";
 //buffer_delete(map_buff);
+
+
+
+
+
 </string>
           </argument>
         </arguments>
@@ -141,7 +147,7 @@ LastFileName="mymap.city";
             if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
             {
                 var blk = MakeUnique(xx,yy,zz);
-                var info = ds_list_find_value( block_info, blk );
+                var info = block_info[blk];
                 switch(PickFace){
                     case 1: info[BLK_TOP]=SideBlock; break;
                     case 2: info[BLK_BOTTOM]=SideBlock; break;
@@ -150,7 +156,7 @@ LastFileName="mymap.city";
                     case 5: info[BLK_LID]=LidBlock; break;
                     case 6: info[BLK_BASE]=LidBlock; break;
                 }
-                ds_list_replace(block_info,blk,info);
+                block_info[blk] = info;
                 FreeCacheEntry(xx,yy);   
             }
         }
@@ -279,12 +285,11 @@ if( !surface_exists(SelectionSurface) ){
     SelectionSurface = surface_create(view_wport[0],view_hport[0] );
 }
 
-
 // Work out visible map bounds.
-var gx1 = floor( (camera.GroundX1/TileSize)/GridCacheSize )-1;
-var gy1 = floor( (camera.GroundY1/TileSize)/GridCacheSize )-1;
-var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
-var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
+var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize );
+var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize );
+var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
+var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
 global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
        
@@ -294,8 +299,9 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         d3d_light_define_direction(0,0.5,0,1, c_white);
         d3d_light_enable(0,true);
         
-        d3d_transform_set_rotation_z( camera.ZAngle );
-        d3d_transform_add_rotation_x( camera.XAngle );
+        var m = matrix_build(0,0,0, camera.XAngle,0,camera.ZAngle, 1,1,1);
+        matrix_set(matrix_world,m);
+        
         d3d_set_lighting(false);
         
         // First set surfaces and reset projection

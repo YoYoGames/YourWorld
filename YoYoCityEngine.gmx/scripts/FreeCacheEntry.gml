@@ -1,4 +1,4 @@
-/// Free the mesh for a cache entry
+/// Allocate a single cube in the world, and return the block_info index
 /// x = argument0
 /// y = argument1
 var _x=argument0;

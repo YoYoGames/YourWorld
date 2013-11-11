@@ -6,7 +6,7 @@
 var gx = argument0;
 var gy = argument1;
 
-//show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
+show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
 var Mesh = vertex_create_buffer_ext(128*1024);
 
 // Get map bounds.
@@ -48,7 +48,7 @@ vertex_begin(Mesh, CityFormat);
                     if( block>0 )
                     {
                         // if not empty
-                        var info = ds_list_find_value(blockinfo, block);
+                        var info = blockinfo[block];
                         l = info[BLK_LEFT];
                         r = info[BLK_RIGHT];
                         t = info[BLK_TOP];

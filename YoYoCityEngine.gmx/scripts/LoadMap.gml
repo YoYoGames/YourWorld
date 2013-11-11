@@ -12,15 +12,17 @@ with(_map)
     show_debug_message("Free Map");
     FreeMap();
     show_debug_message("Process File");
-    var version = buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);
-    buffer_read(_buff,buffer_u32);    
+    var version = buffer_read(_buff,buffer_u16);
+    if( version==2){
+        buffer_read(_buff,buffer_u32);
+        buffer_read(_buff,buffer_u32);
+        buffer_read(_buff,buffer_u32);
+        buffer_read(_buff,buffer_u32);
+        buffer_read(_buff,buffer_u32);
+        buffer_read(_buff,buffer_u32);
+        buffer_read(_buff,buffer_u32);
+        buffer_read(_buff,buffer_u32);    
+    }
     
     MapWidth = buffer_read(_buff,buffer_u16);
     MapHeight = buffer_read(_buff,buffer_u16);
@@ -48,23 +50,22 @@ with(_map)
             var Arr = 0;
             var cnt = buffer_read(_buff,buffer_u16);         // get length of array
             for(var zz=0;zz<cnt;zz++){
-                Arr[zz] = buffer_read(_buff,buffer_u32);
-                /*if( Arr[zz]>32000 ){
-                    show_debug_message("err: "+Hex(Arr[zz]));
-                }*/
+                Arr[zz] = buffer_read(_buff,buffer_u16);
             }
             ds_grid_set(Map,xx,yy,Arr);
         }
     }
     
+    show_debug_message("Load Block Infos");
 
     // Read the number of block info structs we have    
-    var len = buffer_read( _buff, buffer_u32 );
-    show_debug_message("Load Block Infos: "+string(len));
-    block_info=ds_list_create();
+    var len = buffer_read( _buff, buffer_u16 );
+    block_info=0;
 
     // reset refcount array
-    RefCount = ds_list_create();
+    RefCount = 0;
+    RefCount[0]=0;    
+
         
     
     // read in info's
@@ -73,16 +74,12 @@ with(_map)
         var info = 0;   
         for(var l=0;l<BLK_FLAGS1;l++){
             info[l] = buffer_read(_buff, buffer_u16);
-            if( info[l]==$ffff )  info[l]=-1;
         }
         info[BLK_FLAGS1] = buffer_read(_buff, buffer_u32);
         info[BLK_FLAGS2] = buffer_read(_buff, buffer_u32);
-        ds_list_add(block_info,info);
-        ds_list_add(RefCount,0);
+        block_info[i]=info;
+        RefCount[i]=0;
     }
-    IncRef(0);      // block 0 and 1 (empty+pavement) are special. 
-    IncRef(1);      // Keep them always
-
         
 
   
@@ -94,10 +91,9 @@ with(_map)
         for(var xx=0;xx<MapHeight;xx++)
         {
             var Arr = ds_grid_get(Map,xx,yy);
-            var len = array_length_1d(Arr);
-            for(var zz=0;zz<len;zz++){
+            for(var zz=0;zz<MapDepth;zz++){
                 var a = Arr[zz];
-                IncRef(a);                          // might be too slow now. Might need to save these out.
+                RefCount[a]++;
             }
             ds_grid_set(Map,xx,yy,Arr);
         }
@@ -105,10 +101,10 @@ with(_map)
 
         
     // Now recreate the free list
-    var len=ds_list_size(RefCount);
-    show_debug_message("Build Free list (infos allocated: "+string(len)+")");
+    var len=array_length_1d(RefCount);
+    show_debug_message("Build Free list: "+string(len));
     for(var xx=0;xx<len;xx++){
-        if( GetRef(xx)==0 ) {
+        if( RefCount[xx]==0 ) {
             show_debug_message("free="+string(xx));
             ds_stack_push(FreeList,xx);
         }

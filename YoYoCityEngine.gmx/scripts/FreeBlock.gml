@@ -22,13 +22,13 @@ if( (len-1)<_z ){
 
 // Store the new free block_info index on the free list stack, and free the ref count
 var blk = column[_z];
-DecRef(blk);
+RefCount[blk]--;
 
 // Now set the block to our "empty" block
 column[_z] = 0;
-IncRef(0);
+RefCount[0]++;
 
-if( GetRef(blk)==0 ){
+if( RefCount[blk]==0 ){
     ds_stack_push(FreeList, blk);
 }
 

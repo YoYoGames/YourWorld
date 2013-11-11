@@ -17,7 +17,7 @@ if( (len-1)<_z ){
     // make unique part, and so the array will THEN be written into the grid.
     for(var i=len;i<=_z;i++){
         column[i]=0;           // fill with block "0"
-        IncRef(0);
+        RefCount[0]++;
     }
 }
 var block = column[_z];
@@ -26,7 +26,7 @@ var block = column[_z];
 if( RefCount[block]==1 ) return block;
 
 // New block will go on the END of current list
-var NewBlock = ds_list_size( block_info );   
+var NewBlock = array_length_1d( block_info );   
 
 // but firstdo we have any "spare" blocks on the free list?
 if( ds_stack_size(FreeList)!=0 ){
@@ -46,7 +46,7 @@ info[BLK_LID] = -1;      // lid
 info[BLK_BASE] = -1;      // behind (usually hidden)
 info[BLK_FLAGS1] =  0;      // block flags (32bits)
 info[BLK_FLAGS2] =  0;      // block flags (32bits)
-ds_list_add(block_info,info);
-AddRef(1);
+block_info[NewBlock]=info;
+RefCount[NewBlock]=1;
 return NewBlock;
 
