@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffer.cs" />
+    <Compile Include="CRC32.cs" />
     <Compile Include="MapCreation\block_info.cs" />
     <Compile Include="MapCreation\Map.cs" />
     <Compile Include="Program.cs" />

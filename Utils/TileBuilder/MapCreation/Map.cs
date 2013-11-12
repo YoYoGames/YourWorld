@@ -36,6 +36,8 @@ namespace TileBuilder.MapCreation
 
         public List<block_info> BlockInfo;
         public Stack<int> FreeList;
+        public Dictionary<uint, int> BlockCRCLookup;
+
         public int Width { get; set; }
         public int Height { get; set; }
         public int Depth { get; set; }
@@ -103,21 +105,30 @@ namespace TileBuilder.MapCreation
             Depth = _depth;
             GroundLevel = _groundlevel;
 
+            BlockCRCLookup = new Dictionary<uint, int>();
             BlockInfo = new List<block_info>();
             FreeList = new Stack<int>();
             map = new List<int>[_width*_height];
 
 
+
             BlockInfo.Add(new block_info());            // block "0" is empty
-            BlockInfo[0].Ref = 1; 
+            BlockInfo[0].Ref = 1;
+            BlockInfo[0].UpdateCRC();
+            BlockCRCLookup.Add(BlockInfo[0].CRC,0);
+
 
             BlockInfo.Add(new block_info());            // block "1" is "almost" empty
             BlockInfo[1].Ref = (_width * _height * GroundLevel) + 1; ;
+            BlockInfo[1].Flags1|=0x80000000;
+            BlockInfo[1].UpdateCRC();
+            BlockCRCLookup.Add(BlockInfo[1].CRC,1);
             
             block_info b = new block_info();            // block "2" is pavement;
             b.Lid = Pavement;
             b.Ref = (_width * _height)+1;
             BlockInfo.Add(b);
+            CheckDuplicate(2);
 
 
 
@@ -167,8 +178,11 @@ namespace TileBuilder.MapCreation
 	    // #############################################################################################
         public void FreeBlock(int _b)
         {
-            BlockInfo[_b].Ref=0;
-            FreeList.Push(_b);
+            BlockInfo[_b].Ref--;
+            if (BlockInfo[_b].Ref == 0)
+            {
+                FreeList.Push(_b);
+            }
         }
 
 
@@ -244,7 +258,7 @@ namespace TileBuilder.MapCreation
         // #############################################################################################
         public int Get(int _x, int _y, int _z)
         {
-            if (_x < 0 || _x >= Width || _y< 0 || _y >= Height) return -1;
+            if (_x < 0 || _x >= Width || _y< 0 || _y >= Height || _z<0) return -1;
             List<int> column = map[_x + (_y * Width)];
             if (column.Count <= _z) return -1;              // no block at that location
             return column[_z];
@@ -264,9 +278,53 @@ namespace TileBuilder.MapCreation
         public void Set(int _x, int _y, int _z, int _block)
         {
             List<int> column = ExpandColumn(_x, _y, _z);
-            BlockInfo[ column[_z] ].Ref--;
+            FreeBlock(column[_z]);
             column[_z] = _block;
             BlockInfo[_block].Ref++;
+        }
+
+	    // #############################################################################################
+	    /// Function:<summary>
+	    ///          	
+	    ///          </summary>
+	    ///
+	    /// In:		<param name="_block"></param>
+	    /// Out:	<returns>
+	    ///				
+	    ///			</returns>
+	    // #############################################################################################
+        public int CheckDuplicate(int _block)
+        {
+            block_info info = BlockInfo[_block];       // get the block
+            bool NotSpace = false;
+            for (int i = 0; i < 6; i++)
+            {
+                if (info[i] != -1)
+                {
+                    NotSpace = true;
+                    break;;
+                }
+            }
+            if (!NotSpace)
+            {
+                FreeBlock(_block);
+                return 0;
+            }
+
+            // Now check the CRC lookup....
+            BlockCRCLookup.Remove(info.CRC);
+
+            // if its NOT a space, compare with all orther blocks
+            uint crc = info.UpdateCRC();
+            int newblock=-1;
+            if( BlockCRCLookup.TryGetValue(crc, out newblock ) )
+            {
+                FreeBlock(_block);
+                BlockInfo[newblock].Ref++;
+                return newblock;
+            }
+            BlockCRCLookup.Add(crc, _block);
+            return _block;
         }
 
 	    // #############################################################################################
@@ -285,13 +343,7 @@ namespace TileBuilder.MapCreation
             if (column.Count <= _z) return;              // No need to compress
 
             int b = column[_z];
-            block_info info = BlockInfo[b];       // get the block
-            for (int i = 0; i < 6; i++)
-            {
-                if (info[i] != -1) return;
-            }
-            column[_z] = 0;
-            FreeBlock(b);
+            column[_z] = CheckDuplicate(b);
         }
 
 
@@ -308,9 +360,10 @@ namespace TileBuilder.MapCreation
         // #############################################################################################
         public void Add(int _x, int _y, int _z, int _block)
         {
-            Set(_x, _y, _z, _block);
-            int info_index = MakeUnique(_x,_y,_z);
+            int info_index = MakeUnique(_x, _y, _z);
             block_info info = BlockInfo[info_index];
+            info.Copy( BlockInfo[_block] );
+            
 
             // Left
             int b = Get(_x - 1, _y, _z);
@@ -371,6 +424,7 @@ namespace TileBuilder.MapCreation
                 info.Base = -1;
                 CompressBlock(_x, _y, _z - 1);
             }
+            CompressBlock(_x, _y, _z);
 
         }
 
@@ -388,12 +442,11 @@ namespace TileBuilder.MapCreation
         // #############################################################################################
         public void Delete(int _x, int _y, int _z)
         {
-            int fr = Get(_x, _y, _z);
-            FreeBlock(fr);
+            Set(_x, _y, _z, 0);
 
             // Left
             int b = Get(_x - 1, _y, _z);
-            if (b != -1)
+            if (b >0 )
             {
                 int newindex = MakeUnique(_x - 1, _y, _z);
                 BlockInfo[newindex].Right = 1;
@@ -401,7 +454,7 @@ namespace TileBuilder.MapCreation
 
             // Right
             b = Get(_x + 1, _y, _z);
-            if (b != -1)
+            if (b > 0)
             {
                 int newindex = MakeUnique(_x + 1, _y, _z);
                 BlockInfo[newindex].Left = 1;
@@ -409,7 +462,7 @@ namespace TileBuilder.MapCreation
 
             // Bottom
             b = Get(_x, _y + 1, _z);
-            if (b != -1)
+            if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y + 1, _z);
                 BlockInfo[newindex].Top = 1;
@@ -417,7 +470,7 @@ namespace TileBuilder.MapCreation
 
             // Top
             b = Get(_x, _y - 1, _z);
-            if (b != -1)
+            if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y - 1, _z);
                 BlockInfo[newindex].Bottom = 1;
@@ -425,7 +478,7 @@ namespace TileBuilder.MapCreation
 
             // Lid
             b = Get(_x, _y, _z + 1);
-            if (b != -1)
+            if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y, _z + 1);
                 BlockInfo[newindex].Base = 1;
@@ -433,7 +486,7 @@ namespace TileBuilder.MapCreation
 
             // Base
             b = Get(_x, _y, _z - 1);
-            if (b != -1)
+            if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y, _z - 1);
                 BlockInfo[newindex].Lid = 1;
@@ -473,11 +526,11 @@ namespace TileBuilder.MapCreation
             Grass = 5;
             Water = 0;
             Field1 = 6;
-            Field2 = 6;
-            Field3 = 6;
+            Field2 = 8;
+            Field3 = 9;
             Residential = 1;
             Comercial = 6;
-            Industrial = 0;
+            Industrial = 2;
 
 
             // Don't reset the map, REF counts are still valid
@@ -498,36 +551,43 @@ namespace TileBuilder.MapCreation
             b = new block_info();            // block "1" is pavement;
             b.Lid = Pavement2;
             Pavement2 = AddBlockInfo(b);
+            CheckDuplicate(Pavement2);
 
             // Make a road block
             b = new block_info();            // block "1" is pavement;
             b.Lid = Road;
             Road = AddBlockInfo(b);
+            CheckDuplicate(Road);
 
             // Make a grass block
             b = new block_info();            // block "1" is pavement;
             b.Lid = Grass;
             Grass = AddBlockInfo(b);
+            CheckDuplicate(Grass);
 
             // Make a water block
             b = new block_info();            // block "1" is pavement;
             b.Lid = Water;
             Water = AddBlockInfo(b);
+            CheckDuplicate(Water);
 
             // Make a Field1 block
             b = new block_info();            // block "1" is pavement;
             b.Lid = Field1;
             Field1 = AddBlockInfo(b);
+            CheckDuplicate(Field1);
 
             // Make a Field2 block
             b = new block_info();            // block "1" is pavement;
             b.Lid = Field2;
             Field2 = AddBlockInfo(b);
+            CheckDuplicate(Field2);
 
             // Make a Field3 block
             b = new block_info();            // block "1" is pavement;
             b.Lid = Field3;
             Field3 = AddBlockInfo(b);
+            CheckDuplicate(Field3);
 
             // Make a Residential block (full cube)
             b = new block_info();            // block "1" is pavement;
@@ -538,6 +598,7 @@ namespace TileBuilder.MapCreation
             b.Top = Residential;
             b.Bottom = Residential;
             Residential = AddBlockInfo(b);
+            CheckDuplicate(Residential);
 
             // Make a Comercial block (full cube)
             b = new block_info();            // block "1" is pavement;
@@ -548,6 +609,7 @@ namespace TileBuilder.MapCreation
             b.Top = Comercial;
             b.Bottom = Comercial;
             Comercial = AddBlockInfo(b);
+            CheckDuplicate(Comercial);
 
             // Make a Comercial block (full cube)
             b = new block_info();            // block "1" is pavement;
@@ -558,6 +620,7 @@ namespace TileBuilder.MapCreation
             b.Top = Industrial;
             b.Bottom = Industrial;
             Industrial = AddBlockInfo(b);
+            CheckDuplicate(Industrial);
         }
 
 	    // #############################################################################################
@@ -674,7 +737,39 @@ namespace TileBuilder.MapCreation
             int IndustrialMin = 2;
             int IndustrialMax = 4;
 
-            // Now loop through the whole map and place a tile of the correct type IN the map
+
+            //Delete(2, 2, GroundLevel);
+
+
+            // First do all ground level tiles
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    UInt32 col = m_Tile.GetPixel(x, y);
+                    col &= 0xffffff;
+                    switch (col)
+                    {
+                        //case 0x999999: Set(x, y, GroundLevel, Pavement); break;
+                        case 0xcccccc: Set(x, y, GroundLevel, Pavement2); break;
+                        case 0x404040: Set(x, y, GroundLevel, Road); break;
+                        case 0x00cc33: Set(x, y, GroundLevel, Grass); break;
+                        //case 0x0094ff: Delete(x, y, GroundLevel); Delete(x, y, GroundLevel - 1); break; //, Water); break;
+                        case 0x009933: Set(x, y, GroundLevel, Field1); break;
+                        case 0x947a4b: Set(x, y, GroundLevel, Field2); break;
+                        case 0x99ff66: Set(x, y, GroundLevel, Field3); break;
+                        //case 0xff0033: AddBuilding(x, y, GroundLevel, 0xff0033, ResidentialMin, ResidentialMax, Residential); break;
+                        //case 0x0033ff: AddBuilding(x, y, GroundLevel, 0x0033ff, ComercialMin, ComercialMax, Comercial); break;
+                        //case 0xffff00: AddBuilding(x, y, GroundLevel, 0xffff00, IndustrialMin, IndustrialMax, Industrial); break;
+                        //case 0x999999: Set(x, y, 0, Pavement); break;
+                        //case 0x999999: Set(x, y, 0, Pavement); break;
+
+                    }
+                }
+            }
+
+
+            // Now loop through the map and do anything which adds, or takes away
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
@@ -683,14 +778,14 @@ namespace TileBuilder.MapCreation
                     col &=0xffffff;
                     switch (col)
                     {
-                        case 0x999999: Set(x, y, GroundLevel, Pavement); break;
-                        case 0xcccccc: Set(x, y, GroundLevel, Pavement2); break;
-                        case 0x404040: Set(x, y, GroundLevel, Road); break;
-                        case 0x00cc33: Set(x, y, GroundLevel, Grass); break;
-                        case 0x0094ff: Set(x, y, GroundLevel, Water); break;
-                        case 0x009933: Set(x, y, GroundLevel, Field1); break;
-                        case 0x947a4b: Set(x, y, GroundLevel, Field2); break;
-                        case 0x99ff66: Set(x, y, GroundLevel, Field3); break;
+                        //case 0x999999: Set(x, y, GroundLevel, Pavement); break;
+                        //case 0xcccccc: Set(x, y, GroundLevel, Pavement2); break;
+                        //case 0x404040: Set(x, y, GroundLevel, Road); break;
+                        //case 0x00cc33: Set(x, y, GroundLevel, Grass); break;
+                        case 0x0094ff: Delete(x, y, GroundLevel); Delete(x, y, GroundLevel-1); break; //, Water); break;
+                        //case 0x009933: Set(x, y, GroundLevel, Field1); break;
+                        //case 0x947a4b: Set(x, y, GroundLevel, Field2); break;
+                        //case 0x99ff66: Set(x, y, GroundLevel, Field3); break;
                         case 0xff0033: AddBuilding(x, y, GroundLevel, 0xff0033, ResidentialMin, ResidentialMax, Residential); break;
                         case 0x0033ff: AddBuilding(x, y, GroundLevel, 0x0033ff, ComercialMin, ComercialMax, Comercial); break;
                         case 0xffff00: AddBuilding(x, y, GroundLevel, 0xffff00, IndustrialMin, IndustrialMax, Industrial); break; 
