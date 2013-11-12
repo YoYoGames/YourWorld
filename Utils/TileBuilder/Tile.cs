@@ -32,6 +32,39 @@ namespace TileBuilder
         public int Height;
 
 	    // #############################################################################################
+	    /// Function:<summary>
+	    ///          	Return a pixel from the tile
+	    ///          </summary>
+	    ///
+	    /// In:		<param name="_x">X Coordinate</param>
+        ///			<param name="_y">X Coordinate</param>
+	    /// Out:	<returns>
+	    ///				The full 32bit pixel
+	    ///			</returns>
+	    // #############################################################################################
+        public UInt32 GetPixel(int _x, int _y)
+        {
+            if( _x<0 || _x>=Width || _y<0 || _y>=Height) return 0;
+            return TileData[_x + (_y * Width)];
+        }
+        // #############################################################################################
+        /// Function:<summary>
+        ///          	Return a pixel from the tile
+        ///          </summary>
+        ///
+        /// In:		<param name="_x">X Coordinate</param>
+        ///			<param name="_y">X Coordinate</param>
+        /// Out:	<returns>
+        ///				The full 32bit pixel
+        ///			</returns>
+        // #############################################################################################
+        public void SetPixel(int _x, int _y, UInt32 _col)
+        {
+            if (_x < 0 || _x >= Width || _y < 0 || _y >= Height) return;
+            TileData[_x + (_y * Width)] = _col;
+        }
+
+	    // #############################################################################################
 	    /// Constructor: <summary>
 	    ///              	Create a new tile holder
 	    ///              </summary>
@@ -39,7 +72,7 @@ namespace TileBuilder
 	    /// In:		<param name="_filename">full path+filename to tile.png</param>
 	    ///
 	    // #############################################################################################
-        public unsafe Tile( string _filename )
+        public unsafe Tile( string _filename  )
         {
             // get the filename, and extract the number from the start
             FullFilename = _filename;

@@ -15,7 +15,7 @@ with(_map)
     var buff = buffer_create(1024*1024*4,buffer_grow,1);
 
     // Map version
-    buffer_write(buff,buffer_u16, 3);
+    buffer_write(buff,buffer_u32, 3);
     buffer_write(buff,buffer_u32, 0);
     buffer_write(buff,buffer_u32, 0);
     buffer_write(buff,buffer_u32, 0);
@@ -42,7 +42,9 @@ with(_map)
             var cnt = array_length_1d(Arr);
             buffer_write(raw,buffer_u16,cnt);       // size of column
             for(var zz=0;zz<cnt;zz++){
-                buffer_write(raw,buffer_u16,Arr[zz]);
+                var b = Arr[zz];
+                buffer_write(raw,buffer_u16,b&$ffff);
+                buffer_write(raw,buffer_u8,(b>>8)&$ff);
             }
         }
     }
@@ -56,15 +58,14 @@ with(_map)
     
     // Move to the start, and then just copy, byte for byte....
     buffer_seek(raw,buffer_seek_start,0);
-    size =size>>1;
     for(var i=0;i<size;i++){
-        var a = buffer_read(raw,buffer_u16);
-        buffer_write(buff,buffer_u16,a);
+        var a = buffer_read(raw,buffer_u8);
+        buffer_write(buff,buffer_u8,a);
     }
 
     // Write out number of block info structs we have    
-    size = array_length_1d( block_info );
-    buffer_write(buff, buffer_u16, size );
+    size = block_info_size;
+    buffer_write(buff, buffer_u32, size );
     
     // write out info's
     for(var i=0;i<size;i++;){

@@ -2,11 +2,6 @@
 
 
 // First free the map arrays
-for(var yy=0;yy<MapHeight;yy++){
-    for(var xx=0;xx<MapWidth;xx++){
-        ds_grid_set(Map,xx,yy,0);
-    }
-}
 ds_grid_destroy(Map);
 Map=-1;
 
@@ -27,6 +22,7 @@ for(xx=0;xx<len;xx++){
     block_info[xx]=0;
 }
 block_info=0;
+block_info_size=0;
 
 
 // Lastly delete the ref count array, and the free array

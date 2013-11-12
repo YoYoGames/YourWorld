@@ -6,7 +6,7 @@
 var gx = argument0;
 var gy = argument1;
 
-show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
+//show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
 var Mesh = vertex_create_buffer_ext(128*1024);
 
 // Get map bounds.
@@ -69,10 +69,15 @@ x=0;
 y=0;
 
 vertex_end(Mesh);
-vertex_freeze(Mesh);
 var MeshA = 0;
-MeshA[0]=Mesh;
 MeshA[1]=global.polys-polys;
+if( MeshA[1]==0 ){
+    vertex_delete_buffer(Mesh);
+    Mesh=-1;
+}else{
+    vertex_freeze(Mesh);
+}
+MeshA[0]=Mesh;
 return MeshA;
 
 

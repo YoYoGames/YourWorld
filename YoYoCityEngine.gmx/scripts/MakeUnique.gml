@@ -28,9 +28,12 @@ var oldblock = column[_z];
 if( RefCount[oldblock]==1 ) return oldblock;
 
 // First, do we have any "spare" blocks on the free list?
-var NewBlock = array_length_1d( block_info );
+var NewBlock = block_info_size;                 //array_length_1d( block_info );
 if( ds_stack_size(FreeList)!=0 ){
     NewBlock=ds_stack_pop(FreeList);            // if so, use that first
+}else{
+    // if not free, then we're adding a block
+    block_info_size++;
 }
 column[_z] = NewBlock;
 ds_grid_set(Map,_x,_y,column);
