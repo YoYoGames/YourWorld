@@ -31,12 +31,16 @@ namespace TileBuilder
         const int CORE_TILEHEIGHT = 64;
         const int BORDER_SIZE = 3;
 
+        /// <summary>border+Tile+border width</summary>
         const int TILEWIDTH = BORDER_SIZE + CORE_TILEWIDTH + BORDER_SIZE;
+        /// <summary>border+Tile+border height</summary>
         const int TILEHEIGHT = BORDER_SIZE + CORE_TILEHEIGHT + BORDER_SIZE;
 
-        // No longer static, will be based on the number of tiles!
+        /// <summary>Texture width in pixels</summary>
         public static int TWIDTH = 2048;
+        /// <summary>Texture height in pixels</summary>
         public static int THEIGHT = 1024;
+        /// <summary>Number if tiles per row</summary>
         public static int TROW = TWIDTH / TILEWIDTH;
 
         public static UInt32 NumTiles = 0;
@@ -203,7 +207,7 @@ namespace TileBuilder
             int tilenumber = 0;
             foreach(Tile t in Tiles)
             {
-                int dest_index = ((tilenumber / TROW) * TWIDTH) + ((tilenumber % TROW) * TILEWIDTH) + BORDER_SIZE + (BORDER_SIZE*TWIDTH);
+                int dest_index = ((tilenumber / TROW) * (TWIDTH*TILEHEIGHT)) + ((tilenumber % TROW) * TILEWIDTH) + BORDER_SIZE + (BORDER_SIZE*TWIDTH);
                 AddTile(t, Texture, dest_index );
                 tilenumber++;
             }

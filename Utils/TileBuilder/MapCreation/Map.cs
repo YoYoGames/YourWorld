@@ -22,6 +22,8 @@ namespace TileBuilder.MapCreation
 {
     class Map
     {
+        const int CUT_SIDE = 8;
+        const int CUT_TOP = 23;
         public class Coords
         {
             public int x;
@@ -45,13 +47,18 @@ namespace TileBuilder.MapCreation
         public int Pavement { get; set; }
 
         // used in map generation
-        public int Pavement2 { get; set; }
         public int Road { get; set; }
         public int Grass { get; set; }
         public int Water { get; set; }
         public int Field1 { get; set; }
         public int Field2 { get; set; }
         public int Field3 { get; set; }
+        public int Concrete { get; set; }
+        public int Airport { get; set; }
+        public int AirportRunway { get; set; }
+        public int MountainLow { get; set; }
+        public int MountainMed { get; set; }
+        public int MountainHigh { get; set; }
         public int Residential { get; set; }
         public int Comercial { get; set; }
         public int Industrial { get; set; }
@@ -82,7 +89,7 @@ namespace TileBuilder.MapCreation
         {
             m_Tile = _tile;
             Reset(_tile.Width, _tile.Height, 16,4);
-            LidBase = 7;
+            LidBase = 12;
             Pavement = 7;
         }
 
@@ -449,7 +456,7 @@ namespace TileBuilder.MapCreation
             if (b >0 )
             {
                 int newindex = MakeUnique(_x - 1, _y, _z);
-                BlockInfo[newindex].Right = 1;
+                BlockInfo[newindex].Right = CUT_SIDE;
             }
 
             // Right
@@ -457,7 +464,7 @@ namespace TileBuilder.MapCreation
             if (b > 0)
             {
                 int newindex = MakeUnique(_x + 1, _y, _z);
-                BlockInfo[newindex].Left = 1;
+                BlockInfo[newindex].Left = CUT_SIDE;
             }
 
             // Bottom
@@ -465,7 +472,7 @@ namespace TileBuilder.MapCreation
             if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y + 1, _z);
-                BlockInfo[newindex].Top = 1;
+                BlockInfo[newindex].Top = CUT_SIDE;
             }
 
             // Top
@@ -473,7 +480,7 @@ namespace TileBuilder.MapCreation
             if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y - 1, _z);
-                BlockInfo[newindex].Bottom = 1;
+                BlockInfo[newindex].Bottom = CUT_SIDE;
             }
 
             // Lid
@@ -481,7 +488,7 @@ namespace TileBuilder.MapCreation
             if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y, _z + 1);
-                BlockInfo[newindex].Base = 1;
+                BlockInfo[newindex].Base = CUT_TOP;
             }
 
             // Base
@@ -489,7 +496,7 @@ namespace TileBuilder.MapCreation
             if (b > 0)
             {
                 int newindex = MakeUnique(_x, _y, _z - 1);
-                BlockInfo[newindex].Lid = 1;
+                BlockInfo[newindex].Lid = CUT_TOP;
             }
 
         }
@@ -521,16 +528,22 @@ namespace TileBuilder.MapCreation
             block_info b;
 
             Pavement = 7;         // pavement block
-            Pavement2 = 11;
             Road = 3;
-            Grass = 5;
-            Water = 0;
-            Field1 = 6;
-            Field2 = 8;
-            Field3 = 9;
-            Residential = 1;
+            Grass = 16;
+            Water = 21;
+            Field1 = 20;
+            Field2 = 19;
+            Field3 = 18;
+            Concrete = 18;
+            Residential = 7;
             Comercial = 6;
             Industrial = 2;
+            Concrete = 17;
+            Airport=10;
+            AirportRunway=22;
+            MountainLow=8;
+            MountainMed=9;
+            MountainHigh=10;
 
 
             // Don't reset the map, REF counts are still valid
@@ -541,17 +554,8 @@ namespace TileBuilder.MapCreation
             //Pavement = AddBlockInfo(b);
             block_info p = BlockInfo[2];
             p.Lid = Pavement;
-            //p.Left = 6;
-            //p.Right = 6;
-            //p.Top = 6;
-            //p.Bottom = 6;
             Pavement = 2;
 
-            // Make a pavement2  block
-            b = new block_info();            // block "1" is pavement;
-            b.Lid = Pavement2;
-            Pavement2 = AddBlockInfo(b);
-            CheckDuplicate(Pavement2);
 
             // Make a road block
             b = new block_info();            // block "1" is pavement;
@@ -621,6 +625,64 @@ namespace TileBuilder.MapCreation
             b.Bottom = Industrial;
             Industrial = AddBlockInfo(b);
             CheckDuplicate(Industrial);
+
+            // Make a Concrete block 
+            b = new block_info();            // block "1" is pavement;
+            b.Lid = Concrete;                       // roof?
+            Concrete = AddBlockInfo(b);
+            CheckDuplicate(Concrete);
+
+            // Make an Airport block (full cube)
+            b = new block_info();            // block "1" is pavement;
+            b.Lid = 26;                       // roof?
+            b.Base = 23;                       // roof?
+            b.Left = Airport;
+            b.Right = Airport;
+            b.Top = Airport;
+            b.Bottom = Airport;
+            Airport = AddBlockInfo(b);
+            CheckDuplicate(Airport);
+
+            // Make a AirportRunway block 
+            b = new block_info();            // block "1" is pavement;
+            b.Lid = AirportRunway;                       // roof?
+            AirportRunway = AddBlockInfo(b);
+            CheckDuplicate(AirportRunway);
+
+            // Make an MountainLow block (full cube)
+            b = new block_info();            // block "1" is pavement;
+            b.Lid = 23;                       // roof?
+            b.Base = 23;                       // roof?
+            b.Left = MountainLow;
+            b.Right = MountainLow;
+            b.Top = MountainLow;
+            b.Bottom = MountainLow;
+            MountainLow = AddBlockInfo(b);
+            CheckDuplicate(MountainLow);
+
+
+            // Make an MountainLow block (full cube)
+            b = new block_info();            // block "1" is pavement;
+            b.Lid = 24;                       // roof?
+            b.Base = 24;                       // roof?
+            b.Left = MountainMed;
+            b.Right = MountainMed;
+            b.Top = MountainMed;
+            b.Bottom = MountainMed;
+            MountainMed = AddBlockInfo(b);
+            CheckDuplicate(MountainMed);
+
+
+            // Make an MountainLow block (full cube)
+            b = new block_info();            // block "1" is pavement;
+            b.Lid = 25;                       // roof?
+            b.Base = 25;                       // roof?
+            b.Left = MountainHigh;
+            b.Right = MountainHigh;
+            b.Top = MountainHigh;
+            b.Bottom = MountainHigh;
+            MountainHigh = AddBlockInfo(b);
+            CheckDuplicate(MountainHigh);
         }
 
 	    // #############################################################################################
@@ -686,13 +748,34 @@ namespace TileBuilder.MapCreation
 
 	    // #############################################################################################
 	    /// Function:<summary>
-	    ///          	Parse the image and create a map.
+	    ///          	
 	    ///          </summary>
 	    ///
-	    /// In:		<param name="_tile"></param>
+	    /// In:		<param name="_x"></param>
+	    ///			<param name="_y"></param>
+	    ///			<param name="_groundlevel"></param>
+	    ///			<param name="_depth"></param>
 	    ///
 	    // #############################################################################################
-        public void Generate(  )
+        private void DigStack( int _x,int _y, int _groundlevel, int _min, int _max )
+        {
+            int h = rand.Next(_min, _max);
+            for (int i = 0; i < h; i++)
+            {
+                Delete(_x, _y, _groundlevel - i);
+            }
+
+        }
+
+        // #############################################################################################
+        /// Function:<summary>
+        ///          	Parse the image and create a map.
+        ///          </summary>
+        ///
+        /// In:		<param name="_tile"></param>
+        ///
+        // #############################################################################################
+        public void Generate()
         {
             if (m_Tile == null) return;
 
@@ -700,24 +783,8 @@ namespace TileBuilder.MapCreation
             BuildBlockInfos();
 
 
-/*            Set(1, 1, GroundLevel, 1);
-            Add(1, 1, GroundLevel + 1, Comercial);
-            Set(1, 2, GroundLevel, 1);
-            Add(1, 2, GroundLevel + 1, Comercial);
-            Set(1, 3, GroundLevel, 1);
-            Add(1, 3, GroundLevel + 1, Comercial);
-            Set(2, 1, GroundLevel, 1);
-            Add(2, 1, GroundLevel + 1, Comercial);
-            Set(2, 2, GroundLevel, 1);
-            Add(2, 2, GroundLevel + 1, Comercial);
-            Set(2, 3, GroundLevel, 1);
-            Add(2, 3, GroundLevel + 1, Comercial);
-            //return;*/
-
-
             /*
             Pavement = 7;         // pavement block
-            Pavement2 = 11;
             Road = 3;
             Grass = 5;
             Water = 0;
@@ -727,6 +794,12 @@ namespace TileBuilder.MapCreation
             Residential = 1;
             Comercial = 6;
             Industrial = 0;
+            Concrete 
+            Airport 
+            AirportRunway
+            MountainLow
+            MountainMed
+            MountainHigh 
              */
             int ResidentialMin = 1;
             int ResidentialMax = 3;
@@ -737,6 +810,15 @@ namespace TileBuilder.MapCreation
             int IndustrialMin = 2;
             int IndustrialMax = 4;
 
+            int AirportMin = 3;
+            int AirportMax = 4;
+
+            int MountainLowMin = 3;
+            int MountainLowMax = 7;
+            int MountainMedMin = 8;
+            int MountainMedMax = 10;
+            int MountainHighMin = 11;
+            int MountainHighMax = 14;
 
             //Delete(2, 2, GroundLevel);
 
@@ -750,8 +832,8 @@ namespace TileBuilder.MapCreation
                     col &= 0xffffff;
                     switch (col)
                     {
-                        //case 0x999999: Set(x, y, GroundLevel, Pavement); break;
-                        case 0xcccccc: Set(x, y, GroundLevel, Pavement2); break;
+                        case 0x999999: Set(x, y, GroundLevel, Pavement); break;
+                        case 0xcccccc: Set(x, y, GroundLevel, Concrete); break;
                         case 0x404040: Set(x, y, GroundLevel, Road); break;
                         case 0x00cc33: Set(x, y, GroundLevel, Grass); break;
                         //case 0x0094ff: Delete(x, y, GroundLevel); Delete(x, y, GroundLevel - 1); break; //, Water); break;
@@ -761,9 +843,7 @@ namespace TileBuilder.MapCreation
                         //case 0xff0033: AddBuilding(x, y, GroundLevel, 0xff0033, ResidentialMin, ResidentialMax, Residential); break;
                         //case 0x0033ff: AddBuilding(x, y, GroundLevel, 0x0033ff, ComercialMin, ComercialMax, Comercial); break;
                         //case 0xffff00: AddBuilding(x, y, GroundLevel, 0xffff00, IndustrialMin, IndustrialMax, Industrial); break;
-                        //case 0x999999: Set(x, y, 0, Pavement); break;
-                        //case 0x999999: Set(x, y, 0, Pavement); break;
-
+                        case 0x666666: Set(x, y, GroundLevel, AirportRunway); break;
                     }
                 }
             }
@@ -779,10 +859,9 @@ namespace TileBuilder.MapCreation
                     switch (col)
                     {
                         //case 0x999999: Set(x, y, GroundLevel, Pavement); break;
-                        //case 0xcccccc: Set(x, y, GroundLevel, Pavement2); break;
                         //case 0x404040: Set(x, y, GroundLevel, Road); break;
                         //case 0x00cc33: Set(x, y, GroundLevel, Grass); break;
-                        case 0x0094ff: Delete(x, y, GroundLevel); Delete(x, y, GroundLevel-1); break; //, Water); break;
+                        case 0x0094ff: DigStack(x, y, GroundLevel, 2,2); break; // Delete(x, y, GroundLevel); Delete(x, y, GroundLevel - 1); break; //, Water); break;
                         //case 0x009933: Set(x, y, GroundLevel, Field1); break;
                         //case 0x947a4b: Set(x, y, GroundLevel, Field2); break;
                         //case 0x99ff66: Set(x, y, GroundLevel, Field3); break;
@@ -791,6 +870,10 @@ namespace TileBuilder.MapCreation
                         case 0xffff00: AddBuilding(x, y, GroundLevel, 0xffff00, IndustrialMin, IndustrialMax, Industrial); break; 
                         //case 0x999999: Set(x, y, 0, Pavement); break;
                         //case 0x999999: Set(x, y, 0, Pavement); break;
+                        case 0xff6600: AddBuilding(x, y, GroundLevel, 0xff6600, AirportMin, AirportMax, Airport); break;
+                        case 0x99cccc: AddBuilding(x, y, GroundLevel, 0xffff00, MountainLowMin, MountainLowMax, MountainLow); break;
+                        case 0xccffff: AddBuilding(x, y, GroundLevel, 0xffff00, MountainMedMin, MountainMedMax, MountainMed); break;
+                        case 0xffffff: AddBuilding(x, y, GroundLevel, 0xffff00, MountainHighMin, MountainHighMax, MountainHigh); break; 
 
                     }
                 }
