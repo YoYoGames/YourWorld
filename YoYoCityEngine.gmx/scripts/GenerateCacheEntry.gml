@@ -52,6 +52,7 @@ vertex_begin(Mesh, CityFormat);
                         l = info[1];
                         r = info[2];
                         t = info[3];
+                       
                         b = info[4];
                         lid=info[5];
                         base=info[6];

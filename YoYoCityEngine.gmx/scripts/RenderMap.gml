@@ -13,6 +13,7 @@
     var _texture = argument4
     var _shader = argument5
     
+    with(oCamera) {GenerateViewFrustum();}
 
     draw_enable_alphablend(false);
     shader_set( _shader );

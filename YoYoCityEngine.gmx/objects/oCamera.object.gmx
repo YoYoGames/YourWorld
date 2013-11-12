@@ -225,6 +225,29 @@ if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpe
         </arguments>
       </action>
     </event>
+    <event eventtype="5" enumb="81">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//GenerateViewFrustum();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="5" enumb="65">
       <action>
         <libid>1</libid>
@@ -542,6 +565,50 @@ if( global.WaitText!="" )
         global.CurrentPolyCount = 0;
     }       
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///DEBUG: Draw view frustum 
+
+d3d_set_zwriteenable(false)
+
+d3d_primitive_begin(pr_linelist)
+
+d3d_vertex(Frustum_ntl_x,Frustum_ntl_y,Frustum_ntl_z);d3d_vertex(Frustum_ntr_x,Frustum_ntr_y,Frustum_ntr_z);
+d3d_vertex(Frustum_ntl_x,Frustum_ntl_y,Frustum_ntl_z);d3d_vertex(Frustum_nbl_x,Frustum_nbl_y,Frustum_nbl_z);
+d3d_vertex(Frustum_nbl_x,Frustum_nbl_y,Frustum_nbl_z);d3d_vertex(Frustum_nbr_x,Frustum_nbr_y,Frustum_nbr_z);
+d3d_vertex(Frustum_ntr_x,Frustum_ntr_y,Frustum_ntr_z);d3d_vertex(Frustum_nbr_x,Frustum_nbr_y,Frustum_nbr_z);
+
+d3d_vertex(Frustum_ntl_x,Frustum_ntl_y,Frustum_ntl_z);d3d_vertex(Frustum_ftl_x,Frustum_ftl_y,Frustum_ftl_z);
+d3d_vertex(Frustum_ntr_x,Frustum_ntr_y,Frustum_ntr_z);d3d_vertex(Frustum_ftr_x,Frustum_ftr_y,Frustum_ftr_z);
+d3d_vertex(Frustum_nbl_x,Frustum_nbl_y,Frustum_nbl_z);d3d_vertex(Frustum_fbl_x,Frustum_fbl_y,Frustum_fbl_z);
+d3d_vertex(Frustum_nbr_x,Frustum_nbr_y,Frustum_nbr_z);d3d_vertex(Frustum_fbr_x,Frustum_fbr_y,Frustum_fbr_z);
+
+d3d_vertex(Frustum_ftl_x,Frustum_ftl_y,Frustum_ftl_z);d3d_vertex(Frustum_ftr_x,Frustum_ftr_y,Frustum_ftr_z);
+d3d_vertex(Frustum_ftl_x,Frustum_ftl_y,Frustum_ftl_z);d3d_vertex(Frustum_fbl_x,Frustum_fbl_y,Frustum_fbl_z);
+d3d_vertex(Frustum_fbl_x,Frustum_fbl_y,Frustum_fbl_z);d3d_vertex(Frustum_fbr_x,Frustum_fbr_y,Frustum_fbr_z);
+d3d_vertex(Frustum_ftr_x,Frustum_ftr_y,Frustum_ftr_z);d3d_vertex(Frustum_fbr_x,Frustum_fbr_y,Frustum_fbr_z);
+
+d3d_primitive_end()
+
+d3d_set_zwriteenable(true)
 </string>
           </argument>
         </arguments>

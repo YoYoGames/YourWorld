@@ -4,9 +4,9 @@ with(oCamera)
 {
     //Normalise the camera facing direction
     var lx,ly,lz;
-    lx = (CameraX)-(CameraX+cos( dir*pi/180));
-    ly = (CameraY)-(CameraY-sin( dir*pi/180));
-    lz = (CameraZ)-(CameraZ+tan(zdir*pi/180));
+    lx = (CameraX+cos( dir*pi/180))-(CameraX);
+    ly = (CameraY-sin( dir*pi/180))-(CameraY);
+    lz = (CameraZ+tan(zdir*pi/180))-(CameraZ);
     var d = 1.0/sqrt(lx*lx+ly*ly+lz*lz);
     lx = lx*d;
     ly = ly*d;
@@ -14,17 +14,21 @@ with(oCamera)
     
     //"Up" vector
     var ux,uy,uz;
-    ux=0;
-    uy=0;
-    uz=-1;
+    ux=(CameraX+cos( dir*pi/180))-(CameraX);//cos( dir*pi/180)//0;
+    uy=(CameraY-sin( dir*pi/180))-(CameraY);//sin( dir*pi/180)//0;
+    uz=(CameraZ+tan((zdir+90)*pi/180))-(CameraZ);//tan((zdir+90)*pi/180)//-1;
+    var d = 1.0/sqrt(ux*ux+uy*uy+uz*uz);
+    ux = ux*d;
+    uy = uy*d;
+    uz = uz*d;
     
     //Initialise the size of the fructum's near plane and far plane
     var nearDist=10; //Near plane distance from camera
     var Hnear=200;   //The height of the near plane
     var Wnear=320;   //The width of the near plane
-    var farDist=1000;//Far plane distance from camera
-    var Hfar=1080;   //The height of the far plane
-    var Wfar=1920;   //The width of the far plane
+    var farDist=3000;//Far plane distance from camera
+    var Hfar=(Hnear*farDist)/100;   //The height of the far plane
+    var Wfar=(Wnear*farDist)/100;   //The width of the far plane
     
     //Calculate the "Right" vector
     //(a cross product of the "Up" vector and the camera facing direction)
