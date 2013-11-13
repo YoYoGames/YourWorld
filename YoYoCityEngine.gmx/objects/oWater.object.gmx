@@ -83,7 +83,7 @@ vertex_argb(buff,wcol);
 vertex_texcoord(buff, wu1,wv1);
 
 vertex_end(buff);
-vertex_freeze(WaterMesh);
+vertex_freeze(buff);
 
 
 
@@ -110,8 +110,7 @@ vertex_freeze(WaterMesh);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>        
-        
+            <string>/*        
         d3d_set_culling(false);
         texture_set_repeat(true);
         d3d_set_lighting(false);
@@ -139,6 +138,8 @@ vertex_freeze(WaterMesh);
 
         ang+=1;
         if( ang&gt;360 ) ang-=360;
+        
+        */
 </string>
           </argument>
         </arguments>

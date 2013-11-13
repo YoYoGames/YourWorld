@@ -33,6 +33,8 @@ with(_map)
     TileBorder = buffer_read(_buff,buffer_u16);
     PavementTile = buffer_read(_buff,buffer_u16);
     GridCacheSize = buffer_read(_buff,buffer_u16);
+    CacheWidth = floor((MapWidth+GridCacheSize-1)/GridCacheSize);
+    CacheHeight = floor((MapHeight+GridCacheSize-1)/GridCacheSize);
 
     var compression = buffer_write(_buff,buffer_u8, 0); 
     

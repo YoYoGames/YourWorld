@@ -314,6 +314,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         // Now render the map
         var texture = sprite_get_texture(StyleSprite,0); 
         RenderMap( gx1,gy1,gx2,gy2, texture, CityShader );
+        with(Water){ DrawWater(); }
         surface_reset_target();
          
 
