@@ -815,9 +815,9 @@ namespace TileBuilder.MapCreation
 
             int MountainLowMin = 3;
             int MountainLowMax = 7;
-            int MountainMedMin = 8;
+            int MountainMedMin = 7;
             int MountainMedMax = 10;
-            int MountainHighMin = 11;
+            int MountainHighMin = 10;
             int MountainHighMax = 14;
 
             //Delete(2, 2, GroundLevel);
@@ -861,7 +861,7 @@ namespace TileBuilder.MapCreation
                         //case 0x999999: Set(x, y, GroundLevel, Pavement); break;
                         //case 0x404040: Set(x, y, GroundLevel, Road); break;
                         //case 0x00cc33: Set(x, y, GroundLevel, Grass); break;
-                        case 0x0094ff: DigStack(x, y, GroundLevel, 2,2); break; // Delete(x, y, GroundLevel); Delete(x, y, GroundLevel - 1); break; //, Water); break;
+                        case 0x0094ff: DigStack(x, y, GroundLevel, 3,3); break; // Delete(x, y, GroundLevel); Delete(x, y, GroundLevel - 1); break; //, Water); break;
                         //case 0x009933: Set(x, y, GroundLevel, Field1); break;
                         //case 0x947a4b: Set(x, y, GroundLevel, Field2); break;
                         //case 0x99ff66: Set(x, y, GroundLevel, Field3); break;
@@ -911,7 +911,7 @@ namespace TileBuilder.MapCreation
                 buff.Write((UInt16)64);
                 buff.Write((UInt16)70);
                 buff.Write((UInt16)Pavement);
-                buff.Write((UInt16)8);
+                buff.Write((UInt16)16);
 
 
                 // in RAW mode, just copy the buffer

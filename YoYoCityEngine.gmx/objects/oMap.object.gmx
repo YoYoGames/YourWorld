@@ -123,7 +123,7 @@ Water = instance_create(0,0,oWater);
             if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
             {        
                 var blk = AddBlock(xx,yy,zz);
-                FreeCacheEntry(xx,yy);   
+                FreeCacheRegion(xx-1,yy-1, xx+1,yy+1);   
             }
         }
         // Right click
@@ -132,7 +132,7 @@ Water = instance_create(0,0,oWater);
             if( PickZ&gt;0 )
             {       
                 DeleteBlock(PickX,PickY,PickZ);
-                FreeCacheEntry(PickX,PickY);   
+                FreeCacheRegion(PickX-1,PickY-1, PickX+1,PickY+1);   
             }
         }
         // middle "paint"
@@ -157,8 +157,8 @@ Water = instance_create(0,0,oWater);
                     case 6: info[BLK_BASE]=LidBlock; break;
                 }
                 block_info[blk] = info;
-                FreeCacheEntry(xx,yy);   
-            }
+                FreeCacheRegion(xx-1,yy-1, xx+1,yy+1);   
+           }
         }
         
         PickButton=0;  

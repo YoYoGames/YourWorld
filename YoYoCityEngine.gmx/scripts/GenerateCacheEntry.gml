@@ -6,7 +6,7 @@
 var gx = argument0;
 var gy = argument1;
 
-//show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
+show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
 var Mesh = vertex_create_buffer_ext(128*1024);
 
 // Get map bounds.

@@ -37,6 +37,7 @@
         <script>scripts\GetCacheEntry.gml</script>
         <script>scripts\GenerateCacheEntry.gml</script>
         <script>scripts\FreeCacheEntry.gml</script>
+        <script>scripts\FreeCacheRegion.gml</script>
         <script>scripts\RenderMap.gml</script>
       </scripts>
       <scripts name="Camera">
