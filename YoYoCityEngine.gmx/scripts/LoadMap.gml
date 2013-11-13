@@ -101,6 +101,9 @@ with(_map)
             var l = array_length_1d(Arr);
             for(var zz=0;zz<l;zz++){
                 var a = Arr[zz];
+                if( a>block_info_size ){
+                    show_debug_message("a="+string(a));
+                }
                 RefCount[a]++;
             }
             ds_grid_set(Map,xx,yy,Arr);

@@ -12,7 +12,7 @@
     <sprite>sprites\sprite0</sprite>
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
-    <sprite>sprites\sprite3</sprite>
+    <sprite>sprites\sTree</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -84,6 +84,9 @@
     <object>objects\oMapGen</object>
     <object>objects\oWater</object>
     <object>objects\oTree</object>
+    <objects name="Parents">
+      <object>objects\oSprite</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

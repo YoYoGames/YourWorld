@@ -315,7 +315,7 @@ namespace TileBuilder.MapCreation
             if (!NotSpace)
             {
                 FreeBlock(_block);
-                return 0;
+                return 1;
             }
 
             // Now check the CRC lookup....

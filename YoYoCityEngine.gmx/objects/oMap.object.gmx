@@ -76,6 +76,7 @@ LastFileName="mymap.city";
 //buffer_delete(map_buff);
 
 Water = instance_create(0,0,oWater);
+Tree = instance_create(0,0,oTree);
 
 
 
@@ -315,6 +316,13 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         var texture = sprite_get_texture(StyleSprite,0); 
         RenderMap( gx1,gy1,gx2,gy2, texture, CityShader );
         with(Water){ DrawWater(); }
+        
+        // Draw all sprites
+        shader_set(SpriteSelectionShader);
+        with(oTree){ 
+            Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
+        }
+        shader_reset();
         surface_reset_target();
          
 

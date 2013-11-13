@@ -44,7 +44,7 @@ with(_map)
             for(var zz=0;zz<cnt;zz++){
                 var b = Arr[zz];
                 buffer_write(raw,buffer_u16,b&$ffff);
-                buffer_write(raw,buffer_u8,(b>>8)&$ff);
+                buffer_write(raw,buffer_u8,(b>>16)&$ff);
             }
         }
     }
