@@ -9,7 +9,6 @@ var gy = argument1;
 var MeshA = ds_grid_get(Cache,gx,gy); 
 if( is_array(MeshA) ){
     return MeshA;
-    //vertex_delete_buffer(Mesh);
 }
 //if( global.TileCacheCreationCount>0 )
 {

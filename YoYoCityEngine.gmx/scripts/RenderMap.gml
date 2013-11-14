@@ -11,7 +11,8 @@
     var _gx2 = argument2
     var _gy2 = argument3
     var _texture = argument4
-    var _shader = argument5
+    var _sprtexture = argument5
+    var _shader = argument6
     
     //frustum_build();
 
@@ -59,7 +60,10 @@
                     if( MeshA[0]!=-1 ){
                         vertex_submit(MeshA[0], pr_trianglelist,_texture);
                     }
-                    global.CurrentPolyCount += MeshA[1];
+                    if( MeshA[1]!=-1 ){
+                        vertex_submit(MeshA[1], pr_trianglelist,_sprtexture);
+                    }
+                    global.CurrentPolyCount += MeshA[2];
                 }
             }
         }

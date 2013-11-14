@@ -60,6 +60,7 @@ namespace TileBuilder.MapCreation
         public int MountainMed { get; set; }
         public int MountainHigh { get; set; }
         public int Residential { get; set; }
+        public int HighResidential { get; set; }
         public int Comercial { get; set; }
         public int Industrial { get; set; }
 
@@ -544,6 +545,7 @@ namespace TileBuilder.MapCreation
             MountainLow=8;
             MountainMed=9;
             MountainHigh=10;
+            HighResidential = 1;
 
 
             // Don't reset the map, REF counts are still valid
@@ -683,6 +685,18 @@ namespace TileBuilder.MapCreation
             b.Bottom = MountainHigh;
             MountainHigh = AddBlockInfo(b);
             CheckDuplicate(MountainHigh);
+
+            // Make an MountainLow block (full cube)
+            b = new block_info();            // block "1" is pavement;
+            b.Lid = 26;                        
+            b.Base = 23;                       
+            b.Left = HighResidential;
+            b.Right = HighResidential;
+            b.Top = HighResidential;
+            b.Bottom = HighResidential;
+            HighResidential = AddBlockInfo(b);
+            CheckDuplicate(HighResidential);
+            
         }
 
 	    // #############################################################################################
@@ -804,8 +818,11 @@ namespace TileBuilder.MapCreation
             int ResidentialMin = 1;
             int ResidentialMax = 3;
 
+            int HighResidentialMin = 4;
+            int HighResidentialMax = 12;
+
             int ComercialMin = 3;
-            int ComercialMax = 9;
+            int ComercialMax = 12;
 
             int IndustrialMin = 2;
             int IndustrialMax = 4;
@@ -866,6 +883,7 @@ namespace TileBuilder.MapCreation
                         //case 0x947a4b: Set(x, y, GroundLevel, Field2); break;
                         //case 0x99ff66: Set(x, y, GroundLevel, Field3); break;
                         case 0xff0033: AddBuilding(x, y, GroundLevel, 0xff0033, ResidentialMin, ResidentialMax, Residential); break;
+                        case 0x990000: AddBuilding(x, y, GroundLevel, 0x990000, HighResidentialMin, HighResidentialMax, HighResidential); break;
                         case 0x0033ff: AddBuilding(x, y, GroundLevel, 0x0033ff, ComercialMin, ComercialMax, Comercial); break;
                         case 0xffff00: AddBuilding(x, y, GroundLevel, 0xffff00, IndustrialMin, IndustrialMax, Industrial); break; 
                         //case 0x999999: Set(x, y, 0, Pavement); break;
@@ -921,8 +939,11 @@ namespace TileBuilder.MapCreation
                 {
                     for (int x = 0; x < Width; x++)
                     {
+                        // Write out block column
                         List<int> column = map[x + (y * Width)];
-                        buff.Write((UInt16)column.Count);
+                        
+                        // Top bit set IF there are sprites in this column
+                        buff.Write((UInt16)column.Count);               
                         foreach (int i in column)
                         {
                             buff.Write(((UInt16)(i & 0xffff)));

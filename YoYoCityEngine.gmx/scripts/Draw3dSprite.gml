@@ -4,9 +4,9 @@
 // argument2 = x
 // argument3 = y
 // argument4 = z
-// argument5 = scalex
-// argument6 = scaley
-// argument7 = rotation (unused)
+// argument5 = scalex   (must be the same as scaley)
+// argument6 = scaley   (must be the same as scalex)
+// argument7 = rotation
 // argument8 = colour 
 // argument8 = alpha
 
@@ -28,7 +28,7 @@ _colour = argument8 | ((argument9*255)<<24);
 var m = matrix_build(argument2,-argument3,-argument4, 0,0, argument7, argument5,argument6,1);
 matrix_set(matrix_world, m);
 
-var buff = global.vbuffer;
+var buff = global.TempSpriteBuffer;
 var tex = sprite_get_texture( argument0, argument1 );
 vertex_begin(buff,global.SpriteFormat);
 

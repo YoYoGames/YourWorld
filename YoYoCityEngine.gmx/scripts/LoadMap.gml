@@ -40,6 +40,7 @@ with(_map)
     
     Cache = ds_grid_create(MapWidth,MapHeight);             // Mesh cache
     Map = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for the map
+    Sprites = ds_grid_create(MapWidth,MapHeight);           // actual grid of arrays used for sprites in the map
     FreeList = ds_stack_create();                           // create a new block_info free list
 
     show_debug_message("Create Grid");

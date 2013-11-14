@@ -51,14 +51,7 @@ if( os_browser != browser_not_a_browser ){
     CityShader=SimpleShader;
 }
 
-// Create the Vertex Format we'll use
-vertex_format_begin();
-vertex_format_add_position_3d();
-vertex_format_add_normal();
-vertex_format_add_colour();
-vertex_format_add_textcoord();
-CityFormat = vertex_format_end();
-global.CityFormat = CityFormat;
+CityFormat = global.CityFormat;
 
 DiffuseSurface = -1;
 SelectionSurface = -1;
@@ -314,15 +307,17 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
          
         // Now render the map
         var texture = sprite_get_texture(StyleSprite,0); 
-        RenderMap( gx1,gy1,gx2,gy2, texture, CityShader );
+        var sprtexture = sprite_get_texture(sTree,0); 
+        RenderMap( gx1,gy1,gx2,gy2, texture, sprtexture, CityShader );
         with(Water){ DrawWater(); }
         
         // Draw all sprites
-        shader_set(SpriteSelectionShader);
+        /*shader_set(SpriteSelectionShader);
         with(oTree){ 
             Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
         }
         shader_reset();
+        */
         surface_reset_target();
          
 
@@ -336,7 +331,8 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
                 SetProjection();
                 draw_clear_alpha(c_black,0);
                 var texture = sprite_get_texture(StyleSprite,0); 
-                RenderMap( gx1,gy1,gx2,gy2, texture, RenderSelection );
+                var sprtexture = sprite_get_texture(sTree,0); 
+                RenderMap( gx1,gy1,gx2,gy2, texture, sprtexture, RenderSelection );
                 surface_reset_target();
             }
             var col = surface_getpixel_ext( SelectionSurface, MouseX,MouseY );

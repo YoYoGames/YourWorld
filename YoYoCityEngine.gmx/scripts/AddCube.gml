@@ -43,9 +43,10 @@ var Width64  = (1.0/sprite_get_width(StyleSprite))*(TileSize-1);
 var Height64 = (1.0/sprite_get_height(StyleSprite))*(TileSize-1);
 
 var u,v;
-u=0;
-v=0;
-var uvs=0;
+
+// Keep these in the instance, so they aren't copied inside functions
+uvs=0;
+
 // top
 if( tile0>=0 ){
     u = (floor(tile0 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);

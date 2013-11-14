@@ -58,12 +58,14 @@ show_debug_message("w="+string(MapWidth)+", h="+string(MapHeight)+", d="+string(
 
 // First create the empty mesh cache
 Cache = ds_grid_create(CacheWidth,CacheHeight);             // Mesh cache
-Map = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for the map
+Map = ds_grid_create(MapWidth,MapHeight);                   // actual grid of arrays used for the map
+Sprites = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for sprites in the map
 RefCount = 0;
 RefCount[0]=1;      // these blocks must ALWAYS have a ref
 RefCount[1]=1;      //
 RefCount[2]=1;      //
 
+// Generate map
 for(var yy=0;yy<MapHeight;yy++){
     for(var xx=0;xx<MapWidth;xx++){
         var a=0;
@@ -75,6 +77,8 @@ for(var yy=0;yy<MapHeight;yy++){
         a[GroundLevel]=2; 
         RefCount[2]++;
         ds_grid_set(Map,xx,yy,a);
+        
+        ds_grid_set(Sprites, xx,yy, 0);                     // clear sprite list (not an array)
     }
 }
 // Init cache
@@ -124,4 +128,20 @@ info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
 info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
 block_info[2]=info;
 block_info_size = 3;    
+
+
+
+// Could use buffers for this to keep memory down. Speed/ease of access isn't that important for sprites
+var c=0;
+var s=0;
+s[0]=1; // tree;
+s[1]=32 + (32<<8) + ((3*64)<<16);           // X offset into tile (byte), Y offset into tile (byte), Z (scale as required)
+c[0]=s;
+s=0;
+s[0]=1; // tree;
+s[1]=0 + (0<<8) + (((3*64)+10)<<16);        // X offset into tile (byte), Y offset into tile (byte), Z (scale as required)
+c[1]=s;
+ds_grid_set(Sprites, 0,0, c);
+
+
 
