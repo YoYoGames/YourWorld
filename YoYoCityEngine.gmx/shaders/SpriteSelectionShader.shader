@@ -37,4 +37,7 @@ void main(in SInput IN, out SOutput OUT)
     float4 Texture = tex2D(gm_BaseTexture, IN.Texcoord.xy);
     OUT.Colour[0] = Texture;
     OUT.Colour[1] = IN.Colour;
+    // Do alpha test (not available as a global state in WebGL)
+    if (OUT.Colour[0].a < ((1.0/255.0)*5.0) ) discard; //<= (1.0/253.0)) discard;    
+    
 } 
