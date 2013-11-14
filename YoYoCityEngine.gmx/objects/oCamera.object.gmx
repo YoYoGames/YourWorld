@@ -42,7 +42,7 @@ global.Map = -1;
 
 
 XAngle = 0;
-YAngle = 0;
+YAngle = 0; 
 ZAngle = 0;
 FOV = 80;
 AspectRatio = room_width/room_height;
@@ -202,29 +202,6 @@ if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpe
         </arguments>
       </action>
     </event>
-    <event eventtype="5" enumb="90">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//FOV += 0.5;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="5" enumb="81">
       <action>
         <libid>1</libid>
@@ -248,7 +225,7 @@ if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpe
         </arguments>
       </action>
     </event>
-    <event eventtype="5" enumb="65">
+    <event eventtype="5" enumb="79">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -265,7 +242,30 @@ if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpe
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//FOV -= 0.5;
+            <string>FOV -= 0.5;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="76">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>FOV += 0.5;
 </string>
           </argument>
         </arguments>

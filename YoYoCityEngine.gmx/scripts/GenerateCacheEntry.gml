@@ -6,7 +6,7 @@
 var gx = argument0;
 var gy = argument1;
 
-
+//show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
 var Mesh = vertex_create_buffer_ext(128*1024);
 
 // Get map bounds.
@@ -49,14 +49,13 @@ vertex_begin(Mesh, CityFormat);
                     {
                         // if not empty
                         var info = blockinfo[block];
-                        l = info[1];
-                        r = info[2];
-                        t = info[3];
-                       
-                        b = info[4];
-                        lid=info[5];
-                        base=info[6];
-                        var flags = info[0];
+                        l = info[BLK_LEFT];
+                        r = info[BLK_RIGHT];
+                        t = info[BLK_TOP];
+                        b = info[BLK_BOTTOM];
+                        lid=info[BLK_LID];
+                        base=info[BLK_BASE];
+                        var flags = info[BLK_FLAGS1];
                         AddCube(Mesh, x,y-CubeEdge,z,  x+CubeEdge,y,z+CubeEdge, col+(zz|$80000000), t,b,l,r,lid,base, flags );
                     }
                     z-=sp;
@@ -70,10 +69,15 @@ x=0;
 y=0;
 
 vertex_end(Mesh);
-vertex_freeze(Mesh);
 var MeshA = 0;
-MeshA[0]=Mesh;
 MeshA[1]=global.polys-polys;
+if( MeshA[1]==0 ){
+    vertex_delete_buffer(Mesh);
+    Mesh=-1;
+}else{
+    vertex_freeze(Mesh);
+}
+MeshA[0]=Mesh;
 return MeshA;
 
 

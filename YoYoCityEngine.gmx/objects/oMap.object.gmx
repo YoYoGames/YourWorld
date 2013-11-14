@@ -36,9 +36,12 @@ if( os_browser==browser_not_a_browser ){
 }
 */
 
+
 StyleSprite=sStyle1;
 //CreatreMap(width,height,depth, gridcachesize, sidebase,topbase,pavement, tilesize,tileborder);
-CreateMap(256,256,10, 16, 0,7,7, 64,70);
+//CreateMap(256,256,10, 16, 0,7,7, 64,70);
+//CreateMap(8,8,10, 8, 0,7,7, 64,70);
+CreateMap(256,256,32, 16, 0,7,7, 64,70);
 
 // HTML5?
 HTML5=false;
@@ -71,6 +74,11 @@ EditMode = 1;
 PickButton=0;
 LastFileName="mymap.city";
 //buffer_delete(map_buff);
+
+
+
+
+
 </string>
           </argument>
         </arguments>
@@ -100,9 +108,6 @@ LastFileName="mymap.city";
         if( PickButton==1 )
         {
             var xx,yy,zz;
-            dx=0;
-            dy=0;
-            dz=0;
             xx=PickX;
             yy=PickY;
             zz=PickZ; 
@@ -116,18 +121,8 @@ LastFileName="mymap.city";
             }
 
             if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
-            {
-        
-                var blk = AllocBlock(xx,yy,zz);
-                
-                info[0] =  0;      // block flags (32bits)
-                info[1] = 1;      // left
-                info[2] = 1;      // right
-                info[3] = 1;      // top
-                info[4] = 1;      // bottom
-                info[5] = 1;      // lid
-                info[6] = 1;      // behind (usually hidden)
-                block_info[blk]=info;
+            {        
+                var blk = AddBlock(xx,yy,zz);
                 FreeCacheEntry(xx,yy);   
             }
         }
@@ -135,14 +130,9 @@ LastFileName="mymap.city";
         if( PickButton==2 )
         {
             if( PickZ&gt;0 )
-            {
-                var xx,yy,zz;
-                xx=PickX;
-                yy=PickY;
-                zz=PickZ; // set the block ABOVE
-        
-                FreeBlock(xx,yy,zz);
-                FreeCacheEntry(xx,yy);   
+            {       
+                DeleteBlock(PickX,PickY,PickZ);
+                FreeCacheEntry(PickX,PickY);   
             }
         }
         // middle "paint"
@@ -295,12 +285,11 @@ if( !surface_exists(SelectionSurface) ){
     SelectionSurface = surface_create(view_wport[0],view_hport[0] );
 }
 
-
 // Work out visible map bounds.
-var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize );
-var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize );
-var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
-var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize );
+var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize )-1;
+var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize )-1;
+var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
+var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
 global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
        
@@ -310,8 +299,9 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         d3d_light_define_direction(0,0.5,0,1, c_white);
         d3d_light_enable(0,true);
         
-        d3d_transform_set_rotation_z( camera.ZAngle );
-        d3d_transform_add_rotation_x( camera.XAngle );
+        var m = matrix_build(0,0,0, camera.XAngle,0,camera.ZAngle, 1,1,1);
+        matrix_set(matrix_world,m);
+        
         d3d_set_lighting(false);
         
         // First set surfaces and reset projection
@@ -325,7 +315,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         RenderMap( gx1,gy1,gx2,gy2, texture, CityShader );
         surface_reset_target();
          
-
+        
         
         if( DoPick==1 )
         {
@@ -339,7 +329,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
                 RenderMap( gx1,gy1,gx2,gy2, texture, RenderSelection );
                 surface_reset_target();
             }
-            var col = surface_getpixel( SelectionSurface, MouseX,MouseY );
+            var col = surface_getpixel_ext( SelectionSurface, MouseX,MouseY );
             PickedColour=Hex(col);
             var c = col&amp;$3ffffff;
             c = ((c&gt;&gt;16)&amp;$ff) | (c&amp;$ff00ff00) | ((c&amp;$ff)&lt;&lt;16);          // swap R&amp;B channels so we get ARGB again
@@ -385,6 +375,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         LoadMap(id,buff);
     }
 }
+
 </string>
           </argument>
         </arguments>
@@ -412,7 +403,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
     var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
     if( filename!="" ){
         LastFileName=filename;
-        buffer_save(buff, LastFileName);
+        buffer_save_ext(buff, LastFileName, 0, buffer_tell(buff));
     }
 }
 

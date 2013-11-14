@@ -12,10 +12,18 @@
 if( Map>=0 ){
     var Hfar = 2*tan(degtorad(FOV)/2)*(abs(CameraZ)); //+(Map.MapDepth*64));
     var Wfar = Hfar*AspectRatio;
-    
-    GroundX1 = 0//CameraX - Wfar*0.5;
-    GroundX2 = 100000//CameraX + Wfar*0.5;
-    GroundY1 = 0//-CameraY - Hfar*0.5;         // Y positions are negated
-    GroundY2 = 100000//-CameraY + Hfar*0.5;
+
+    if(global.Mode==MODE_EDIT )
+    {
+        GroundX1 = 0//CameraX - Wfar*0.5;
+        GroundX2 = 100000//CameraX + Wfar*0.5;
+        GroundY1 = 0//-CameraY - Hfar*0.5;         // Y positions are negated
+        GroundY2 = 100000//-CameraY + Hfar*0.5;
+    }else{
+        GroundX1 = CameraX - Wfar*0.5;
+        GroundX2 = CameraX + Wfar*0.5;
+        GroundY1 = -CameraY - Hfar*0.5;         // Y positions are negated
+        GroundY2 = -CameraY + Hfar*0.5;
+    }
 }
 

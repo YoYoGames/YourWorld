@@ -4,7 +4,9 @@
     <Config>Configs\Default</Config>
   </Configs>
   <datafiles number="9" name="datafiles"/>
-  <NewExtensions/>
+  <NewExtensions>
+    <extension index="0">extensions\Extension1</extension>
+  </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
@@ -29,10 +31,6 @@
         <script>scripts\Flip_tile_LR.gml</script>
         <script>scripts\CreateMap.gml</script>
         <script>scripts\PullUpRegion.gml</script>
-        <script>scripts\AllocBlock.gml</script>
-        <script>scripts\MakeUnique.gml</script>
-        <script>scripts\FreeBlock.gml</script>
-        <script>scripts\FreeMap.gml</script>
       </scripts>
       <scripts name="Mesh">
         <script>scripts\GetCacheEntry.gml</script>
@@ -46,16 +44,27 @@
         <scripts name="ViewFrustum">
           <script>scripts\InitViewFrustum.gml</script>
           <script>scripts\GenerateViewFrustum.gml</script>
+          <script>scripts\FrustumTestSphere.gml</script>
         </scripts>
       </scripts>
       <scripts name="Utils">
         <script>scripts\GetFace.gml</script>
         <script>scripts\Hex.gml</script>
         <script>scripts\CompressBuffer.gml</script>
+        <script>scripts\FreeMap.gml</script>
       </scripts>
       <scripts name="IO">
         <script>scripts\SaveMap.gml</script>
         <script>scripts\LoadMap.gml</script>
+      </scripts>
+      <scripts name="Editing">
+        <script>scripts\FreeBlock.gml</script>
+        <script>scripts\MakeUnique.gml</script>
+        <script>scripts\AllocBlock.gml</script>
+        <script>scripts\AddBlock.gml</script>
+        <script>scripts\DeleteBlock.gml</script>
+        <script>scripts\GetBlock.gml</script>
+        <script>scripts\GetBlockIndex.gml</script>
       </scripts>
     </scripts>
   </scripts>
@@ -77,16 +86,18 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="9">
+  <constants number="11">
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
     <constant name="MODE_MAX">3</constant>
-    <constant name="BLK_LEFT">1</constant>
-    <constant name="BLK_RIGHT">2</constant>
-    <constant name="BLK_TOP">3</constant>
-    <constant name="BLK_BOTTOM">4</constant>
-    <constant name="BLK_LID">5</constant>
-    <constant name="BLK_BASE">6</constant>
+    <constant name="BLK_LEFT">0</constant>
+    <constant name="BLK_RIGHT">1</constant>
+    <constant name="BLK_TOP">2</constant>
+    <constant name="BLK_BOTTOM">3</constant>
+    <constant name="BLK_LID">4</constant>
+    <constant name="BLK_BASE">5</constant>
+    <constant name="BLK_FLAGS1">6</constant>
+    <constant name="BLK_FLAGS2">7</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

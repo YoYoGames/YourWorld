@@ -22,6 +22,10 @@
     <option_android_build_version>0</option_android_build_version>
     <option_android_color_depth>1</option_android_color_depth>
     <option_android_display_name>3DModel</option_android_display_name>
+    <option_android_feiliu_enable>false</option_android_feiliu_enable>
+    <option_android_feiliu_id></option_android_feiliu_id>
+    <option_android_feiliu_key></option_android_feiliu_key>
+    <option_android_feiliu_sdk_location></option_android_feiliu_sdk_location>
     <option_android_flurry_enable>0</option_android_flurry_enable>
     <option_android_flurry_id></option_android_flurry_id>
     <option_android_google_analytics_enable>0</option_android_google_analytics_enable>
@@ -39,6 +43,11 @@
     <option_android_inmobi_test_enable>0</option_android_inmobi_test_enable>
     <option_android_install_location>auto</option_android_install_location>
     <option_android_interpolate>-1</option_android_interpolate>
+    <option_android_kakao_enable>false</option_android_kakao_enable>
+    <option_android_kakao_id></option_android_kakao_id>
+    <option_android_kakao_redirect></option_android_kakao_redirect>
+    <option_android_kakao_sdk_location></option_android_kakao_sdk_location>
+    <option_android_kakao_secret></option_android_kakao_secret>
     <option_android_licensing_enable>0</option_android_licensing_enable>
     <option_android_licensing_key></option_android_licensing_key>
     <option_android_major_version>1</option_android_major_version>
@@ -61,6 +70,8 @@
     <option_android_pocketchange_enable>0</option_android_pocketchange_enable>
     <option_android_pocketchange_id></option_android_pocketchange_id>
     <option_android_pocketchange_test_enable>0</option_android_pocketchange_test_enable>
+    <option_android_push_enable>false</option_android_push_enable>
+    <option_android_push_id></option_android_push_id>
     <option_android_set_device_id></option_android_set_device_id>
     <option_android_splash_png>Configs\Default\android\splash.png</option_android_splash_png>
     <option_android_texture_page>2048</option_android_texture_page>
@@ -126,9 +137,16 @@
     <option_ios_certificate>&lt; Press refresh to fetch certificate list from Mac&gt;</option_ios_certificate>
     <option_ios_device_type>3</option_ios_device_type>
     <option_ios_display_name>3DModel</option_ios_display_name>
+    <option_ios_feiliu_company></option_ios_feiliu_company>
+    <option_ios_feiliu_enable>false</option_ios_feiliu_enable>
+    <option_ios_feiliu_id></option_ios_feiliu_id>
+    <option_ios_feiliu_key></option_ios_feiliu_key>
+    <option_ios_feiliu_mac_sdk_location></option_ios_feiliu_mac_sdk_location>
+    <option_ios_feiliu_sdk_location></option_ios_feiliu_sdk_location>
     <option_ios_flurry_enable>0</option_ios_flurry_enable>
     <option_ios_flurry_id></option_ios_flurry_id>
     <option_ios_google_analytics_enable>0</option_ios_google_analytics_enable>
+    <option_ios_google_play_id></option_ios_google_play_id>
     <option_ios_google_tracking_id></option_ios_google_tracking_id>
     <option_ios_icon_114>Configs\Default\ios\icons\icon114.png</option_ios_icon_114>
     <option_ios_icon_120>Configs\Default\ios\icons\icon120.png</option_ios_icon_120>
@@ -146,13 +164,28 @@
     <option_ios_iphone5_splash_png>Configs\Default\ios\iPhone5splash.png</option_ios_iphone5_splash_png>
     <option_ios_iphone_retina_splash_png>Configs\Default\ios\IphoneRetinasplash.png</option_ios_iphone_retina_splash_png>
     <option_ios_iphone_splash_png>Configs\Default\ios\iPhonesplash.png</option_ios_iphone_splash_png>
+    <option_ios_kakao_enable>false</option_ios_kakao_enable>
+    <option_ios_kakao_id></option_ios_kakao_id>
+    <option_ios_kakao_mac_sdk_location></option_ios_kakao_mac_sdk_location>
+    <option_ios_kakao_redirect></option_ios_kakao_redirect>
+    <option_ios_kakao_sdk_location></option_ios_kakao_sdk_location>
+    <option_ios_kakao_secret></option_ios_kakao_secret>
     <option_ios_major_version>1</option_ios_major_version>
     <option_ios_minor_version>0</option_ios_minor_version>
+    <option_ios_mobage>false</option_ios_mobage>
+    <option_ios_mobage_appkey></option_ios_mobage_appkey>
+    <option_ios_mobage_extension_location></option_ios_mobage_extension_location>
+    <option_ios_mobage_key></option_ios_mobage_key>
+    <option_ios_mobage_sandbox>false</option_ios_mobage_sandbox>
+    <option_ios_mobage_sdk_location></option_ios_mobage_sdk_location>
+    <option_ios_mobage_secret></option_ios_mobage_secret>
+    <option_ios_mobage_version></option_ios_mobage_version>
     <option_ios_orient_landscape>-1</option_ios_orient_landscape>
     <option_ios_orient_landscape_right>-1</option_ios_orient_landscape_right>
     <option_ios_orient_portrait>-1</option_ios_orient_portrait>
     <option_ios_orient_portrait_upside_down>-1</option_ios_orient_portrait_upside_down>
     <option_ios_provisioning>&lt; Press refresh to fetch provisioning list from Mac&gt;</option_ios_provisioning>
+    <option_ios_push_enable>false</option_ios_push_enable>
     <option_ios_set_device_id></option_ios_set_device_id>
     <option_ios_splash_png>Configs\Default\ios\splash.png</option_ios_splash_png>
     <option_ios_texture_page>1024</option_ios_texture_page>
@@ -212,7 +245,7 @@
     <option_showprogress>1</option_showprogress>
     <option_sizeable>False</option_sizeable>
     <option_stayontop>false</option_stayontop>
-    <option_sync_vertex>1</option_sync_vertex>
+    <option_sync_vertex>0</option_sync_vertex>
     <option_textureGroup0_border>2</option_textureGroup0_border>
     <option_textureGroup0_nocropping>0</option_textureGroup0_nocropping>
     <option_textureGroup0_parent>&lt;none&gt;</option_textureGroup0_parent>
@@ -227,11 +260,13 @@
     <option_tizen_flurry_id></option_tizen_flurry_id>
     <option_tizen_google_analytics_enable>0</option_tizen_google_analytics_enable>
     <option_tizen_google_tracking_id></option_tizen_google_tracking_id>
+    <option_tizen_iap_groupID></option_tizen_iap_groupID>
     <option_tizen_icon>Configs\Default\tizen\icon117.png</option_tizen_icon>
     <option_tizen_major_version>1</option_tizen_major_version>
     <option_tizen_minor_version>0</option_tizen_minor_version>
     <option_tizen_network_urls></option_tizen_network_urls>
     <option_tizen_orientation>0</option_tizen_orientation>
+    <option_tizen_push_enable>false</option_tizen_push_enable>
     <option_tizen_scaling>1</option_tizen_scaling>
     <option_tizen_splash_png>Configs\Default\tizen\splash.png</option_tizen_splash_png>
     <option_tizen_texture_page>1024</option_tizen_texture_page>

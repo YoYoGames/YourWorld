@@ -2,14 +2,28 @@
 /// use "get_save_filename(filter, fname);" to save anywhere.
 // This function just creates a buffer with the save data in it.
 // map = argument0
-var _map=argument0;
+// flags = argument1 [optional]
+var _map=-1;
+var _flags=0;
+
+_map=argument[0];
+if( argument_count>1)_flags=argument[1];
+
 
 with(_map)
 {
     var buff = buffer_create(1024*1024*4,buffer_grow,1);
 
     // Map version
-    buffer_write(buff,buffer_u16, 1);
+    buffer_write(buff,buffer_u32, 3);
+    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 0);
+    buffer_write(buff,buffer_u32, 0);
     buffer_write(buff,buffer_u16, MapWidth);
     buffer_write(buff,buffer_u16, MapHeight);
     buffer_write(buff,buffer_u16, MapDepth);
@@ -25,8 +39,12 @@ with(_map)
     for(var yy=0;yy<MapHeight;yy++){
         for(var xx=0;xx<MapHeight;xx++){
             var Arr = ds_grid_get(Map,xx,yy);
-            for(var zz=0;zz<MapDepth;zz++){
-                buffer_write(raw,buffer_u16,Arr[zz]);
+            var cnt = array_length_1d(Arr);
+            buffer_write(raw,buffer_u16,cnt);       // size of column
+            for(var zz=0;zz<cnt;zz++){
+                var b = Arr[zz];
+                buffer_write(raw,buffer_u16,b&$ffff);
+                buffer_write(raw,buffer_u8,(b>>8)&$ff);
             }
         }
     }
@@ -40,29 +58,28 @@ with(_map)
     
     // Move to the start, and then just copy, byte for byte....
     buffer_seek(raw,buffer_seek_start,0);
-    size =size>>1;
     for(var i=0;i<size;i++){
-        var a = buffer_read(raw,buffer_u16);
-        buffer_write(buff,buffer_u16,a);
+        var a = buffer_read(raw,buffer_u8);
+        buffer_write(buff,buffer_u8,a);
     }
 
     // Write out number of block info structs we have    
-    size = array_length_1d( block_info );
-    buffer_write(buff, buffer_u16, size );
+    size = block_info_size;
+    buffer_write(buff, buffer_u32, size );
     
     // write out info's
     for(var i=0;i<size;i++;){
         var info = block_info[i];
         var len = array_length_1d(info);
-        buffer_write(buff,buffer_u8, len);
-        buffer_write(buff, buffer_u32, info[0]);
-        for(var l=1;l<len;l++){
+        for(var l=0;l<BLK_FLAGS1;l++){
             buffer_write(buff, buffer_u16, info[l]);
         }
+        buffer_write(buff, buffer_u32, info[BLK_FLAGS1]);
+        buffer_write(buff, buffer_u32, info[BLK_FLAGS2]);
     }
     
         
      // delete temp buffer    
     buffer_delete(raw);
-   return buff;
+    return buff;
 }
