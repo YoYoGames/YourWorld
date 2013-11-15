@@ -312,12 +312,14 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         with(Water){ DrawWater(); }
         
         // Draw all sprites
-        /*shader_set(SpriteSelectionShader);
+        shader_set(SpriteSelectionShader);
         with(oTree){ 
             Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
         }
         shader_reset();
-        */
+        
+        
+        // And release surface
         surface_reset_target();
          
 

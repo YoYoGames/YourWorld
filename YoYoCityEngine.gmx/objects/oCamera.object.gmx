@@ -327,14 +327,13 @@ if( global.WaitText!="" )
         draw_set_font(arial);
         draw_outline( 400,(room_height/2)-20, global.WaitText, c_white );
 }else{
-    if( os_type ==os_android ){
-        if( surface_exists(screen) ){
-            draw_surface_stretched(screen,0,0,1920,1080);
-        }
-    }
     if( instance_exists(global.Map)){
         if( surface_exists(global.Map.DiffuseSurface) ){
-            draw_surface_stretched(global.Map.DiffuseSurface,0,0,window_get_width(),window_get_height());
+            if( os_type ==os_android ){
+                draw_surface_stretched(screen,0,0,1920,1080);
+            }else{
+                draw_surface(global.Map.DiffuseSurface,0,0);
+            }
         }
         //if( surface_exists(global.Map.SelectionSurface) ){
         //    draw_surface_stretched(global.Map.SelectionSurface,0,0,window_get_width(),window_get_height());
@@ -362,7 +361,7 @@ if( global.WaitText!="" )
         vs = "OFF";
     }
 
-    s = "AA Levels available="+string(aa);
+    s = "W=("+string(window_get_width())+","+string(window_get_height())+")  AA Levels available="+string(aa);
     s = s+ "   (VSYNC:"+vs+")";
     s = s+ " px="+string(Map.MouseX)+",py="+string(Map.MouseY);
     draw_outline( 40,2, s, c_white );

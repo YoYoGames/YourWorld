@@ -44,7 +44,7 @@
     }
 */
            
-    global.TileCacheCreationCount = 2;
+    global.TileCacheCreationCount = 1;
     var CacheWidth = floor(MapWidth/GridCacheSize);
     var CacheHeight = floor(MapWidth/GridCacheSize);
     if( _gx1>CacheWidth ) _gx1=CacheWidth;

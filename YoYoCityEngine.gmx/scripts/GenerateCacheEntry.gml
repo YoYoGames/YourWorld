@@ -72,12 +72,10 @@ vertex_begin(Mesh, global.CityFormat);
                 if( is_array(a) ){
                     // if its an array, then there are sprites here.
                     var l = array_length_1d(a);
-                    debug("len="+string(l));
                     for(var i=0;i<l;i++){
                         var s = a[i];
-                        debug("s="+string(s[0]));
                         var image = GetImage( s[0] );
-                        var sxx = x+ s[1]&$ff;
+                        var sxx = x+ (s[1]&$ff);
                         var syy = y+ ((s[1]&$ff00)>>8);
                         var szz = z+ ((s[1]>>16)&$ffff);
                         AddSprite(SpriteMesh, image,0,sxx,syy,szz, 1,1,0, $ffffffff ); 
