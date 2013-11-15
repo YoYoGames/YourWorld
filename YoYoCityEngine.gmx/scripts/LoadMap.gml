@@ -37,12 +37,17 @@ with(_map)
     CacheHeight = floor((MapHeight+GridCacheSize-1)/GridCacheSize);
 
     var compression = buffer_write(_buff,buffer_u8, 0); 
-    
+        
     Cache = ds_grid_create(MapWidth,MapHeight);             // Mesh cache
     Map = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for the map
     Sprites = ds_grid_create(MapWidth,MapHeight);           // actual grid of arrays used for sprites in the map
     FreeList = ds_stack_create();                           // create a new block_info free list
 
+    // Used during rendering
+    RenderList = 0;
+    RenderList[0]=0;
+    
+    
     show_debug_message("Create Grid");
     
     // For uncompressed, we simply read the steam into the map...

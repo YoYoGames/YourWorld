@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TileBuilder.MapCreation
 {
-    enum eSprites
+    public enum eSprites
     {
         None = 0,
         Tree1,

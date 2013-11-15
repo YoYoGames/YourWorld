@@ -50,6 +50,10 @@ GridCacheSize = _gridcachesize;    // Size of a cache block
 GroundLevel = _groundlevel;        // Level the pavement starts at
 FreeList = ds_stack_create();      // create a new block_info free list
 
+// Used during rendering
+RenderList = 0;
+RenderList[0]=0;
+
 CacheWidth = floor( (MapWidth+GridCacheSize-1)/GridCacheSize );
 CacheHeight = floor( (MapHeight+GridCacheSize-1)/GridCacheSize );
 
@@ -139,9 +143,9 @@ s[1]=32 + (32<<8) + ((3*64)<<16);           // X offset into tile (byte), Y offs
 c[0]=s;
 s=0;
 s[0]=1; // tree;
-s[1]=0 + (0<<8) + (((3*64)+10)<<16);        // X offset into tile (byte), Y offset into tile (byte), Z (scale as required)
+s[1]=10 + (23<<8) + (((3*64)+10)<<16);        // X offset into tile (byte), Y offset into tile (byte), Z (scale as required)
 c[1]=s;
-ds_grid_set(Sprites, 0,0, c);
+ds_grid_set(Sprites, 10,20, c);
 
 
 
