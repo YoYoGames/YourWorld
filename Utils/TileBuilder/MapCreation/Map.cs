@@ -65,8 +65,10 @@ namespace TileBuilder.MapCreation
         public int Industrial { get; set; }
 
         public int GroundLevel = 3;
+        public int TileWidth = 64;
+        public int TileHeight = 64;
 
-        public List<int>[] map;
+        public MapColumn[] map;
         private Tile m_Tile;
 
         private Random rand = new Random(0x12441);
@@ -116,7 +118,7 @@ namespace TileBuilder.MapCreation
             BlockCRCLookup = new Dictionary<uint, int>();
             BlockInfo = new List<block_info>();
             FreeList = new Stack<int>();
-            map = new List<int>[_width*_height];
+            map = new MapColumn[_width * _height];
 
 
 
@@ -145,7 +147,7 @@ namespace TileBuilder.MapCreation
                 int index = y*Width;
                 for (int x = 0; x < _width; x++)
                 {
-                    map[x+index] = new List<int>();
+                    map[x + index] = new MapColumn();
                     for(int g=0;g<GroundLevel;g++){
                         map[x + index].Add(1);              // Water level has nothing by default
                     }
@@ -209,7 +211,7 @@ namespace TileBuilder.MapCreation
         public List<int> ExpandColumn(int _x,int _y,int _z)
         {
             // Expand the column to the length we need to reach _z
-            List<int> column = map[_x + (_y * Width)];
+            List<int> column = map[_x + (_y * Width)].column;
             int l = column.Count;
             for (int i = (l - 1); i < _z; i++)
             {
@@ -267,7 +269,7 @@ namespace TileBuilder.MapCreation
         public int Get(int _x, int _y, int _z)
         {
             if (_x < 0 || _x >= Width || _y< 0 || _y >= Height || _z<0) return -1;
-            List<int> column = map[_x + (_y * Width)];
+            List<int> column = map[_x + (_y * Width)].column;
             if (column.Count <= _z) return -1;              // no block at that location
             return column[_z];
         }
@@ -347,7 +349,7 @@ namespace TileBuilder.MapCreation
 	    // #############################################################################################
         public void CompressBlock(int _x,int _y,int _z)
         {
-            List<int> column = map[_x + (_y * Width)];
+            List<int> column = map[_x + (_y * Width)].column;
             if (column.Count <= _z) return;              // No need to compress
 
             int b = column[_z];
@@ -518,6 +520,36 @@ namespace TileBuilder.MapCreation
             BlockInfo.Add(_blk);
             return index;
         }
+
+	    // #############################################################################################
+	    /// Function:<summary>
+	    ///          	Add a sprite to the map
+	    ///          </summary>
+	    ///
+	    /// In:		<param name="_x"></param>
+	    ///			<param name="_y"></param>
+	    ///			<param name="_z"></param>
+	    ///			<param name="_sprite"></param>
+	    ///
+	    // #############################################################################################
+        void AddSprite(int _x, int _y, int _z, eSprite _sprite)
+        {
+            // First work out the cell we're in
+            int gx = _x / TileWidth;
+            int gy = _y / TileHeight;
+            List<Sprite> column = map[gx + (gy * Width)].sprites;
+            Sprite sp = new Sprite();
+            sp.x = _x % TileWidth;
+            sp.y = _y % TileHeight;
+            sp.z = _z;
+            sp.scale = 0;
+            sp.flags = eSpriteFlags.none;
+            sp.angle = 0;
+            sp.SpriteType = _sprite;
+            column.Add(sp);
+        }
+
+
 
 	    // #############################################################################################
 	    /// Function:<summary>
@@ -760,6 +792,32 @@ namespace TileBuilder.MapCreation
             }
         }
 
+        // #############################################################################################
+        /// Function:<summary>
+        ///          	Add a building at connected locations using _colour to identify on the map
+        ///          	and make a the building between min and max sizes using _block as the block.
+        ///          </summary>
+        ///
+        /// In:		<param name="_x">X Coordinate</param>
+        ///			<param name="_y">y Coordinate</param>
+        ///			<param name="_col"></param>
+        ///			<param name="min"></param>
+        ///			<param name="_max"></param>
+        ///			<param name="_block"></param>
+        ///
+        // #############################################################################################
+        private void AddTrees(int _x, int _y, int _groundlevel, int _col, eSprite _sprite)
+        {
+            List<Coords> FinalList = GetCoordList(_x, _y, (UInt32)_col);
+            foreach (Coords c in FinalList)
+            {
+                Set(c.x / TileWidth, c.y / TileWidth, GroundLevel, Grass);
+                int xx = rand.Next(-16,16);
+                int yy = rand.Next(-16,16);
+                AddSprite(c.x + 32+xx, c.y+32+yy, _groundlevel+16, _sprite);
+            }
+        }
+
 	    // #############################################################################################
 	    /// Function:<summary>
 	    ///          	
@@ -891,7 +949,8 @@ namespace TileBuilder.MapCreation
                         case 0xff6600: AddBuilding(x, y, GroundLevel, 0xff6600, AirportMin, AirportMax, Airport); break;
                         case 0x99cccc: AddBuilding(x, y, GroundLevel, 0xffff00, MountainLowMin, MountainLowMax, MountainLow); break;
                         case 0xccffff: AddBuilding(x, y, GroundLevel, 0xffff00, MountainMedMin, MountainMedMax, MountainMed); break;
-                        case 0xffffff: AddBuilding(x, y, GroundLevel, 0xffff00, MountainHighMin, MountainHighMax, MountainHigh); break; 
+                        case 0xffffff: AddBuilding(x, y, GroundLevel, 0xffff00, MountainHighMin, MountainHighMax, MountainHigh); break;
+                        case 0x006633: AddTrees(x * TileWidth, y * TileWidth, GroundLevel * TileWidth, 0xffff00, eSprite.Tree1); break; 
 
                     }
                 }
@@ -926,7 +985,7 @@ namespace TileBuilder.MapCreation
                 buff.Write((UInt16)Depth);
                 buff.Write((UInt16)0);
                 buff.Write((UInt16)LidBase);
-                buff.Write((UInt16)64);
+                buff.Write((UInt16)TileWidth);
                 buff.Write((UInt16)70);
                 buff.Write((UInt16)Pavement);
                 buff.Write((UInt16)16);
@@ -934,24 +993,49 @@ namespace TileBuilder.MapCreation
 
                 // in RAW mode, just copy the buffer
                 buff.Write((Byte)0);            // set no compression
-
+                int sprite_count = 0;
                 for (int y = 0; y < Height; y++)
                 {
                     for (int x = 0; x < Width; x++)
                     {
                         // Write out block column
-                        List<int> column = map[x + (y * Width)];
+                        List<int> column = map[x + (y * Width)].column;
+                        List<Sprite> sprites = map[x + (y * Width)].sprites;
+                        int flags = 0;
+                        if (sprites.Count != 0) flags |= 0x8000;
+
                         
                         // Top bit set IF there are sprites in this column
-                        buff.Write((UInt16)column.Count);               
+                        buff.Write((UInt16)(column.Count | flags));
                         foreach (int i in column)
                         {
                             buff.Write(((UInt16)(i & 0xffff)));
                             buff.Write( ((Byte) ((i>>16)&0xff)) );
                         }
+
+
+                        if (sprites.Count != 0)
+                        {
+                            // If we have sprites here, save them out...
+                            buff.Write((UInt16)sprites.Count);
+                            foreach (Sprite s in sprites)
+                            {
+                                buff.Write((UInt16) ((int)s.SpriteType & 0xffff) );
+                                UInt32 pos = (UInt32)((s.x & 0xff) | ((s.y & 0xff) << 8) | ((s.z & 0xffff) << 16));
+                                buff.Write((UInt32)pos);
+                                buff.Write((UInt32)0);
+                                sprite_count++;
+                            }
+                            if (sprites.Count != 1)
+                            {
+                                Console.WriteLine("HERE!");
+                            }
+                        }
+
                     }
                 }
 
+                Console.WriteLine("Sprites = " + sprite_count.ToString());
                 Console.WriteLine("BlockInfos = " + BlockInfo.Count.ToString());
                 // Write out number of block info structs we have    
                 buff.Write((UInt32)BlockInfo.Count);

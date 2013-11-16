@@ -75,10 +75,10 @@ vertex_begin(Mesh, global.CityFormat);
                     for(var i=0;i<l;i++){
                         var s = a[i];
                         var image = GetImage( s[0] );
-                        var sxx = x+ (s[1]&$ff);
-                        var syy = y+ ((s[1]&$ff00)>>8);
+                        var sxx = x+(s[1]&$ff);
+                        var syy = y- ((s[1]&$ff00)>>8);
                         var szz = ((s[1]>>16)&$ffff);
-                        debug("("+string(sxx)+","+string(syy)+","+string(szz));
+                        debug("("+string(sxx)+","+string(syy)+","+string(szz)+")");
                         AddSprite(SpriteMesh, image,0,sxx,syy,szz, 1,1,0, $ffffffff ); 
                         spritepolys+=2;
                     }

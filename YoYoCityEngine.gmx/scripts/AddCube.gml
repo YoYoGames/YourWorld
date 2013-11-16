@@ -326,7 +326,7 @@ if( tile3>=0 ){
 
 
 
-// front (lid)
+// lid
 if( tile4>=0 ){
     tile4+=TopBase;
     u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border)+ (OneOverW/2);
@@ -397,11 +397,11 @@ if( tile4>=0 ){
     global.polys+=2;
 }
 
-// front (lid)
+// base
 if( tile5>=0 ){
     tile4+=TopBase;
-    u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border)+ (OneOverW/2);
-    v = (floor(tile4 / PerRow) * TileBorder)*OneOverH + (OneOverH*border)+ (OneOverH/2);
+    u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border) + (OneOverW/2);
+    v = (floor(tile4 / PerRow) * TileBorder)*OneOverH + (OneOverH*border) + (OneOverH/2);
 
     var c=col|(6<<26);
 

@@ -49,23 +49,40 @@ with(_map)
     
     
     show_debug_message("Create Grid");
-    
+    var sprite_count=0;
     // For uncompressed, we simply read the steam into the map...
     for(var yy=0;yy<MapHeight;yy++)
     {
-        for(var xx=0;xx<MapHeight;xx++)
+        for(var xx=0;xx<MapWidth;xx++)
         {
             var Arr = 0;
             var cnt = buffer_read(_buff,buffer_u16);         // get length of array
+            var sprites = cnt&$8000;
+            cnt &= $7fff;
             for(var zz=0;zz<cnt;zz++){
                 var b = buffer_read(_buff,buffer_u16)&$ffff;
                 b |= buffer_read(_buff,buffer_u8)<<16;
                 Arr[zz] = b;
             }
             ds_grid_set(Map,xx,yy,Arr);
+            
+            
+            if( sprites ){
+                var sz= buffer_read(_buff,buffer_u16);
+                var spr=0;
+                for(i=0;i<sz;i++){
+                    var singlespr = 0;
+                    singlespr[0] = buffer_read(_buff,buffer_u16);           // sprite type
+                    singlespr[1] = buffer_read(_buff,buffer_u32);           // sprite type
+                    singlespr[2] = buffer_read(_buff,buffer_u32);           // sprite type
+                    spr[i]=singlespr;
+                    sprite_count++;
+                }
+                ds_grid_set(Sprites,xx,yy,spr);            
+            }
         }
     }
-    
+    debug("Sprites="+string(sprite_count));
     // Read the number of block info structs we have    
     block_info_size = buffer_read( _buff, buffer_u32 );
     block_info=0;

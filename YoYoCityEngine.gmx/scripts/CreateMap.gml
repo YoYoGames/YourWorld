@@ -135,17 +135,6 @@ block_info_size = 3;
 
 
 
-// Could use buffers for this to keep memory down. Speed/ease of access isn't that important for sprites
-var c=0;
-var s=0;
-s[0]=1; // tree;
-s[1]=32 + (32<<8) + ((3*64)<<16);           // X offset into tile (byte), Y offset into tile (byte), Z (scale as required)
-c[0]=s;
-s=0;
-s[0]=1; // tree;
-s[1]=10 + (23<<8) + (((3*64)+10)<<16);        // X offset into tile (byte), Y offset into tile (byte), Z (scale as required)
-c[1]=s;
-ds_grid_set(Sprites, 10,20, c);
 
 
 

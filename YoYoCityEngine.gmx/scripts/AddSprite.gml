@@ -12,6 +12,7 @@
 
 var _x1,_x2,_y1,_y2,_z1,_z2,_sprw,_sprh,_cx,_cy, _colour,_alpha, _buff, tex, uvs;
 
+
 _buff = argument0;
 
 sprw = sprite_get_width(argument1);
@@ -22,15 +23,14 @@ tex = sprite_get_texture( argument1, argument2 );
 uvs = sprite_get_uvs(argument1,argument2);
  
 _x1 = -cx + argument3;
-_x2 = -cx+sprw + argument4;
-_y1 = -cy + argument3;
-_y2 = -cy+sprh + argument4;
+_x2 = -cx+sprw + argument3;
+_y1 = -cy - -argument4;
+_y2 = -cy+sprh - -argument4;
 _z1 = -argument5;
 _scalex = argument6;
 _scaley = argument7;
 _angle = argument8;
 _colour = argument9;
-
 
 vertex_position_3d(_buff,_x1,_y2,_z1);
 vertex_colour(_buff, _colour, 1.0 );
