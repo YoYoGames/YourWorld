@@ -39,12 +39,12 @@ with(_map)
     for(var yy=0;yy<MapHeight;yy++){
         for(var xx=0;xx<MapHeight;xx++){
             var Arr = ds_grid_get(Map,xx,yy);
-            var cnt = array_length_1d(Arr);
+            var cnt = array_length_1d(Arr);            
             buffer_write(raw,buffer_u16,cnt);       // size of column
             for(var zz=0;zz<cnt;zz++){
                 var b = Arr[zz];
                 buffer_write(raw,buffer_u16,b&$ffff);
-                buffer_write(raw,buffer_u8,(b>>8)&$ff);
+                buffer_write(raw,buffer_u8,(b>>16)&$ff);
             }
         }
     }

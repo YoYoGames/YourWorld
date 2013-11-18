@@ -49,6 +49,7 @@ AspectRatio = room_width/room_height;
 
 // Initialise view frustum
 InitViewFrustum();
+GenerateViewFrustum();
 
 // clip zone based on camera position and height
 GroundX1=0;
@@ -271,98 +272,6 @@ if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpe
         </arguments>
       </action>
     </event>
-    <event eventtype="5" enumb="46">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>ZAngle -= 0.5;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="45">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>ZAngle += 0.5;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="36">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>XAngle += 0.5
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="35">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>XAngle -= 0.5
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="5" enumb="34">
       <action>
         <libid>1</libid>
@@ -487,24 +396,13 @@ if( global.WaitText!="" )
     
     s = "fps="+string(fps)+"  cubes="+string(global.cubes)+"  polys="+string(global.CurrentPolyCount)+", total="+string(global.polys)+"  p="+string(Map.PickedColour);
     draw_outline( 40,22, s, c_white );
-
-    s = "clip  ("+string(GroundX1)+"px,"+string(GroundY1)+"px)   ("+string(GroundX2)+"px,"+string(GroundY2)+"px)";
-    draw_outline( 40,42, s, c_white );
     
-    var gx1 = floor( (GroundX1/global.Map.TileSize)/global.Map.GridCacheSize );
-    var gy1 = floor( GroundY1/global.Map.TileSize/global.Map.GridCacheSize );
-    var gx2 = floor( (GroundX2+(global.Map.GridCacheSize*global.Map.TileSize)-1)/global.Map.TileSize/global.Map.GridCacheSize );
-    var gy2 = floor( (GroundY2+(global.Map.GridCacheSize*global.Map.TileSize)-1)/global.Map.TileSize/global.Map.GridCacheSize );    
-    
-    s = "clip  ("+string(gx1)+","+string(gy1)+")   ("+string(gx2)+","+string(gy2)+")";
-    draw_outline( 40,62, s, c_white );    
-
     s = "cube=("+string(Map.PickX)+","+string(Map.PickY)+","+string(Map.PickZ)+") - face="+GetFace(Map.PickFace);
-    draw_outline( 40,82, s, c_white );    
+    draw_outline( 40,42, s, c_white );    
     
     var modestring=string(global.Mode); if global.Mode==MODE_EDIT modestring="Edit"; if global.Mode==MODE_PLAY modestring="Play";
     s = "mode="+modestring+" (&lt;M&gt; switch)";
-    draw_outline( 40,102, s, c_white );
+    draw_outline( 40,62, s, c_white );
 }
     
 
@@ -609,6 +507,23 @@ d3d_vertex(Frustum_ftr_x,Frustum_ftr_y,Frustum_ftr_z);d3d_vertex(Frustum_fbr_x,F
 d3d_primitive_end()
 
 d3d_set_zwriteenable(true)
+
+d3d_primitive_begin(pr_pointlist)
+
+for(var xxx=0;xxx&lt;5000;xxx+=200)
+{
+    for (var yyy=0;yyy&gt;-5000;yyy-=200)
+    {
+        for (var zzz=-200;zzz&gt;-2000;zzz-=200)
+        {
+            if FrustumTestSphere(xxx,yyy,zzz,1)
+            d3d_vertex(xxx,yyy,zzz)
+            //d3d_draw_block(xxx-2,yyy-2,zzz-2,xxx+2,yyy+2,zzz+2,   
+        }
+    }
+}
+
+d3d_primitive_end()
 </string>
           </argument>
         </arguments>
@@ -667,29 +582,6 @@ if (global.Mode&gt;=MODE_MAX) global.Mode=1;
 display_mouse_set(display_get_width()/2,display_get_height()/2);
 
 if (global.Mode==MODE_EDIT) dir+=180;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="32">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>global.toggle = global.toggle^1;
 </string>
           </argument>
         </arguments>

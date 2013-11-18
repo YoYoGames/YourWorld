@@ -11,6 +11,8 @@
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
     <sprite>sprites\sStyle1</sprite>
+    <sprite>sprites\sWater</sprite>
+    <sprite>sprites\sTree</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -36,16 +38,16 @@
         <script>scripts\GetCacheEntry.gml</script>
         <script>scripts\GenerateCacheEntry.gml</script>
         <script>scripts\FreeCacheEntry.gml</script>
+        <script>scripts\FreeCacheRegion.gml</script>
         <script>scripts\RenderMap.gml</script>
+        <script>scripts\DrawWater.gml</script>
       </scripts>
       <scripts name="Camera">
         <script>scripts\CalcClipSpace.gml</script>
         <script>scripts\SetProjection.gml</script>
-        <scripts name="ViewFrustum">
-          <script>scripts\InitViewFrustum.gml</script>
-          <script>scripts\GenerateViewFrustum.gml</script>
-          <script>scripts\FrustumTestSphere.gml</script>
-        </scripts>
+        <script>scripts\InitViewFrustum.gml</script>
+        <script>scripts\GenerateViewFrustum.gml</script>
+        <script>scripts\FrustumTestSphere.gml</script>
       </scripts>
       <scripts name="Utils">
         <script>scripts\GetFace.gml</script>
@@ -70,8 +72,10 @@
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
+    <shader type="GLSLES">shaders\WaterShader.shader</shader>
     <shader type="HLSL9">shaders\RenderPlusSelection.shader</shader>
     <shader type="GLSLES">shaders\RenderSelection.shader</shader>
+    <shader type="HLSL9">shaders\SpriteSelectionShader.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\arial</font>
@@ -81,6 +85,11 @@
     <object>objects\oMap</object>
     <object>objects\oScreen</object>
     <object>objects\oMapGen</object>
+    <object>objects\oWater</object>
+    <object>objects\oTree</object>
+    <objects name="Parents">
+      <object>objects\oSprite</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

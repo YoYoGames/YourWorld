@@ -27,7 +27,7 @@ varying vec4    v_vColour;          // dont use this
 void main()
 {
     // get a pixel from the tile, and set the pixel colour for drawing with
-    gl_FragColor = texture2D( gm_BaseTexture, v_vTexcoord );
+    gl_FragColor = texture2D( gm_BaseTexture, v_vTexcoord ) * v_vColour;
 
     // Do alpha test (not available as a global state in WebGL)
     if (gl_FragColor.a < ((1.0/255.0)*250.0) ) discard; //<= (1.0/253.0)) discard;

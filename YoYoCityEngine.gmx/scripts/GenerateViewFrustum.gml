@@ -105,10 +105,10 @@ with(oCamera)
     Frustum_p2x[a] = Frustum_nbl_x;  Frustum_p2y[a] = Frustum_nbl_y;  Frustum_p2z[a] = Frustum_nbl_z;
     Frustum_p3x[a] = Frustum_fbl_x;  Frustum_p3y[a] = Frustum_fbl_y;  Frustum_p3z[a] = Frustum_fbl_z;
     //3: RIGHT                                                                        
-    a=3;                                                                              
-    Frustum_p1x[a] = Frustum_nbr_x;  Frustum_p1y[a] = Frustum_nbr_y;  Frustum_p1z[a] = Frustum_nbr_z;
-    Frustum_p2x[a] = Frustum_ntr_x;  Frustum_p2y[a] = Frustum_ntr_y;  Frustum_p2z[a] = Frustum_ntr_z;
-    Frustum_p3x[a] = Frustum_fbr_x;  Frustum_p3y[a] = Frustum_fbr_y;  Frustum_p3z[a] = Frustum_fbr_z;
+    a=3;
+/*3*/Frustum_p1x[a] = Frustum_fbr_x;  Frustum_p1y[a] = Frustum_fbr_y;  Frustum_p1z[a] = Frustum_fbr_z;
+/*1*/Frustum_p2x[a] = Frustum_nbr_x;  Frustum_p2y[a] = Frustum_nbr_y;  Frustum_p2z[a] = Frustum_nbr_z;                                                                              
+/*2*/Frustum_p3x[a] = Frustum_ntr_x;  Frustum_p3y[a] = Frustum_ntr_y;  Frustum_p3z[a] = Frustum_ntr_z;
     //4: NEARP                                                                        
     a=4;                                                                              
     Frustum_p1x[a] = Frustum_ntl_x;  Frustum_p1y[a] = Frustum_ntl_y;  Frustum_p1z[a] = Frustum_ntl_z;
@@ -119,19 +119,26 @@ with(oCamera)
     Frustum_p1x[a] = Frustum_ftr_x;  Frustum_p1y[a] = Frustum_ftr_y;  Frustum_p1z[a] = Frustum_ftr_z;
     Frustum_p2x[a] = Frustum_ftl_x;  Frustum_p2y[a] = Frustum_ftl_y;  Frustum_p2z[a] = Frustum_ftl_z;
     Frustum_p3x[a] = Frustum_fbl_x;  Frustum_p3y[a] = Frustum_fbl_y;  Frustum_p3z[a] = Frustum_fbl_z;
+    
+    /*for(var i=0;i<6;i+=1)
+    {
+        var holdx=Frustum_p2x[i]; var holdy=Frustum_p2y[i]; var holdz=Frustum_p2z[i];
+        Frustum_p2x[i]=Frustum_p3x[i]; Frustum_p2y[i]=Frustum_p3y[i]; Frustum_p2z[i]=Frustum_p3z[i];
+        Frustum_p3x[i]=holdx; Frustum_p3y[i]=holdy; Frustum_p3z[i]=holdz;   
+    }*/
                                                    
     //Plane-specific 
     for(var i=0; i<6; i+=1)
     {                
         //Plane coordinates defined as vectors
         var Frustum_pv1x,Frustum_pv1y,Frustum_pv1z,Frustum_pv2x,Frustum_pv2y,Frustum_pv2z;
-        Frustum_pv1x[i] = Frustum_p2x[i]-Frustum_p1x[i];
-        Frustum_pv1y[i] = Frustum_p2y[i]-Frustum_p1y[i];
-        Frustum_pv1z[i] = Frustum_p2z[i]-Frustum_p1z[i];
-        Frustum_pv2x[i] = Frustum_p3x[i]-Frustum_p1x[i];
-        Frustum_pv2y[i] = Frustum_p3y[i]-Frustum_p1y[i];
-        Frustum_pv2z[i] = Frustum_p3z[i]-Frustum_p1z[i];
-        
+        Frustum_pv1x[i] = Frustum_p1x[i]-Frustum_p2x[i] ;
+        Frustum_pv1y[i] = Frustum_p1y[i]-Frustum_p2y[i] ;
+        Frustum_pv1z[i] = Frustum_p1z[i]-Frustum_p2z[i] ;
+        Frustum_pv2x[i] = Frustum_p3x[i]-Frustum_p2x[i] ;
+        Frustum_pv2y[i] = Frustum_p3y[i]-Frustum_p2y[i] ;
+        Frustum_pv2z[i] = Frustum_p3z[i]-Frustum_p2z[i] ;
+                                                       
         //Cross product of the plane vectors
         Frustum_cppx[i] = Frustum_pv1y[i]*Frustum_pv2z[i]-Frustum_pv1z[i]*Frustum_pv2y[i];
         Frustum_cppy[i] = Frustum_pv1z[i]*Frustum_pv2x[i]-Frustum_pv1x[i]*Frustum_pv2z[i];

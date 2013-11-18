@@ -57,7 +57,7 @@
         for(var xx=_gx1;xx<_gx2;xx++){
             if( xx>=0 && xx<CacheWidth) && (yy>=0 && yy<CacheHeight)
             {
-                if FrustumTestSphere(xx,yy,0,32)
+                if FrustumTestSphere(xx,yy,0,CacheWidth/2)
                 {
                     var MeshA = GetCacheEntry(xx,yy);
                     if( is_array(MeshA) ){
