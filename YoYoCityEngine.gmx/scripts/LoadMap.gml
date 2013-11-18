@@ -1,3 +1,4 @@
+/// LoadBuffer(map,buffer)
 /// Save our "block" data... Do it quick and simple
 /// use "get_save_filename(filter, fname);" to save anywhere.
 // This function just creates a buffer with the save data in it.

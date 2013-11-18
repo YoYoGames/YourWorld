@@ -25,29 +25,41 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Initialise the engine
+            <string>{
+    /// Initialise the engine
+    
+    // Create the Sprite Vertex Format
+    vertex_format_begin();
+    vertex_format_add_position_3d();
+    vertex_format_add_colour();
+    vertex_format_add_textcoord();
+    global.SpriteFormat = vertex_format_end();
+    
+    
+    // Create the Vertex Format we'll use
+    vertex_format_begin();
+    vertex_format_add_position_3d();
+    vertex_format_add_normal();
+    vertex_format_add_colour();
+    vertex_format_add_textcoord();
+    global.CityFormat = vertex_format_end();
+    
+    
+    // Create the Vertex Format we'll use
+    global.TempSpriteBuffer = vertex_create_buffer_ext(4*1024);
+    
+    global.cubes=0;
+    global.polys=0;
+    global.cube=-1;
 
-// Create the Sprite Vertex Format
-vertex_format_begin();
-vertex_format_add_position_3d();
-vertex_format_add_colour();
-vertex_format_add_textcoord();
-global.SpriteFormat = vertex_format_end();
-
-
-// Create the Vertex Format we'll use
-vertex_format_begin();
-vertex_format_add_position_3d();
-vertex_format_add_normal();
-vertex_format_add_colour();
-vertex_format_add_textcoord();
-global.CityFormat = vertex_format_end();
-
-
-// Create the Vertex Format we'll use
-global.TempSpriteBuffer = vertex_create_buffer_ext(4*1024);
-
-
+            
+    // Initialise 3D
+    d3d_start();
+    d3d_set_perspective(true);
+    d3d_set_hidden(true);
+    d3d_set_culling(true);        
+    d3d_set_projection_perspective(0,0, room_width, room_height, 90);  
+}
 
 
 </string>

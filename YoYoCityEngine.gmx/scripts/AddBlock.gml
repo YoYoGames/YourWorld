@@ -1,7 +1,7 @@
+/// AddBlock( x,y,z,remove_faces,side,lid )
 //
 // Add a block to the map, and remove adjoining faces where required
 //
-// AddBlock( x,y,z, remove )
 // x = xcoord
 // y = ycoord
 // z = zcoord

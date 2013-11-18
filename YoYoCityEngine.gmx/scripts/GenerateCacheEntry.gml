@@ -1,7 +1,7 @@
+/// MeshA = GenerateCacheEntry(GridCellX,GridCellY)
 //
-// Generate a mesh for a grid cell, and return and array holding the mesh and poly count
+// Generate a Mesh array entry for a grid cell, and return and array holding the mesh and poly count
 //
-// mesh = GenerateGridRegion( GridX,GridY )
 //
 var gx = argument0;
 var gy = argument1;

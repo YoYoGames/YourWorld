@@ -1,3 +1,5 @@
+/// CompressBuffer(src_buffer,size,dest_buffer)
+//
 /// Compress (simple byte-run) the buffer provided. 
 /// Dest buffer must be at the correct spot for storage
 ///

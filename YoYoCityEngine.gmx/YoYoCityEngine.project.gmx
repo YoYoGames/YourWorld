@@ -17,6 +17,10 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
+    <scripts name="Game">
+      <script>scripts\ProcessGame.gml</script>
+      <script>scripts\ProcessKeys.gml</script>
+    </scripts>
     <script>scripts\draw_outline.gml</script>
     <scripts name="Sprite">
       <script>scripts\Draw3dSprite.gml</script>
@@ -47,12 +51,12 @@
       <scripts name="Camera">
         <script>scripts\CalcClipSpace.gml</script>
         <script>scripts\SetProjection.gml</script>
+        <script>scripts\SetCamera.gml</script>
       </scripts>
       <scripts name="Utils">
         <script>scripts\GetFace.gml</script>
         <script>scripts\Hex.gml</script>
         <script>scripts\CompressBuffer.gml</script>
-        <script>scripts\FreeMap.gml</script>
         <script>scripts\debug.gml</script>
       </scripts>
       <scripts name="IO">
@@ -60,15 +64,19 @@
         <script>scripts\LoadMap.gml</script>
       </scripts>
       <scripts name="Editing">
-        <script>scripts\FreeBlock.gml</script>
-        <script>scripts\CreateMap.gml</script>
-        <script>scripts\MakeUnique.gml</script>
-        <script>scripts\AllocBlock.gml</script>
-        <script>scripts\AddBlock.gml</script>
-        <script>scripts\DeleteBlock.gml</script>
-        <script>scripts\GetBlock.gml</script>
-        <script>scripts\GetBlockIndex.gml</script>
+        <scripts name="Utils">
+          <script>scripts\FreeBlock.gml</script>
+          <script>scripts\CreateMap.gml</script>
+          <script>scripts\MakeUnique.gml</script>
+          <script>scripts\AllocBlock.gml</script>
+          <script>scripts\AddBlock.gml</script>
+          <script>scripts\DeleteBlock.gml</script>
+          <script>scripts\GetBlock.gml</script>
+          <script>scripts\GetBlockIndex.gml</script>
+        </scripts>
         <script>scripts\PullUpRegion.gml</script>
+        <script>scripts\FreeMap.gml</script>
+        <script>scripts\ProcessEditor.gml</script>
       </scripts>
     </scripts>
   </scripts>
@@ -84,14 +92,17 @@
   </fonts>
   <objects name="objects">
     <object>objects\oInitialise</object>
-    <object>objects\oCamera</object>
-    <object>objects\oMap</object>
-    <object>objects\oScreen</object>
-    <object>objects\oMapGen</object>
-    <object>objects\oWater</object>
-    <object>objects\oTree</object>
-    <objects name="Parents">
-      <object>objects\oSprite</object>
+    <objects name="CityEngine">
+      <objects name="Parents">
+        <object>objects\oSprite</object>
+      </objects>
+      <object>objects\oTree</object>
+      <object>objects\oWater</object>
+      <object>objects\oMapGen</object>
+      <object>objects\oScreen</object>
+      <object>objects\oMap</object>
+      <object>objects\oCamera</object>
+      <object>objects\oController</object>
     </objects>
   </objects>
   <rooms name="rooms">
@@ -99,7 +110,8 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="11">
+  <constants number="12">
+    <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
     <constant name="MODE_MAX">3</constant>

@@ -1,4 +1,4 @@
-/// string = Hex( _colour )
+/// string = Hex(value)
 var _colour=argument0;
 
 var hex="";
@@ -13,4 +13,5 @@ for(var d=0;d<8;d++){
     shift-=4;
 }
 return hex;
+
 

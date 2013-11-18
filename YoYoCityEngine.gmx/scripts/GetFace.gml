@@ -1,4 +1,4 @@
-/// face_string = GetFace( _face_id )
+/// face_string = GetFace(face_id)
 switch(argument0)
 {
     case 1: return "top";

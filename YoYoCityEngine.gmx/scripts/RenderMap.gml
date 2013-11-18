@@ -1,3 +1,5 @@
+/// RenderMap(GridX1,GridY1,GridX2,GridY2,TileTexture,SpriteTexture,TileShader,SpriteShader)
+//
 // gx1 = argument0      grid top left
 // gy1 = argument1
 // gx2 = argument2      grid bottom right
@@ -5,7 +7,7 @@
 // texture = argument4  texture to render with
 // shader = argument5   sides+lid shader to use  (-1 dont draw)
 // shader = argument5   sprite shader to use (-1 don't draw)
-
+//
 {
     var _gx1 = argument0
     var _gy1 = argument1

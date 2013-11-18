@@ -1,7 +1,7 @@
-/// Allocate a single cube in the world, and return the block_info index
-/// x = argument0
-/// y = argument1
-/// z = argument2
+/// AllocBlock(x,y,z)
+//
+// Allocate a single cube in the world, and return the block_info index
+//
 var _x=argument0;
 var _y=argument1;
 var _z=argument2;

@@ -1,7 +1,7 @@
-// return the block_info
-// _x = argument0
-// _y = argument1
-// _z = argument2
+/// GetBlockIndex(x,y,z)
+//
+// return the INDEX of a block at x,y,z
+//
 
 var _x=argument0;
 var _y=argument1;

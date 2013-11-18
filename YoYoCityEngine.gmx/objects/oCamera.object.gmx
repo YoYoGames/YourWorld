@@ -33,17 +33,10 @@ screen=-1;
 //Directions the camera is facing (X/Y axis and Z axis)
 dir=0
 zdir=180
-
 CameraX = 0;
 CameraY = 0;
 CameraZ = -1000;
-global.Camera = id;
-global.Map = -1;
 
-
-XAngle = 0;
-YAngle = 0;
-ZAngle = 0;
 FOV = 80;
 AspectRatio = room_width/room_height;
 
@@ -52,67 +45,6 @@ GroundX1=0;
 GroundY1=0;
 GroundX2=0;
 GroundY2=0;
-Map = -1;
-global.Map = -1;
-global.CurrentPolyCount = 0;
-global.Mode=MODE_PLAY;
-{
-        d3d_start();
-        d3d_set_perspective(true);
-        d3d_set_hidden(true);
-        d3d_set_culling(true);        
-        d3d_set_projection_perspective(0,0, room_width, room_height, 90);  
-        rotationx = 0.0
-        vsync = false;
-        AA = 0;
-
-       
-       
-        global.XSpeed = 16;
-        global.YSpeed = 16;
-        global.ZSpeed = 32;
-        global.TiltSpeed = 0.5;
-        
-        global.ZPos = 0;
-        global.toggle = 0;
-
-        global.cubes=0;
-        global.polys=0;
-        global.cube=-1;
-        global.WaitText="Generating.....Please Wait";
-        x = 0;
-        y = 0;
-
-        alarm[0]=10;
-}
-
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>global.WaitText="";
-Map = instance_create(0,0,oMap);
-global.Map = Map;
-
 
 </string>
           </argument>
@@ -136,15 +68,19 @@ global.Map = Map;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Calculate what grid tiles we can see
+            <string>if( global.Camera!=id ) exit;
+
+// Calculate what grid tiles we can see
 CalcClipSpace();
 
+/*
 if( os_type ==os_android ){
     if( !surface_exists(screen) ){
         screen = surface_create(view_wview[0], view_hview[0] );
         view_surface_id[0] = screen;
     }
 }
+*/
 </string>
           </argument>
         </arguments>
@@ -166,7 +102,7 @@ if( os_type ==os_android ){
           <argument>
             <kind>1</kind>
             <string>///Camera controls
-
+/*
 //Set four temporary variables to whether the player is pressing each of the four direction buttons
 var Cl,Cu,Cr,Cd;
 Cu=keyboard_check(ord("W")) or keyboard_check(vk_up);
@@ -194,108 +130,8 @@ if Cu {CameraX+=lengthdir_x(CameraVSpeed,dir   );CameraY+=lengthdir_y(CameraVSpe
 if Cl {CameraX+=lengthdir_x(CameraHSpeed,dir-90);CameraY+=lengthdir_y(CameraHSpeed,dir-90);}
 if Cd {CameraX-=lengthdir_x(CameraVSpeed,dir   );CameraY-=lengthdir_y(CameraVSpeed,dir   );}
 if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpeed,dir+90);}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="90">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//FOV += 0.5;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="65">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//FOV -= 0.5;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="34">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if( keyboard_check(vk_lshift) ){
-    CameraZ += global.ZSpeed/4;
-}else{
-    CameraZ += global.ZSpeed;
-}
+*/
 
-CameraZ=min(-32,CameraZ)
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="5" enumb="33">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if( keyboard_check(vk_lshift) ){
-    CameraZ -= global.ZSpeed/4;
-}else{
-    CameraZ -= global.ZSpeed;
-}
 </string>
           </argument>
         </arguments>
@@ -319,9 +155,10 @@ CameraZ=min(-32,CameraZ)
           <argument>
             <kind>1</kind>
             <string>/// Draw GUI
-d3d_transform_set_identity();
-d3d_set_perspective(false);              
+//d3d_transform_set_identity();
+//d3d_set_perspective(false);              
 
+/*
 if( global.WaitText!="" )
 {
         draw_set_font(arial);
@@ -376,7 +213,7 @@ if( global.WaitText!="" )
     s = "mode="+modestring+" (&lt;M&gt; switch)";
     draw_outline( 40,62, s, c_white );
 }
-    
+*/    
 
 
 </string>
@@ -402,6 +239,7 @@ if( global.WaitText!="" )
           <argument>
             <kind>1</kind>
             <string>{      
+/*
     if( global.WaitText!="" )
     {
     }else{
@@ -434,214 +272,9 @@ if( global.WaitText!="" )
         
         global.CurrentPolyCount = 0;
     }       
+*/
 }
 
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="86">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Toggle VSync on/off
-if(vsync) 
-    vsync = false;
-else
-    vsync = true;
-    
-    
-display_reset(AA, vsync);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="77">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>global.Mode+=1;
-if (global.Mode&gt;=MODE_MAX) global.Mode=1;
-
-display_mouse_set(display_get_width()/2,display_get_height()/2);
-
-if (global.Mode==MODE_EDIT) dir+=180;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="27">
-      <action>
-        <libid>1</libid>
-        <id>332</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_end_game</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-    </event>
-    <event eventtype="10" enumb="57">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// illegal setting, AA will be forced off.
-display_reset(32,vsync);
-AA = 32;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="56">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// IF we have AA level 8, then set it
-if( display_aa&amp;8 ) {
-    display_reset(8,vsync);
-    AA = 8;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="52">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// IF we have AA level 4, then set it
-if( display_aa&amp;4 ) {
-    display_reset(4,vsync);
-    AA = 4;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="50">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// IF we have AA level 2, then set it
-if( display_aa&amp;2 ) {
-    display_reset(2,vsync);
-    AA = 2;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="48">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Set AA levels to 0
-display_reset(0,vsync);
-AA = 0;
 
 </string>
           </argument>

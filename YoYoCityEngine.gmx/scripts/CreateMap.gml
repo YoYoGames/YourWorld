@@ -1,3 +1,5 @@
+/// CreateMap(width,height,depth,cachesize,sidebase,topbase,pavement,tilesize,tileborder,groundlevel)
+//
 // Creates an empty map, with the world a simple ground (pavement) tile
 // _width = argument0  (default = 256)
 // _height= argument1  (default = 256)
