@@ -1,7 +1,7 @@
+// DeleteBlock(x,y,z,remove,side,lid)
 //
 // Add a block to the map, and remove adjoining faces where required
 //
-// AddBlock( x,y,z, remove )
 // argument0 = xcoord
 // argument1 = ycoord
 // argument2 = zcoord

@@ -1,6 +1,5 @@
-/// Allocate a single cube in the world, and return the block_info index
-/// x = argument0
-/// y = argument1
+/// FreeCacheEntry(GridCellX,GridCellY)
+//
 var _x=argument0;
 var _y=argument1;
 

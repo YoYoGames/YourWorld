@@ -9,7 +9,7 @@
 //
 
 
-if( Map>=0 ){
+if( global.Map>=0 ){
     var Hfar = 2*tan(degtorad(FOV)/2)*(abs(CameraZ)); //+(Map.MapDepth*64));
     var Wfar = Hfar*AspectRatio;
 

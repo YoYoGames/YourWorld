@@ -1,7 +1,7 @@
-/// Free a block at x,y,z (or decrease its reference count at least)
-/// x = argument0
-/// y = argument1
-/// z = argument2
+/// FreeBlock(x,y,z)
+//
+// Free a block at x,y,z (or decrease its reference count at least)
+//
 var _x=argument0;
 var _y=argument1;
 var _z=argument2;

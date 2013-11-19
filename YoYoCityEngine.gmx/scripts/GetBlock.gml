@@ -1,7 +1,7 @@
+/// GetBlock(x,y,z)
+//
 // return the block_info
-// _x = argument0
-// _y = argument1
-// _z = argument2
+//
 
 var _x=argument0;
 var _y=argument1;

@@ -1,4 +1,7 @@
-/// Add a cube to a mesh
+/// AddCube(x1,y1,z1,x2,y2,z2,colour,top,bottom,left,right,lid,base,flags)
+//
+// Add a cube to a mesh
+//
 // argument0 = model
 // argument1,argument2,argument3 = topleft x,y,z
 // argument4,argument5,argument6 = bottom right x,y,z

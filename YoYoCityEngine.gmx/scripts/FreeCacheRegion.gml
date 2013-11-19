@@ -1,7 +1,12 @@
-/// argument0 = x1
-/// argument1 = y1
-/// argument2 = x2
-/// argument3 = y2
+/// FreeCacheRegion(GridCellX1,GridCellY1,GridCellX2,GridCellY2)
+//
+// Free a region of cache
+// argument0 = x1
+// argument1 = y1
+// argument2 = x2
+// argument3 = y2
+//
+
 /*show_debug_message("tl: "+string(argument0)+","+string(argument1));
 show_debug_message("t2: "+string(argument2)+","+string(argument3));
 

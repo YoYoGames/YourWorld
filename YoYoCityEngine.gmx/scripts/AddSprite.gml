@@ -1,3 +1,5 @@
+/// AddSprite(Vbuffer,sprite,image,x,y,z,scalex,scaley,angle,colour)
+//
 // Add a sprite to our "sprite mesh"
 // argument0 = VertexBuffer
 // argument1 = sprite
@@ -11,7 +13,6 @@
 // argument9 = colour 
 
 var _x1,_x2,_y1,_y2,_z1,_z2,_sprw,_sprh,_cx,_cy, _colour,_alpha, _buff, tex, uvs;
-
 
 _buff = argument0;
 

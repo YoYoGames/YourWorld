@@ -1,7 +1,7 @@
-/// Make a block "unique" so that we can alter faces/tyextures/flags etc and return the block_info index
-/// x = argument0
-/// y = argument1
-/// z = argument2
+/// MakeUnique(x,y,z)
+//
+// Make a block "unique" so that we can alter faces/tyextures/flags etc and return the block_info index
+//
 var _x=argument0;
 var _y=argument1;
 var _z=argument2;

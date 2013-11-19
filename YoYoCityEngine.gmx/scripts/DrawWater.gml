@@ -1,3 +1,8 @@
+/// DrawWater()
+//
+// Draw the water plane
+//
+{
         d3d_set_culling(false);
         texture_set_repeat(true);
         d3d_set_lighting(false);
@@ -25,4 +30,6 @@
 
         ang+=1;
         if( ang>360 ) ang-=360;
-        
+}
+
+

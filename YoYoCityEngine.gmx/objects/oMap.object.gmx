@@ -279,6 +279,7 @@ if( !surface_exists(SelectionSurface) ){
     SelectionSurface = surface_create(view_wport[0],view_hport[0] );
 }
 
+
 // Work out visible map bounds.
 var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize )-1;
 var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize )-1;
@@ -294,7 +295,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         d3d_light_define_ambient($ff404040);
         d3d_light_enable(0,true);
         
-        var m = matrix_build(0,0,0, camera.XAngle,0,camera.ZAngle, 1,1,1);
+        var m = matrix_build(0,0,0,  0,0,0,  1,1,1);
         matrix_set(matrix_world,m);
         
         d3d_set_lighting(true);
@@ -303,7 +304,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         surface_set_target(DiffuseSurface);
         if(!HTML5) surface_set_target_ext(1,SelectionSurface);
         draw_clear_alpha(c_black,0);
-        SetProjection();
+        SetProjection(global.Camera);
          
         // Now render the map
         var texture = sprite_get_texture(StyleSprite,0); 
@@ -311,13 +312,13 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         RenderMap( gx1,gy1,gx2,gy2, texture, sprtexture, CityShader, SpriteSelectionShader );
         with(Water){ DrawWater(); }
         
-        // Draw all sprites
+/*        // Draw all sprites
         shader_set(SpriteSelectionShader);
         with(oTree){ 
             Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
         }
         shader_reset();
-        
+*/        
         
         // And release surface
         surface_reset_target();
@@ -330,7 +331,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
             {
                 // In HTML5 we can't do multiple render targets, so render the "pick" surface as a second pass
                 surface_set_target(SelectionSurface);
-                SetProjection();
+                SetProjection(global.Camera);
                 draw_clear_alpha(c_black,0);
                 var texture = sprite_get_texture(StyleSprite,0); 
                 var sprtexture = sprite_get_texture(sTree,0); 

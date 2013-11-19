@@ -1,7 +1,4 @@
-//
-// AddCacheEntry( Mesh, Polys )
-//
-// mesh = GenerateGridRegion( GridX,GridY )
+/// mesh = GetCacheEntry(GridX,GridY)
 //
 var gx = argument0;
 var gy = argument1;

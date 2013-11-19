@@ -1,4 +1,8 @@
-with(oCamera)
+/// SetProjection(camera)
+//
+// Set the view+projection
+//
+with(argument0)
 {
     if(global.Mode==MODE_EDIT)
     {
@@ -9,3 +13,5 @@ with(oCamera)
         d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
     }
 }
+
+
