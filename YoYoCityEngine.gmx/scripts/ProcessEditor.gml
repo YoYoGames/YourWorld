@@ -1,11 +1,13 @@
 /// Process the Editor state
 var camera = global.Camera;
 
-camera.dir += (display_mouse_get_x()-display_get_width()/2)/6
-camera.zdir += (display_mouse_get_y()-display_get_height()/2)/6
-camera.zdir = clamp(camera.zdir,-80,+80)
-display_mouse_set(display_get_width()/2,display_get_height()/2)
-
+if !instance_exists(oHUDParent)
+{
+    camera.dir += (display_mouse_get_x()-display_get_width()/2)/6
+    camera.zdir += (display_mouse_get_y()-display_get_height()/2)/6
+    camera.zdir = clamp(camera.zdir,-80,+80)
+    display_mouse_set(display_get_width()/2,display_get_height()/2)
+}
 
 //Set four temporary variables to whether the player is pressing each of the four direction buttons
 var Cl,Cu,Cr,Cd,KZup,KZdown;
