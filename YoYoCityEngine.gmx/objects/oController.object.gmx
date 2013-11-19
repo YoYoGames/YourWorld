@@ -120,6 +120,8 @@ if( instance_exists(global.Map)){
 }
 
 draw_set_font(arial);
+draw_set_halign(fa_left)
+draw_set_valign(fa_top)
 var s,aa,vs;      
 var cam = global.Camera;
 
