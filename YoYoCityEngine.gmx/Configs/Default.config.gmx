@@ -251,8 +251,14 @@
     <option_textureGroup0_parent>&lt;none&gt;</option_textureGroup0_parent>
     <option_textureGroup0_scaled>0</option_textureGroup0_scaled>
     <option_textureGroup0_targets>9223372036854775807</option_textureGroup0_targets>
-    <option_textureGroup_count>1</option_textureGroup_count>
+    <option_textureGroup1_border>2</option_textureGroup1_border>
+    <option_textureGroup1_nocropping>-1</option_textureGroup1_nocropping>
+    <option_textureGroup1_parent>&lt;none&gt;</option_textureGroup1_parent>
+    <option_textureGroup1_scaled>0</option_textureGroup1_scaled>
+    <option_textureGroup1_targets>9223372036854775807</option_textureGroup1_targets>
+    <option_textureGroup_count>2</option_textureGroup_count>
     <option_textureGroups0>Default</option_textureGroups0>
+    <option_textureGroups1>StaticSprites</option_textureGroups1>
     <option_tizen_app_id>http://yourdomain/3DModel</option_tizen_app_id>
     <option_tizen_build_version>0</option_tizen_build_version>
     <option_tizen_display_name>3DModel</option_tizen_display_name>
@@ -274,13 +280,13 @@
     <option_use_new_audio>True</option_use_new_audio>
     <option_variableerrors>False</option_variableerrors>
     <option_version>100</option_version>
-    <option_version_build>1</option_version_build>
+    <option_version_build>3</option_version_build>
     <option_version_company>YoYo Games Ltd.</option_version_company>
-    <option_version_copyright>(c) Sandy White</option_version_copyright>
-    <option_version_description>Example retro game, loading the old ZX Spectrum map files.</option_version_description>
+    <option_version_copyright>(c)YoYo Games Ltd</option_version_copyright>
+    <option_version_description>Display a world top down</option_version_description>
     <option_version_major>1</option_version_major>
     <option_version_minor>1</option_version_minor>
-    <option_version_product>3D Ant Attack demo</option_version_product>
+    <option_version_product>YoYoCityEngine</option_version_product>
     <option_version_release>0</option_version_release>
     <option_win8_advertising_appid></option_win8_advertising_appid>
     <option_win8_advertising_enable>0</option_win8_advertising_enable>
@@ -318,17 +324,17 @@
     <option_win8_texture_page>1024</option_win8_texture_page>
     <option_win8_wide_logo>Configs\Default\Windows8\logos\logo310.png</option_win8_wide_logo>
     <option_windowcolor>clBlack</option_windowcolor>
-    <option_windows_build_version>1</option_windows_build_version>
+    <option_windows_build_version>3</option_windows_build_version>
     <option_windows_company_info>YoYo Games Ltd.</option_windows_company_info>
-    <option_windows_copyright_info>(c) Sandy White</option_windows_copyright_info>
-    <option_windows_description_info>Example retro game, loading the old ZX Spectrum map files.</option_windows_description_info>
+    <option_windows_copyright_info>(c)YoYo Games Ltd</option_windows_copyright_info>
+    <option_windows_description_info>Display a world top down</option_windows_description_info>
     <option_windows_enable_steam>0</option_windows_enable_steam>
     <option_windows_game_icon>Configs\Default\windows\runner_icon.ico</option_windows_game_icon>
     <option_windows_license>Configs\Default\windows\License.txt</option_windows_license>
     <option_windows_mainor_version>1</option_windows_mainor_version>
     <option_windows_major_version>1</option_windows_major_version>
     <option_windows_nsis_file>Configs\Default\windows\RunnerInstaller.nsi</option_windows_nsis_file>
-    <option_windows_product_info>3D Ant Attack demo</option_windows_product_info>
+    <option_windows_product_info>YoYoCityEngine</option_windows_product_info>
     <option_windows_release_version>0</option_windows_release_version>
     <option_windows_runner_finished>Configs\Default\windows\Runner_finish.bmp</option_windows_runner_finished>
     <option_windows_runner_header>Configs\Default\windows\Runner_header.bmp</option_windows_runner_header>

@@ -43,9 +43,10 @@ var Width64  = (1.0/sprite_get_width(StyleSprite))*(TileSize-1);
 var Height64 = (1.0/sprite_get_height(StyleSprite))*(TileSize-1);
 
 var u,v;
-u=0;
-v=0;
-var uvs=0;
+
+// Keep these in the instance, so they aren't copied inside functions
+uvs=0;
+
 // top
 if( tile0>=0 ){
     u = (floor(tile0 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
@@ -325,7 +326,7 @@ if( tile3>=0 ){
 
 
 
-// front (lid)
+// lid
 if( tile4>=0 ){
     tile4+=TopBase;
     u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border)+ (OneOverW/2);
@@ -396,11 +397,11 @@ if( tile4>=0 ){
     global.polys+=2;
 }
 
-// front (lid)
+// base
 if( tile5>=0 ){
     tile4+=TopBase;
-    u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border)+ (OneOverW/2);
-    v = (floor(tile4 / PerRow) * TileBorder)*OneOverH + (OneOverH*border)+ (OneOverH/2);
+    u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border) + (OneOverW/2);
+    v = (floor(tile4 / PerRow) * TileBorder)*OneOverH + (OneOverH*border) + (OneOverH/2);
 
     var c=col|(6<<26);
 

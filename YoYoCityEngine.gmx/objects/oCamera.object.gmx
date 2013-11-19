@@ -47,10 +47,6 @@ ZAngle = 0;
 FOV = 80;
 AspectRatio = room_width/room_height;
 
-// Initialise view frustum
-InitViewFrustum();
-GenerateViewFrustum();
-
 // clip zone based on camera position and height
 GroundX1=0;
 GroundY1=0;
@@ -203,29 +199,6 @@ if Cr {CameraX+=lengthdir_x(CameraHSpeed,dir+90);CameraY+=lengthdir_y(CameraHSpe
         </arguments>
       </action>
     </event>
-    <event eventtype="5" enumb="81">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//GenerateViewFrustum();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="5" enumb="79">
       <action>
         <libid>1</libid>
@@ -354,14 +327,13 @@ if( global.WaitText!="" )
         draw_set_font(arial);
         draw_outline( 400,(room_height/2)-20, global.WaitText, c_white );
 }else{
-    if( os_type ==os_android ){
-        if( surface_exists(screen) ){
-            draw_surface_stretched(screen,0,0,1920,1080);
-        }
-    }
     if( instance_exists(global.Map)){
         if( surface_exists(global.Map.DiffuseSurface) ){
-            draw_surface_stretched(global.Map.DiffuseSurface,0,0,window_get_width(),window_get_height());
+            if( os_type ==os_android ){
+                draw_surface_stretched(screen,0,0,1920,1080);
+            }else{
+                draw_surface(global.Map.DiffuseSurface,0,0);
+            }
         }
         //if( surface_exists(global.Map.SelectionSurface) ){
         //    draw_surface_stretched(global.Map.SelectionSurface,0,0,window_get_width(),window_get_height());
@@ -389,7 +361,7 @@ if( global.WaitText!="" )
         vs = "OFF";
     }
 
-    s = "AA Levels available="+string(aa);
+    s = "W=("+string(window_get_width())+","+string(window_get_height())+")  AA Levels available="+string(aa);
     s = s+ "   (VSYNC:"+vs+")";
     s = s+ " px="+string(Map.MouseX)+",py="+string(Map.MouseY);
     draw_outline( 40,2, s, c_white );
@@ -444,7 +416,7 @@ if( global.WaitText!="" )
         ly = ly*d;
         lz = lz*d;
         
-        if global.Mode==MODE_EDIT
+        if global.Mode==MODE_EDIT &amp;&amp; !instance_exists(oHUDParent)
         {
             dir += (display_mouse_get_x()-display_get_width()/2)/6
             zdir += (display_mouse_get_y()-display_get_height()/2)/6
@@ -463,67 +435,6 @@ if( global.WaitText!="" )
         global.CurrentPolyCount = 0;
     }       
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///DEBUG: Draw view frustum 
-
-d3d_set_zwriteenable(false)
-
-d3d_primitive_begin(pr_linelist)
-
-d3d_vertex(Frustum_ntl_x,Frustum_ntl_y,Frustum_ntl_z);d3d_vertex(Frustum_ntr_x,Frustum_ntr_y,Frustum_ntr_z);
-d3d_vertex(Frustum_ntl_x,Frustum_ntl_y,Frustum_ntl_z);d3d_vertex(Frustum_nbl_x,Frustum_nbl_y,Frustum_nbl_z);
-d3d_vertex(Frustum_nbl_x,Frustum_nbl_y,Frustum_nbl_z);d3d_vertex(Frustum_nbr_x,Frustum_nbr_y,Frustum_nbr_z);
-d3d_vertex(Frustum_ntr_x,Frustum_ntr_y,Frustum_ntr_z);d3d_vertex(Frustum_nbr_x,Frustum_nbr_y,Frustum_nbr_z);
-
-d3d_vertex(Frustum_ntl_x,Frustum_ntl_y,Frustum_ntl_z);d3d_vertex(Frustum_ftl_x,Frustum_ftl_y,Frustum_ftl_z);
-d3d_vertex(Frustum_ntr_x,Frustum_ntr_y,Frustum_ntr_z);d3d_vertex(Frustum_ftr_x,Frustum_ftr_y,Frustum_ftr_z);
-d3d_vertex(Frustum_nbl_x,Frustum_nbl_y,Frustum_nbl_z);d3d_vertex(Frustum_fbl_x,Frustum_fbl_y,Frustum_fbl_z);
-d3d_vertex(Frustum_nbr_x,Frustum_nbr_y,Frustum_nbr_z);d3d_vertex(Frustum_fbr_x,Frustum_fbr_y,Frustum_fbr_z);
-
-d3d_vertex(Frustum_ftl_x,Frustum_ftl_y,Frustum_ftl_z);d3d_vertex(Frustum_ftr_x,Frustum_ftr_y,Frustum_ftr_z);
-d3d_vertex(Frustum_ftl_x,Frustum_ftl_y,Frustum_ftl_z);d3d_vertex(Frustum_fbl_x,Frustum_fbl_y,Frustum_fbl_z);
-d3d_vertex(Frustum_fbl_x,Frustum_fbl_y,Frustum_fbl_z);d3d_vertex(Frustum_fbr_x,Frustum_fbr_y,Frustum_fbr_z);
-d3d_vertex(Frustum_ftr_x,Frustum_ftr_y,Frustum_ftr_z);d3d_vertex(Frustum_fbr_x,Frustum_fbr_y,Frustum_fbr_z);
-
-d3d_primitive_end()
-
-d3d_set_zwriteenable(true)
-
-d3d_primitive_begin(pr_pointlist)
-
-for(var xxx=0;xxx&lt;5000;xxx+=200)
-{
-    for (var yyy=0;yyy&gt;-5000;yyy-=200)
-    {
-        for (var zzz=-200;zzz&gt;-2000;zzz-=200)
-        {
-            if FrustumTestSphere(xxx,yyy,zzz,1)
-            d3d_vertex(xxx,yyy,zzz)
-            //d3d_draw_block(xxx-2,yyy-2,zzz-2,xxx+2,yyy+2,zzz+2,   
-        }
-    }
-}
-
-d3d_primitive_end()
 </string>
           </argument>
         </arguments>
@@ -582,6 +493,39 @@ if (global.Mode&gt;=MODE_MAX) global.Mode=1;
 display_mouse_set(display_get_width()/2,display_get_height()/2);
 
 if (global.Mode==MODE_EDIT) dir+=180;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="32">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (global.Mode==MODE_EDIT)
+{
+    if !instance_exists(oHUDTileSelect)
+    {
+        instance_create(64,64,oHUDTileSelect)
+    }
+    else
+    {
+        with(oHUDTileSelect) instance_destroy()
+    }
+}
 </string>
           </argument>
         </arguments>

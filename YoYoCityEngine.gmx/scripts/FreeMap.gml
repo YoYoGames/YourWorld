@@ -3,7 +3,13 @@
 
 // First free the map arrays
 ds_grid_destroy(Map);
+ds_grid_destroy(Sprites);
 Map=-1;
+Sprites=-1;
+
+// free render list
+RenderList = 0;
+
 
 // Next destroy the cache
 var gw=(MapWidth+GridCacheSize-1)/GridCacheSize;

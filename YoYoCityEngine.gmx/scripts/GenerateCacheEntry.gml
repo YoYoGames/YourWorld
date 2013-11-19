@@ -7,7 +7,8 @@ var gx = argument0;
 var gy = argument1;
 
 //show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
-var Mesh = vertex_create_buffer_ext(128*1024);
+var Mesh = vertex_create_buffer_ext(512*1024);
+var SpriteMesh = vertex_create_buffer_ext(8*1024);
 
 // Get map bounds.
 var x1 = gx*GridCacheSize;
@@ -16,11 +17,15 @@ var x2 = x1+GridCacheSize;
 var y2 = y1+GridCacheSize;
 
 var polys = global.polys;
+var spritepolys=0;
 
 // keep local for faster access
 var blockinfo = block_info;
 var themap = Map;
-vertex_begin(Mesh, CityFormat);
+var thesprites = Sprites;
+vertex_begin(SpriteMesh, global.SpriteFormat);
+vertex_begin(Mesh, global.CityFormat);
+
 {
         global.cubes = 0;
         WSize = MapWidth*TileSize;
@@ -60,6 +65,23 @@ vertex_begin(Mesh, CityFormat);
                     }
                     z-=sp;
                 }
+                
+                
+                // Now do all sprites in this column
+                a = ds_grid_get(thesprites,xx,yy);   
+                if( is_array(a) ){
+                    // if its an array, then there are sprites here.
+                    var l = array_length_1d(a);
+                    for(var i=0;i<l;i++){
+                        var s = a[i];
+                        var image = GetImage( s[0] );
+                        var sxx = x+(s[1]&$ff);
+                        var syy = y- ((s[1]&$ff00)>>8);
+                        var szz = ((s[1]>>16)&$ffff);
+                        AddSprite(SpriteMesh, image,0,sxx,syy,szz, 1,1,0, $ffffffff ); 
+                        spritepolys+=2;
+                    }
+                }
                 x+=sp;
              }
              y-=sp;
@@ -69,14 +91,29 @@ x=0;
 y=0;
 
 vertex_end(Mesh);
+vertex_end(SpriteMesh);
+
 var MeshA = 0;
-MeshA[1]=global.polys-polys;
-if( MeshA[1]==0 ){
+var polys=global.polys-polys;
+if( polys==0 ){
     vertex_delete_buffer(Mesh);
     Mesh=-1;
 }else{
     vertex_freeze(Mesh);
 }
+
+
+
+if( spritepolys==0 ){
+    vertex_delete_buffer(SpriteMesh);
+    SpriteMesh=-1;
+}else{
+    vertex_freeze(SpriteMesh);
+}
+
+
+MeshA[2]=spritepolys + polys;
+MeshA[1]=SpriteMesh;
 MeshA[0]=Mesh;
 return MeshA;
 

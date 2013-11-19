@@ -26,14 +26,6 @@
       <script>scripts\CheckLine.gml</script>
     </scripts>
     <scripts name="CityEngine">
-      <scripts name="Construction">
-        <script>scripts\AddCube.gml</script>
-        <script>scripts\Flip_tile_UD.gml</script>
-        <script>scripts\Rotate_tile.gml</script>
-        <script>scripts\Flip_tile_LR.gml</script>
-        <script>scripts\CreateMap.gml</script>
-        <script>scripts\PullUpRegion.gml</script>
-      </scripts>
       <scripts name="Mesh">
         <script>scripts\GetCacheEntry.gml</script>
         <script>scripts\GenerateCacheEntry.gml</script>
@@ -41,19 +33,27 @@
         <script>scripts\FreeCacheRegion.gml</script>
         <script>scripts\RenderMap.gml</script>
         <script>scripts\DrawWater.gml</script>
+        <scripts name="Cubes">
+          <script>scripts\AddCube.gml</script>
+          <script>scripts\Flip_tile_UD.gml</script>
+          <script>scripts\Rotate_tile.gml</script>
+          <script>scripts\Flip_tile_LR.gml</script>
+        </scripts>
+        <scripts name="Sprites">
+          <script>scripts\AddSprite.gml</script>
+          <script>scripts\GetImage.gml</script>
+        </scripts>
       </scripts>
       <scripts name="Camera">
         <script>scripts\CalcClipSpace.gml</script>
         <script>scripts\SetProjection.gml</script>
-        <script>scripts\InitViewFrustum.gml</script>
-        <script>scripts\GenerateViewFrustum.gml</script>
-        <script>scripts\FrustumTestSphere.gml</script>
       </scripts>
       <scripts name="Utils">
         <script>scripts\GetFace.gml</script>
         <script>scripts\Hex.gml</script>
         <script>scripts\CompressBuffer.gml</script>
         <script>scripts\FreeMap.gml</script>
+        <script>scripts\debug.gml</script>
       </scripts>
       <scripts name="IO">
         <script>scripts\SaveMap.gml</script>
@@ -61,13 +61,19 @@
       </scripts>
       <scripts name="Editing">
         <script>scripts\FreeBlock.gml</script>
+        <script>scripts\CreateMap.gml</script>
         <script>scripts\MakeUnique.gml</script>
         <script>scripts\AllocBlock.gml</script>
         <script>scripts\AddBlock.gml</script>
         <script>scripts\DeleteBlock.gml</script>
         <script>scripts\GetBlock.gml</script>
         <script>scripts\GetBlockIndex.gml</script>
+        <script>scripts\PullUpRegion.gml</script>
       </scripts>
+    </scripts>
+    <scripts name="GUI">
+      <script>scripts\mouse_rectangle.gml</script>
+      <script>scripts\mouse_click_rectangle.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -79,8 +85,12 @@
   </shaders>
   <fonts name="fonts">
     <font>fonts\arial</font>
+    <font>fonts\fTwCenM</font>
+    <font>fonts\fTwCenConM</font>
+    <font>fonts\fTwCenConS</font>
   </fonts>
   <objects name="objects">
+    <object>objects\oInitialise</object>
     <object>objects\oCamera</object>
     <object>objects\oMap</object>
     <object>objects\oScreen</object>
@@ -90,12 +100,15 @@
     <objects name="Parents">
       <object>objects\oSprite</object>
     </objects>
+    <object>objects\oHUDParent</object>
+    <object>objects\oHUDTileSelect</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\Initialise</room>
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="11">
+  <constants number="15">
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
     <constant name="MODE_MAX">3</constant>
@@ -107,6 +120,10 @@
     <constant name="BLK_BASE">5</constant>
     <constant name="BLK_FLAGS1">6</constant>
     <constant name="BLK_FLAGS2">7</constant>
+    <constant name="TILE_TAB_ROOFS">0</constant>
+    <constant name="TILE_TAB_WALLS">1</constant>
+    <constant name="TILE_TAB_FLOORS">2</constant>
+    <constant name="TILE_TAB_MAX">2</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

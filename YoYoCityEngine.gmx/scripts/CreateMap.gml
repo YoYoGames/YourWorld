@@ -50,6 +50,10 @@ GridCacheSize = _gridcachesize;    // Size of a cache block
 GroundLevel = _groundlevel;        // Level the pavement starts at
 FreeList = ds_stack_create();      // create a new block_info free list
 
+// Used during rendering
+RenderList = 0;
+RenderList[0]=0;
+
 CacheWidth = floor( (MapWidth+GridCacheSize-1)/GridCacheSize );
 CacheHeight = floor( (MapHeight+GridCacheSize-1)/GridCacheSize );
 
@@ -58,12 +62,14 @@ show_debug_message("w="+string(MapWidth)+", h="+string(MapHeight)+", d="+string(
 
 // First create the empty mesh cache
 Cache = ds_grid_create(CacheWidth,CacheHeight);             // Mesh cache
-Map = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for the map
+Map = ds_grid_create(MapWidth,MapHeight);                   // actual grid of arrays used for the map
+Sprites = ds_grid_create(MapWidth,MapHeight);               // actual grid of arrays used for sprites in the map
 RefCount = 0;
 RefCount[0]=1;      // these blocks must ALWAYS have a ref
 RefCount[1]=1;      //
 RefCount[2]=1;      //
 
+// Generate map
 for(var yy=0;yy<MapHeight;yy++){
     for(var xx=0;xx<MapWidth;xx++){
         var a=0;
@@ -75,6 +81,8 @@ for(var yy=0;yy<MapHeight;yy++){
         a[GroundLevel]=2; 
         RefCount[2]++;
         ds_grid_set(Map,xx,yy,a);
+        
+        ds_grid_set(Sprites, xx,yy, 0);                     // clear sprite list (not an array)
     }
 }
 // Init cache
@@ -124,4 +132,9 @@ info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
 info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
 block_info[2]=info;
 block_info_size = 3;    
+
+
+
+
+
 

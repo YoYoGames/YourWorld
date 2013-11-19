@@ -2,7 +2,7 @@
 <object>
   <spriteName>sTree</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>oSprite</parentName>
@@ -25,14 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Create the Vertex Format we'll use
-vertex_format_begin();
-vertex_format_add_position_3d();
-vertex_format_add_colour();
-vertex_format_add_textcoord();
-global.SpriteFormat = vertex_format_end();
-global.vbuffer = vertex_create_buffer_ext(4*1024);
-
+            <string>/// Create a tree
 // position tree
 x = 2*64;
 y = 2*64;

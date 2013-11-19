@@ -7,10 +7,13 @@
 // Author:			Mike
 // Project:			TileBuilder
 // Description:		Reads in a list of tiles and builds a tilemap PNG file, complete with edge smearing.
+//                  If a single PNG, will generate a map (.city file) from it.
 // 
 // Date				Version		BY		Comment
 // ----------------------------------------------------------------------------------------------------------------------
 // 30/10/2013		V1.0.0      MJD     1st version.
+// 05/11/2013		V1.0.1      MJD     Map generation added
+// 12/11/2013		V1.0.2      MJD     Fixed tile generation bug
 // 
 // **********************************************************************************************************************
 using System;
