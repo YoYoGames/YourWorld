@@ -69,7 +69,7 @@ zdir=0;
             <string>/// Handle everything - states, movement etc.
 
 // Toggle between game and editor
-var key=keyboard_check(ord("M"));
+var key=keyboard_check_pressed(ord("M"));
 if( key!=0 ){
     if( global.Mode==MODE_EDIT ){
         global.Mode=MODE_PLAY;

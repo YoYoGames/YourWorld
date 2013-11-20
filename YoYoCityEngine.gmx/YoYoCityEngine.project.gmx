@@ -82,6 +82,7 @@
     <scripts name="GUI">
       <script>scripts\mouse_rectangle.gml</script>
       <script>scripts\mouse_click_rectangle.gml</script>
+      <script>scripts\mouse_hold_rectangle.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
