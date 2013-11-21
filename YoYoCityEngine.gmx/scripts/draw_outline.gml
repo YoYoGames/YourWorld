@@ -1,3 +1,4 @@
+/// draw_outline(x,y,string,colour)
 xx = argument0;             // x coordinate
 yy = argument1;             // y coordinate
 ss = argument2;             // string to render

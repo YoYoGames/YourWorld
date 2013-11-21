@@ -25,17 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Read the binary map format
-/*var map_buff;
-if( os_browser==browser_not_a_browser ){
-    map_buff = buffer_load("map.dat");
-    show_debug_message("Native: "+string(map_buff));
-}else{
-    map_buff = buffer_load("map.txt");
-    show_debug_message("HTML5: "+map_buff);
-}
-*/
-
+            <string>/// Create an empty map
 
 StyleSprite=sStyle1;
 //CreatreMap(width,height,depth, gridcachesize, sidebase,topbase,pavement, tilesize,tileborder);
@@ -53,115 +43,24 @@ if( os_browser != browser_not_a_browser ){
 
 CityFormat = global.CityFormat;
 
-DiffuseSurface = -1;
-SelectionSurface = -1;
-PickedColour="$00000000";
-DoPick=false;
+//DiffuseSurface = -1;
+//SelectionSurface = -1;
 MouseX=0;
 MouseY=0;
-PickY=-1;
-PickX=-1;
-PickZ=-1;
-PickFace=-1;
-EditMode = 1;
-PickButton=0;
+//PickY=-1;
+//PickX=-1;
+//PickZ=-1;
+//PickFace=-1;
+
+PickPixel=$7fffffff;
 LastFileName="mymap.city";
-//buffer_delete(map_buff);
 
+// Create the water plane
 Water = instance_create(0,0,oWater);
-//Tree = instance_create(0,0,oTree);
 
 
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="3" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if( DoPick==2 )
-{
-    if( EditMode==1 ){
-        // Left click
-        if( PickButton==1 )
-        {
-            var xx,yy,zz;
-            xx=PickX;
-            yy=PickY;
-            zz=PickZ; 
-            switch(PickFace){
-                case 1:yy--; break;
-                case 2:yy++; break;
-                case 3:xx--; break;
-                case 4:xx++; break;
-                case 5:zz++; break;
-                case 6:zz--; break;
-            }
 
-            if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
-            {        
-                var blk = AddBlock(xx,yy,zz);
-                FreeCacheRegion(xx-1,yy-1, xx+1,yy+1);   
-            }
-        }
-        // Right click
-        if( PickButton==2 )
-        {
-            if( PickZ&gt;0 )
-            {       
-                DeleteBlock(PickX,PickY,PickZ);
-                FreeCacheRegion(PickX-1,PickY-1, PickX+1,PickY+1);   
-            }
-        }
-        // middle "paint"
-        if( PickButton==3 )
-        {
-            var SideBlock = 2;
-            var LidBlock = 15;
-            var xx,yy,zz;
-            xx=PickX;
-            yy=PickY;
-            zz=PickZ; 
-            if(( zz&gt;=0 &amp;&amp; zz&lt;MapDepth ) &amp;&amp; (xx&gt;=0 &amp;&amp; xx&lt;MapWidth) &amp;&amp; (yy&gt;=0 &amp;&amp; yy&lt;MapHeight))
-            {
-                var blk = MakeUnique(xx,yy,zz);
-                var info = block_info[blk];
-                switch(PickFace){
-                    case 1: info[BLK_TOP]=SideBlock; break;
-                    case 2: info[BLK_BOTTOM]=SideBlock; break;
-                    case 3: info[BLK_LEFT]=SideBlock; break;
-                    case 4: info[BLK_RIGHT]=SideBlock; break;
-                    case 5: info[BLK_LID]=LidBlock; break;
-                    case 6: info[BLK_BASE]=LidBlock; break;
-                }
-                block_info[blk] = info;
-                FreeCacheRegion(xx-1,yy-1, xx+1,yy+1);   
-           }
-        }
-        
-        PickButton=0;  
-               
-    }
-    
-    
-    DoPick=0;
-}
 </string>
           </argument>
         </arguments>
@@ -184,12 +83,13 @@ Water = instance_create(0,0,oWater);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( DoPick!=0 ) exit;
+            <string>/*if( DoPick!=0 ) exit;
 MouseX = mouse_x;
 MouseY = mouse_y;
 PickButton=2;
 DoPick = 1;
 
+*/
 
 </string>
           </argument>
@@ -213,13 +113,14 @@ DoPick = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( DoPick!=0 ) exit;
+            <string>/*
+if( DoPick!=0 ) exit;
 MouseX = mouse_x;
 MouseY = mouse_y;
 PickButton=1;
 DoPick = 1;
 
-
+*/
 </string>
           </argument>
         </arguments>
@@ -242,13 +143,13 @@ DoPick = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( DoPick!=0 ) exit;
+            <string>/*if( DoPick!=0 ) exit;
 MouseX = mouse_x;
 MouseY = mouse_y;
 PickButton=3;
 DoPick = 1;
 
-
+*/
 </string>
           </argument>
         </arguments>
@@ -271,87 +172,31 @@ DoPick = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var camera = global.Camera;
-if( !surface_exists(DiffuseSurface) ){
-    DiffuseSurface = surface_create(view_wport[0],view_hport[0] );
-}
-if( !surface_exists(SelectionSurface) ){
-    SelectionSurface = surface_create(view_wport[0],view_hport[0] );
-}
+            <string>/// Render the map
+var camera = global.Camera;
 
 
 // Work out visible map bounds.
-var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize )-1;
-var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize )-1;
-var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
-var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
-global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
-
+//var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize )-1;
+//var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize )-1;
+//var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
+//var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
+//global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
        
 {           
-        draw_set_color(c_red);
-        d3d_set_lighting(true);
-        d3d_light_define_direction(0,  0.2,0.45,1.0, $fce7ce);
-        d3d_light_define_ambient($ff404040);
-        d3d_light_enable(0,true);
         
-        var m = matrix_build(0,0,0,  0,0,0,  1,1,1);
-        matrix_set(matrix_world,m);
-        
-        d3d_set_lighting(true);
-        
-        // First set surfaces and reset projection
-        surface_set_target(DiffuseSurface);
-        if(!HTML5) surface_set_target_ext(1,SelectionSurface);
-        draw_clear_alpha(c_black,0);
-        SetProjection(global.Camera);
-         
         // Now render the map
         var texture = sprite_get_texture(StyleSprite,0); 
         var sprtexture = sprite_get_texture(sTree,0); 
-        RenderMap( gx1,gy1,gx2,gy2, texture, sprtexture, CityShader, SpriteSelectionShader );
+        RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, CityShader, SpriteSelectionShader );
         with(Water){ DrawWater(); }
         
-/*        // Draw all sprites
+        // Draw all sprites
         shader_set(SpriteSelectionShader);
-        with(oTree){ 
-            Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
-        }
+        with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
         shader_reset();
-*/        
         
-        // And release surface
-        surface_reset_target();
-         
-
         
-        if( DoPick==1 )
-        {
-            if( HTML5 )
-            {
-                // In HTML5 we can't do multiple render targets, so render the "pick" surface as a second pass
-                surface_set_target(SelectionSurface);
-                SetProjection(global.Camera);
-                draw_clear_alpha(c_black,0);
-                var texture = sprite_get_texture(StyleSprite,0); 
-                var sprtexture = sprite_get_texture(sTree,0); 
-                RenderMap( gx1,gy1,gx2,gy2, texture, sprtexture, RenderSelection,RenderSelection );
-                surface_reset_target();
-            }
-            var col = surface_getpixel_ext( SelectionSurface, MouseX,MouseY );
-            PickedColour=Hex(col);
-            var c = col&amp;$3ffffff;
-            c = ((c&gt;&gt;16)&amp;$ff) | (c&amp;$ff00ff00) | ((c&amp;$ff)&lt;&lt;16);          // swap R&amp;B channels so we get ARGB again
-            PickY = c div (MapDepth*MapWidth);
-            PickX = (c-(PickY*(MapDepth*MapWidth))) div (MapDepth);
-            PickZ = floor(c mod MapDepth);
-            PickFace = (col&gt;&gt;26)&amp;7;
-            DoPick=2;
-        }
-        
-                
-        d3d_set_lighting(false);              
-       
 }
 
 </string>
@@ -376,7 +221,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( !HTML5 ) {
+            <string>if( !global.HTML5 ) {
     var filename = get_open_filename("YoYo City Maps|*.city",LastFileName);
     if( filename!=""){
         LastFileName=filename;
@@ -407,7 +252,7 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( !HTML5 ) {
+            <string>if( !global.HTML5 ) {
     var buff = SaveMap(id);
     var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
     if( filename!="" ){
@@ -415,31 +260,6 @@ global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
         buffer_save_ext(buff, LastFileName, 0, buffer_tell(buff));
     }
 }
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="32">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>surface_save(DiffuseSurface,"background.png");
-surface_save(SelectionSurface,"selection.png");
 
 </string>
           </argument>

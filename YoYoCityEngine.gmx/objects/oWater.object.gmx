@@ -110,36 +110,8 @@ vertex_freeze(buff);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*        
-        d3d_set_culling(false);
-        texture_set_repeat(true);
-        d3d_set_lighting(false);
-        texture_set_interpolation(true);
-        
-        // First set surfaces and reset projection
-        var texture = sprite_get_texture(sWater,0); 
-        surface_set_target(global.Map.DiffuseSurface);
-        SetProjection();
-         
-        var s = sin(degtorad(ang))*16;
-        
-        var m = matrix_build(0,0,(-2.2*64)+s,0,0,0,1,1,1);
-        matrix_set(matrix_world,m);
-        
-        // Now render the map
-        shader_set(WaterShader);
-        vertex_submit(WaterMesh, pr_trianglelist,texture);        
-        shader_reset();
-                
-        surface_reset_target();
-        texture_set_interpolation(false);
-        d3d_set_culling(true);
-        texture_set_repeat(false);
-
-        ang+=1;
-        if( ang&gt;360 ) ang-=360;
-        
-        */
+            <string>/// do nothing
+//DrawWater();
 </string>
           </argument>
         </arguments>
