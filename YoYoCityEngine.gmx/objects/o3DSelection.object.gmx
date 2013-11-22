@@ -47,8 +47,31 @@ LPickY2 = -1;
 LPickZ2 = -1;
 LPickFace = -1;
 Mode = 0;
-vbuff = -1; vertex_create_buffer_ext(4*1024);
+vbuff = -1; 
 ang=0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if( vbuff&gt;=0 ) vertex_delete_buffer(vbuff);
 </string>
           </argument>
         </arguments>
@@ -228,9 +251,12 @@ if( LPickX1!=PickX1 || LPickY1!=PickY1  || LPickZ1!=PickZ1 || LPickX2!=PickX2 ||
     var m = matrix_build(0,0,0,0,0,0,1,1,1);
     matrix_set(matrix_world,m);
 
-//d3d_set_zwriteenable(false);
-vertex_submit( vbuff, pr_trianglelist, 0 );
-//d3d_set_zwriteenable(true);
+if( vbuff &gt;=0 ){
+    d3d_set_zwriteenable(false);
+    vertex_submit( vbuff, pr_trianglelist, 0 );
+    d3d_set_zwriteenable(true);
+}
+
 
 
 

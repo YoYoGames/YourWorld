@@ -82,5 +82,19 @@ if( KMleft || KMright || KMmiddle )
     }
 }
 
+// use the wheel to go up and down (face specific)
+if( PickingMode==-1 && instance_exists(SelectionInstance)){
+    if( KMwheelup ) UseWheel(SelectionInstance,1);
+    if( KMwheeldown ) UseWheel(SelectionInstance,-1);
+    if( Kinsert ) FillSelection(SelectionInstance);
+    if( Kdelete) DeleteSelection(SelectionInstance);
+    if( Kescape) {
+            with(SelectionInstance) {
+                instance_destroy();
+            }
+            SelectionInstance=-1;
+    }
+}
+
 
 

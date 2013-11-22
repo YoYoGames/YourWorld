@@ -1,4 +1,4 @@
-/// FreeCacheRegion(GridCellX1,GridCellY1,GridCellX2,GridCellY2)
+/// FreeCacheRegion(map,GridCellX1,GridCellY1,GridCellX2,GridCellY2)
 //
 // Free a region of cache
 // argument0 = x1
@@ -30,11 +30,13 @@ for(var yy=gy1;yy<=gy2;yy++)
 }
 */
 
-for(var yy=argument1;yy<=argument3;yy++)
+with(argument0)
 {
-    for(var xx=argument0;xx<=argument2;xx++)
+    for(var yy=argument2;yy<=argument4;yy++)
     {
-        FreeCacheEntry(xx,yy);
+        for(var xx=argument1;xx<=argument3;xx++)
+        {
+            FreeCacheEntry(xx,yy);
+        }
     }
 }
-

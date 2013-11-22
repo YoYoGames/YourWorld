@@ -14,6 +14,11 @@ Kshift=keyboard_check(vk_lshift) or keyboard_check(vk_rshift);
 KMleft=mouse_check_button(mb_left);
 KMmiddle=mouse_check_button(mb_middle);
 KMright=mouse_check_button(mb_right);
+KMwheelup=mouse_wheel_up();
+KMwheeldown=mouse_wheel_down();
+Kinsert=keyboard_check(vk_enter);
+Kdelete=keyboard_check(vk_delete);
+Kescape=keyboard_check(vk_escape);
 AllowPick=true;
 
 

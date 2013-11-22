@@ -29,8 +29,8 @@ with(_map)
 
         if(( zz>=0 && zz<MapDepth ) && (xx>=0 && xx<MapWidth) && (yy>=0 && yy<MapHeight))
         {        
-            var blk = AddBlock(xx,yy,zz);
-            FreeCacheRegion(xx-1,yy-1, xx+1,yy+1);   
+            var blk = AddBlock(id,xx,yy,zz,true,1,1);
+            FreeCacheRegion(id,xx-1,yy-1, xx+1,yy+1);   
         }
     }    
     // Right click
@@ -38,8 +38,8 @@ with(_map)
     {
         if( _z>0 )
         {       
-            DeleteBlock(_x,_y,_z);
-            FreeCacheRegion(_x-1,_y-1, _x+1,_y+1);   
+            DeleteBlock(id,_x,_y,_z);
+            FreeCacheRegion(id,_x-1,_y-1, _x+1,_y+1);   
         }
     }
     
@@ -65,7 +65,7 @@ with(_map)
                 case 6: info[BLK_BASE]=LidBlock; break;
             }
             block_info[blk] = info;
-            FreeCacheRegion(xx-1,yy-1, xx+1,yy+1);   
+            FreeCacheRegion(id,xx-1,yy-1, xx+1,yy+1);   
        }
     }
            
