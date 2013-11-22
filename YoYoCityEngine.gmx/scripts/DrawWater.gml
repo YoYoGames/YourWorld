@@ -3,6 +3,7 @@
 // Draw the water plane
 //
 {
+        d3d_set_zwriteenable(false);
         d3d_set_culling(false);
         texture_set_repeat(true);
         d3d_set_lighting(false);
@@ -27,6 +28,7 @@
         texture_set_interpolation(false);
         d3d_set_culling(true);
         texture_set_repeat(false);
+        d3d_set_zwriteenable(true);
 
         ang+=1;
         if( ang>360 ) ang-=360;
