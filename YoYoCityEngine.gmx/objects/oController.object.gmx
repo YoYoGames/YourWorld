@@ -258,13 +258,13 @@ if( global.WaitText!="" )
             <kind>1</kind>
             <string>if (global.Mode==MODE_EDIT)
 {
-    if !instance_exists(oHUDTileSelect)
+    if !instance_exists(oHUDEntitySelect)
     {
-        instance_create(64,64,oHUDTileSelect)
+        instance_create(64,64,oHUDEntitySelect)
     }
     else
     {
-        with(oHUDTileSelect) instance_destroy()
+        with(oHUDEntitySelect) instance_destroy()
     }
 }
 </string>

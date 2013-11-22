@@ -55,8 +55,9 @@ WindowContentDrawY=73;
 WindowContentY=0;
 WindowContentYMin=0;
 
-Tab=TILE_TAB_ROOFS
-TabMax=TILE_TAB_MAX
+//Current tab and maximum tab
+Tab=0;
+TabMax=ENTITY_TAB_MAX;
 
 Holding=0
 
@@ -90,8 +91,8 @@ if (Holding==1)
     x+=(device_mouse_raw_x(0)-device_mouse_raw_xprevious)
     y+=(device_mouse_raw_y(0)-device_mouse_raw_yprevious)
     
-    x=clamp(x,1,window_get_width()-1)
-    y=clamp(y,1,window_get_height()-1)
+    x=clamp(x,-WindowWidth+10,window_get_width()-10)
+    y=clamp(y,1,window_get_height()-10)
     
     device_mouse_raw_xprevious=device_mouse_raw_x(0)
     device_mouse_raw_yprevious=device_mouse_raw_y(0)
@@ -219,13 +220,14 @@ for( var i=0; i&lt;=TabMax; i+=1)
     var tabx1=x+3+(i*85); //X location of this tab
     
     //Logic for selecting tabs
-    if mouse_hold_rectangle(tabx1,y+41,tabx1+82,y+67)
+    if (mouse_click_rectangle(tabx1,y+41,tabx1+82,y+67))
     {
-        Tab=i
+        Tab=i;
+        WindowContentRedraw=true;
     }
     
     //Selected colour
-    if(i==Tab)
+    if (i==Tab)
     {
         draw_set_color(c_gray);
         draw_rectangle(tabx1,y+41,tabx1+82,y+67,0);
@@ -236,9 +238,11 @@ for( var i=0; i&lt;=TabMax; i+=1)
     draw_rectangle(tabx1,y+41,tabx1+82,y+67,1);   
     
     //Text
-    var str="ROOFS";
-    if(i==TILE_TAB_WALLS) str="WALLS";
-    if(i==TILE_TAB_FLOORS) str="FLOORS";
+    var str="BLOCKS";
+    if(i==ENTITY_TAB_SIDES) str="SIDES";
+    if(i==ENTITY_TAB_TOPS) str="TOPS";
+    if(i==ENTITY_TAB_SPRITES) str="SPRITES";
+    if(i==ENTITY_TAB_OBJECTS) str="OBJECTS";
     draw_text(tabx1+41,y+54,str); 
 }
 
@@ -329,7 +333,7 @@ draw_set_color(c_white)
             <kind>1</kind>
             <string>///Draw window content
 
-if !surface_exists(WindowContent)
+if (!surface_exists(WindowContent))
 {
     WindowContentRedraw=true;
     WindowContent=surface_create(1024,1024);
@@ -341,14 +345,58 @@ if (WindowContentRedraw==true)
     surface_set_target(WindowContent);
     draw_clear(c_white);
     
-    /*draw_set_color(c_black);
-    draw_set_font(fTwCenM);
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_center);
-    for(var j=0;j&lt;=1024;j+=64)
+    var iteration=0, iterationMax=0;
+    
+    //Read the group/entity details from the supplied .ini file
+    ini_open("style1.yyg")
+    for(var i=0; i&lt;=ENTITY_TAB_MAX; i+=1)
     {
-        draw_text(32,j,string(j));
-    }*/
+        var itemOn="blocks";
+        if i==ENTITY_TAB_SIDES   itemOn="sides";
+        if i==ENTITY_TAB_TOPS    itemOn="tops";
+        if i==ENTITY_TAB_SPRITES itemOn="sprites";
+        if i==ENTITY_TAB_OBJECTS itemOn="objects";
+        
+        itemMax[ENTITY_TAB_BLOCKS]=ini_read_real("details","tilesGroupCount",0)
+        itemMax[ENTITY_TAB_SIDES]=ini_read_real("details","tilesGroupCount",0)
+        itemMax[ENTITY_TAB_TOPS]=ini_read_real("details","tilesGroupCount",0)
+        itemMax[ENTITY_TAB_SPRITES]=ini_read_real("details","spritesGroupCount",0)
+        itemMax[ENTITY_TAB_OBJECTS]=ini_read_real("details","objectsGroupCount",0)
+        
+        for(var j=0; j&lt;itemMax[i]; j+=1)
+        {
+            if (j==ENTITY_TAB_SPRITES or j==ENTITY_TAB_OBJECTS)
+            {
+                var itemName; itemName[i,j]=ini_read_string(itemOn,"name"+string(j),"MISSINGNO");
+                var itemDesc; itemDesc[i,j]=ini_read_string(itemOn,"desc"+string(j),"MISSINGNO");
+                var itemListPred           =ini_read_string(itemOn,"list"+string(j),"0,1");
+            }
+            else
+            {
+                var itemName; itemName[i,j]=ini_read_string("tiles","name"+string(j),"MISSINGNO");
+                var itemDesc; itemDesc[i,j]=ini_read_string("tiles","desc"+string(j),"MISSINGNO");
+                var itemListPred           =ini_read_string("tiles",itemOn+"_list"+string(j),"0,1");
+            }
+            
+            var itemList; itemList[i,j]=ds_queue_create();
+            
+            while (string_length(itemListPred)&gt;0)
+            {
+                if (string_pos(",",itemListPred))
+                {
+                    var pos=string_pos(",",itemListPred);
+                    ds_queue_enqueue(itemList[i,j],real(string_copy(itemListPred,1,pos-1)))
+                    itemListPred=string_copy(itemListPred,pos+1,string_length(itemListPred)-(pos))
+                }
+                else
+                {
+                    ds_queue_enqueue(itemList[i,j],real(itemListPred))
+                    itemListPred=""
+                }        
+            }
+        }
+    }
+    ini_close()
     
     //Set tileset
     var tilesprite=sStyle1, spritewidth=sprite_get_width(tilesprite);
@@ -359,38 +407,62 @@ if (WindowContentRedraw==true)
     //Set drawing positions and constraints
     var drawX=0, drawY=0, drawXoff=32, drawYoff=32, drawXmax=(WindowWidth-28-(drawXoff*2)), drawGap=16;
     
-    while (cursprite&lt;=maxsprite)
+    //Loop through each of the groups, drawing its name, tiles etc
+    for(var i=0; i&lt;itemMax[Tab]; i+=1)
     {
-        //If you clicked the current tile
-        if (WindowContentClicked==true)
+        //Start by drawing the group's name
+        draw_set_color(c_black);
+        draw_set_font(fTwCenM);
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_center);
+        draw_text(drawXoff,drawY+drawYoff,string_upper(itemName[Tab,i]));
+        
+        drawY+=32
+        
+        //Go through the queue of tiles in this group, drawing and controlling each one
+        while !ds_queue_empty(itemList[Tab,i])
         {
-            if (WindowContentClickedX&gt;drawX+drawXoff
-            &amp;&amp;  WindowContentClickedY&gt;drawY+drawYoff
-            &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
-            &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
+            cursprite=ds_queue_dequeue(itemList[Tab,i])
+            curX=0; curY=0;
+            
+            //Find the coordinates of the current tile on the tile sheet
+            repeat(cursprite)
             {
-                WindowContentSelected=cursprite    
+                curX+=tileW;
+                if (curX+tileW&gt;spritewidth)
+                {
+                    curX=0;
+                    curY+=tileH;
+                }
             }
-        }
-        
-        //Draw a border around this tile if it's the selected one
-        if (WindowContentSelected==cursprite)
-        {
-            draw_set_color(c_black)
-            draw_rectangle(drawX+drawXoff-8,drawY+drawYoff-8,drawX+drawXoff+tileActW+8,drawY+drawYoff+tileActH+8,0)
-            draw_set_color(c_white)
-        }
-        
-        draw_sprite_part(tilesprite,0,
-                         curX+tileDiffX,curY+tileDiffY,
-                         tileActW,tileActH,
-                         drawX+drawXoff,drawY+drawYoff);
-        
-        
-        cursprite+=1;
-        
-        if cursprite&lt;=maxsprite
-        {
+            
+            //If you clicked the current tile, select it
+            if (WindowContentClicked==true)
+            {
+                if (WindowContentClickedX&gt;drawX+drawXoff
+                &amp;&amp;  WindowContentClickedY&gt;drawY+drawYoff
+                &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
+                &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
+                {
+                    WindowContentSelected=cursprite    
+                }
+            }
+            
+            //Draw a border around this tile if it's the selected one
+            if (WindowContentSelected==cursprite)
+            {
+                draw_set_color(c_black)
+                draw_rectangle(drawX+drawXoff-8,drawY+drawYoff-8,drawX+drawXoff+tileActW+8,drawY+drawYoff+tileActH+8,0)
+                draw_set_color(c_white)
+            }
+            
+            //Draw the sprite to the window content surface
+            draw_sprite_part(tilesprite,0,
+                             curX+tileDiffX,curY+tileDiffY,
+                             tileActW,tileActH,
+                             drawX+drawXoff,drawY+drawYoff);
+            
+                             
             //Move boundaries as necessary
             drawX+=tileW+drawGap;
             if (drawX+tileW&gt;drawXmax+drawXoff)
@@ -398,13 +470,13 @@ if (WindowContentRedraw==true)
                 drawX=0;
                 drawY+=tileH+drawGap;
             }
-            
-            curX+=tileW;
-            if (curX+tileW&gt;spritewidth)
-            {
-                curX=0;
-                curY+=tileH;
-            }
+        }
+        
+        drawX=0;
+        
+        if(i&lt;itemMax[Tab]-1)
+        {
+            drawY+=tileH+drawGap+20;
         }
     }
     

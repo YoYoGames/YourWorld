@@ -113,14 +113,14 @@
       <object>objects\oController</object>
     </objects>
     <object>objects\oHUDParent</object>
-    <object>objects\oHUDTileSelect</object>
+    <object>objects\oHUDEntitySelect</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="16">
+  <constants number="18">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -133,10 +133,12 @@
     <constant name="BLK_BASE">5</constant>
     <constant name="BLK_FLAGS1">6</constant>
     <constant name="BLK_FLAGS2">7</constant>
-    <constant name="TILE_TAB_ROOFS">0</constant>
-    <constant name="TILE_TAB_WALLS">1</constant>
-    <constant name="TILE_TAB_FLOORS">2</constant>
-    <constant name="TILE_TAB_MAX">2</constant>
+    <constant name="ENTITY_TAB_BLOCKS">0</constant>
+    <constant name="ENTITY_TAB_SIDES">1</constant>
+    <constant name="ENTITY_TAB_TOPS">2</constant>
+    <constant name="ENTITY_TAB_SPRITES">3</constant>
+    <constant name="ENTITY_TAB_OBJECTS">4</constant>
+    <constant name="ENTITY_TAB_MAX">4</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
