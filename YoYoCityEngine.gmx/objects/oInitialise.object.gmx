@@ -31,7 +31,7 @@
     // HTML5?
     global.HTML5=false;
     CityShader=RenderPlusSelection;
-    if( os_browser != browser_not_a_browser ){
+    if( os_browser != browser_not_a_browser || os_type = os_android){
         global.HTML5=true;
         CityShader=SimpleShader;
     }
