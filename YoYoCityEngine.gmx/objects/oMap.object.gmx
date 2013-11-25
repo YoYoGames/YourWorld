@@ -59,7 +59,9 @@ LastFileName="mymap.city";
 Water = instance_create(0,0,oWater);
 
 
-
+// Create physics representation
+physics_world_create(0.0313);
+physics_world_gravity(0.0, 0.0);
 
 </string>
           </argument>
@@ -186,17 +188,21 @@ var camera = global.Camera;
 {           
         
         // Now render the map
-        var texture = sprite_get_texture(StyleSprite,0); 
-        var sprtexture = sprite_get_texture(sTree,0); 
+        var texture = sprite_get_texture(StyleSprite,0);
+        var sprtexture = sprite_get_texture(sTree,0);
         RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, CityShader, SpriteSelectionShader );
         with(Water){ DrawWater(); }
         
         // Draw all sprites
         shader_set(SpriteSelectionShader);
-        with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
+        with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
         shader_reset();
         
-        
+        with(objBody)
+            {
+            Draw3dSprite2(sprite_index,image_index,x+8,-y-8,z, image_xscale,image_yscale, image_angle, c_black, 0.4);
+            Draw3dSprite2(sprite_index,image_index,x,-y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
+            }
 }
 
 </string>
@@ -227,6 +233,11 @@ var camera = global.Camera;
         LastFileName=filename;
         var buff = buffer_load(LastFileName);
         LoadMap(id,buff);
+        
+        // test spawning
+        instance_create(0, 0, objPhysicsController);
+        var newCar = instance_create(0, 0, objBody);
+        newCar.z = 257;
     }
 }
 

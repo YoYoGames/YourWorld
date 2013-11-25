@@ -14,9 +14,9 @@
 var _x1,_x2,_y1,_y2,_z1,_z2,_sprw,_sprh,_cx,_cy, _colour,_alpha;
 
 sprw = sprite_get_width(argument0);
-sprh = sprite_get_width(argument0);
+sprh = sprite_get_height(argument0);
 cx = sprite_get_xoffset(argument0);
-cy = sprite_get_xoffset(argument0);
+cy = sprite_get_yoffset(argument0);
  
 _x1 = -cx;
 _x2 = -cx+sprw;
