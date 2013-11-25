@@ -13,6 +13,7 @@
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
     <sprite>sprites\sTree</sprite>
+    <sprite>sprites\sButtonImg</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -120,7 +121,7 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="18">
+  <constants number="21">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -139,6 +140,9 @@
     <constant name="ENTITY_TAB_SPRITES">3</constant>
     <constant name="ENTITY_TAB_OBJECTS">4</constant>
     <constant name="ENTITY_TAB_MAX">4</constant>
+    <constant name="EDIT_PLACEBLOCK">0</constant>
+    <constant name="EDIT_PAINTBLOCK">1</constant>
+    <constant name="EDIT_MAX">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
