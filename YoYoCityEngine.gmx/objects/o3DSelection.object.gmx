@@ -71,7 +71,9 @@ ang=0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( vbuff&gt;=0 ) vertex_delete_buffer(vbuff);
+            <string>/// Destroy selection, and free the vertex buffer
+//show_debug_message("destroy selection");
+if( vbuff&gt;=0 ) vertex_delete_buffer(vbuff);
 </string>
           </argument>
         </arguments>
