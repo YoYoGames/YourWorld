@@ -11,7 +11,7 @@ if( KMleft || KMright || KMmiddle )
         if( instance_exists(SelectionInstance) ){
             debug("here: "+string(SelectionInstance));
             with(SelectionInstance) instance_destroy();
-            SelectionInstance=-1;
+            SelectionInstance=-1000;
         }
         MButton=0;
         if( KMleft ) MButton = 1;
@@ -23,12 +23,12 @@ if( KMleft || KMright || KMmiddle )
         Pick(mouse_x,mouse_y);
         PickingMode=1;
         
-        debug("-----------------------------------------------------------------start ("+string(MButton)+", "+string(mouse_x)+","+string(mouse_y));
+        //debug("-----------------------------------------------------------------start ("+string(MButton)+", "+string(mouse_x)+","+string(mouse_y));
     }
     else if( PickingMode==1){
         // First result
         var pix = global.PickPixel;
-        debug("mouse=("+string(global.Map.MouseX)+","+string(global.Map.MouseY)+")    pixel="+Hex(pix)+"  Button="+string(MButton) );
+        //debug("mouse=("+string(global.Map.MouseX)+","+string(global.Map.MouseY)+")    pixel="+Hex(pix)+"  Button="+string(MButton) );
         
         ProcessPickPixel(pix);
         PickingMode=2;
@@ -78,12 +78,12 @@ if( KMleft || KMright || KMmiddle )
             with(SelectionInstance) { instance_destroy(); }
         }   
         PickingMode=-1; 
-        debug("-----------------------------------------------------------------end");
+        //debug("-----------------------------------------------------------------end");
     }
 }
 
 // use the wheel to go up and down (face specific)
-if( PickingMode==-1 && instance_exists(SelectionInstance)){
+if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInstance)) ){
     if( KMwheelup ) UseWheel(SelectionInstance,1);
     if( KMwheeldown ) UseWheel(SelectionInstance,-1);
     if( Kinsert ) FillSelection(SelectionInstance);
@@ -92,7 +92,7 @@ if( PickingMode==-1 && instance_exists(SelectionInstance)){
             with(SelectionInstance) {
                 instance_destroy();
             }
-            SelectionInstance=-1;
+            SelectionInstance=-1000;
     }
 }
 
