@@ -59,6 +59,11 @@ if( FreeCursorMode==1 ){
     camera.CameraZ=min(-32,camera.CameraZ)
 }
 
-if( AllowPick ) ProcessPicking()
+if( AllowPick ) {
+    if( global.EditorMode=EDIT_SELECTION ) ProcessPicking();
+    if( global.EditorMode=EDIT_PAINT ) ProcessPainting();
+}
+
+
 
 

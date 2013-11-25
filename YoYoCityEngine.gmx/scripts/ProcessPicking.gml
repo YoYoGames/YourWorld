@@ -1,6 +1,6 @@
 /// ProcessPick()
 //
-// Process picking and selection 
+// Select 3D areas and fill/delete them. Also allow single cube add/remove.
 
 // If any mouse click, select an area on screen
 if( KMleft || KMright || KMmiddle )

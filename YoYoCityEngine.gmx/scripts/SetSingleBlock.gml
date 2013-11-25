@@ -54,7 +54,7 @@ with(_map)
         zz=_z 
         if(( zz>=0 && zz<MapDepth ) && (xx>=0 && xx<MapWidth) && (yy>=0 && yy<MapHeight))
         {
-            var blk = MakeUnique(xx,yy,zz);
+            var blk = MakeUnique(id, xx,yy,zz);
             var info = block_info[blk];
             switch(_face){
                 case 1: info[BLK_TOP]=SideBlock; break;

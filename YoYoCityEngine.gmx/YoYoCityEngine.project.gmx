@@ -85,6 +85,7 @@
           <script>scripts\DeleteSelection.gml</script>
           <script>scripts\SetSingleBlock.gml</script>
           <script>scripts\ProcessPicking.gml</script>
+          <script>scripts\ProcessPainting.gml</script>
         </scripts>
       </scripts>
     </scripts>
@@ -122,7 +123,7 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="15">
+  <constants number="21">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -138,6 +139,12 @@
     <constant name="PICK_NONE">0</constant>
     <constant name="PICK_TILE">1</constant>
     <constant name="PICK_SPRITE">2</constant>
+    <constant name="EDIT_SELECTION">1</constant>
+    <constant name="EDIT_PAINT">2</constant>
+    <constant name="EDIT_SPRITES">3</constant>
+    <constant name="EDIT_SUB_LID">1</constant>
+    <constant name="EDIT_SUB_SIDE">2</constant>
+    <constant name="EDIT_SUB_NONE">0</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

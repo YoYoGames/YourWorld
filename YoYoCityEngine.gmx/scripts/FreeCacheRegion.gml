@@ -36,7 +36,7 @@ with(argument0)
     {
         for(var xx=argument1;xx<=argument3;xx++)
         {
-            FreeCacheEntry(xx,yy);
+            FreeCacheEntry(id,xx,yy);
         }
     }
 }

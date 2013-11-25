@@ -15,6 +15,8 @@ if( (_colour&$80000000)!=0 )
     TilePickZ = floor(c mod map.MapDepth);
     TilePickFace = (_colour>>26)&7;
     //debug("Picked - "+string(TilePickX)+","+string(TilePickY)+","+string(TilePickZ) );
+    return true;
 }else{
+    return false;
     //debug("NONE:"+Hex(_colour)+","+string(_colour));
 }

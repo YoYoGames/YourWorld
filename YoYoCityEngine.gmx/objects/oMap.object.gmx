@@ -204,7 +204,7 @@ var camera = global.Camera;
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="113">
+    <event eventtype="9" enumb="114">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -235,7 +235,7 @@ var camera = global.Camera;
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="112">
+    <event eventtype="9" enumb="113">
       <action>
         <libid>1</libid>
         <id>603</id>
