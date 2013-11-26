@@ -37,8 +37,8 @@ steerLow      = 1;          // Steering response at low speed (0 being unrespons
 steerHigh     = 0.5;        // Steering response at high speed (0 being unresponsive, 1 being completely responsive, so 0.5 is semi-responsive)
 maxSteerAngle = 45;         // Wheel angle/turning circle at low speed
 minSteerAngle = 45;         // Wheel angle/turning circle at high speed
-frontGrip     = 8;       // LATERAL grip of front tyres
-rearGrip      = 8;       // LATERAL Grip of rear tyres
+frontGrip     = 15;       // LATERAL grip of front tyres
+rearGrip      = 15;       // LATERAL Grip of rear tyres
 frontBrakes   = 0;
 rearBrakes    = 10;
 toe           = 1;          // This is the individual inward angle (degrees) of the front tyres, negative is an outward angle
@@ -81,9 +81,10 @@ pcHandleDriving();
 
 if (global.Mode == MODE_PLAY)
     {
-    oCamera.CameraX = x - lengthdir_x(50, phy_rotation);
-    oCamera.CameraY = y - lengthdir_y(50, phy_rotation);;
-    oCamera.CameraZ = -450;
+    var forwardVelocity = GetForwardVelocity();
+    oCamera.CameraX = lerp(oCamera.CameraX, x + lengthdir_x(400*(forwardVelocity/maxMoveSpeed), phy_rotation-90), 0.1);
+    oCamera.CameraY = lerp(oCamera.CameraY, y - lengthdir_y(400*(forwardVelocity/maxMoveSpeed), phy_rotation-90), 0.1);
+    oCamera.CameraZ = lerp(oCamera.CameraZ, -450-(200*(abs(forwardVelocity)/maxMoveSpeed)), 0.1);
     }
 
 </string>

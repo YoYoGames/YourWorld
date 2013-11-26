@@ -1,6 +1,6 @@
 
-var width  = 512;
-var height = 512;
+var width  = 64;
+var height = -64;
 
 global.physicsBlock = physics_fixture_create();
 
@@ -9,10 +9,10 @@ global.physicsBlock = physics_fixture_create();
 
 // Use this if block origin is to be in the top left (0, 0)
 physics_fixture_set_polygon_shape(global.physicsBlock);
-physics_fixture_add_point(global.physicsBlock, 0,     0);
-physics_fixture_add_point(global.physicsBlock, width, 0);
-physics_fixture_add_point(global.physicsBlock, width, height);
 physics_fixture_add_point(global.physicsBlock, 0,     height);
+physics_fixture_add_point(global.physicsBlock, width, height);
+physics_fixture_add_point(global.physicsBlock, width, 0);
+physics_fixture_add_point(global.physicsBlock, 0,     0);
 
 // Apply settings
 physics_fixture_set_density(global.physicsBlock, 0);
