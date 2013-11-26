@@ -28,7 +28,6 @@
     <script>scripts\draw_outline.gml</script>
     <scripts name="Sprite">
       <script>scripts\Draw3dSprite.gml</script>
-      <script>scripts\Draw3dSprite2.gml</script>
     </scripts>
     <scripts name="Generation">
       <script>scripts\RecursiveLine.gml</script>

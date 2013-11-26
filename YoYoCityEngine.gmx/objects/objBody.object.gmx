@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>self</parentName>
@@ -26,19 +26,19 @@
           <argument>
             <kind>1</kind>
             <string>
-scale = 0.5;
+scale = 0.21;
 
 pcDefineDefault();
 
 driveType     = DRIVE_RWD;  // _RWD, _FWD, _4WD. If using _4WD you actually will need to lower the power (maxDriveForce)
-maxMoveSpeed  = 20;         // Top speed essentially. This varies on the pixel-meter ratio. So in theory 19 could be 50MPH, just a matter of translation.
-maxDriveForce = 80;         // The force applied to the wheels, I guess this translates best as torque. (It's weird because there's no wheel friction, only lateral grip)
+maxMoveSpeed  = 14;         // Top speed essentially. This varies on the pixel-meter ratio. So in theory 19 could be 50MPH, just a matter of translation.
+maxDriveForce = 40;         // The force applied to the wheels, I guess this translates best as torque. (It's weird because there's no wheel friction, only lateral grip)
 steerLow      = 1;          // Steering response at low speed (0 being unresponsive, 1 being completely responsive)
 steerHigh     = 0.5;        // Steering response at high speed (0 being unresponsive, 1 being completely responsive, so 0.5 is semi-responsive)
 maxSteerAngle = 45;         // Wheel angle/turning circle at low speed
 minSteerAngle = 45;         // Wheel angle/turning circle at high speed
-frontGrip     = 6.75;       // LATERAL grip of front tyres
-rearGrip      = 6.75;       // LATERAL Grip of rear tyres
+frontGrip     = 8;       // LATERAL grip of front tyres
+rearGrip      = 8;       // LATERAL Grip of rear tyres
 frontBrakes   = 0;
 rearBrakes    = 10;
 toe           = 1;          // This is the individual inward angle (degrees) of the front tyres, negative is an outward angle
@@ -81,9 +81,9 @@ pcHandleDriving();
 
 if (global.Mode == MODE_PLAY)
     {
-    oCamera.CameraX = x;
-    oCamera.CameraY = y;
-    oCamera.CameraZ = -600;
+    oCamera.CameraX = x - lengthdir_x(50, phy_rotation);
+    oCamera.CameraY = y - lengthdir_y(50, phy_rotation);;
+    oCamera.CameraZ = -450;
     }
 
 </string>

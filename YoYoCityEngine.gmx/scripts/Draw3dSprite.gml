@@ -8,7 +8,7 @@
 // argument6 = scaley   (must be the same as scalex)
 // argument7 = rotation
 // argument8 = colour 
-// argument8 = alpha
+// argument9 = alpha
 
 
 var _x1,_x2,_y1,_y2,_z1,_z2,_sprw,_sprh,_cx,_cy, _colour,_alpha;
@@ -23,7 +23,8 @@ _x2 = -cx+sprw;
 _y1 = -cy;
 _y2 = -cy+sprh;
 _z1 = 0; //-argument4;
-_colour = argument8 | ((argument9*255)<<24);
+_alpha = argument9;
+_colour = argument8 | ((argument9*255)<<24)
 
 var m = matrix_build(argument2,-argument3,-argument4, 0,0, argument7, argument5,argument6,1);
 matrix_set(matrix_world, m);
@@ -34,29 +35,29 @@ vertex_begin(buff,global.SpriteFormat);
 
 var uvs = sprite_get_uvs(argument0,argument1);
 vertex_position_3d(buff,_x1,_y2,_z1);
-vertex_colour(buff, _colour, 1.0 );
+vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[0],uvs[1] );
 
 vertex_position_3d(buff,_x2,_y2,_z1);
-vertex_colour(buff, _colour, 1.0 );
+vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[2],uvs[1] );
 
 vertex_position_3d(buff,_x2,_y1,_z1);
-vertex_colour(buff, _colour, 1.0 );
+vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[2],uvs[3] );
 
 
 
 vertex_position_3d(buff,_x2,_y1,_z1);
-vertex_colour(buff, _colour, 1.0 );
+vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[2],uvs[3] );
 
 vertex_position_3d(buff,_x1,_y1,_z1);
-vertex_colour(buff, _colour, 1.0 );
+vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[0],uvs[3] );
 
 vertex_position_3d(buff,_x1,_y2,_z1);
-vertex_colour(buff, _colour, 1.0 );
+vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[0],uvs[1] );
 
 vertex_end(buff);

@@ -12,15 +12,15 @@ var angleSensitivity = lerp(maxSteerAngle, minSteerAngle, fraction);
 
 // Turn left
 if (keyboard_check(vk_left) || keyboard_check(ord("A")))
-    steeringAngle += (5 * steerSensitivity) * scale;
+    steeringAngle += (5 * steerSensitivity);
     
 // Turn right
 else if (keyboard_check(vk_right) || keyboard_check(ord("D")))
-    steeringAngle -= (5 * steerSensitivity) * scale;
+    steeringAngle -= (5 * steerSensitivity);
     
 // Auto-rebalance
 else
-    steeringAngle -= ((5 * steerSensitivity) * scale) * sign(steeringAngle);
+    steeringAngle -= ((5 * steerSensitivity)) * sign(steeringAngle);
 
 // Limit the steering angle
 steeringAngle = median(-angleSensitivity, angleSensitivity, steeringAngle);

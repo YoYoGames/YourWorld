@@ -34,7 +34,7 @@
 //
 
 
-physics_world_create(0.0313);
+physics_world_create(1/16);
 physics_world_gravity(0.0, 0.0);
 
 
@@ -82,8 +82,8 @@ PhysicsDefineBlock();
             <string>
 preCenterX = cellCenterX;
 preCenterY = cellCenterY;
-cellCenterX = round(objBody.x/512);
-cellCenterY = round(objBody.y/512);
+cellCenterX = round(objBody.x/64);
+cellCenterY = round(objBody.y/64);
 
 // Do update if the player is in a new cell
 if (cellCenterX != preCenterX)
@@ -123,7 +123,8 @@ if (cellCenterX != preCenterX)
             else if (ds_list_find_index(phyActive, cellID) == -1)
                 {
                 // Get type of cell
-                cellValue = 0;//ds_grid_get(objControl.chunkGrid, xx, yy);
+                cellValue = GetBlockIndex(xx, yy, 1);//ds_grid_get(objControl.chunkGrid, xx, yy);
+                show_debug_message(string(cellValue));
                 
                 // If cell is a building
                 if (cellValue == 10)

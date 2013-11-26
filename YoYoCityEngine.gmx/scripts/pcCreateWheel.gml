@@ -17,7 +17,7 @@ physics_fixture_add_point(fixture, 0+inst.sprite_xoffset, 0+inst.sprite_yoffset)
 physics_fixture_add_point(fixture, 0-inst.sprite_xoffset, 0+inst.sprite_yoffset);
 
 // Define properties
-physics_fixture_set_density(fixture, 0.5);
+physics_fixture_set_density(fixture, 0.25);
 physics_fixture_set_restitution(fixture, 0);
 physics_fixture_set_collision_group(fixture, 0);
 physics_fixture_set_linear_damping(fixture, 0);
