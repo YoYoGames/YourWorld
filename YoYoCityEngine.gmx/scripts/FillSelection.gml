@@ -26,7 +26,7 @@ _selection = argument0;
         }    
     }
             
-    FreeCacheRegion(global.Map, x1,y1,x2,y2);
+    FreeCacheRegion(global.Map, x1-1,y1-1,x2+1,y2+1);
     
 }
 
