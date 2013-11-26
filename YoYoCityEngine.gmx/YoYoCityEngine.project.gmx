@@ -13,6 +13,7 @@
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
     <sprite>sprites\sTree</sprite>
+    <sprite>sprites\sButtonImg</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -89,6 +90,11 @@
         </scripts>
       </scripts>
     </scripts>
+    <scripts name="GUI">
+      <script>scripts\mouse_rectangle.gml</script>
+      <script>scripts\mouse_click_rectangle.gml</script>
+      <script>scripts\mouse_hold_rectangle.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -100,6 +106,9 @@
   </shaders>
   <fonts name="fonts">
     <font>fonts\arial</font>
+    <font>fonts\fTwCenM</font>
+    <font>fonts\fTwCenConM</font>
+    <font>fonts\fTwCenConS</font>
   </fonts>
   <objects name="objects">
     <object>objects\oInitialise</object>
@@ -117,13 +126,15 @@
       <object>objects\oController</object>
       <object>objects\oEndDraw</object>
     </objects>
+    <object>objects\oHUDParent</object>
+    <object>objects\oHUDEntitySelect</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="21">
+  <constants number="27">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -145,6 +156,12 @@
     <constant name="EDIT_SUB_LID">1</constant>
     <constant name="EDIT_SUB_SIDE">2</constant>
     <constant name="EDIT_SUB_NONE">0</constant>
+    <constant name="ENTITY_TAB_BLOCKS">0</constant>
+    <constant name="ENTITY_TAB_SIDES">1</constant>
+    <constant name="ENTITY_TAB_TOPS">2</constant>
+    <constant name="ENTITY_TAB_SPRITES">3</constant>
+    <constant name="ENTITY_TAB_OBJECTS">4</constant>
+    <constant name="ENTITY_TAB_MAX">4</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

@@ -57,8 +57,7 @@ LastFileName="mymap.city";
 
 // Create the water plane
 Water = instance_create(0,0,oWater);
-Tree1 = instance_create(64*5,64*5,oTree);
-Tree1.z = 3*64 + 10;
+
 
 
 
@@ -122,6 +121,7 @@ PickButton=1;
 DoPick = 1;
 
 */
+
 </string>
           </argument>
         </arguments>
