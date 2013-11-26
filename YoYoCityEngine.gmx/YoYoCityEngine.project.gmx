@@ -98,6 +98,7 @@
       <script>scripts\mouse_rectangle.gml</script>
       <script>scripts\mouse_click_rectangle.gml</script>
       <script>scripts\mouse_hold_rectangle.gml</script>
+	</scripts>
     <scripts name="Car Physics">
       <script>scripts\GetForwardVelocity.gml</script>
       <script>scripts\GetLateralSpeed.gml</script>
