@@ -123,6 +123,7 @@ PickButton=1;
 DoPick = 1;
 
 */
+
 </string>
           </argument>
         </arguments>
@@ -198,13 +199,11 @@ var camera = global.Camera;
         with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
         shader_reset();
         
-        d3d_set_zwriteenable(false);
         with(objBody)
         {
             Draw3dSprite(sprite_index,image_index,x+4,-y-4,z, image_xscale,image_yscale, image_angle, $40000000, 0.2);
             Draw3dSprite(sprite_index,image_index,x,-y,z, image_xscale,image_yscale, image_angle, image_blend|$ff000000, 1.0);
          }
-        d3d_set_zwriteenable(true);
 }
 
 </string>
@@ -212,7 +211,7 @@ var camera = global.Camera;
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="113">
+    <event eventtype="9" enumb="114">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -248,7 +247,7 @@ var camera = global.Camera;
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="112">
+    <event eventtype="9" enumb="113">
       <action>
         <libid>1</libid>
         <id>603</id>

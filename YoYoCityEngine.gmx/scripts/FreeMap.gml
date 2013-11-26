@@ -16,7 +16,7 @@ var gw=(MapWidth+GridCacheSize-1)/GridCacheSize;
 var gh=(MapHeight+GridCacheSize-1)/GridCacheSize;
 for(var yy=0;yy<gh;yy++){
     for(var xx=0;xx<gw;xx++){
-        FreeCacheEntry(xx,yy);
+        FreeCacheEntry(id, xx,yy);
     }
 }
 ds_grid_destroy(Cache);

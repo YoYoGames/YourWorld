@@ -13,6 +13,7 @@
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
     <sprite>sprites\sTree</sprite>
+    <sprite>sprites\sButtonImg</sprite>
     <sprites name="Car Stuff">
       <sprite>sprites\sprCarBody</sprite>
       <sprite>sprites\sprWheel</sprite>
@@ -89,9 +90,14 @@
           <script>scripts\DeleteSelection.gml</script>
           <script>scripts\SetSingleBlock.gml</script>
           <script>scripts\ProcessPicking.gml</script>
+          <script>scripts\ProcessPainting.gml</script>
         </scripts>
       </scripts>
     </scripts>
+    <scripts name="GUI">
+      <script>scripts\mouse_rectangle.gml</script>
+      <script>scripts\mouse_click_rectangle.gml</script>
+      <script>scripts\mouse_hold_rectangle.gml</script>
     <scripts name="Car Physics">
       <script>scripts\GetForwardVelocity.gml</script>
       <script>scripts\GetLateralSpeed.gml</script>
@@ -121,6 +127,9 @@
   </shaders>
   <fonts name="fonts">
     <font>fonts\arial</font>
+    <font>fonts\fTwCenM</font>
+    <font>fonts\fTwCenConM</font>
+    <font>fonts\fTwCenConS</font>
   </fonts>
   <objects name="objects">
     <object>objects\oInitialise</object>
@@ -138,6 +147,8 @@
       <object>objects\oController</object>
       <object>objects\oEndDraw</object>
     </objects>
+    <object>objects\oHUDParent</object>
+    <object>objects\oHUDEntitySelect</object>
     <objects name="Car Physics">
       <object>objects\objBody</object>
       <object>objects\objFixture</object>
@@ -150,7 +161,7 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="24">
+  <constants number="27">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -166,6 +177,18 @@
     <constant name="PICK_NONE">0</constant>
     <constant name="PICK_TILE">1</constant>
     <constant name="PICK_SPRITE">2</constant>
+    <constant name="EDIT_SELECTION">1</constant>
+    <constant name="EDIT_PAINT">2</constant>
+    <constant name="EDIT_SPRITES">3</constant>
+    <constant name="EDIT_SUB_LID">1</constant>
+    <constant name="EDIT_SUB_SIDE">2</constant>
+    <constant name="EDIT_SUB_NONE">0</constant>
+    <constant name="ENTITY_TAB_BLOCKS">0</constant>
+    <constant name="ENTITY_TAB_SIDES">1</constant>
+    <constant name="ENTITY_TAB_TOPS">2</constant>
+    <constant name="ENTITY_TAB_SPRITES">3</constant>
+    <constant name="ENTITY_TAB_OBJECTS">4</constant>
+    <constant name="ENTITY_TAB_MAX">4</constant>
     <constant name="STATE_NONE">0</constant>
     <constant name="STATE_UP">1</constant>
     <constant name="STATE_DOWN">2</constant>
@@ -175,6 +198,9 @@
     <constant name="DRIVE_4WD">0</constant>
     <constant name="DRIVE_FWD">1</constant>
     <constant name="DRIVE_RWD">2</constant>
+    <constant name="ENTITY_TAB_SPRITES">3</constant>
+    <constant name="ENTITY_TAB_OBJECTS">4</constant>
+    <constant name="ENTITY_TAB_MAX">4</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

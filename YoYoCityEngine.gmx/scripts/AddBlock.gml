@@ -44,7 +44,7 @@ with(_map)
         // Check block to the left
         var blk = GetBlockIndex(_x-1,_y,_z)
         if( blk>0 ){
-            blk = MakeUnique(_x-1,_y,_z);
+            blk = MakeUnique(id, _x-1,_y,_z);
             var inf= block_info[blk];           // get the info we're about change
             inf[BLK_RIGHT]=-1;                 // clear the block
             info[BLK_LEFT]=-1;                 // clear the block        
@@ -54,7 +54,7 @@ with(_map)
         // Check block to the right
         var blk = GetBlockIndex(_x+1,_y,_z)
         if( blk>0 ){
-            blk = MakeUnique(_x+1,_y,_z);
+            blk = MakeUnique(id, _x+1,_y,_z);
             var inf= block_info[blk];           // get the info we're about change
             inf[BLK_LEFT]=-1;                 // clear the block
             info[BLK_RIGHT]=-1;                 // clear the block        
@@ -64,7 +64,7 @@ with(_map)
         // Check block to the bottom
         var blk = GetBlockIndex(_x,_y-1,_z)
         if( blk>0 ){
-            blk = MakeUnique(_x,_y-1,_z);
+            blk = MakeUnique(id, _x,_y-1,_z);
             var inf= block_info[blk];           // get the info we're about change
             inf[BLK_BOTTOM]=-1;                 // clear the block
             info[BLK_TOP]=-1;                 // clear the block        
@@ -74,7 +74,7 @@ with(_map)
         // Check block to the top
         var blk = GetBlockIndex(_x,_y+1,_z)
         if( blk>0 ){
-            blk = MakeUnique(_x,_y+1,_z);
+            blk = MakeUnique(id, _x,_y+1,_z);
             var inf= block_info[blk];           // get the info we're about change
             inf[BLK_TOP]=-1;                 // clear the block
             info[BLK_BOTTOM]=-1;                 // clear the block        
@@ -85,7 +85,7 @@ with(_map)
         // Check block to the base
         var blk = GetBlockIndex(_x,_y,_z-1)
         if( blk>0 ){
-            blk = MakeUnique(_x,_y,_z-1);
+            blk = MakeUnique(id, _x,_y,_z-1);
             var inf= block_info[blk];           // get the info we're about change
             inf[BLK_LID]=-1;                 // clear the block
             info[BLK_BASE]=-1;                 // clear the block        
@@ -96,7 +96,7 @@ with(_map)
         // Check block to the lid
         var blk = GetBlockIndex(_x,_y,_z+1)
         if( blk>0 ){
-            blk = MakeUnique(_x,_y,_z+1);
+            blk = MakeUnique(id, _x,_y,_z+1);
             var inf= block_info[blk];           // get the info we're about change
             inf[BLK_BASE]=-1;                 // clear the block
             info[BLK_LID]=-1;                 // clear the block        
