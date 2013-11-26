@@ -7,7 +7,7 @@
   <sepmasks>0</sepmasks>
   <bboxmode>0</bboxmode>
   <bbox_left>3</bbox_left>
-  <bbox_right>28</bbox_right>
+  <bbox_right>29</bbox_right>
   <bbox_top>2</bbox_top>
   <bbox_bottom>29</bbox_bottom>
   <HTile>0</HTile>
@@ -21,5 +21,6 @@
   <frames>
     <frame index="0">images\sButtonImg_0.png</frame>
     <frame index="1">images\sButtonImg_1.png</frame>
+    <frame index="2">images\sButtonImg_2.png</frame>
   </frames>
 </sprite>

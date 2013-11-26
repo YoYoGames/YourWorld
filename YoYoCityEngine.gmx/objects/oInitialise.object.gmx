@@ -25,8 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>{
-    /// Initialise the engine
+            <string>/// Initialise the engine
+
+{
+    // HTML5?
+    global.HTML5=false;
+    CityShader=RenderPlusSelection;
+    if( os_browser != browser_not_a_browser || os_type = os_android){
+        global.HTML5=true;
+        CityShader=SimpleShader;
+    }
+
     
     // Create the Sprite Vertex Format
     vertex_format_begin();
@@ -44,6 +53,13 @@
     vertex_format_add_textcoord();
     global.CityFormat = vertex_format_end();
     
+    // Create the Selection Vertex Format
+    vertex_format_begin();
+    vertex_format_add_position_3d();
+    vertex_format_add_colour();
+    global.SelectionFormat = vertex_format_end();
+        
+    
     
     // Create the Vertex Format we'll use
     global.TempSpriteBuffer = vertex_create_buffer_ext(4*1024);
@@ -51,7 +67,6 @@
     global.cubes=0;
     global.polys=0;
     global.cube=-1;
-
             
     // Initialise 3D
     d3d_start();

@@ -56,8 +56,8 @@ WindowContentY=0;
 WindowContentYMin=0;
 
 //Current button and maximum button
-Button=0;
-ButtonMax=EDIT_MAX;
+Button=global.EditorMode;
+ButtonMax=EDIT_SPRITES;
 
 //Current tab and maximum tab
 Tab=0;
@@ -220,18 +220,18 @@ draw_set_valign(fa_center)
 /*draw_text(x+20,y+20,WindowCaption) */
 
 //Draw the button selections
-for( var i=0; i&lt;=ButtonMax; i+=1)
+for( var i=1; i&lt;=ButtonMax; i+=1)
 {
-    var btnx1=x+3+(i*38); //X location of this tab
+    var btnx1=x+3+((i-1)*38); //X location of this tab
     
     //Logic for selecting tabs
     if (mouse_click_rectangle(btnx1,y+3,btnx1+34,y+3+34))
     {
-        Button=i;
+        global.EditorMode=i;
     }
     
     //Selected colour
-    if (i==Button)
+    if (i==global.EditorMode)
     {
         draw_set_color(c_gray);
         draw_rectangle(btnx1,y+3,btnx1+34,y+3+34,0);
@@ -242,7 +242,7 @@ for( var i=0; i&lt;=ButtonMax; i+=1)
     draw_rectangle(btnx1,y+3,btnx1+34,y+3+34,1);   
     
     //Img
-    draw_sprite(sButtonImg,i,btnx1,y+3) 
+    draw_sprite(sButtonImg,i-1,btnx1,y+3) 
 } 
 
 //Draw the tabs
@@ -375,6 +375,7 @@ if (!surface_exists(WindowContent))
 if (WindowContentRedraw==true)
 {
     d3d_end();
+    d3d_set_lighting(false);
     surface_set_target(WindowContent);
     draw_clear(c_white);
     
@@ -541,6 +542,7 @@ if (WindowContentRedraw==true)
     draw_set_color(c_white);
     surface_reset_target();
     d3d_start();
+    d3d_set_lighting(true);
     WindowContentYMin=min(0,(WindowHeight-WindowContentDrawY)-WindowContentHeight);
     if (WindowContentClicked==true)
     {

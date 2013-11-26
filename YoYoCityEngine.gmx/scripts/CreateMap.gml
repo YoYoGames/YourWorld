@@ -135,7 +135,7 @@ info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
 block_info[2]=info;
 block_info_size = 3;    
 
-
+debug("pavement="+string(_pavement));
 
 
 

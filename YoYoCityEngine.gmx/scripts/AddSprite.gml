@@ -25,8 +25,8 @@ uvs = sprite_get_uvs(argument1,argument2);
  
 _x1 = -cx + argument3;
 _x2 = -cx+sprw + argument3;
-_y1 = -cy - -argument4;
-_y2 = -cy+sprh - -argument4;
+_y1 = -cy + argument4;      // - -argument4
+_y2 = -cy+sprh + argument4; // - -argument4
 _z1 = -argument5;
 _scalex = argument6;
 _scaley = argument7;

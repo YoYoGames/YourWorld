@@ -78,6 +78,16 @@
         <script>scripts\PullUpRegion.gml</script>
         <script>scripts\FreeMap.gml</script>
         <script>scripts\ProcessEditor.gml</script>
+        <script>scripts\ProcessPickPixel.gml</script>
+        <script>scripts\Pick.gml</script>
+        <scripts name="Selection">
+          <script>scripts\UseWheel.gml</script>
+          <script>scripts\FillSelection.gml</script>
+          <script>scripts\DeleteSelection.gml</script>
+          <script>scripts\SetSingleBlock.gml</script>
+          <script>scripts\ProcessPicking.gml</script>
+          <script>scripts\ProcessPainting.gml</script>
+        </scripts>
       </scripts>
     </scripts>
     <scripts name="GUI">
@@ -89,6 +99,7 @@
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
     <shader type="GLSLES">shaders\WaterShader.shader</shader>
+    <shader type="GLSLES">shaders\SelectionShader.shader</shader>
     <shader type="HLSL9">shaders\RenderPlusSelection.shader</shader>
     <shader type="GLSLES">shaders\RenderSelection.shader</shader>
     <shader type="HLSL9">shaders\SpriteSelectionShader.shader</shader>
@@ -111,7 +122,9 @@
       <object>objects\oScreen</object>
       <object>objects\oMap</object>
       <object>objects\oCamera</object>
+      <object>objects\o3DSelection</object>
       <object>objects\oController</object>
+      <object>objects\oEndDraw</object>
     </objects>
     <object>objects\oHUDParent</object>
     <object>objects\oHUDEntitySelect</object>
@@ -121,7 +134,7 @@
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="21">
+  <constants number="27">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -134,15 +147,21 @@
     <constant name="BLK_BASE">5</constant>
     <constant name="BLK_FLAGS1">6</constant>
     <constant name="BLK_FLAGS2">7</constant>
+    <constant name="PICK_NONE">0</constant>
+    <constant name="PICK_TILE">1</constant>
+    <constant name="PICK_SPRITE">2</constant>
+    <constant name="EDIT_SELECTION">1</constant>
+    <constant name="EDIT_PAINT">2</constant>
+    <constant name="EDIT_SPRITES">3</constant>
+    <constant name="EDIT_SUB_LID">1</constant>
+    <constant name="EDIT_SUB_SIDE">2</constant>
+    <constant name="EDIT_SUB_NONE">0</constant>
     <constant name="ENTITY_TAB_BLOCKS">0</constant>
     <constant name="ENTITY_TAB_SIDES">1</constant>
     <constant name="ENTITY_TAB_TOPS">2</constant>
     <constant name="ENTITY_TAB_SPRITES">3</constant>
     <constant name="ENTITY_TAB_OBJECTS">4</constant>
     <constant name="ENTITY_TAB_MAX">4</constant>
-    <constant name="EDIT_PLACEBLOCK">0</constant>
-    <constant name="EDIT_PAINTBLOCK">1</constant>
-    <constant name="EDIT_MAX">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
