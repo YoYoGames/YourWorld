@@ -8,6 +8,16 @@
   <description></description>
   <helpfile></helpfile>
   <installdir></installdir>
+  <classname></classname>
+  <androidclassname></androidclassname>
+  <sourcedir></sourcedir>
+  <androidsourcedir></androidsourcedir>
+  <macsourcedir></macsourcedir>
+  <maclinkerflags></maclinkerflags>
+  <androidinject></androidinject>
+  <iosSystemFrameworks/>
+  <iosThirdPartyFrameworks/>
+  <androidPermissions/>
   <files>
     <file>
       <filename>test.js</filename>

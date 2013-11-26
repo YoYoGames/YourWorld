@@ -57,7 +57,8 @@ LastFileName="mymap.city";
 
 // Create the water plane
 Water = instance_create(0,0,oWater);
-
+Tree1 = instance_create(64*5,64*5,oTree);
+Tree1.z = 3*64 + 10;
 
 
 
@@ -195,7 +196,6 @@ var camera = global.Camera;
         shader_set(SpriteSelectionShader);
         with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
         shader_reset();
-        
         
 }
 
