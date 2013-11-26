@@ -98,6 +98,7 @@
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
+    <shader type="GLSLES">shaders\BlockShadowShader.shader</shader>
     <shader type="GLSLES">shaders\WaterShader.shader</shader>
     <shader type="GLSLES">shaders\SelectionShader.shader</shader>
     <shader type="HLSL9">shaders\RenderPlusSelection.shader</shader>
@@ -121,6 +122,7 @@
       <object>objects\oMapGen</object>
       <object>objects\oScreen</object>
       <object>objects\oMap</object>
+      <object>objects\oShadows</object>
       <object>objects\oCamera</object>
       <object>objects\o3DSelection</object>
       <object>objects\oController</object>

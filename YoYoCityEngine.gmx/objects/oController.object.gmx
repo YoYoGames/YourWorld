@@ -72,8 +72,9 @@ global.RightMouseTile = 6;
 
 
 
+ShadowCamera = instance_create(0,0,oCamera);
 GameCamera = instance_create(0,0,oCamera);
-//EditorCamera = instance_create(0,0,oCamera);
+EditorCamera = instance_create(0,0,oCamera);
 SetCamera(GameCamera);
 
 Map = instance_create(0,0,oMap);
@@ -82,6 +83,7 @@ global.CurrentPolyCount = 0;
 
 
 EndDraw = instance_create(0,0,oEndDraw);
+Shadows = instance_create(0,0,oShadows);
 
 
 DiffuseSurface=-1;
@@ -195,6 +197,16 @@ if( surface_exists(DiffuseSurface) ){
 //    draw_surface(SelectionSurface,0,0);
 }
 
+
+/*if( surface_exists(Shadows.ShadowSurface) ){
+    draw_enable_alphablend(false);
+    draw_surface_stretched(Shadows.ShadowSurface,window_get_width()-256,0,256,256);
+    draw_enable_alphablend(true);    
+//    draw_surface(SelectionSurface,0,0);
+}*/
+
+
+
 draw_set_font(arial);
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
@@ -242,6 +254,7 @@ draw_outline( 40,42, s, c_white );
     if( !surface_exists(SelectionSurface) ){
         SelectionSurface = surface_create(view_wport[0],view_hport[0] );
     }
+   
     EndDraw.DiffuseSurface = DiffuseSurface;
     EndDraw.SelectionSurface = SelectionSurface;
 
@@ -254,24 +267,23 @@ draw_outline( 40,42, s, c_white );
     d3d_set_projection_perspective(0,0, room_width, room_height, 90);  
 
         
-    // Work out unit light vector
-    var lx,ly,lz;
-    lx = 0.5;
-    ly = 0.0;
-    lz =  1.0;
-    var d = 1.0/sqrt(lx*lx+ly*ly+lz*lz);
-    lx = lx*d;
-    ly = ly*d;
-    lz = lz*d;
+    /*// Work out unit light vector
+    LightX = 0.2;
+    LightY = 0.45;
+    LightZ =  1.0;
+    var d = 1.0/sqrt(LightX*LightX+LightY*LightY+LightZ*LightZ);
+    LightX = LightX*d;
+    LightY = LightY*d;
+    LightZ = LightZ*d;
                         
 
     // Start the drawing sequence.    
     draw_set_color(c_red);
     d3d_set_lighting(true);
-    d3d_light_define_direction(0,  0.2,0.45,1.0, $fce7ce);
+    d3d_light_define_direction(0,  LightX,LightY,LightZ, $fce7ce);
     d3d_light_define_ambient($ff404040);
     d3d_light_enable(0,true);           
-    d3d_set_lighting(true);
+    d3d_set_lighting(true);*/
     
     // First set surfaces and reset projection
     surface_set_target(DiffuseSurface);
