@@ -10,23 +10,24 @@ var steerSensitivity = 1 - (steerLow - steerHigh) * fraction;
 var angleSensitivity = lerp(maxSteerAngle, minSteerAngle, fraction);
 
 
-// Turn left
+// Steer left
 if (keyboard_check(vk_left) || keyboard_check(ord("A")))
     steeringAngle += (5 * steerSensitivity);
     
-// Turn right
+// Steer right
 else if (keyboard_check(vk_right) || keyboard_check(ord("D")))
     steeringAngle -= (5 * steerSensitivity);
     
-// Auto-rebalance
+// Auto-straighten steering
 else
-    steeringAngle -= ((5 * steerSensitivity)) * sign(steeringAngle);
+    steeringAngle -= min(abs(steeringAngle), 5 * steerSensitivity) * sign(steeringAngle);
+    
 
 // Limit the steering angle
 steeringAngle = median(-angleSensitivity, angleSensitivity, steeringAngle);
 
 
-// Calculate ackerman steering
+// Calculate ackerman steering, kinda pretend but effective
 var left  = steeringAngle;
 var right = steeringAngle;
 if (steeringAngle > 0)
@@ -34,7 +35,7 @@ if (steeringAngle > 0)
 else if (steeringAngle < 0)
     right = steeringAngle / ackerman;
     
-// Add toe
+// Add toe angle
 left  += toe;
 right -= toe;
 

@@ -151,9 +151,9 @@
     <object>objects\oHUDParent</object>
     <object>objects\oHUDEntitySelect</object>
     <objects name="Car Physics">
+      <object>objects\objPhysicsController</object>
       <object>objects\objBody</object>
       <object>objects\objFixture</object>
-      <object>objects\objPhysicsController</object>
       <object>objects\objWheel</object>
     </objects>
   </objects>

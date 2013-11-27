@@ -123,8 +123,7 @@ if (cellCenterX != preCenterX)
             else if (ds_list_find_index(phyActive, cellID) == -1)
                 {
                 // Get type of cell
-                cellValue = GetBlockIndex(xx, yy, 5);//ds_grid_get(objControl.chunkGrid, xx, yy);
-                show_debug_message(string(cellValue));
+                cellValue = GetBlockIndex(xx, yy, 5);
                 
                 // If cell is a building
                 if (cellValue &gt; 1)
@@ -214,13 +213,13 @@ draw_text(8, 8, "Cell Position: "+string(cellCenterX)+", "+string(cellCenterY)+"
 draw_text(8, 16+8, "Free List");
 for (n=0; n&lt;ds_list_size(phyFree)/3; n++)
     {
-    draw_text(8, 24+n*16, ds_list_find_value(phyFree, n*3));
+    draw_text(8, 40+n*16, ds_list_find_value(phyFree, n*3));
     }
 
 draw_text(96, 16+8, "Cache List");
 for (n=0; n&lt;ds_list_size(phyCache)/3; n++)
     {
-    draw_text(96, 24+n*16, ds_list_find_value(phyCache, n*3));
+    draw_text(96, 40+n*16, ds_list_find_value(phyCache, n*3));
     }
     
 </string>

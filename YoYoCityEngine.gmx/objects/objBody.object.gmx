@@ -37,11 +37,11 @@ steerLow      = 1;          // Steering response at low speed (0 being unrespons
 steerHigh     = 0.5;        // Steering response at high speed (0 being unresponsive, 1 being completely responsive, so 0.5 is semi-responsive)
 maxSteerAngle = 45;         // Wheel angle/turning circle at low speed
 minSteerAngle = 45;         // Wheel angle/turning circle at high speed
-frontGrip     = 15;       // LATERAL grip of front tyres
-rearGrip      = 15;       // LATERAL Grip of rear tyres
+frontGrip     = 4;         // LATERAL grip of front tyres
+rearGrip      = 4;         // LATERAL Grip of rear tyres
 frontBrakes   = 0;
 rearBrakes    = 10;
-toe           = 1;          // This is the individual inward angle (degrees) of the front tyres, negative is an outward angle
+toe           = 0;          // This is the individual inward angle (degrees) of the front tyres, negative is an outward angle
 ackerman      = 1.44;       // 1.44 = 36 / 24 degrees. The ratio of turn between inside and outside tyres.
 
 pcModelPhysicsBody();
