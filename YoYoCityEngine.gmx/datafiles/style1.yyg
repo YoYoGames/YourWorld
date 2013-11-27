@@ -1,0 +1,21 @@
+[details]
+tilesGroupCount=2.000000
+spritesGroupCount=1.000000
+objectsGroupCount=0.000000
+
+[tiles]
+name0=Brick Skyscraper
+desc0=Something about a brick skyscraper.
+sides_list0=0,1,2,3
+tops_list0=12,13,14,15,16,17,18,19,20
+name1=Test
+desc1=This is a test description with a bunch of words, because why not? Wheeee!
+sides_list1=4,5,6,7,8,9,10,11
+tops_list1=21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38
+
+[sprites]
+name0=Tree
+desc0=Trees... beaches... bam - boo
+list0=0
+
+[objects]

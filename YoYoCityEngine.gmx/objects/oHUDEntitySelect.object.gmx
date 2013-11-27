@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-10010</depth>
   <persistent>0</persistent>
   <parentName>oHUDParent</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -47,7 +47,7 @@ WindowContentRedraw=true;
 WindowContentClicked=false;
 WindowContentClickedX=0;
 WindowContentClickedY=0;
-for(var i=0; i&lt;=ENTITY_TAB_MAX; i+=1) {WindowContentSelected[i]=0;}
+for(var i=0; i&lt;=ENTITY_TAB_MAX; i+=1) {WindowContentSelected[i]=global.LeftMouseTile;}
 
 //Content size and constraints
 WindowContentHeight=1024;
@@ -224,10 +224,12 @@ for( var i=1; i&lt;=ButtonMax; i+=1)
 {
     var btnx1=x+3+((i-1)*38); //X location of this tab
     
-    //Logic for selecting tabs
+    //Logic for selecting buttons
     if (mouse_click_rectangle(btnx1,y+3,btnx1+34,y+3+34))
     {
         global.EditorMode=i;
+        global.EditorMode_Sub=EDIT_SUB_LID;
+        if (Tab==ENTITY_TAB_TOPS) global.EditorMode_Sub=EDIT_SUB_LID;
     }
     
     //Selected colour
@@ -256,6 +258,8 @@ for( var i=0; i&lt;=TabMax; i+=1)
     if (mouse_click_rectangle(tabx1,y+41,tabx1+82,y+67))
     {
         Tab=i;
+        if (Tab==ENTITY_TAB_TOPS) global.EditorMode_Sub=EDIT_SUB_LID;
+        if (Tab==ENTITY_TAB_SIDES) global.EditorMode_Sub=EDIT_SUB_SIDE;
         WindowContentRedraw=true;
     }
     
@@ -372,7 +376,8 @@ if (!surface_exists(WindowContent))
     WindowContent=surface_create(1024,1024);
 }
 
-if (WindowContentRedraw==true)
+if (WindowContentRedraw==true
+&amp;&amp; instance_exists(oMap))
 {
     d3d_end();
     d3d_set_lighting(false);
@@ -468,7 +473,28 @@ if (WindowContentRedraw==true)
                 &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
                 &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
                 {
-                    WindowContentSelected[Tab]=cursprite    
+                    WindowContentSelected[Tab]=cursprite
+                    global.LeftMouseTile=cursprite
+                    
+                    if (Tab==ENTITY_TAB_TOPS or Tab==ENTITY_TAB_SIDES)
+                    {
+                        global.EditorMode=EDIT_PAINT;
+                        
+                        if (cursprite&gt;=oMap.TopBase)
+                        {
+                            global.LeftMouseTile-=oMap.TopBase;
+                            global.EditorMode_Sub=EDIT_SUB_LID;    
+                        }
+                        else
+                        {
+                            global.EditorMode_Sub=EDIT_SUB_SIDE;
+                        }
+                    }
+                    else if (Tab==ENTITY_TAB_BLOCKS)
+                    {
+                        global.EditorMode=EDIT_SELECTION
+                        global.EditorMode_Sub=EDIT_SUB_NONE;
+                    }    
                 }
             }
             
