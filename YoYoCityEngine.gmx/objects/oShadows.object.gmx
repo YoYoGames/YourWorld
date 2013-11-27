@@ -59,8 +59,8 @@ ShadowSurface=-1;
         var camera = global.Camera;
 
         // Work out unit light vector
-        LightX = 0.2;
-        LightY = 0.45;
+        LightX = 0.3;
+        LightY = 0.6;
         LightZ =  1.0;
         var d = 1.0/sqrt(LightX*LightX+LightY*LightY+LightZ*LightZ);
         LightX = LightX*d;
@@ -71,8 +71,8 @@ ShadowSurface=-1;
         // Start the drawing sequence.    
         draw_set_color(c_red);
         d3d_set_lighting(true);
-        d3d_light_define_direction(0,  LightX,LightY,LightZ, $fce7ce);
-        d3d_light_define_ambient($ff404040);
+        d3d_light_define_direction(0,  LightX,LightY,LightZ, $ffffff ); //$fce7ce);
+        d3d_light_define_ambient($ff707070);
         d3d_light_enable(0,true);           
         d3d_set_lighting(true);
             

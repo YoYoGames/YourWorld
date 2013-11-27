@@ -28,7 +28,7 @@
             <string>/// Create an empty map
 
 StyleSprite=sStyle1;
-CreateMap(256,256,32, 16, 0,12,7, 64,70);
+CreateMap(256,256,32, 16, 0,64,7, 64,70);
 
 //StyleSprite=sStyle2;
 //CreateMap(256,256,16, 8, 0,20,7, 64,70);
