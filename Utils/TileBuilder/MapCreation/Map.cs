@@ -22,8 +22,8 @@ namespace TileBuilder.MapCreation
 {
     class Map
     {
-        const int CUT_SIDE = 8;
-        const int CUT_TOP = 23;
+        const int CUT_SIDE = 59;
+        const int CUT_TOP = 64;
         public class Coords
         {
             public int x;
@@ -92,7 +92,7 @@ namespace TileBuilder.MapCreation
         {
             m_Tile = _tile;
             Reset(_tile.Width, _tile.Height, 16,4);
-            LidBase = 12;
+            LidBase = 64;
             Pavement = 7;
         }
 
@@ -562,22 +562,21 @@ namespace TileBuilder.MapCreation
 
             Pavement = 7;         // pavement block
             Road = 3;
-            Grass = 16;
-            Water = 21;
-            Field1 = 20;
-            Field2 = 19;
-            Field3 = 18;
-            Concrete = 18;
-            Residential = 7;
+            Grass = 54;
+            Water = 0;              // actual "water block" anymore
+            Field1 = 61;
+            Field2 = 59;
+            Field3 = 64;
+            Concrete = 11;
+            Residential = 2;
             Comercial = 6;
-            Industrial = 2;
-            Concrete = 17;
-            Airport=10;
-            AirportRunway=22;
+            Industrial = 50;
+            Airport=11;
+            AirportRunway=3;
             MountainLow=8;
             MountainMed=9;
             MountainHigh=10;
-            HighResidential = 1;
+            HighResidential = 42;
 
 
             // Don't reset the map, REF counts are still valid
@@ -629,8 +628,8 @@ namespace TileBuilder.MapCreation
 
             // Make a Residential block (full cube)
             b = new block_info();            // block "1" is pavement;
-            b.Lid = 14;                       // roof?
-            b.Base = 14;                       // roof?
+            b.Lid = 22;                       // roof?
+            b.Base = 22;                       // roof?
             b.Left = Residential;
             b.Right = Residential;
             b.Top = Residential;
@@ -649,10 +648,10 @@ namespace TileBuilder.MapCreation
             Comercial = AddBlockInfo(b);
             CheckDuplicate(Comercial);
 
-            // Make a Comercial block (full cube)
+            // Make a Industrial block (full cube)
             b = new block_info();            // block "1" is pavement;
-            b.Lid = 15;                       // roof?
-            b.Base = 14;                       // roof?
+            b.Lid = 43;                       // roof?
+            b.Base = 43;                       // roof?
             b.Left = Industrial;
             b.Right = Industrial;
             b.Top = Industrial;
@@ -668,8 +667,8 @@ namespace TileBuilder.MapCreation
 
             // Make an Airport block (full cube)
             b = new block_info();            // block "1" is pavement;
-            b.Lid = 26;                       // roof?
-            b.Base = 23;                       // roof?
+            b.Lid = 43;                       // roof?
+            b.Base = 43;                       // roof?
             b.Left = Airport;
             b.Right = Airport;
             b.Top = Airport;
@@ -685,8 +684,8 @@ namespace TileBuilder.MapCreation
 
             // Make an MountainLow block (full cube)
             b = new block_info();            // block "1" is pavement;
-            b.Lid = 23;                       // roof?
-            b.Base = 23;                       // roof?
+            b.Lid = 31;                       // roof?
+            b.Base = 31;                       // roof?
             b.Left = MountainLow;
             b.Right = MountainLow;
             b.Top = MountainLow;
@@ -695,7 +694,7 @@ namespace TileBuilder.MapCreation
             CheckDuplicate(MountainLow);
 
 
-            // Make an MountainLow block (full cube)
+            // Make an MountainMid block (full cube)
             b = new block_info();            // block "1" is pavement;
             b.Lid = 24;                       // roof?
             b.Base = 24;                       // roof?
@@ -707,10 +706,10 @@ namespace TileBuilder.MapCreation
             CheckDuplicate(MountainMed);
 
 
-            // Make an MountainLow block (full cube)
+            // Make an MountainHigh block (full cube)
             b = new block_info();            // block "1" is pavement;
-            b.Lid = 25;                       // roof?
-            b.Base = 25;                       // roof?
+            b.Lid = 11;                       // roof?
+            b.Base = 11;                       // roof?
             b.Left = MountainHigh;
             b.Right = MountainHigh;
             b.Top = MountainHigh;
@@ -718,10 +717,10 @@ namespace TileBuilder.MapCreation
             MountainHigh = AddBlockInfo(b);
             CheckDuplicate(MountainHigh);
 
-            // Make an MountainLow block (full cube)
+            // Make an HighResidential block (full cube)
             b = new block_info();            // block "1" is pavement;
-            b.Lid = 26;                        
-            b.Base = 23;                       
+            b.Lid = 37;                        
+            b.Base = 37;                       
             b.Left = HighResidential;
             b.Right = HighResidential;
             b.Top = HighResidential;
@@ -851,7 +850,7 @@ namespace TileBuilder.MapCreation
         {
             if (m_Tile == null) return;
 
-            Reset(m_Tile.Width, m_Tile.Height, 16,4);
+            Reset(m_Tile.Width, m_Tile.Height, 32,4);
             BuildBlockInfos();
 
 

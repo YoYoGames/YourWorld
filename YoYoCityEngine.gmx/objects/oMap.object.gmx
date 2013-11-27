@@ -28,7 +28,7 @@
             <string>/// Create an empty map
 
 StyleSprite=sStyle1;
-CreateMap(256,256,32, 16, 0,12,7, 64,70);
+CreateMap(256,256,32, 16, 0,64,7, 64,70);
 
 //StyleSprite=sStyle2;
 //CreateMap(256,256,16, 8, 0,20,7, 64,70);
@@ -61,96 +61,6 @@ Water = instance_create(0,0,oWater);
 
 
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="6" enumb="54">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/*if( DoPick!=0 ) exit;
-MouseX = mouse_x;
-MouseY = mouse_y;
-PickButton=2;
-DoPick = 1;
-
-*/
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="6" enumb="53">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/*
-if( DoPick!=0 ) exit;
-MouseX = mouse_x;
-MouseY = mouse_y;
-PickButton=1;
-DoPick = 1;
-
-*/
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="6" enumb="52">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/*if( DoPick!=0 ) exit;
-MouseX = mouse_x;
-MouseY = mouse_y;
-PickButton=3;
-DoPick = 1;
-
-*/
 </string>
           </argument>
         </arguments>
@@ -196,7 +106,6 @@ var camera = global.Camera;
         shader_set(SpriteSelectionShader);
         with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
         shader_reset();
-        
         
 }
 
