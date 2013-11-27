@@ -63,7 +63,7 @@ ButtonMax=EDIT_SPRITES;
 Tab=0;
 TabMax=ENTITY_TAB_MAX;
 
-Holding=0
+Holding=
 
 device_mouse_raw_xprevious=device_mouse_raw_x(0)
 device_mouse_raw_yprevious=device_mouse_raw_y(0)
@@ -217,7 +217,6 @@ draw_set_color(c_white)
 draw_set_font(fTwCenM)
 draw_set_halign(fa_left)
 draw_set_valign(fa_center)
-/*draw_text(x+20,y+20,WindowCaption) */
 
 //Draw the button selections
 for( var i=1; i&lt;=ButtonMax; i+=1)
@@ -295,6 +294,7 @@ draw_rectangle(x+WindowWidth-25,y+101,x+WindowWidth,y+WindowHeight-56,0)
 draw_set_color(c_black)
 if (WindowContentYMin!=0) //Can scroll
 {
+    //Temporary variables
     var scrolly=0;
     var scrollymin=0;
     var scrollymax=WindowHeight-56-32-101;
@@ -334,8 +334,8 @@ if (WindowContentYMin!=0) //Can scroll
 
 //Control &amp; draw window content
 draw_set_color(c_white)
-//draw_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight,0)
 
+//If you click the surface, remember the click position to process tile selection
 if (mouse_click_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))
 {
     WindowContentClicked=true;

@@ -32,6 +32,7 @@
     <sprite>sprites\sWater</sprite>
     <sprite>sprites\sTree</sprite>
     <sprite>sprites\sButtonImg</sprite>
+    <sprite>sprites\sButtonNavbar</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
