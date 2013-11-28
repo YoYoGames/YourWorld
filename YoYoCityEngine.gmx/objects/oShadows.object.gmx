@@ -78,9 +78,9 @@ ShadowSurface=-1;
             
         
 /*        
-        var cx = camera.CameraX - LightX*2500;
-        var cy = camera.CameraY - LightY*2500;
-        var cz = 1024 - LightZ*1000;
+        var cx = camera.CameraX;// - (LightX*2500);
+        var cy = camera.CameraY;// - (LightY*2500);
+        var cz = 0; //1024 - LightZ*1000;
         surface_set_target(ShadowSurface);        
         draw_clear_alpha(c_red,0);
         
@@ -114,8 +114,8 @@ ShadowSurface=-1;
         d3d_set_culling(true);
         d3d_set_perspective(true);
         SetProjection(camera);
-*/
-        
+
+*/        
         
 }
 </string>

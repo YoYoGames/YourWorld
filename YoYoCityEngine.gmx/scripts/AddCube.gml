@@ -42,8 +42,8 @@ var PerRow = floor(sprite_get_width(StyleSprite)/TileBorder);     // Number of t
 var border = (TileBorder - TileSize)/2;
 var OneOverW  = 1.0/sprite_get_width(StyleSprite);
 var OneOverH = 1.0/sprite_get_height(StyleSprite);
-var Width64  = (1.0/sprite_get_width(StyleSprite))*(TileSize-1);
-var Height64 = (1.0/sprite_get_height(StyleSprite))*(TileSize-1);
+var Width64  = OneOverW*(TileSize);
+var Height64 = OneOverH*(TileSize);
 
 var u,v;
 
@@ -52,8 +52,8 @@ uvs=0;
 
 // top
 if( tile0>=0 ){
-    u = (floor(tile0 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
-    v = (floor(tile0 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
+    u = ((floor(tile0 % PerRow) * TileBorder)+border) * OneOverW;
+    v = ((floor(tile0 / PerRow) * TileBorder)+border) * OneOverH;
     
     var c=col|(1<<26);
     
@@ -107,8 +107,8 @@ if( tile0>=0 ){
 
 // bottom
 if( tile1>=0 ){
-    u = (floor(tile1 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
-    v = (floor(tile1 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
+    u = ((floor(tile1 % PerRow) * TileBorder)+border) * OneOverW;
+    v = ((floor(tile1 / PerRow) * TileBorder)+border) * OneOverH;
     
     var c=col|(2<<26);
     
@@ -192,8 +192,8 @@ if( tile1>=0 ){
 
 // left
 if( tile2>=0 ){
-    u = (floor(tile2 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
-    v = (floor(tile2 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
+    u = ((floor(tile2 % PerRow) * TileBorder)+border) * OneOverW;
+    v = ((floor(tile2 / PerRow) * TileBorder)+border) * OneOverH;
     
     var c=col|(3<<26);
     
@@ -247,8 +247,8 @@ if( tile2>=0 ){
 
 // right
 if( tile3>=0 ){
-    u = (floor(tile3 % PerRow) * TileBorder)*OneOverW + (OneOverW*border);
-    v = (floor(tile3 / PerRow) * TileBorder)*OneOverH + (OneOverH*border);
+    u = ((floor(tile3 % PerRow) * TileBorder)+border) * OneOverW;
+    v = ((floor(tile3 / PerRow) * TileBorder)+border) * OneOverH;
     
     var c=col|(4<<26);
         
@@ -332,9 +332,8 @@ if( tile3>=0 ){
 // lid
 if( tile4>=0 ){
     tile4+=TopBase;
-    u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border)+ (OneOverW/2);
-    v = (floor(tile4 / PerRow) * TileBorder)*OneOverH + (OneOverH*border)+ (OneOverH/2);
-
+    u = ((floor(tile4 % PerRow) * TileBorder)+border)*OneOverW;
+    v = ((floor(tile4 / PerRow) * TileBorder)+border)*OneOverH;
     var c=col|(5<<26);
 
     uvs[0]=u;
@@ -345,6 +344,7 @@ if( tile4>=0 ){
     uvs[5]=v+Height64;
     uvs[6]=u;
     uvs[7]=v+Height64;
+    
     //uvs = Rotate_tile(uvs,flags&~((3<<16))<<5);
     // 0=none, 1=90, 2=180, 3=270
     var rot=((flags&~((3<<16))<<5)>>14)&3;
@@ -364,7 +364,7 @@ if( tile4>=0 ){
             uvs[7] = tu2;
         }
     }
-    
+   
     
     vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, 0,0,-1);
@@ -402,9 +402,9 @@ if( tile4>=0 ){
 
 // base
 if( tile5>=0 ){
-    tile4+=TopBase;
-    u = (floor(tile4 % PerRow) * TileBorder)*OneOverW + (OneOverW*border) + (OneOverW/2);
-    v = (floor(tile4 / PerRow) * TileBorder)*OneOverH + (OneOverH*border) + (OneOverH/2);
+    tile5+=TopBase;
+    u = ((floor(tile5 % PerRow) * TileBorder)+border)*OneOverW;
+    v = ((floor(tile5 / PerRow) * TileBorder)+border)*OneOverH;
 
     var c=col|(6<<26);
 

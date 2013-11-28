@@ -197,14 +197,14 @@ if( surface_exists(DiffuseSurface) ){
 //    draw_surface(SelectionSurface,0,0);
 }
 
-
-/*if( surface_exists(Shadows.ShadowSurface) ){
+/*
+if( surface_exists(Shadows.ShadowSurface) ){
     draw_enable_alphablend(false);
     draw_surface_stretched(Shadows.ShadowSurface,window_get_width()-256,0,256,256);
     draw_enable_alphablend(true);    
 //    draw_surface(SelectionSurface,0,0);
-}*/
-
+}
+*/
 
 
 draw_set_font(arial);
@@ -305,6 +305,50 @@ draw_outline( 40,42, s, c_white );
 
 
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Go in/out of fullscreen mode
+if( keyboard_check(vk_alt) )
+{
+    if( !window_get_fullscreen() )
+    {
+        window_set_size(display_get_width(), display_get_height() );
+        view_wport[0]=display_get_width();
+        view_hport[0]=display_get_height();
+        view_wview[0]=display_get_width();
+        view_hview[0]=display_get_height();
+        window_set_fullscreen(true);
+    }else{
+        window_set_fullscreen(false);
+        var w=1280;
+        var h=720;
+        window_set_size(w,h);
+        view_wport[0]=w;
+        view_hport[0]=h;
+        view_wview[0]=w;
+        view_hview[0]=h;
+    }
+}
 </string>
           </argument>
         </arguments>
