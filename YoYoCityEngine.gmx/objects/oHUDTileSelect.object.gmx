@@ -276,7 +276,7 @@ if (WindowContentRedraw==true
 &amp;&amp; instance_exists(oMap))
 {
     d3d_end();
-    d3d_set_lighting(false);
+    //d3d_set_lighting(false);
     surface_set_target(WindowContent);
     draw_clear(c_white);
     
@@ -465,7 +465,7 @@ if (WindowContentRedraw==true
     draw_set_color(c_white);
     surface_reset_target();
     d3d_start();
-    d3d_set_lighting(true);
+    //d3d_set_lighting(true);
     WindowContentYMin=min(0,(WindowHeight-WindowContentDrawY)-WindowContentHeight);
     if (WindowContentClicked==true)
     {

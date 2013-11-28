@@ -1,5 +1,5 @@
 [details]
-tilesGroupCount=5.000000
+tilesGroupCount=7.000000
 spritesGroupCount=2.000000
 objectsGroupCount=0.000000
 roadsGroupCount=2.000000
@@ -26,6 +26,14 @@ name4=Ground
 desc4=Currently unused
 sides_list4=0,1,2,3
 tops_list4=
+name5=Temporary Roads
+desc5=Currently unused
+sides_list5=
+tops_list5=0,1,2,3,4,8,9,10,11,12,7,16
+name6=Temporary Landscape
+desc6=Currently unused
+sides_list6=
+tops_list6=5,6,54,55,56,57,58,59,60,61,62,63,64
 
 [roads]
 name0=Roads
