@@ -61,9 +61,9 @@ Cu=keyboard_check(ord("W")) or keyboard_check(vk_up);
 Cl=keyboard_check(ord("A")) or keyboard_check(vk_left);
 Cd=keyboard_check(ord("S")) or keyboard_check(vk_down);
 Cr=keyboard_check(ord("D")) or keyboard_check(vk_right);
-KZup=keyboard_check(vk_pageup);
-KZdown=keyboard_check(vk_pagedown);
-Kshift=keyboard_check(vk_lshift) or keyboard_check(vk_rshift);
+KZup=keyboard_check(vk_pageup) or keyboard_check(vk_space);
+KZdown=keyboard_check(vk_pagedown) or keyboard_check(vk_lshift) or keyboard_check(vk_rshift);
+Kshift=keyboard_check(ord("C"))//keyboard_check(vk_lshift) or keyboard_check(vk_rshift);
 KMleft=mouse_check_button(mb_left);
 KMmiddle=mouse_check_button(mb_middle);
 KMright=mouse_check_button(mb_right);
@@ -76,7 +76,7 @@ AllowPick=true;
 
 
 // Toggle cursor mode
-if( Cspace ) FreeCursorMode^=1;
+//if( Cspace ) FreeCursorMode^=1;
 
 if( FreeCursorMode==1 ){
 }else{
