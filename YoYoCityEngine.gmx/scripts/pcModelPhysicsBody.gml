@@ -4,12 +4,15 @@
 
 bodyFixture = physics_fixture_create();
 
+var xoff = sprite_xoffset*3//77;//sprite_xoffset;
+var yoff = sprite_yoffset*3//301;//sprite_yoffset;
+
 // Define shape, currently based on sprite size
 physics_fixture_set_polygon_shape(bodyFixture);
-physics_fixture_add_point(bodyFixture, x1-sprite_xoffset* scale, y1-sprite_yoffset* scale);
-physics_fixture_add_point(bodyFixture, x2-sprite_xoffset* scale, y1-sprite_yoffset* scale);
-physics_fixture_add_point(bodyFixture, x2-sprite_xoffset* scale, y2-sprite_yoffset* scale);
-physics_fixture_add_point(bodyFixture, x1-sprite_xoffset* scale, y2-sprite_yoffset* scale);
+physics_fixture_add_point(bodyFixture, x1-xoff*scale, y1-yoff*scale);
+physics_fixture_add_point(bodyFixture, x2-xoff*scale, y1-yoff*scale);
+physics_fixture_add_point(bodyFixture, x2-xoff*scale, y2-yoff*scale);
+physics_fixture_add_point(bodyFixture, x1-xoff*scale, y2-yoff*scale);
 
 // Define properties
 physics_fixture_set_density(bodyFixture, 1.5);
