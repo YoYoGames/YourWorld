@@ -1,17 +1,53 @@
 [details]
-tilesGroupCount=2.000000
-spritesGroupCount=1.000000
+tilesGroupCount=5.000000
+spritesGroupCount=2.000000
 objectsGroupCount=0.000000
+roadsGroupCount=2.000000
+landscapeGroupCount=4.000000
 
 [tiles]
-name0=Brick Skyscraper
-desc0=Something about a brick skyscraper.
-sides_list0=0,1,2,3
-tops_list0=12,13,14,15,16,17,18,19,20
-name1=Test
-desc1=This is a test description with a bunch of words, because why not? Wheeee!
-sides_list1=4,5,6,7,8,9,10,11
-tops_list1=21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38
+name0=Commercial
+desc0=Currently unused
+sides_list0=4,5,6,7,8,9,10,11,12,13,14,15
+tops_list0=13,14,15
+name1=Residential
+desc1=Currently unused
+sides_list1=16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
+tops_list1=17,18,19,20,21,22,23,24,25,26,27,28
+name2=Industrial
+desc2=Currently unused
+sides_list2=50,51,52,53,54,55,56,57,58,59,60,61,62,63
+tops_list2=41,42,43,44,45,46,47,48,49,50,51,52,53
+name3=Slums
+desc3=Currently unused
+sides_list3=32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49
+tops_list3=29,30,31,32,33,34,35,36,37,38,39,40
+name4=Ground
+desc4=Currently unused
+sides_list4=0,1,2,3
+tops_list4=
+
+[roads]
+name0=Roads
+desc0=Roads
+list0=0,1,2,3,4,8,9,10,11,12
+name1=Pavement
+desc1=Pavement
+list1=7,16
+
+[landscape]
+name0=Grass
+desc0=Bits of land
+list0=5,6,54,55,56
+name1=Hedges
+desc1=Hedges
+list1=57
+name2=Corn
+desc2=Corn
+list2=58,59,60
+name3=Field
+desc3=A field
+list3=61,62,63,64
 
 [sprites]
 name0=Tree

@@ -310,7 +310,7 @@ draw_outline( 40,42, s, c_white );
         </arguments>
       </action>
     </event>
-    <event eventtype="10" enumb="32">
+    <event eventtype="9" enumb="73">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -329,13 +329,13 @@ draw_outline( 40,42, s, c_white );
             <kind>1</kind>
             <string>if (global.Mode==MODE_EDIT)
 {
-    if !instance_exists(oHUDEntitySelect)
+    if !instance_exists(oHUDTileSelect)
     {
-        instance_create(64,64,oHUDEntitySelect)
+        instance_create(64,64,oHUDTileSelect)
     }
     else
     {
-        with(oHUDEntitySelect) instance_destroy()
+        with(oHUDTileSelect) instance_destroy()
     }
 }
 </string>

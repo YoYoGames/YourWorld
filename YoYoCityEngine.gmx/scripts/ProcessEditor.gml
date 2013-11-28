@@ -56,7 +56,7 @@ var camera = global.Camera;
 
 //Set four temporary variables to whether the player is pressing each of the four direction buttons
 var Cl,Cu,Cr,Cd,KZup,KZdown,Cspace,AllowPick;
-Cspace=keyboard_check_pressed(vk_space);
+Cspace=keyboard_check_pressed(vk_f1);
 Cu=keyboard_check(ord("W")) or keyboard_check(vk_up);
 Cl=keyboard_check(ord("A")) or keyboard_check(vk_left);
 Cd=keyboard_check(ord("S")) or keyboard_check(vk_down);
@@ -69,8 +69,8 @@ KMmiddle=mouse_check_button(mb_middle);
 KMright=mouse_check_button(mb_right);
 KMwheelup=mouse_wheel_up();
 KMwheeldown=mouse_wheel_down();
-Kinsert=keyboard_check(vk_enter);
-Kdelete=keyboard_check(vk_delete);
+Kinsert=keyboard_check(ord("F"));
+Kdelete=keyboard_check(ord("E"));
 Kescape=keyboard_check(vk_escape);
 AllowPick=true;
 
