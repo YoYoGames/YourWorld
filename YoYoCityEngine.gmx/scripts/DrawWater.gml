@@ -8,9 +8,10 @@
         texture_set_repeat(true);
         d3d_set_lighting(false);
         texture_set_interpolation(true);
+        texture_set_repeat(true);
         
         // First set surfaces and reset projection
-        var texture = sprite_get_texture(sWater,0); 
+        var texture = sprite_get_texture(sprite_index,image_index); 
         //surface_set_target(global.Map.DiffuseSurface);
         //SetProjection();
          
@@ -25,6 +26,7 @@
         shader_reset();
                 
         //surface_reset_target();
+        texture_set_repeat(false);
         texture_set_interpolation(false);
         d3d_set_culling(true);
         texture_set_repeat(false);
