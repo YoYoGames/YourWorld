@@ -29,7 +29,7 @@ with(_map)
 
         if(( zz>=0 && zz<MapDepth ) && (xx>=0 && xx<MapWidth) && (yy>=0 && yy<MapHeight))
         {        
-            var blk = AddBlock(id,xx,yy,zz,true,1,1);
+            var blk = AddBlock(id,xx,yy,zz,true,59,31);
             FreeCacheRegion(id,xx-1,yy-1, xx+1,yy+1);   
         }
     }    

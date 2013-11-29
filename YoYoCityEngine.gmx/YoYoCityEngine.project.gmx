@@ -3,7 +3,25 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="9" name="datafiles"/>
+  <datafiles number="10" name="datafiles">
+    <datafile>
+      <name>style1.yyg</name>
+      <exists>-1</exists>
+      <size>506</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>style1.yyg</filename>
+    </datafile>
+  </datafiles>
   <NewExtensions>
     <extension index="0">extensions\Extension1</extension>
   </NewExtensions>
@@ -14,6 +32,7 @@
     <sprite>sprites\sWater</sprite>
     <sprite>sprites\sTree</sprite>
     <sprite>sprites\sButtonImg</sprite>
+    <sprite>sprites\sButtonNavbar</sprite>
     <sprites name="Car Stuff">
       <sprite>sprites\sprCarBody</sprite>
       <sprite>sprites\sprWheel</sprite>
@@ -120,6 +139,7 @@
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
+    <shader type="GLSLES">shaders\BlockShadowShader.shader</shader>
     <shader type="GLSLES">shaders\WaterShader.shader</shader>
     <shader type="GLSLES">shaders\SelectionShader.shader</shader>
     <shader type="HLSL9">shaders\RenderPlusSelection.shader</shader>
@@ -143,13 +163,15 @@
       <object>objects\oMapGen</object>
       <object>objects\oScreen</object>
       <object>objects\oMap</object>
+      <object>objects\oShadows</object>
       <object>objects\oCamera</object>
       <object>objects\o3DSelection</object>
       <object>objects\oController</object>
       <object>objects\oEndDraw</object>
     </objects>
+    <object>objects\oHUD</object>
     <object>objects\oHUDParent</object>
-    <object>objects\oHUDEntitySelect</object>
+    <object>objects\oHUDTileSelect</object>
     <objects name="Car Physics">
       <object>objects\objPhysicsController</object>
       <object>objects\objBody</object>

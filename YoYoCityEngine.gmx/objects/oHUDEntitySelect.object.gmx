@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-10010</depth>
   <persistent>0</persistent>
   <parentName>oHUDParent</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,51 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Size of window
-WindowWidth=600;
-WindowHeight=500;
-
-WindowWidthMin=440;
-WindowWidthMax=min(1024,window_get_width());
-
-WindowHeightMin=200;
-WindowHeightMax=min(1024,window_get_height());
-
-//What is drawn top left of window
-WindowCaption="ENTITY SELECT";
-
-//The content inside the window
-WindowContent=surface_create(1024,1024);
-surface_set_target(WindowContent);
-draw_clear(c_white);
-surface_reset_target();
-WindowContentRedraw=true;
-WindowContentClicked=false;
-WindowContentClickedX=0;
-WindowContentClickedY=0;
-for(var i=0; i&lt;=ENTITY_TAB_MAX; i+=1) {WindowContentSelected[i]=0;}
-
-//Content size and constraints
-WindowContentHeight=1024;
-WindowContentDrawY=73;
-WindowContentY=0;
-WindowContentYMin=0;
-
-//Current button and maximum button
-Button=global.EditorMode;
-ButtonMax=EDIT_SPRITES;
-
-//Current tab and maximum tab
-Tab=0;
-TabMax=ENTITY_TAB_MAX;
-
-Holding=0
-
-device_mouse_raw_xprevious=device_mouse_raw_x(0)
-device_mouse_raw_yprevious=device_mouse_raw_y(0)
-
-spriteInd[0]=sTree;
-spriteIndMax=0;
+            <string>event_inherited()
 </string>
           </argument>
         </arguments>
@@ -217,17 +173,18 @@ draw_set_color(c_white)
 draw_set_font(fTwCenM)
 draw_set_halign(fa_left)
 draw_set_valign(fa_center)
-/*draw_text(x+20,y+20,WindowCaption) */
 
 //Draw the button selections
 for( var i=1; i&lt;=ButtonMax; i+=1)
 {
     var btnx1=x+3+((i-1)*38); //X location of this tab
     
-    //Logic for selecting tabs
+    //Logic for selecting buttons
     if (mouse_click_rectangle(btnx1,y+3,btnx1+34,y+3+34))
     {
         global.EditorMode=i;
+        global.EditorMode_Sub=EDIT_SUB_LID;
+        if (Tab==ENTITY_TAB_TOPS) global.EditorMode_Sub=EDIT_SUB_LID;
     }
     
     //Selected colour
@@ -256,6 +213,8 @@ for( var i=0; i&lt;=TabMax; i+=1)
     if (mouse_click_rectangle(tabx1,y+41,tabx1+82,y+67))
     {
         Tab=i;
+        if (Tab==ENTITY_TAB_TOPS) global.EditorMode_Sub=EDIT_SUB_LID;
+        if (Tab==ENTITY_TAB_SIDES) global.EditorMode_Sub=EDIT_SUB_SIDE;
         WindowContentRedraw=true;
     }
     
@@ -291,6 +250,7 @@ draw_rectangle(x+WindowWidth-25,y+101,x+WindowWidth,y+WindowHeight-56,0)
 draw_set_color(c_black)
 if (WindowContentYMin!=0) //Can scroll
 {
+    //Temporary variables
     var scrolly=0;
     var scrollymin=0;
     var scrollymax=WindowHeight-56-32-101;
@@ -330,8 +290,8 @@ if (WindowContentYMin!=0) //Can scroll
 
 //Control &amp; draw window content
 draw_set_color(c_white)
-//draw_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight,0)
 
+//If you click the surface, remember the click position to process tile selection
 if (mouse_click_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))
 {
     WindowContentClicked=true;
@@ -372,7 +332,8 @@ if (!surface_exists(WindowContent))
     WindowContent=surface_create(1024,1024);
 }
 
-if (WindowContentRedraw==true)
+if (WindowContentRedraw==true
+&amp;&amp; instance_exists(oMap))
 {
     d3d_end();
     d3d_set_lighting(false);
@@ -459,6 +420,7 @@ if (WindowContentRedraw==true)
         while !ds_queue_empty(itemList[Tab,i])
         {
             cursprite=ds_queue_dequeue(itemList[Tab,i])
+            if Tab!=ENTITY_TAB_SIDES cursprite+=oMap.TopBase
             
             //If you clicked the current tile, select it
             if (WindowContentClicked==true)
@@ -468,7 +430,28 @@ if (WindowContentRedraw==true)
                 &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
                 &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
                 {
-                    WindowContentSelected[Tab]=cursprite    
+                    WindowContentSelected[Tab]=cursprite
+                    global.LeftMouseTile=cursprite
+                    
+                    if (Tab==ENTITY_TAB_TOPS or Tab==ENTITY_TAB_SIDES)
+                    {
+                        global.EditorMode=EDIT_PAINT;
+                        
+                        if (cursprite&gt;=oMap.TopBase)
+                        {
+                            global.LeftMouseTile-=oMap.TopBase;
+                            global.EditorMode_Sub=EDIT_SUB_LID;    
+                        }
+                        else
+                        {
+                            global.EditorMode_Sub=EDIT_SUB_SIDE;
+                        }
+                    }
+                    else if (Tab==ENTITY_TAB_BLOCKS)
+                    {
+                        global.EditorMode=EDIT_SELECTION
+                        global.EditorMode_Sub=EDIT_SUB_NONE;
+                    }    
                 }
             }
             

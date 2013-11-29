@@ -14,8 +14,8 @@ var _x=argument[1];
 var _y=argument[2];
 var _z=argument[3];
 var _replace=true;
-var _side=1;
-var _lid=1;
+var _side=59;
+var _lid=7;
 
 if(argument_count>=5) _remove=argument[4];
 if(argument_count>=6) _side=argument[5];
