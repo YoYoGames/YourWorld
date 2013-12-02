@@ -98,21 +98,22 @@ if (global.Mode == MODE_PLAY)
     oCamera.CameraZ = lerp(oCamera.CameraZ, zPos, transition);
     
     // Camera collisions
-    
-    
-    while (
-           GetBlockIndex(floor(oCamera.CameraX/64), floor(-oCamera.CameraY/64-0.8), floor(-oCamera.CameraZ)/64-1) &gt; 1
-        || GetBlockIndex(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64), floor(-oCamera.CameraZ)/64-1) &gt; 1
-        || GetBlockIndex(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64), floor(-oCamera.CameraZ)/64-1) &gt; 1
-        || GetBlockIndex(floor(oCamera.CameraX/64), floor(-oCamera.CameraY/64+0.8), floor(-oCamera.CameraZ)/64-1) &gt; 1
+    maxHeight = max(
+          GetColumnSize(floor(oCamera.CameraX/64),     floor(-oCamera.CameraY/64-0.8)) 
+        , GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64))
+        , GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64))
+        , GetColumnSize(floor(oCamera.CameraX/64),     floor(-oCamera.CameraY/64+0.8))
         
-        || GetBlockIndex(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64-0.8), floor(-oCamera.CameraZ)/64-1) &gt; 1
-        || GetBlockIndex(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64-0.8), floor(-oCamera.CameraZ)/64-1) &gt; 1
-        || GetBlockIndex(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64+0.8), floor(-oCamera.CameraZ)/64-1) &gt; 1
-        || GetBlockIndex(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64+0.8), floor(-oCamera.CameraZ)/64-1) &gt; 1
-        )
+        , GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64-0.8))
+        , GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64-0.8))
+        , GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64+0.8))
+        , GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64+0.8))
+        ) *64;
+        
+    show_debug_message(string(-maxHeight)+", "+string(oCamera.CameraZ));
+    if (-maxHeight &lt; oCamera.CameraZ)
         {
-        oCamera.CameraZ -= 1;
+        oCamera.CameraZ = -maxHeight;
         }
         
     oCamera.CameraZ = floor(oCamera.CameraZ);

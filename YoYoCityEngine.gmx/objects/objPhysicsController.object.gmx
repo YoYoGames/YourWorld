@@ -80,10 +80,12 @@ PhysicsDefineBlock();
           <argument>
             <kind>1</kind>
             <string>
+// Define the grid area around the player to check for collision spaces
 preCenterX = cellCenterX;
 preCenterY = cellCenterY;
 cellCenterX = round(objBody.x/64);
 cellCenterY = round(-objBody.y/64);
+
 
 // Do update if the player is in a new cell
 if (cellCenterX != preCenterX)
@@ -128,6 +130,7 @@ if (cellCenterX != preCenterX)
                 // If cell is a building
                 if (cellValue &gt; 1)
                     {
+                    // If there's a spare fixture currently unused, use it
                     if (!ds_list_empty(phyFree))
                         {
                         index = max(0, ds_list_find_index(phyFree, cellID));
@@ -153,6 +156,8 @@ if (cellCenterX != preCenterX)
                         ds_list_delete(phyFree, index);
                         ds_list_delete(phyFree, index);
                         }
+                        
+                    // If there's no spare fixtures left, create one
                     else
                         {
                         inst = instance_create(xx*64, -yy*64, objFixture);
@@ -175,7 +180,7 @@ if (cellCenterX != preCenterX)
         }
         
     ds_list_copy(phyCache, phyActive);  // Move active list to cache list
-    ds_list_clear(phyActive);           // Clear the active list
+    ds_list_clear(phyActive);           // Clear the active list (to refill next time)
     }
 
 </string>
