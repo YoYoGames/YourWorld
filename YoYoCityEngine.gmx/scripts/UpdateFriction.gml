@@ -34,7 +34,7 @@ else
         impulseX *= mult;
         impulseY *= mult;
         }
-    physics_apply_impulse(x, y, impulseX/2, impulseY/2);
+    physics_apply_impulse(x, y, impulseX, impulseY);// /2
     }
 
 
