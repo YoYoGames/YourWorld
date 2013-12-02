@@ -1,9 +1,9 @@
 [details]
-tilesGroupCount=7.000000
+tilesGroupCount=5.000000
+roadsGroupCount=3.000000
+landscapeGroupCount=4.000000
 spritesGroupCount=2.000000
 objectsGroupCount=0.000000
-roadsGroupCount=2.000000
-landscapeGroupCount=4.000000
 
 [tiles]
 name0=Commercial
@@ -26,36 +26,31 @@ name4=Ground
 desc4=Currently unused
 sides_list4=0,1,2,3
 tops_list4=
-name5=Temporary Roads
-desc5=Currently unused
-sides_list5=
-tops_list5=0,1,2,3,4,8,9,10,11,12,7,16
-name6=Temporary Landscape
-desc6=Currently unused
-sides_list6=
-tops_list6=5,6,54,55,56,57,58,59,60,61,62,63,64
 
 [roads]
-name0=Roads
+name0=Dark Road
 desc0=Roads
-list0=0,1,2,3,4,8,9,10,11,12
-name1=Pavement
-desc1=Pavement
-list1=7,16
+roads_list0=65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83
+name1=Light Road
+desc1=Roads
+roads_list1=84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102
+name2=Pavement
+desc2=Pavement
+roads_list2=7,16
 
 [landscape]
 name0=Grass
 desc0=Bits of land
-list0=5,6,54,55,56
+ls_list0=5,6,54,55,56
 name1=Hedges
 desc1=Hedges
-list1=57
+ls_list1=57
 name2=Corn
 desc2=Corn
-list2=58,59,60
+ls_list2=58,59,60
 name3=Field
 desc3=A field
-list3=61,62,63,64
+ls_list3=61,62,63,64
 
 [sprites]
 name0=Tree

@@ -113,6 +113,7 @@
       <script>scripts\mouse_rectangle.gml</script>
       <script>scripts\mouse_click_rectangle.gml</script>
       <script>scripts\mouse_hold_rectangle.gml</script>
+      <script>scripts\ColorButton.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -147,16 +148,17 @@
       <object>objects\oController</object>
       <object>objects\oEndDraw</object>
     </objects>
-    <object>objects\oHUD</object>
+    <object>objects\oHUDMain</object>
     <object>objects\oHUDParent</object>
     <object>objects\oHUDTileSelect</object>
+    <object>objects\oHUDBlockSelect</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="27">
+  <constants number="22">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -175,15 +177,10 @@
     <constant name="EDIT_SELECTION">1</constant>
     <constant name="EDIT_PAINT">2</constant>
     <constant name="EDIT_SPRITES">3</constant>
+    <constant name="EDIT_OBJECTS">4</constant>
     <constant name="EDIT_SUB_LID">1</constant>
     <constant name="EDIT_SUB_SIDE">2</constant>
     <constant name="EDIT_SUB_NONE">0</constant>
-    <constant name="ENTITY_TAB_BLOCKS">0</constant>
-    <constant name="ENTITY_TAB_SIDES">1</constant>
-    <constant name="ENTITY_TAB_TOPS">2</constant>
-    <constant name="ENTITY_TAB_SPRITES">3</constant>
-    <constant name="ENTITY_TAB_OBJECTS">4</constant>
-    <constant name="ENTITY_TAB_MAX">4</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

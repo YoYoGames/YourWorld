@@ -84,6 +84,7 @@ global.CurrentPolyCount = 0;
 
 EndDraw = instance_create(0,0,oEndDraw);
 Shadows = instance_create(0,0,oShadows);
+HUD     = instance_create(0,0,oHUDMain);
 
 
 DiffuseSurface=-1;
