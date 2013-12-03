@@ -97,7 +97,7 @@ if (Holding==1)
     y+=(device_mouse_raw_y(0)-device_mouse_raw_yprevious)
     
     x=clamp(x,-WindowWidth+10,window_get_width()-10)
-    y=clamp(y,1,window_get_height()-10)
+    y=clamp(y,35,window_get_height()-10)
     
     device_mouse_raw_xprevious=device_mouse_raw_x(0)
     device_mouse_raw_yprevious=device_mouse_raw_y(0)

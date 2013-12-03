@@ -51,17 +51,6 @@ if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
         
 }
-buttonX+=buttonS
-buttonI+=1
-
-//Import
-draw_set_color(c_black)
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
-{
-        
-}
 buttonX+=(buttonS*2)
 buttonI+=1
 
@@ -95,7 +84,17 @@ draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
 if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_PAINT;
-    global.EditorMode_Sub=EDIT_SUB_LID;        
+    global.EditorMode_Sub=EDIT_SUB_LID;
+    
+    if !instance_exists(oHUDTileSelect)
+    {
+        with(oHUDParent) instance_destroy()
+        instance_create(60,60,oHUDTileSelect)
+    }
+    else
+    {
+        with(oHUDParent) instance_destroy()
+    }        
 }
 buttonX+=buttonS
 buttonI+=1
@@ -107,7 +106,17 @@ draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
 if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_PAINT;
-    global.EditorMode_Sub=EDIT_SUB_SIDE;        
+    global.EditorMode_Sub=EDIT_SUB_SIDE;
+    
+    if !instance_exists(oHUDTileSelect)
+    {
+        with(oHUDParent) instance_destroy()
+        instance_create(60,60,oHUDTileSelect)
+    }
+    else
+    {
+        with(oHUDParent) instance_destroy()
+    }        
 }
 buttonX+=buttonS
 buttonI+=1

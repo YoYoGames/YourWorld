@@ -15,7 +15,7 @@
   <TextureGroups>
     <TextureGroup0>0</TextureGroup0>
   </TextureGroups>
-  <For3D>0</For3D>
+  <For3D>-1</For3D>
   <width>2048</width>
   <height>1024</height>
   <frames>

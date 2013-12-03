@@ -84,7 +84,6 @@ global.CurrentPolyCount = 0;
 
 EndDraw = instance_create(0,0,oEndDraw);
 Shadows = instance_create(0,0,oShadows);
-HUD     = instance_create(0,0,oHUDMain);
 
 
 DiffuseSurface=-1;
@@ -376,13 +375,13 @@ if( keyboard_check(vk_alt) )
 {
     FreeCursorMode^=1;
     
-    if !instance_exists(oHUDTileSelect)
+    if !instance_exists(oHUDMain)
     {
-        instance_create(64,64,oHUDTileSelect)
+        instance_create(64,64,oHUDMain)
     }
     else
     {
-        with(oHUDTileSelect) instance_destroy()
+        with(oHUDMain) instance_destroy()
     }
 }
 </string>

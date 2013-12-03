@@ -1,7 +1,7 @@
 /// Process the Editor state
 var camera = global.Camera;
 
-if !instance_exists(oHUDParent)
+if !instance_exists(oHUDMain)
 {
     camera.dir += (display_mouse_get_x()-display_get_width()/2)/6
     camera.zdir += (display_mouse_get_y()-display_get_height()/2)/6
@@ -73,10 +73,6 @@ Kinsert=keyboard_check(ord("F"));
 Kdelete=keyboard_check(ord("E"));
 Kescape=keyboard_check(vk_escape);
 AllowPick=true;
-
-
-// Toggle cursor mode
-//if( Cspace ) FreeCursorMode^=1;
 
 if( FreeCursorMode==1 ){
 }else{
