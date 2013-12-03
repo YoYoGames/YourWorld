@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>//*****************************************************************************
 // 
-// Format:
+// List system format:
 //  string cellID (Example: "x12y5z2")
 //  real   fixtureIndex (so we can reuse one of the right type)
 //  real   phyInstID
@@ -41,6 +41,8 @@ physics_world_gravity(0.0, 0.0);
 // Get infomation that we need
 gridWidth  = oMap.MapWidth;
 gridHeight = oMap.MapHeight;
+cellCenterX = 0;
+cellCenterY = 0;
 halfRegion = 2;
 
 
@@ -48,10 +50,6 @@ halfRegion = 2;
 phyCache = ds_list_create();    // List of items from previous pass
 phyActive = ds_list_create();   // List of currently active items
 phyFree = ds_list_create();     // List of items that are free and ready for reuse
-
-
-cellCenterX = 0;
-cellCenterY = 0;
 
 
 // Define shapes
@@ -81,8 +79,8 @@ PhysicsDefineBlock();
             <kind>1</kind>
             <string>
 // Define the grid area around the player to check for collision spaces
-preCenterX = cellCenterX;
-preCenterY = cellCenterY;
+var preCenterX = cellCenterX;
+var preCenterY = cellCenterY;
 cellCenterX = round(objBody.x/64);
 cellCenterY = round(-objBody.y/64);
 
@@ -205,7 +203,8 @@ if (cellCenterX != preCenterX)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>/// Draw Debug Information
+
 draw_set_color(c_black);
 draw_set_alpha(0.5);
 draw_rectangle(0, 0, 256, 512, 0);

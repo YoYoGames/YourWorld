@@ -15,7 +15,7 @@ with(argument0)
     CameraZ = -1000;
     global.Camera = argument0;
     
-    FOV = 80;
+    FOV = 45;
     AspectRatio = room_width/room_height;
     
     // clip zone based on camera position and height

@@ -4,8 +4,8 @@
 
 bodyFixture = physics_fixture_create();
 
-var xoff = sprite_xoffset*3//77;//sprite_xoffset;
-var yoff = sprite_yoffset*3//301;//sprite_yoffset;
+var xoff = sprite_xoffset*3;//77;//sprite_xoffset;
+var yoff = sprite_yoffset*3;//301;//sprite_yoffset;
 
 // Define shape, currently based on sprite size
 physics_fixture_set_polygon_shape(bodyFixture);

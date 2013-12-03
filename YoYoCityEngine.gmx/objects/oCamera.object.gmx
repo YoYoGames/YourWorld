@@ -37,7 +37,7 @@ CameraX = 0;
 CameraY = 0;
 CameraZ = -1000;
 
-FOV = 80;
+FOV = 45;
 AspectRatio = room_width/room_height;
 
 // clip zone based on camera position and height
