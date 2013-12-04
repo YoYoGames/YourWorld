@@ -70,7 +70,9 @@ global.EditorMode_Sub=EDIT_SUB_NONE;
 global.LeftMouseTile = 2;               
 global.RightMouseTile = 6;               
 
-
+// used when painting..... flags are set into the current "painted" face.
+// bit 1=Fip-Vertically, bit 2=Flip-Horizontally, bit 3=Rotate 90
+global.FlipRotateFlags = 0;
 
 ShadowCamera = instance_create(0,0,oCamera);
 GameCamera = instance_create(0,0,oCamera);

@@ -40,20 +40,36 @@ if( KMleft || KMright ) //|| KMmiddle )
         var tile = global.LeftMouseTile;
         if( KMright ) tile = global.RightMouseTile;
         
+        // get flip+rotation flags into the right bits, and work out a mask
+        var flags=global.FlipRotateFlags<<((TilePickFace-1)*3);
+        var mask =$ffffffff-(7<<((TilePickFace-1)*3));
+        
         // Now paint based on mode (lid or side)
         if( global.EditorMode_Sub==EDIT_SUB_LID )
         {
             switch(TilePickFace){
-                case 5: info[BLK_LID]=tile; break;          // paint "lids" only
-                case 6: info[BLK_BASE]=tile; break;
+                case 5: info[BLK_LID]=tile; 
+                        info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
+                        break;          // paint "lids" only
+                case 6: info[BLK_BASE]=tile; 
+                        info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
+                        break;
             }        
         }else if( global.EditorMode_Sub==EDIT_SUB_SIDE )
         {
             switch(TilePickFace){
-                case 1: info[BLK_TOP]=tile; break;
-                case 2: info[BLK_BOTTOM]=tile; break;
-                case 3: info[BLK_LEFT]=tile; break;
-                case 4: info[BLK_RIGHT]=tile; break;
+                case 1: info[BLK_TOP]=tile; 
+                        info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
+                        break;
+                case 2: info[BLK_BOTTOM]=tile;
+                        info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
+                        break;                
+                case 3: info[BLK_LEFT]=tile; 
+                        info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
+                        break;                
+                case 4: info[BLK_RIGHT]=tile; 
+                        info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
+                        break;                
             }
         }
         map.block_info[blk] = info;

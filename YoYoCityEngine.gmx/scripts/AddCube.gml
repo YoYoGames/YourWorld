@@ -246,7 +246,7 @@ if( tile3>=0 ){
     uvs[5]=v+Height64;
     uvs[6]=u;
     uvs[7]=v+Height64;
-    flag = (flags>>6)&7;
+    flag = (flags>>9)&7;
     if(flag!=0){
         FlipRotateTile(flag);
     } 
@@ -294,7 +294,9 @@ if( tile4>=0 ){
     tile4+=TopBase;
     u = ((floor(tile4 % PerRow) * TileBorder)+border)*OneOverW;
     v = ((floor(tile4 / PerRow) * TileBorder)+border)*OneOverH;
+    
     var c=col|(5<<26);
+    
     uvs[0]=u;
     uvs[1]=v;
     uvs[2]=u+Width64;
@@ -303,7 +305,7 @@ if( tile4>=0 ){
     uvs[5]=v+Height64;
     uvs[6]=u;
     uvs[7]=v+Height64;
-    flag = (flags>>6)&7;
+    flag = (flags>>12)&7;
     if(flag!=0){
         FlipRotateTile(flag);
     } 
@@ -360,7 +362,7 @@ if( tile5>=0 ){
     uvs[5]=v+Height64;
     uvs[6]=u;
     uvs[7]=v+Height64;
-    flag = (flags>>6)&7;
+    flag = (flags>>15)&7;
     flag=4;
     if(flag!=0){
         FlipRotateTile(flag);
