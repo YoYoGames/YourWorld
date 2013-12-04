@@ -32,24 +32,27 @@ var buttonY=0;  //Current button Y
 var buttonI=0;  //Current button Sprite Index
 var buttonS=39; //Current button size in pixels
 
-//Open
 draw_set_color(c_black)
+draw_rectangle(0,0,window_get_width(),40,0)
+
+//Open
+draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
-        
+    with(oMap) event_perform(ev_keypress,vk_f3)        
 }
 buttonX+=buttonS
 buttonI+=1
 
 //Save
-draw_set_color(c_black)
+draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
-        
+    with(oMap) event_perform(ev_keypress,vk_f2)       
 }
 buttonX+=(buttonS*2)
 buttonI+=1
@@ -58,7 +61,7 @@ buttonI+=1
 draw_set_color(c_black)
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
         
 }
@@ -69,7 +72,7 @@ buttonI+=1
 draw_set_color(ColorButton(global.EditorMode==EDIT_SELECTION))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_SELECTION;
     global.EditorMode_Sub=EDIT_SUB_NONE;        
@@ -81,7 +84,7 @@ buttonI+=1
 draw_set_color(ColorButton(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_PAINT;
     global.EditorMode_Sub=EDIT_SUB_LID;
@@ -103,7 +106,7 @@ buttonI+=1
 draw_set_color(ColorButton(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_PAINT;
     global.EditorMode_Sub=EDIT_SUB_SIDE;
@@ -125,7 +128,7 @@ buttonI+=1
 draw_set_color(ColorButton(global.EditorMode==EDIT_SPRITES))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_SPRITES;
     global.EditorMode_Sub=EDIT_SUB_NONE;        
@@ -137,7 +140,7 @@ buttonI+=1
 draw_set_color(ColorButton(global.EditorMode==EDIT_OBJECTS))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_OBJECTS;
     global.EditorMode_Sub=EDIT_SUB_NONE;        
@@ -146,10 +149,10 @@ buttonX+=(buttonS*2)
 buttonI+=1
 
 //Rotate
-draw_set_color(c_black)
+draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
         
 }
@@ -157,10 +160,10 @@ buttonX+=buttonS
 buttonI+=1
 
 //Flip Horizontally
-draw_set_color(c_black)
+draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
         
 }
@@ -168,15 +171,39 @@ buttonX+=buttonS
 buttonI+=1
 
 //Flip Vertically
-draw_set_color(c_black)
+draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_click_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
         
 }
-//buttonX+=buttonS
-//buttonI+=1
+buttonX+=(buttonS*2)
+buttonI+=1
+
+//Play
+draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
+draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
+draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+{
+                
+}
+buttonX+=buttonS
+buttonI+=1
+
+//Hide Menu
+draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
+draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
+draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+{
+    with(oHUDMain) instance_destroy()
+    with(oHUDParent) instance_destroy()
+    with(oController) FreeCursorMode=0;            
+}
+buttonX+=buttonS
+buttonI+=1
 
 
 
