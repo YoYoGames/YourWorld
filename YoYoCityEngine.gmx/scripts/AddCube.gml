@@ -1,4 +1,4 @@
-/// AddCube(x1,y1,z1,x2,y2,z2,colour,top,bottom,left,right,lid,base,flags)
+/// AddCube(x1,y1,z1,x2,y2,z2,colour,top,bottom,left,right,lid,base,flip_flags)
 //
 // Add a cube to a mesh
 //
@@ -13,7 +13,12 @@
 // argument12 - tile lid
 // argument13 - tile base
 // argument14 - flip flags
-
+//              %00000000000LST555444333222111000  (face 000= RHV =Rotate90, Flip-Horizontal, Flip-Vertical)
+//              face 0=top,1=bottom,2=left,3=right,4=lid,5=base
+//              T = flatten TOP+BOTTOM
+//              S = Flatten SIDES (left/right)
+//              L = flatten LID+BASE
+                
 // Get vertex buffer we're building into
 var buff = argument0
 
@@ -36,6 +41,11 @@ var tile5 = argument13;
 
 var flags = argument14;
 
+var x2,x3,x4,x5,x6,x7,x8;
+var y2,y3,y4,y5,y6,y7,y8;
+var z2,z3,z4,z5,z6,z7,z8;
+
+
 
 // get textel sizes based on the tile+border size
 var PerRow = floor(sprite_get_width(StyleSprite)/TileBorder);     // Number of tiles per row
@@ -45,60 +55,61 @@ var OneOverH = 1.0/sprite_get_height(StyleSprite);
 var Width64  = OneOverW*(TileSize);
 var Height64 = OneOverH*(TileSize);
 
-var u,v;
+var u,v,flag;
 
 // Keep these in the instance, so they aren't copied inside functions
-uvs=0;
+//uvs=0; (dont keep remaking array, just overwrite)
 
 // top
 if( tile0>=0 ){
     u = ((floor(tile0 % PerRow) * TileBorder)+border) * OneOverW;
     v = ((floor(tile0 / PerRow) * TileBorder)+border) * OneOverH;
     
-    var c=col|(1<<26);
+    var c=col|(1<<26);  // get the block ID+the face
     
-    uvs[0]=u+Width64;
+    uvs[0]=u;
     uvs[1]=v;
     uvs[2]=u+Width64;
-    uvs[3]=v+Height64;
-    uvs[4]=u;
+    uvs[3]=v;
+    uvs[4]=u+Width64;
     uvs[5]=v+Height64;
     uvs[6]=u;
-    uvs[7]=v;
-    if(flags&(1<<21)!=0){
-        uvs = Flip_tile_UD(uvs);
+    uvs[7]=v+Height64;
+    flag = flags&7;
+    if(flag!=0){
+        FlipRotateTile(flag);
     }    
     
-    vertex_position_3d(buff, x1,y2,z1);
-    vertex_normal(buff, 0,1,0);
-    vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[0],uvs[1]);
-
-    vertex_position_3d(buff, x1,y2,z2);
+    vertex_position_3d(buff, x1,y2,z1);         // topleft
     vertex_normal(buff, 0,1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
-    vertex_position_3d(buff, x2,y2,z2);
+    vertex_position_3d(buff, x1,y2,z2);
     vertex_normal(buff, 0,1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
+
+    vertex_position_3d(buff, x2,y2,z2);
+    vertex_normal(buff, 0,1,0);
+    vertex_argb(buff,c);
+    vertex_texcoord(buff, uvs[6],uvs[7]);
     
 
     vertex_position_3d(buff, x2,y2,z2);
     vertex_normal(buff, 0,1,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[4],uvs[5]);
+    vertex_texcoord(buff, uvs[6],uvs[7]);
 
     vertex_position_3d(buff, x2,y2,z1);
     vertex_normal(buff, 0,1,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[6],uvs[7]);
+    vertex_texcoord(buff, uvs[0],uvs[1]);
 
     vertex_position_3d(buff, x1,y2,z1);
     vertex_normal(buff, 0,1,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[0],uvs[1]);
+    vertex_texcoord(buff, uvs[2],uvs[3]);
 
     global.polys+=2;
 }
@@ -110,7 +121,7 @@ if( tile1>=0 ){
     u = ((floor(tile1 % PerRow) * TileBorder)+border) * OneOverW;
     v = ((floor(tile1 / PerRow) * TileBorder)+border) * OneOverH;
     
-    var c=col|(2<<26);
+    var c=col|(2<<26);      // get the block ID+the face
     
     uvs[0]=u;
     uvs[1]=v;
@@ -120,37 +131,24 @@ if( tile1>=0 ){
     uvs[5]=v+Height64;
     uvs[6]=u;
     uvs[7]=v+Height64;
-    var flatlr=flags&(1<<7);
-    if(flags&(1<<21)!=0){
-        uvs = Flip_tile_LR(uvs);
-    }        
-    if(flatlr!=0){
-        uvs = Flip_tile_LR(uvs);
-    }
+    
+    flag = (flags>>3)&7;
+    if(flag!=0){
+        FlipRotateTile(flag);
+    }    
 
-    if( flatlr == 0 ){
-        vertex_position_3d(buff, x1,y1,z1);
-    }else{
-        vertex_position_3d(buff, x1,y2,z1);
-    }
+
+    vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, 0,-1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
-    if( flatlr == 0 ){
-        vertex_position_3d(buff, x2,y1,z1);
-    }else{
-        vertex_position_3d(buff, x2,y2,z1);
-    }
+    vertex_position_3d(buff, x2,y1,z1);
     vertex_normal(buff, 0,-1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
-    if( flatlr == 0 ){
-        vertex_position_3d(buff, x2,y1,z2);
-    }else{
-        vertex_position_3d(buff, x2,y2,z2);
-    }
+    vertex_position_3d(buff, x2,y1,z2);
     vertex_normal(buff, 0,-1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
@@ -158,29 +156,17 @@ if( tile1>=0 ){
     
     
 
-    if( flatlr == 0 ){
-        vertex_position_3d(buff, x2,y1,z2);
-    }else{
-        vertex_position_3d(buff, x2,y2,z2);    
-    }
+    vertex_position_3d(buff, x2,y1,z2);
     vertex_normal(buff, 0,-1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
 
-    if( flatlr == 0 ){
-        vertex_position_3d(buff, x1,y1,z2);
-    }else{
-        vertex_position_3d(buff, x1,y2,z2);
-    }
+    vertex_position_3d(buff, x1,y1,z2);
     vertex_normal(buff, 0,-1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
-    if( flatlr == 0 ){
-        vertex_position_3d(buff, x1,y1,z1);
-    }else{
-        vertex_position_3d(buff, x1,y2,z1);
-    }
+    vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, 0,-1,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
@@ -197,49 +183,49 @@ if( tile2>=0 ){
     
     var c=col|(3<<26);
     
-    uvs[0]=u+Width64;
+    uvs[0]=u;
     uvs[1]=v;
     uvs[2]=u+Width64;
-    uvs[3]=v+Height64;
-    uvs[4]=u;
+    uvs[3]=v;
+    uvs[4]=u+Width64;
     uvs[5]=v+Height64;
     uvs[6]=u;
-    uvs[7]=v;
-    
-    if(flags&(1<<22)!=0){
-        uvs = Flip_tile_UD(uvs);
-    }
+    uvs[7]=v+Height64;
+    flag = (flags>>6)&7;
+    if(flag!=0){
+        FlipRotateTile(flag);
+    }    
         
     vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, -1,0,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[0],uvs[1]);
+    vertex_texcoord(buff, uvs[2],uvs[3]);
 
     vertex_position_3d(buff, x1,y1,z2);
     vertex_normal(buff, -1,0,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[2],uvs[3]);
+    vertex_texcoord(buff, uvs[4],uvs[5]);
 
     vertex_position_3d(buff, x1,y2,z2);
     vertex_normal(buff, -1,0,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[4],uvs[5]);
+    vertex_texcoord(buff, uvs[6],uvs[7]);
     
 
     vertex_position_3d(buff, x1,y2,z2);
     vertex_normal(buff, -1,0,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[4],uvs[5]);
+    vertex_texcoord(buff, uvs[6],uvs[7]);
 
     vertex_position_3d(buff, x1,y2,z1);
     vertex_normal(buff, -1,0,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[6],uvs[7]);
+    vertex_texcoord(buff, uvs[0],uvs[1]);
 
     vertex_position_3d(buff, x1,y1,z1);
     vertex_normal(buff, -1,0,0);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[0],uvs[1]);
+    vertex_texcoord(buff, uvs[2],uvs[3]);
     
     global.polys+=2;
 }
@@ -252,44 +238,30 @@ if( tile3>=0 ){
     
     var c=col|(4<<26);
         
-    uvs[0]=u+Width64;
+    uvs[0]=u;
     uvs[1]=v;
-    uvs[2]=u;
+    uvs[2]=u+Width64;
     uvs[3]=v;
-    uvs[4]=u;
+    uvs[4]=u+Width64;
     uvs[5]=v+Height64;
-    uvs[6]=u+Width64;
+    uvs[6]=u;
     uvs[7]=v+Height64;
-
-    var flatlr=flags&(1<<7);   
-    if(flags&(1<<22)!=0){
-        uvs = Flip_tile_LR(uvs);
-    }
-
-    // flatten right face onto left? (signs, fences etc.)
-    if(flatlr==0){
-        vertex_position_3d(buff, x2,y1,z1);
-    }else{
-        vertex_position_3d(buff, x1,y1,z1);
-    }
+    flag = (flags>>6)&7;
+    if(flag!=0){
+        FlipRotateTile(flag);
+    } 
+    
+    vertex_position_3d(buff, x2,y1,z1);
     vertex_normal(buff, 1,0,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
 
-    if(flatlr==0){
-        vertex_position_3d(buff, x2,y2,z1);
-    }else{
-        vertex_position_3d(buff, x1,y2,z1);
-    }
+    vertex_position_3d(buff, x2,y2,z1);
     vertex_normal(buff, 1,0,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[2],uvs[3]);
 
-    if(flatlr==0){
-        vertex_position_3d(buff, x2,y2,z2);
-    }else{
-        vertex_position_3d(buff, x1,y2,z2); 
-    }
+    vertex_position_3d(buff, x2,y2,z2);
     vertex_normal(buff, 1,0,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
@@ -297,29 +269,17 @@ if( tile3>=0 ){
 
     
     
-    if(flatlr==0){
-        vertex_position_3d(buff, x2,y2,z2);
-    }else{
-        vertex_position_3d(buff, x1,y2,z2); 
-    }
+    vertex_position_3d(buff, x2,y2,z2);
     vertex_normal(buff, 1,0,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[4],uvs[5]);
 
-    if(flatlr==0){
-        vertex_position_3d(buff, x2,y1,z2);
-    }else{
-        vertex_position_3d(buff, x1,y1,z2);
-    }
+    vertex_position_3d(buff, x2,y1,z2);
     vertex_normal(buff, 1,0,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
-    if(flatlr==0){
-        vertex_position_3d(buff, x2,y1,z1);
-    }else{
-        vertex_position_3d(buff, x1,y1,z1);
-    }
+    vertex_position_3d(buff, x2,y1,z1);
     vertex_normal(buff, 1,0,0);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
@@ -335,7 +295,6 @@ if( tile4>=0 ){
     u = ((floor(tile4 % PerRow) * TileBorder)+border)*OneOverW;
     v = ((floor(tile4 / PerRow) * TileBorder)+border)*OneOverH;
     var c=col|(5<<26);
-
     uvs[0]=u;
     uvs[1]=v;
     uvs[2]=u+Width64;
@@ -344,58 +303,42 @@ if( tile4>=0 ){
     uvs[5]=v+Height64;
     uvs[6]=u;
     uvs[7]=v+Height64;
-    
-    //uvs = Rotate_tile(uvs,flags&~((3<<16))<<5);
-    // 0=none, 1=90, 2=180, 3=270
-    var rot=((flags&~((3<<16))<<5)>>14)&3;
-    if(rot!=3){
-        rot = 3-rot;
-        for(var i=0;i<rot;i++){
-            var tu1 = uvs[0];
-            var tu2 = uvs[1];
-        
-            uvs[0] = uvs[2];
-            uvs[1] = uvs[3];
-            uvs[2] = uvs[4];
-            uvs[3] = uvs[5];
-            uvs[4] = uvs[6];
-            uvs[5] = uvs[7];
-            uvs[6] = tu1;
-            uvs[7] = tu2;
-        }
-    }
-   
+    flag = (flags>>6)&7;
+    if(flag!=0){
+        FlipRotateTile(flag);
+    } 
+
     
     vertex_position_3d(buff, x1,y1,z1);
-    vertex_normal(buff, 0,0,-1);
-    vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[0],uvs[1]);
-
-    vertex_position_3d(buff, x1,y2,z1);
-    vertex_normal(buff, 0,0,-1);
-    vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[2],uvs[3]);
-
-    vertex_position_3d(buff, x2,y2,z1);
-    vertex_normal(buff, 0,0,-1);
-    vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[4],uvs[5]);
-    
-
-    vertex_position_3d(buff, x2,y2,z1);
-    vertex_normal(buff, 0,0,-1);
-    vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[4],uvs[5]);
-
-    vertex_position_3d(buff, x2,y1,z1);
     vertex_normal(buff, 0,0,-1);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[6],uvs[7]);
 
-    vertex_position_3d(buff, x1,y1,z1);
+    vertex_position_3d(buff, x1,y2,z1);
     vertex_normal(buff, 0,0,-1);
     vertex_argb(buff,c);
     vertex_texcoord(buff, uvs[0],uvs[1]);
+
+    vertex_position_3d(buff, x2,y2,z1);
+    vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
+    vertex_texcoord(buff, uvs[2],uvs[3]);
+    
+
+    vertex_position_3d(buff, x2,y2,z1);
+    vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
+    vertex_texcoord(buff, uvs[2],uvs[3]);
+
+    vertex_position_3d(buff, x2,y1,z1);
+    vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
+    vertex_texcoord(buff, uvs[4],uvs[5]);
+
+    vertex_position_3d(buff, x1,y1,z1);
+    vertex_normal(buff, 0,0,-1);
+    vertex_argb(buff,c);
+    vertex_texcoord(buff, uvs[6],uvs[7]);
     
     global.polys+=2;
 }
@@ -408,6 +351,7 @@ if( tile5>=0 ){
 
     var c=col|(6<<26);
 
+        
     uvs[0]=u;
     uvs[1]=v;
     uvs[2]=u+Width64;
@@ -416,25 +360,11 @@ if( tile5>=0 ){
     uvs[5]=v+Height64;
     uvs[6]=u;
     uvs[7]=v+Height64;
-    //uvs = Rotate_tile(uvs,flags&~((3<<16))<<5);
-    // 0=none, 1=90, 2=180, 3=270
-    var rot=((flags&~((3<<16))<<5)>>14)&3;
-    if(rot!=3){
-        rot = 3-rot;
-        for(var i=0;i<rot;i++){
-            var tu1 = uvs[0];
-            var tu2 = uvs[1];
-        
-            uvs[0] = uvs[2];
-            uvs[1] = uvs[3];
-            uvs[2] = uvs[4];
-            uvs[3] = uvs[5];
-            uvs[4] = uvs[6];
-            uvs[5] = uvs[7];
-            uvs[6] = tu1;
-            uvs[7] = tu2;
-        }
-    }
+    flag = (flags>>6)&7;
+    flag=4;
+    if(flag!=0){
+        FlipRotateTile(flag);
+    } 
     
 
     vertex_position_3d(buff, x2,y2,z2);
@@ -445,7 +375,7 @@ if( tile5>=0 ){
     vertex_position_3d(buff, x1,y2,z2);
     vertex_normal(buff, 0,0,-1);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[2],uvs[3]);
+    vertex_texcoord(buff, uvs[6],uvs[7]);
     
    vertex_position_3d(buff, x1,y1,z2);
     vertex_normal(buff, 0,0,-1);
@@ -462,7 +392,7 @@ if( tile5>=0 ){
     vertex_position_3d(buff, x2,y1,z2);
     vertex_normal(buff, 0,0,-1);
     vertex_argb(buff,c);
-    vertex_texcoord(buff, uvs[6],uvs[7]);
+    vertex_texcoord(buff, uvs[2],uvs[3]);
 
     vertex_position_3d(buff, x2,y2,z2);
     vertex_normal(buff, 0,0,-1);
