@@ -43,15 +43,21 @@ with(_map)
     
     // create a new empty block
     var info = 0;
-    info[BLK_LEFT] = -1;      // left
-    info[BLK_RIGHT] = -1;      // right
-    info[BLK_TOP] = -1;      // top
+    info[BLK_LEFT] = -1;        // left
+    info[BLK_RIGHT] = -1;       // right
+    info[BLK_TOP] = -1;         // top
     info[BLK_BOTTOM] = -1;      // bottom
-    info[BLK_LID] = -1;      // lid
-    info[BLK_BASE] = -1;      // behind (usually hidden)
+    info[BLK_LID] = -1;         // lid
+    info[BLK_BASE] = -1;        // behind (usually hidden)
     info[BLK_FLAGS1] =  0;      // block flags (32bits)
     info[BLK_FLAGS2] =  0;      // block flags (32bits)
+    info[BLK_OFFSETS1] = 0;     // Vertex points offsets
+    info[BLK_OFFSETS2] = 0;
+    info[BLK_OFFSETS3] = 0;    
     block_info[NewBlock]=info;
     RefCount[NewBlock]=1;
     return NewBlock;
 }
+
+
+

@@ -10,7 +10,7 @@
 // _pavement = argument6 (default = 0)  (adds on topbase later)
 // _tilesize = argument7 (default = 64)
 // _tileborder = argument8 (default = 70)
-// _groundlevel = argument8 (default = 3)
+// _groundlevel = argument8 (default = 4)
 
 var _width,_height, _depth; 
 
@@ -23,7 +23,7 @@ _tilesize = 64;
 _tileborder = 70;
 _pavement = 0;
 _gridcachesize = 32;
-_groundlevel = 3;
+_groundlevel = 4;
 
 var c = argument_count;
 if( c>0 ) _width = argument[0];
@@ -98,6 +98,29 @@ for(var yy=0;yy<CacheHeight;yy++){
 // Create the block info (set to 0 to reset the array)
 block_info=0;
 
+//
+// info format
+//
+// BLK_LEFT     = tile on left side
+// BLK_RIGHT    = tile on left side
+// BLK_TOP      = tile on top side
+// BLK_BOTTOM   = tile on bottom side
+// BLK_LID      = tile on lid side
+// BLK_BASE     = tile on base side
+// BLK_FLAGS1   = %x0000000000LST555444333222111000  (face 000= RHV =Rotate90, Flip-Horizontal, Flip-Vertical)
+//                face 0=top,1=bottom,2=left,3=right,4=lid,5=base
+//                T = flatten TOP+BOTTOM
+//                S = Flatten SIDES (left/right)
+//                L = flatten LID+BASE
+//                x = reserved for saving extended block info
+// BLK_FLAGS2   = %33_333/222_222_222/111_111_111/000_000_000     number = 0,1,2,3,4,5,6,7 = vertex index
+// BLK_OFFSETS1 = %7/666_666_666/555_555_555/444_444_444/333_3    000_000_000 = x,y,z offsets. 8 per direction. (64pix = 8 offsets)
+// BLK_OFFSETS2 = %000000000000000000000000/777_777_77
+// BLK_OFFSETS3 = %00000000000000000000000000000000
+                
+
+
+
 // block/cube 0 reserved for "empty"
 var info = 0;
 info[BLK_LEFT]   = -1;      // left
@@ -106,8 +129,11 @@ info[BLK_TOP]    = -1;      // top
 info[BLK_BOTTOM] = -1;      // bottom
 info[BLK_LID]    = -1;      // lid
 info[BLK_BASE]   = -1;      // behind (usually hidden)
-info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
+info[BLK_FLAGS1] =  0;      // block flags #2 (32bits) ($80000000 is reserved for saving BLK_OFFSETS?)
 info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
+info[BLK_OFFSETS1] = 0;     // block vertex offsets
+info[BLK_OFFSETS2] = 0;
+info[BLK_OFFSETS3] = 0;
 block_info[0]=info;
     
 // "almost" empty. Used for under ground level, but not "0"
@@ -120,6 +146,9 @@ info[BLK_LID]    = -1;      // lid
 info[BLK_BASE]   = -1;      // behind (usually hidden)
 info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
 info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
+info[BLK_OFFSETS1] = 0;     // block vertex offsets
+info[BLK_OFFSETS2] = 0;
+info[BLK_OFFSETS3] = 0;
 block_info[1]=info;
     
 
@@ -132,10 +161,13 @@ info[BLK_LID]    = _pavement;      // lid
 info[BLK_BASE]   = -1;      // behind (usually hidden)
 info[BLK_FLAGS1] =  0;      // block flags #2 (32bits)
 info[BLK_FLAGS2] =  0;      // block flags #1 (32bits)
+info[BLK_OFFSETS1] = 0;     // block vertex offsets
+info[BLK_OFFSETS2] = 0;
+info[BLK_OFFSETS3] = 0;
 block_info[2]=info;
 block_info_size = 3;    
 
-debug("pavement="+string(_pavement));
+//debug("pavement="+string(_pavement));
 
 
 
