@@ -59,7 +59,9 @@ LastFileName="mymap.city";
 Water = instance_create(0,0,oWater);
 
 
-
+// Create physics representation
+physics_world_create(0.0313);
+physics_world_gravity(0.0, 0.0);
 
 </string>
           </argument>
@@ -93,20 +95,30 @@ var camera = global.Camera;
 //var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
 //var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
 //global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
-       
-{           
+
+{
         
         // Now render the map
-        var texture = sprite_get_texture(StyleSprite,0); 
-        var sprtexture = sprite_get_texture(sTree,0); 
+        var texture = sprite_get_texture(StyleSprite,0);
+        var sprtexture = sprite_get_texture(sTree,0);
         RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, CityShader, SpriteSelectionShader );
         with(Water){ DrawWater(); }
         
         // Draw all sprites
         shader_set(SpriteSelectionShader);
-        with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha); 
+        with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
         shader_reset();
         
+        with(objBody)
+        {
+            Draw3dSprite(sprite_index,image_index,x+4,-y-4,z, image_xscale,image_yscale, image_angle, $40000000, 0.2);
+            Draw3dSprite(sprite_index,image_index,x,-y,z, image_xscale,image_yscale, image_angle, image_blend|$ff000000, 1.0);
+            
+            var mat = matrix_build(0, 0, -257, 0, 0, 0, 1, 1, 1);
+            matrix_set(matrix_world, mat);
+            physics_draw_debug();
+        }
+         
 }
 
 </string>
@@ -137,6 +149,11 @@ var camera = global.Camera;
         LastFileName=filename;
         var buff = buffer_load(LastFileName);
         LoadMap(id,buff);
+        
+        // test spawning
+        instance_create(0, 0, objPhysicsController);
+        var newCar = instance_create(0, 0, objBody);
+        newCar.z = 257;
     }
 }
 

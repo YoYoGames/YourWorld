@@ -32,6 +32,10 @@
     <sprite>sprites\sWater</sprite>
     <sprite>sprites\sTree</sprite>
     <sprite>sprites\sButtonNavbar</sprite>
+    <sprites name="Car Stuff">
+      <sprite>sprites\sprCarBody</sprite>
+      <sprite>sprites\sprWheel</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -114,6 +118,24 @@
       <script>scripts\mouse_hold_rectangle.gml</script>
       <script>scripts\ColorButton.gml</script>
     </scripts>
+    <scripts name="Car Physics">
+      <script>scripts\GetForwardVelocity.gml</script>
+      <script>scripts\GetLateralSpeed.gml</script>
+      <script>scripts\GetLateralVelocity.gml</script>
+      <script>scripts\GetLinearDirection.gml</script>
+      <script>scripts\GetLinearSpeed.gml</script>
+      <script>scripts\GetWorldDirection.gml</script>
+      <script>scripts\pcApplyProperties.gml</script>
+      <script>scripts\pcApplySettingsToWheels.gml</script>
+      <script>scripts\pcCreateWheel.gml</script>
+      <script>scripts\pcDefineDefault.gml</script>
+      <script>scripts\pcHandleDriving.gml</script>
+      <script>scripts\pcHandleSteering.gml</script>
+      <script>scripts\pcModelJointWheels.gml</script>
+      <script>scripts\pcModelPhysicsBody.gml</script>
+      <script>scripts\PhysicsDefineBlock.gml</script>
+      <script>scripts\UpdateFriction.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -151,13 +173,19 @@
     <object>objects\oHUDParent</object>
     <object>objects\oHUDTileSelect</object>
     <object>objects\oHUDBlockSelect</object>
+    <objects name="Car Physics">
+      <object>objects\objPhysicsController</object>
+      <object>objects\objBody</object>
+      <object>objects\objFixture</object>
+      <object>objects\objWheel</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="22">
+  <constants number="31">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -180,6 +208,15 @@
     <constant name="EDIT_SUB_LID">1</constant>
     <constant name="EDIT_SUB_SIDE">2</constant>
     <constant name="EDIT_SUB_NONE">0</constant>
+    <constant name="DRIVE_4WD">0</constant>
+    <constant name="DRIVE_RWD">1</constant>
+    <constant name="DRIVE_FWD">2</constant>
+    <constant name="STATE_NONE">0</constant>
+    <constant name="STATE_UP">1</constant>
+    <constant name="STATE_DOWN">2</constant>
+    <constant name="STATE_LOOSE">3</constant>
+    <constant name="STATE_BRAKE">4</constant>
+    <constant name="STATE_HANDBRAKE">5</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

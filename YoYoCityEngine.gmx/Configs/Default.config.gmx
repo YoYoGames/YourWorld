@@ -184,7 +184,7 @@
     <option_ios_orient_landscape_right>-1</option_ios_orient_landscape_right>
     <option_ios_orient_portrait>-1</option_ios_orient_portrait>
     <option_ios_orient_portrait_upside_down>-1</option_ios_orient_portrait_upside_down>
-    <option_ios_provisioning>Simply_Wordsearch_Distribution - com.yoyogames.wordsearch</option_ios_provisioning>
+    <option_ios_provisioning>Fire_Escape_Distribution - com.yoyogames.fireescape</option_ios_provisioning>
     <option_ios_push_enable>false</option_ios_push_enable>
     <option_ios_set_device_id></option_ios_set_device_id>
     <option_ios_splash_png>Configs\Default\ios\splash.png</option_ios_splash_png>
@@ -280,7 +280,7 @@
     <option_use_new_audio>True</option_use_new_audio>
     <option_variableerrors>False</option_variableerrors>
     <option_version>100</option_version>
-    <option_version_build>7</option_version_build>
+    <option_version_build>3</option_version_build>
     <option_version_company>YoYo Games Ltd.</option_version_company>
     <option_version_copyright>(c)YoYo Games Ltd</option_version_copyright>
     <option_version_description>Display a world top down</option_version_description>
@@ -324,7 +324,7 @@
     <option_win8_texture_page>1024</option_win8_texture_page>
     <option_win8_wide_logo>Configs\Default\Windows8\logos\logo310.png</option_win8_wide_logo>
     <option_windowcolor>clBlack</option_windowcolor>
-    <option_windows_build_version>7</option_windows_build_version>
+    <option_windows_build_version>3</option_windows_build_version>
     <option_windows_company_info>YoYo Games Ltd.</option_windows_company_info>
     <option_windows_copyright_info>(c)YoYo Games Ltd</option_windows_copyright_info>
     <option_windows_description_info>Display a world top down</option_windows_description_info>
