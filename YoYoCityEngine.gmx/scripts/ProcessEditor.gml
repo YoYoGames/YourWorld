@@ -3,10 +3,10 @@ var camera = global.Camera;
 
 if !instance_exists(oHUDMain)
 {
-    camera.dir += (display_mouse_get_x()-display_get_width()/2)/6
-    camera.zdir += (display_mouse_get_y()-display_get_height()/2)/6
+    camera.dir  +=( display_mouse_get_x()- (window_get_x()+(window_get_width() /2)) )/6
+    camera.zdir +=( display_mouse_get_y()- (window_get_y()+(window_get_height()/2)) )/6
     camera.zdir = clamp(camera.zdir,-80,+80)
-    display_mouse_set(display_get_width()/2,display_get_height()/2)
+    display_mouse_set(window_get_x()+(window_get_width()/2),window_get_y()+(window_get_height()/2))
 }
 
 //Set four temporary variables to whether the player is pressing each of the four direction buttons
@@ -76,10 +76,10 @@ AllowPick=true;
 
 if( FreeCursorMode==1 ){
 }else{
-    camera.dir += (display_mouse_get_x()-display_get_width()/2)/6
-    camera.zdir += (display_mouse_get_y()-display_get_height()/2)/6
+    camera.dir  +=( display_mouse_get_x()- (window_get_x()+(window_get_width() /2)) )/6
+    camera.zdir +=( display_mouse_get_y()- (window_get_y()+(window_get_height()/2)) )/6
     camera.zdir = clamp(camera.zdir,-80,+80)
-    display_mouse_set(display_get_width()/2,display_get_height()/2)
+    display_mouse_set(window_get_x()+(window_get_width()/2),window_get_y()+(window_get_height()/2))
 
 
     //Forward/backward and strafing speed (quartered if you're holding left shift)
@@ -110,17 +110,25 @@ if( FreeCursorMode==1 ){
 
 if( AllowPick )
 {
-    if ( !instance_exists(oHUDParent) )
+    //Allow the clicks through to the 3D world unless the mouse is in an area occupied by the GUI
+    var HaltProcessing=false;
+    
+    if instance_exists(oHUDParent)
+    {
+        if mouse_rectangle(oHUDParent.x,oHUDParent.y,oHUDParent.x+oHUDParent.WindowWidth,oHUDParent.y+oHUDParent.WindowHeight)
+        {
+            HaltProcessing=true;
+        }
+    }
+    
+    if instance_exists(oHUDMain) && mouse_rectangle(0,0,window_get_width(),40)
+    {
+        HaltProcessing=true;
+    }
+    
+    if !HaltProcessing
     {
         if( global.EditorMode==EDIT_SELECTION ) ProcessPicking();
         if( global.EditorMode==EDIT_PAINT ) ProcessPainting();
-    }
-    else
-    {
-        if !mouse_rectangle(oHUDParent.x,oHUDParent.y,oHUDParent.x+oHUDParent.WindowWidth,oHUDParent.y+oHUDParent.WindowHeight)
-        {
-            if( global.EditorMode==EDIT_SELECTION ) ProcessPicking();
-            if( global.EditorMode==EDIT_PAINT ) ProcessPainting();
-        }
     }
 }

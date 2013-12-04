@@ -372,16 +372,17 @@ if( keyboard_check(vk_alt) )
           <argument>
             <kind>1</kind>
             <string>if (global.Mode==MODE_EDIT)
-{
-    FreeCursorMode^=1;
-    
+{    
     if !instance_exists(oHUDMain)
     {
         instance_create(64,64,oHUDMain)
+        FreeCursorMode=1;
     }
     else
     {
         with(oHUDMain) instance_destroy()
+        with(oHUDParent) instance_destroy()
+        FreeCursorMode=0;
     }
 }
 </string>
