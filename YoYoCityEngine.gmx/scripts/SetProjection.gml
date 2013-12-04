@@ -10,7 +10,7 @@ with(argument0)
     }
     if (global.Mode==MODE_PLAY)
     {
-        d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  32, 20000.0);
+        d3d_set_projection_ext(CameraX,CameraY,CameraZ,  CameraX,CameraY,1024, 0,1,0,  FOV, AspectRatio,  1, 20000.0);
     }
 }
 
