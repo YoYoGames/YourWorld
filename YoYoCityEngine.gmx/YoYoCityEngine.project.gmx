@@ -58,6 +58,7 @@
         <script>scripts\GenerateCacheEntry.gml</script>
         <script>scripts\FreeCacheEntry.gml</script>
         <script>scripts\FreeCacheRegion.gml</script>
+        <script>scripts\GenerateCacheRegion.gml</script>
         <script>scripts\RenderMap.gml</script>
         <script>scripts\DrawWater.gml</script>
         <scripts name="Cubes">

@@ -1,4 +1,4 @@
-/// FreeCacheRegion(map,GridCellX1,GridCellY1,GridCellX2,GridCellY2)
+/// FreeCacheRegion(map,x1,y1,x2,y2)
 //
 // Free a region of cache
 // argument0 = map
@@ -17,10 +17,8 @@ with(argument0)
     
     for(var yy=gy1;yy<=gy2;yy++)
     {
-        show_debug_message("yy="+string(yy));
         for(var xx=gx1;xx<=gx2;xx++)
         {
-            show_debug_message("xx="+string(xx));
             FreeCacheEntry(id, xx*stepsize,yy*stepsize);
         }
     }

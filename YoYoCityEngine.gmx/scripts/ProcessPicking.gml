@@ -9,7 +9,7 @@ if( KMleft || KMright || KMmiddle )
     if( PickingMode==-1)
     {
         if( instance_exists(SelectionInstance) ){
-            debug("here: "+string(SelectionInstance));
+            //debug("here: "+string(SelectionInstance));
             with(SelectionInstance) instance_destroy();
             SelectionInstance=-1000;
         }

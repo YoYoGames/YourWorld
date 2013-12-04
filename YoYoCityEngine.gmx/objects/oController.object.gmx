@@ -159,10 +159,6 @@ if( global.Mode== MODE_PLAY ){
     ProcessEditor();
 }
 
-//debug("tick="+string(Tick));
-//Tick++;
-
-
 var camera = global.Camera;
 
 </string>
