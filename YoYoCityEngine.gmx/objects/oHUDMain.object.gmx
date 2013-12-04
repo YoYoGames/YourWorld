@@ -8,6 +8,37 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>rotate_value=(global.FlipRotateFlags &amp; 4);
+
+if (global.FlipRotateFlags &amp; 1==1 &amp;&amp; global.FlipRotateFlags &amp; 2==1)
+{
+    rotate_value+=2
+}
+
+dovflip=(global.FlipRotateFlags &amp; 1)^(rotate_value&gt;1)
+dohflip=(global.FlipRotateFlags &amp; 2)^(rotate_value&gt;1)
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
@@ -149,15 +180,27 @@ buttonX+=(buttonS*2)
 buttonI+=1
 
 //Rotate
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+{
+    global.FlipRotateFlags=0;
+    rotate_value=(rotate_value+1)&amp;3;
+    switch(rotate_value)
+    {
+        case 1: global.FlipRotateFlags=4; break;
+        case 2: global.FlipRotateFlags=3; break;
+        case 3: global.FlipRotateFlags=7; break;
+    }
+    if(dovflip) global.FlipRotateFlags^=1;            
+    if(dohflip) global.FlipRotateFlags^=2; 
+}
+buttonI+=rotate_value
 draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
 draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
-{
-        
-}
 buttonX+=buttonS
+buttonI+=3-rotate_value
 buttonI+=1
+
 
 //Flip Horizontally
 draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
@@ -165,7 +208,7 @@ draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
-        
+    global.FlipRotateFlags^=2;
 }
 buttonX+=buttonS
 buttonI+=1
@@ -176,10 +219,10 @@ draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
 draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
-        
+    global.FlipRotateFlags^=1;        
 }
 buttonX+=(buttonS*2)
-buttonI+=1
+buttonI+=1           
 
 //Play
 draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
