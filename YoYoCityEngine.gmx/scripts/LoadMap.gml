@@ -14,6 +14,7 @@ with(_map)
     FreeMap();
     show_debug_message("Process File");
     var version = buffer_read(_buff,buffer_u32);
+    debug("Map version: "+string(version));
 
     // Expansion
     buffer_read(_buff,buffer_u32);
@@ -104,7 +105,25 @@ with(_map)
             if( info[l]==$ffff ) info[l]=-1;
         }
         info[BLK_FLAGS1] = buffer_read(_buff, buffer_u32);
-        info[BLK_FLAGS2] = buffer_read(_buff, buffer_u32);
+        info[BLK_FLAGS2]=0;
+        info[BLK_OFFSETS1] = 0;
+        info[BLK_OFFSETS2] = 0;
+        info[BLK_OFFSETS3] = 0;
+        
+        if( version<=3 ){
+            info[BLK_FLAGS2] = buffer_read(_buff, buffer_u32);
+        }
+    
+        // in higher version numbers, we only read extended info IF we have it.  (if not all 0)
+        if(version>3){
+            if( (info[BLK_FLAGS1]&$80000000)!=0){
+                debug("extended");
+                info[BLK_FLAGS2] = buffer_read(_buff, buffer_u32);
+                info[BLK_OFFSETS1] = buffer_read(_buff, buffer_u32);
+                info[BLK_OFFSETS2] = buffer_read(_buff, buffer_u32);
+                info[BLK_OFFSETS3] = buffer_read(_buff, buffer_u32);
+            }
+        }
         block_info[i]=info;
         RefCount[i]=0;
     }

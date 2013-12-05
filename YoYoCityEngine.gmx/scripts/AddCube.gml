@@ -405,8 +405,6 @@ if( tile5>=0 ){
 }
 
 
-global.cubes++;
-
 
 
 

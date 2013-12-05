@@ -127,14 +127,14 @@
     <option_in_app_purchase_sandbox_mode>0</option_in_app_purchase_sandbox_mode>
     <option_in_app_purchase_server_url></option_in_app_purchase_server_url>
     <option_information></option_information>
-    <option_interpolate>False</option_interpolate>
+    <option_interpolate>True</option_interpolate>
     <option_ios_adcolony_enable_V4VC>0</option_ios_adcolony_enable_V4VC>
     <option_ios_advertising_enable>0</option_ios_advertising_enable>
     <option_ios_advertising_key></option_ios_advertising_key>
     <option_ios_advertising_type>iAds</option_ios_advertising_type>
     <option_ios_app_id></option_ios_app_id>
     <option_ios_build_version>0</option_ios_build_version>
-    <option_ios_certificate>iPhone Developer: Alexander Duncan (8YU3LW42XP)</option_ios_certificate>
+    <option_ios_certificate>&lt; Press refresh to fetch certificate list from Mac&gt;</option_ios_certificate>
     <option_ios_device_type>3</option_ios_device_type>
     <option_ios_display_name>3DModel</option_ios_display_name>
     <option_ios_feiliu_company></option_ios_feiliu_company>
@@ -184,7 +184,7 @@
     <option_ios_orient_landscape_right>-1</option_ios_orient_landscape_right>
     <option_ios_orient_portrait>-1</option_ios_orient_portrait>
     <option_ios_orient_portrait_upside_down>-1</option_ios_orient_portrait_upside_down>
-    <option_ios_provisioning>Fire_Escape_Distribution - com.yoyogames.fireescape</option_ios_provisioning>
+    <option_ios_provisioning>&lt; Press refresh to fetch provisioning list from Mac&gt;</option_ios_provisioning>
     <option_ios_push_enable>false</option_ios_push_enable>
     <option_ios_set_device_id></option_ios_set_device_id>
     <option_ios_splash_png>Configs\Default\ios\splash.png</option_ios_splash_png>

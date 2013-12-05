@@ -17,7 +17,7 @@ with(_map)
     var buff = buffer_create(1024*1024*4,buffer_grow,1);
 
     // Map version
-    buffer_write(buff,buffer_u32, 3);
+    buffer_write(buff,buffer_u32, 4);
     buffer_write(buff,buffer_u32, 0);
     buffer_write(buff,buffer_u32, 0);
     buffer_write(buff,buffer_u32, 0);
@@ -98,8 +98,18 @@ with(_map)
         for(var l=0;l<BLK_FLAGS1;l++){
             buffer_write(buff, buffer_u16, info[l]);
         }
-        buffer_write(buff, buffer_u32, info[BLK_FLAGS1]);
-        buffer_write(buff, buffer_u32, info[BLK_FLAGS2]);
+        
+        // Do we need to save extended block info?
+        var f = 0;
+        if( info[BLK_FLAGS2]!=0 || info[BLK_OFFSETS1]!=0 || info[BLK_OFFSETS2]!=0 || info[BLK_OFFSETS3]!=0 ){ f=$80000000; }
+        buffer_write(buff, buffer_u32, info[BLK_FLAGS1]|f);
+        if( f!=0 ){
+            buffer_write(buff, buffer_u32, info[BLK_FLAGS2]);
+            buffer_write(buff, buffer_u32, info[BLK_OFFSETS1]);
+            buffer_write(buff, buffer_u32, info[BLK_OFFSETS2]);
+            buffer_write(buff, buffer_u32, info[BLK_OFFSETS3]);
+        }
+
     }
     
         
