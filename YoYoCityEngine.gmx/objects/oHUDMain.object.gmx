@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>rotate_value=(global.FlipRotateFlags &amp; 4);
+            <string>rotate_value=(global.FlipRotateFlags&gt;=4);
 
 if (global.FlipRotateFlags &amp; 1==1 &amp;&amp; global.FlipRotateFlags &amp; 2==1)
 {
