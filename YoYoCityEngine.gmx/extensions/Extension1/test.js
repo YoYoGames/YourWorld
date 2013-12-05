@@ -1,3 +1,0 @@
-YoYo Games City Engine
-======================
-

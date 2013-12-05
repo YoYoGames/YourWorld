@@ -22,9 +22,7 @@
       <filename>style1.yyg</filename>
     </datafile>
   </datafiles>
-  <NewExtensions>
-    <extension index="0">extensions\Extension1</extension>
-  </NewExtensions>
+  <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
