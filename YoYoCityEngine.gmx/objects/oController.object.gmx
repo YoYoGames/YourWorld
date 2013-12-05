@@ -59,6 +59,7 @@ KMwheeldown=false;
 Kinsert = false;
 Kdelete = false;
 Kescape=false;
+KZctrl = false;
 
 global.DoPick=false;
 global.PickMouseX=0;
