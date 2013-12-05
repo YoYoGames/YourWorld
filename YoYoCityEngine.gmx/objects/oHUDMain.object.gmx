@@ -34,6 +34,9 @@ if (global.FlipRotateFlags &amp; 1==1 &amp;&amp; global.FlipRotateFlags &amp; 2=
 
 dovflip=(global.FlipRotateFlags &amp; 1)^(rotate_value&gt;1)
 dohflip=(global.FlipRotateFlags &amp; 2)^(rotate_value&gt;1)
+
+sButtonSprite[0]=sButtonNavbar;
+sButtonSprite[1]=sButtonNavbarSel;
 </string>
           </argument>
         </arguments>
@@ -58,18 +61,13 @@ dohflip=(global.FlipRotateFlags &amp; 2)^(rotate_value&gt;1)
             <kind>1</kind>
             <string>///Draw and operate HUD top buttons
 
-var buttonX=0;  //Current button X
-var buttonY=0;  //Current button Y
+var buttonX=16;  //Current button X
+var buttonY=16;  //Current button Y
 var buttonI=0;  //Current button Sprite Index
 var buttonS=39; //Current button size in pixels
 
-draw_set_color(c_black)
-draw_rectangle(0,0,window_get_width(),40,0)
-
 //Open
-draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     with(oMap) event_perform(ev_keypress,vk_f3)        
@@ -78,9 +76,7 @@ buttonX+=buttonS
 buttonI+=1
 
 //Save
-draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     with(oMap) event_perform(ev_keypress,vk_f2)       
@@ -89,9 +85,7 @@ buttonX+=(buttonS*2)
 buttonI+=1
 
 //Select
-draw_set_color(c_black)
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
         
@@ -100,9 +94,7 @@ buttonX+=(buttonS*2)
 buttonI+=1
 
 //Block
-draw_set_color(ColorButton(global.EditorMode==EDIT_SELECTION))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[global.EditorMode==EDIT_SELECTION],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_SELECTION;
@@ -112,9 +104,7 @@ buttonX+=buttonS
 buttonI+=1
 
 //Tile Tops
-draw_set_color(ColorButton(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_PAINT;
@@ -134,9 +124,7 @@ buttonX+=buttonS
 buttonI+=1
 
 //Tile Sides
-draw_set_color(ColorButton(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_PAINT;
@@ -156,9 +144,7 @@ buttonX+=buttonS
 buttonI+=1
 
 //Decals
-draw_set_color(ColorButton(global.EditorMode==EDIT_SPRITES))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[global.EditorMode==EDIT_SPRITES],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_SPRITES;
@@ -168,9 +154,7 @@ buttonX+=buttonS
 buttonI+=1
 
 //Object
-draw_set_color(ColorButton(global.EditorMode==EDIT_OBJECTS))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[global.EditorMode==EDIT_OBJECTS],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.EditorMode=EDIT_OBJECTS;
@@ -194,18 +178,14 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
     if(dohflip) global.FlipRotateFlags^=2; 
 }
 buttonI+=rotate_value
-draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 buttonX+=buttonS
 buttonI+=3-rotate_value
 buttonI+=1
 
 
 //Flip Horizontally
-draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.FlipRotateFlags^=2;
@@ -214,9 +194,7 @@ buttonX+=buttonS
 buttonI+=1
 
 //Flip Vertically
-draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     global.FlipRotateFlags^=1;        
@@ -225,9 +203,7 @@ buttonX+=(buttonS*2)
 buttonI+=1           
 
 //Play
-draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
                 
@@ -236,9 +212,7 @@ buttonX+=buttonS
 buttonI+=1
 
 //Hide Menu
-draw_set_color(ColorButton(mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)))
-draw_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,0)
-draw_sprite(sButtonNavbar,buttonI,buttonX,buttonY)
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 {
     with(oHUDMain) instance_destroy()

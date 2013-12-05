@@ -56,27 +56,36 @@ TabMax=4
             <kind>1</kind>
             <string>/*display_set_gui_size(window_get_width(),window_get_height())*/
 
-//Draw top rectangle and outline of window
 draw_set_color(c_black)
-draw_rectangle(x,y,x+WindowWidth,y+70,0)
-draw_rectangle(x-3,y-3,x+WindowWidth+3,y+WindowHeight+3,1)
+draw_set_alpha(0.8)
+draw_rectangle(x,y,x+WindowWidth,y+WindowHeight,0)
+draw_set_alpha(1)
+
+//Draw top rectangle and outline of window
+draw_set_color($EEEEEE)
+draw_rectangle(x,y,x+WindowWidth,y+38,0)
+draw_set_alpha(0.5);
+draw_rectangle(x,y+39,x+WindowWidth,y+72,0)
+draw_set_alpha(1);
+draw_line(x,y+39,x+WindowWidth,y+39)
+draw_line(x,y+72,x+WindowWidth,y+72)
 
 //Draw the window's caption
-draw_set_color(c_white)
+draw_set_color(c_black)
 draw_set_font(fTwCenM)
-draw_set_halign(fa_left)
+draw_set_halign(fa_center)
 draw_set_valign(fa_center)
-draw_text(x+16,y+20,WindowCaption)
+draw_text(x+(WindowWidth/2),y+19,WindowCaption)
 
 //Draw the tabs
 draw_set_halign(fa_center)
 draw_set_font(fTwCenConM)
 for( var i=0; i&lt;=TabMax; i+=1)
 {
-    var tabx1=x+3+(i*85); //X location of this tab
+    var tabx1=x+(i*86); //X location of this tab
     
     //Logic for selecting tabs
-    if (mouse_click_rectangle(tabx1,y+41,tabx1+82,y+67))
+    if (mouse_click_rectangle(tabx1,y+39,tabx1+86,y+72))
     {
         Tab=i;
         if (Tab==0) global.EditorMode_Sub=EDIT_SUB_SIDE;
@@ -87,13 +96,16 @@ for( var i=0; i&lt;=TabMax; i+=1)
     //Selected colour
     if (i==Tab)
     {
-        draw_set_color(c_gray);
-        draw_rectangle(tabx1,y+41,tabx1+82,y+67,0);
+        draw_set_color($EEEEEE);
+        draw_set_alpha(0.5);
+        draw_rectangle(tabx1,y+39,tabx1+86,y+72,0);
+        draw_set_alpha(1);
     }
     
     //Outline
     draw_set_color(c_white);
-    draw_rectangle(tabx1,y+41,tabx1+82,y+67,1);   
+    //draw_rectangle(tabx1,y+41,tabx1+82,y+67,1);
+    draw_line(tabx1+85,y+39,tabx1+86,y+72);   
     
     //Text
     var      str="WALLS";
@@ -101,19 +113,25 @@ for( var i=0; i&lt;=TabMax; i+=1)
     if(i==2) str="ROADS";
     if(i==3) str="LANDSCAPE";
     if(i==4) str="FIRST TOP";
-    draw_text(tabx1+41,y+54,str); 
+    if (i==Tab) draw_set_color(c_black);
+    draw_text(tabx1+43,y+56,str); 
 }
 
 //Draw the right hand bar
-draw_set_color(c_black)
-draw_rectangle(x+WindowWidth-25,y+WindowHeight-25,x+WindowWidth,y+WindowHeight,0) //Resize window
-draw_rectangle(x+WindowWidth-25,y+73,x+WindowWidth,y+98,0) //Scrollbar up
-draw_rectangle(x+WindowWidth-25,y+WindowHeight-53,x+WindowWidth,y+WindowHeight-28,0) //Scrollbar down
+draw_set_color(c_white)
+draw_line(x+WindowWidth-25,y+72,x+WindowWidth-25,y+WindowHeight)
+draw_set_alpha(0.3)
+draw_rectangle(x+WindowWidth-25,y+72,x+WindowWidth,y+WindowHeight,0)
+draw_set_alpha(1)
+
+draw_rectangle(x+WindowWidth-25,y+72,x+WindowWidth,y+97,1) //Scrollbar up
+draw_sprite(sHUDScrollArrow,0,x+WindowWidth-12,y+85)
+draw_rectangle(x+WindowWidth-25,y+WindowHeight-50,x+WindowWidth,y+WindowHeight-25,1) //Scrollbar down
+draw_sprite(sHUDScrollArrow,1,x+WindowWidth-12,y+WindowHeight-37)
+
+draw_rectangle(x+WindowWidth-25,y+WindowHeight-25,x+WindowWidth,y+WindowHeight,1) //Resize window
 
 //Control &amp; draw scrolling
-draw_set_color(c_white)
-draw_rectangle(x+WindowWidth-25,y+101,x+WindowWidth,y+WindowHeight-56,0)
-draw_set_color(c_black)
 if (WindowContentYMin!=0) //Can scroll
 {
     //Temporary variables
@@ -130,17 +148,17 @@ if (WindowContentYMin!=0) //Can scroll
         scrollchanged=1;
     }
     
-    draw_rectangle(x+WindowWidth-25,y+scrolly+101,x+WindowWidth,y+scrolly+101+32,0)
+    draw_rectangle(x+WindowWidth-25,y+scrolly+98,x+WindowWidth,y+scrolly+98+41,0)
     
     //If you press the "Up" scroll button or mouse wheel up
-    if (mouse_click_rectangle(x+WindowWidth-25,y+73,x+WindowWidth,y+98)
+    if (mouse_click_rectangle(x+WindowWidth-25,y+72,x+WindowWidth,y+97)
         or (mouse_wheel_up() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight)))
     {
         scrolly=clamp(scrolly-20,scrollymin,scrollymax)
         scrollchanged=1;
     }
     //If you press the "Down" scroll button
-    if (mouse_click_rectangle(x+WindowWidth-25,y+WindowHeight-53,x+WindowWidth,y+WindowHeight-28)
+    if (mouse_click_rectangle(x+WindowWidth-25,y+WindowHeight-50,x+WindowWidth,y+WindowHeight-25)
         or (mouse_wheel_down() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight)))
     {
         scrolly=clamp(scrolly+20,scrollymin,scrollymax)
@@ -165,9 +183,10 @@ if (mouse_click_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))
     WindowContentClickedX=device_mouse_raw_x(0)-(x);
     WindowContentClickedY=device_mouse_raw_y(0)-(y+73)+(WindowContentY);
 }
-draw_surface_part(WindowContent,0,WindowContentY,WindowWidth-28,WindowHeight-73,x,y+WindowContentDrawY)
+draw_surface_part(WindowContent,0,WindowContentY,WindowWidth-25,WindowHeight-73,x,y+WindowContentDrawY)
 
 draw_set_color(c_white)
+draw_rectangle(x,y,x+WindowWidth,y+WindowHeight,1)
 </string>
           </argument>
         </arguments>
@@ -204,7 +223,7 @@ if (WindowContentRedraw==true
     d3d_end();
     //d3d_set_lighting(false);
     surface_set_target(WindowContent);
-    draw_clear(c_white);
+    draw_clear_alpha(c_white,0.3);
     
     var iteration=0, iterationMax=0;
     
@@ -260,7 +279,7 @@ if (WindowContentRedraw==true
     //Set tile count and current location/number
     var maxsprite=38, cursprite=0, curX=0, curY=0;
     //Set drawing positions and constraints
-    var drawX=0, drawY=0, drawXoff=32, drawYoff=32, drawXmax=(WindowWidth-28-(drawXoff*2)), drawGap=16;
+    var drawX=0, drawY=-9, drawXoff=32, drawYoff=32, drawXmax=(WindowWidth-28-(drawXoff*2)), drawGap=16;
     
     //Loop through each of the groups, drawing its name, tiles etc
     for(var i=0; i&lt;itemMax[Tab]; i+=1)
@@ -268,13 +287,19 @@ if (WindowContentRedraw==true
         if !ds_queue_empty(itemList[Tab,i]) //If there's nothing in the section, skip it altogether
         {
             //Start by drawing the group's name
+            draw_set_color(c_white)
+            draw_line(0,drawY+(drawYoff*0.25),2048,drawY+(drawYoff*0.25))
+            draw_set_alpha(0.7)
+            draw_rectangle(0,drawY+(drawYoff*0.25),2048,drawY+(drawYoff*1.75),0)
+            draw_set_alpha(1)
+            
             draw_set_color(c_black);
             draw_set_font(fTwCenM);
             draw_set_halign(fa_left);
             draw_set_valign(fa_center);
             draw_text(drawXoff,drawY+drawYoff,string_upper(itemName[Tab,i]));
             
-            drawY+=32
+            drawY+=40
         
             //Go through the queue of tiles in this group, drawing and controlling each one
             while !ds_queue_empty(itemList[Tab,i])
@@ -305,14 +330,6 @@ if (WindowContentRedraw==true
                     }
                 }
                 
-                //Draw a border around this tile if it's the selected one
-                if (WindowContentSelected[Tab]==cursprite)
-                {
-                    draw_set_color(c_black)
-                    draw_rectangle(drawX+drawXoff-8,drawY+drawYoff-8,drawX+drawXoff+tileActW+8,drawY+drawYoff+tileActH+8,0)
-                    draw_set_color(c_white)
-                }
-                
                 curX=0; curY=0;
                 
                 //Find the coordinates of the current tile on the tile sheet
@@ -326,11 +343,20 @@ if (WindowContentRedraw==true
                     }
                 }
                 
+                //Draw tile drop shadow
+                draw_sprite(sHUDTileShadow,0,drawX+drawXoff,drawY+drawYoff);
+                
                 //Draw the relevant section of the spritesheet
                 draw_sprite_part(tilesprite,0,
                                  curX+tileDiffX,curY+tileDiffY,
                                  tileActW,tileActH,
                                  drawX+drawXoff,drawY+drawYoff);
+                
+                //Draw a border around this tile if it's the selected one
+                if (WindowContentSelected[Tab]==cursprite)
+                {
+                    draw_sprite(sHUDTileHighlight,0,drawX+drawXoff,drawY+drawYoff)
+                }
                                  
                 //Move boundaries as necessary
                 if !ds_queue_empty(itemList[Tab,i])
