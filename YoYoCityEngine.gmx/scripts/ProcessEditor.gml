@@ -72,7 +72,7 @@ if( AllowPick )
         }
     }
     
-    if instance_exists(oHUDMain) && mouse_rectangle(0,0,window_get_width(),40)
+    if instance_exists(oHUDMain) && mouse_rectangle(0,0,window_get_width(),56)
     {
         HaltProcessing=true;
     }

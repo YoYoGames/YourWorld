@@ -31,7 +31,13 @@
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
     <sprite>sprites\sTree</sprite>
-    <sprite>sprites\sButtonNavbar</sprite>
+    <sprites name="HUD">
+      <sprite>sprites\sButtonNavbar</sprite>
+      <sprite>sprites\sButtonNavbarSel</sprite>
+      <sprite>sprites\sHUDTileShadow</sprite>
+      <sprite>sprites\sHUDTileHighlight</sprite>
+      <sprite>sprites\sHUDScrollArrow</sprite>
+    </sprites>
     <sprites name="Car Stuff">
       <sprite>sprites\sprCarBody</sprite>
       <sprite>sprites\sprWheel</sprite>
