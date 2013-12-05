@@ -59,6 +59,7 @@ KMwheeldown=false;
 Kinsert = false;
 Kdelete = false;
 Kescape=false;
+KZctrl = false;
 
 global.DoPick=false;
 global.PickMouseX=0;
@@ -145,6 +146,7 @@ zdir=0;
 var key=keyboard_check_pressed(vk_f1);
 if( key!=0 ){
     if( global.Mode==MODE_EDIT ){
+        KillSelection();
         global.Mode=MODE_PLAY;
     }else if( global.Mode==MODE_PLAY ){
         global.Mode=MODE_EDIT;
