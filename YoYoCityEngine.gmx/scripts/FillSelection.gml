@@ -1,8 +1,12 @@
-/// FillSelection(SelectionInstance)
+/// FillSelection(SelectionInstance,Face)
 //
-// Create/Remove a stack of blocks in the correct direction
+// Create/Remove a stack of blocks in the correct direction. If face is -1 then fill with blocks
 
-_selection = argument0;
+var _selection = 0;
+var _face = -1;
+
+if( argument_count>0 ) _selection = argument[0];
+if( argument_count>0 ) _face = argument[1];
 {
     var x1,y1,z1,x2,y2,z2,face,dx,dy,dz;
     
@@ -21,7 +25,11 @@ _selection = argument0;
     for(var dy=y1;dy<=y2;dy++){    
         for(var dx=x1;dx<=x2;dx++){
             for(var dz=z1;dz<=z2;dz++){
-                AddBlock(global.Map, dx,dy,dz,true,1,2);
+                if( _face==-1 ) {
+                    AddBlock(global.Map, dx,dy,dz,true,1,2); break;
+                }else{
+                    PaintFace(global.Map, dx,dy,dz, global.LeftMouseTile);
+                }
             }    
         }    
     }
