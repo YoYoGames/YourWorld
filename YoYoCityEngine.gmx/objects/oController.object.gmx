@@ -60,6 +60,7 @@ Kinsert = false;
 Kdelete = false;
 Kescape=false;
 KZctrl = false;
+SelectionPick=false;
 
 global.DoPick=false;
 global.PickMouseX=0;
