@@ -206,7 +206,7 @@ if( surface_exists(Shadows.ShadowSurface) ){
 }
 */
 
-
+/*
 draw_set_font(arial);
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
@@ -221,7 +221,7 @@ s = "button ("+string(KMleft)+","+string(KMmiddle)+","+string(KMright)+")   P="+
 draw_outline( 40,22, s, c_white );
 s = "button ("+string(PickX1)+","+string(PickY1)+","+string(PickZ1)+")   ("+string(PickX2)+","+string(PickY2)+","+string(PickZ2)+")";
 draw_outline( 40,42, s, c_white );
-
+*/
 
 
 </string>
@@ -332,21 +332,9 @@ if( keyboard_check(vk_alt) )
 {
     if( !window_get_fullscreen() )
     {
-        window_set_size(display_get_width(), display_get_height() );
-        view_wport[0]=display_get_width();
-        view_hport[0]=display_get_height();
-        view_wview[0]=display_get_width();
-        view_hview[0]=display_get_height();
-        window_set_fullscreen(true);
+        FullscreenMode(true);
     }else{
-        window_set_fullscreen(false);
-        var w=1280;
-        var h=720;
-        window_set_size(w,h);
-        view_wport[0]=w;
-        view_hport[0]=h;
-        view_wview[0]=w;
-        view_hview[0]=h;
+        FullscreenMode(false);
     }
 }
 </string>

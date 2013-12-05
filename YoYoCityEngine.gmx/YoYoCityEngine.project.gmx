@@ -43,6 +43,7 @@
     <scripts name="Game">
       <script>scripts\ProcessGame.gml</script>
       <script>scripts\ProcessKeys.gml</script>
+      <script>scripts\FullscreenMode.gml</script>
     </scripts>
     <script>scripts\draw_outline.gml</script>
     <scripts name="Sprite">
