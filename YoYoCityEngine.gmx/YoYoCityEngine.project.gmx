@@ -108,6 +108,7 @@
           <script>scripts\SetSingleBlock.gml</script>
           <script>scripts\ProcessPicking.gml</script>
           <script>scripts\ProcessPainting.gml</script>
+          <script>scripts\KillSelection.gml</script>
         </scripts>
       </scripts>
     </scripts>

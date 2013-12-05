@@ -8,11 +8,8 @@ if( KMleft || KMright || KMmiddle )
     // Not currently picking
     if( PickingMode==-1)
     {
-        if( instance_exists(SelectionInstance) ){
-            //debug("here: "+string(SelectionInstance));
-            with(SelectionInstance) instance_destroy();
-            SelectionInstance=-1000;
-        }
+        KillSelection();
+
         MButton=0;
         if( KMleft ) MButton = 1;
         if( KMright ) MButton = 2;
@@ -88,12 +85,7 @@ if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInst
     if( KMwheeldown ) UseWheel(SelectionInstance,-1);
     if( Kinsert ) FillSelection(SelectionInstance);
     if( Kdelete) DeleteSelection(SelectionInstance);
-    if( Kescape) {
-            with(SelectionInstance) {
-                instance_destroy();
-            }
-            SelectionInstance=-1000;
-    }
+    if( Kescape) KillSelection();
 }
 
 

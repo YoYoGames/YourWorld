@@ -25,7 +25,7 @@ var block,info,ret_block;
 
 with(_map)
 {    
-    if(_x<0 || _x>MapWidth || _y<0 || _y>MapHeight || _z<0 || _z>MapDepth ) return -1;
+    if(_x<0 || _x>MapWidth || _y<0 || _y>MapHeight || _z<0 || _z>=MapDepth ) return -1;
 
     var ret_block = AllocBlock(id,_x,_y,_z);
     var info = block_info[ret_block];
