@@ -43,21 +43,14 @@ if( os_browser != browser_not_a_browser ){
 
 CityFormat = global.CityFormat;
 
-//DiffuseSurface = -1;
-//SelectionSurface = -1;
 MouseX=0;
 MouseY=0;
-//PickY=-1;
-//PickX=-1;
-//PickZ=-1;
-//PickFace=-1;
 
 PickPixel=$7fffffff;
 LastFileName="mymap.city";
 
 // Create the water plane
 Water = instance_create(0,0,oWater);
-
 
 // Create physics representation
 physics_world_create(0.0313);
@@ -87,14 +80,6 @@ physics_world_gravity(0.0, 0.0);
             <kind>1</kind>
             <string>/// Render the map
 var camera = global.Camera;
-
-
-// Work out visible map bounds.
-//var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize )-1;
-//var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize )-1;
-//var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
-//var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
-//global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
 {
         
@@ -143,7 +128,8 @@ var camera = global.Camera;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( !global.HTML5 ) {
+            <string>/// Load the map
+if( !global.HTML5 ) {
     var filename = get_open_filename("YoYo City Maps|*.city",LastFileName);
     if( filename!=""){
         LastFileName=filename;
@@ -179,12 +165,16 @@ var camera = global.Camera;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( !global.HTML5 ) {
+            <string>/// Save the map
+if( !global.HTML5 ) {
     var buff = SaveMap(id);
     var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
     if( filename!="" ){
+        debug("filename="+filename);
         LastFileName=filename;
         buffer_save_ext(buff, LastFileName, 0, buffer_tell(buff));
+    }else{
+        show_message("Error can't save");
     }
 }
 

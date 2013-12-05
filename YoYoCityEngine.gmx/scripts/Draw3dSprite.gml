@@ -1,3 +1,4 @@
+/// Draw3dSprite(sprite,subimg,x,y,z,scalex,scaley,rotation,colour,alpha)
 // Almost the same as draw_sprite_ext()
 // argument0 = sprite
 // argument1 = subimage
