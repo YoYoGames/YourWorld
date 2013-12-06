@@ -145,29 +145,31 @@ physics_apply_local_force(0, 0, 0, force);
           <argument>
             <kind>1</kind>
             <string>
-// Draw the line to represnt the impulse applied to cancel sideways movement
-
-var previousmat = matrix_get(matrix_world);
-var mat = matrix_build(0, 0, -257, 0, 0, 0, 1, 1, 1);
-matrix_set(matrix_world, mat);
-d3d_set_lighting(false);
-
-draw_set_color(c_gray);
-draw_line_width(x, y, x-impulseX*20, y-impulseY*20, 12);
-
-draw_set_color(c_green);
-draw_line_width(x, y, x+lateralX*20, y+lateralY*20, 3);
-
-draw_set_color(c_blue);
-draw_line(x, y, x+phy_speed_x*20, y+phy_speed_y*20);
-
-draw_set_color(c_red);
-draw_line(x, y, x+lengthdir_x(64, GetWorldDirection(0)), y+lengthdir_y(64, GetWorldDirection(0)));
-draw_line(x, y, x+lengthdir_x(-64, GetWorldDirection(0)), y+lengthdir_y(-64, GetWorldDirection(0)));
-
-// Restore previous matrix and lighting
-matrix_set(matrix_world, previousmat);
-d3d_set_lighting(true);
+if (global.drawDebug)
+    {
+    // Draw the line to represnt the impulse applied to cancel sideways movement
+    var previousmat = matrix_get(matrix_world);
+    var mat = matrix_build(0, 0, -257, 0, 0, 0, 1, 1, 1);
+    matrix_set(matrix_world, mat);
+    d3d_set_lighting(false);
+    
+    draw_set_color(c_gray);
+    draw_line_width(x, y, x-impulseX*20, y-impulseY*20, 12);
+    
+    draw_set_color(c_green);
+    draw_line_width(x, y, x+lateralX*20, y+lateralY*20, 3);
+    
+    draw_set_color(c_blue);
+    draw_line(x, y, x+phy_speed_x*20, y+phy_speed_y*20);
+    
+    draw_set_color(c_red);
+    draw_line(x, y, x+lengthdir_x(64, GetWorldDirection(0)), y+lengthdir_y(64, GetWorldDirection(0)));
+    draw_line(x, y, x+lengthdir_x(-64, GetWorldDirection(0)), y+lengthdir_y(-64, GetWorldDirection(0)));
+    
+    // Restore previous matrix and lighting
+    matrix_set(matrix_world, previousmat);
+    d3d_set_lighting(true);
+    }
 
 </string>
           </argument>

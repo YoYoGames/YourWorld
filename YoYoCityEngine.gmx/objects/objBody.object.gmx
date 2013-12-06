@@ -91,6 +91,10 @@ if (global.Mode == MODE_PLAY)
     var yPos = y - lengthdir_y(frontDistance*(velocity/maxMoveSpeed), phy_rotation-90);
     var zPos = -650-(upHeight*(abs(velocity)/maxMoveSpeed));
     
+    //CameraCast(x, y, xPos, yPos);
+    //oCamera.CameraZ = zPos;
+    
+    //*
     // Move camera to position
     oCamera.CameraX = lerp(oCamera.CameraX, xPos, transition);
     oCamera.CameraY = lerp(oCamera.CameraY, yPos, transition);
@@ -101,30 +105,8 @@ if (global.Mode == MODE_PLAY)
     var down  = (oCamera.CameraY-yPos&gt;0)*GetColumnSize(floor(oCamera.CameraX/64), floor(-oCamera.CameraY/64+0.8));
     var left  = (oCamera.CameraX-xPos&lt;0)*GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64));
     var right = (oCamera.CameraX-xPos&lt;0)*GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64));
-    
-    //zz = floor(-oCamera.CameraZ/64);
-        
-        
-    //var upLeft    = 0//GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64-0.8));
-    //var upRight   = 0//GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64-0.8));
-    //var downLeft  = 0//GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64+0.8));
-    //var downRight = 0//GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64+0.8));
-        
-    
-    /*
-    if ((down&gt;zz &amp;&amp; up&gt;zz))// || ((downLeft&gt;zz &amp;&amp; upLeft&gt;zz) || ((downRight&gt;zz &amp;&amp; upRight&gt;zz))))
-    || ((left&gt;zz &amp;&amp; right&gt;zz))// || (upLeft&gt;zz &amp;&amp; upRight&gt;zz) || (downLeft&gt;zz &amp;&amp; downRight&gt;zz))
-        {
-        maxHeight = max(down, left, right, up, upLeft, upRight, downLeft, downRight) *64;
-        show_debug_message(string(-maxHeight)+", "+string(oCamera.CameraZ));
-        if (-maxHeight &lt; oCamera.CameraZ)
-            {
-            oCamera.CameraZ = -maxHeight;
-            }
-        }*/
-        
-        
-    zz = 5;//floor(-oCamera.CameraZ/64);
+
+    zz = 5;
     
     while (down &gt; zz)
         {
@@ -149,48 +131,6 @@ if (global.Mode == MODE_PLAY)
         oCamera.CameraX -= 0.1;
         right  = GetColumnSize(floor(oCamera.CameraX/64+0.1), floor(-oCamera.CameraY/64));
         }
-        
-    /*
-    while (upLeft &gt; zz)
-        {
-        oCamera.CameraY -= 0.1;
-        oCamera.CameraX += 0.1;
-        upLeft    = GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64-0.8))
-        }
-        
-    while (upRight &gt; zz)
-        {
-        oCamera.CameraY -= 0.1;
-        oCamera.CameraX -= 0.1;
-        upRight    = GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64-0.8))
-        }
-        
-    while (downLeft &gt; zz)
-        {
-        oCamera.CameraY += 0.1;
-        oCamera.CameraX += 0.1;
-        downLeft    = GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64+0.8))
-        }
-        
-    while (downRight &gt; zz)
-        {
-        oCamera.CameraY += 0.1;
-        oCamera.CameraX -= 0.1;
-        downRight    = GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64+0.8))
-        }
-        */
-        
-    // Camera collisions
-    //*
-    //maxHeight = max(down, left, right, up, upLeft, upRight, downLeft, downRight) *64;
-        
-    //show_debug_message(string(-maxHeight)+", "+string(oCamera.CameraZ));
-    //if (-maxHeight &lt; oCamera.CameraZ)
-        //{
-        //oCamera.CameraZ = -maxHeight;
-        //}
-        
-    //oCamera.CameraZ = floor(oCamera.CameraZ);
     //*/
     }
 

@@ -36,6 +36,8 @@
         CityShader=SimpleShader;
     }
 
+    // Global variables
+    global.drawDebug = false;
     
     // Create the Sprite Vertex Format
     vertex_format_begin();

@@ -37,6 +37,7 @@
       <sprite>sprites\sprCarBody</sprite>
       <sprite>sprites\sprWheel</sprite>
     </sprites>
+    <sprite>sprites\sprCircle</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -137,6 +138,8 @@
       <script>scripts\PhysicsDefineBlock.gml</script>
       <script>scripts\UpdateFriction.gml</script>
     </scripts>
+    <script>scripts\CameraCast.gml</script>
+    <script>scripts\CameraCastDraw.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
