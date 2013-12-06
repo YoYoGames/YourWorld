@@ -107,16 +107,17 @@ block_info=0;
 // BLK_BOTTOM   = tile on bottom side
 // BLK_LID      = tile on lid side
 // BLK_BASE     = tile on base side
-// BLK_FLAGS1   = %x0000000000LST555444333222111000  (face 000= RHV =Rotate90, Flip-Horizontal, Flip-Vertical)
+// BLK_FLAGS1   = %x000000000ILST555444333222111000  (face 000= RHV =Rotate90, Flip-Horizontal, Flip-Vertical)
 //                face 0=top,1=bottom,2=left,3=right,4=lid,5=base
 //                T = flatten TOP+BOTTOM
 //                S = Flatten SIDES (left/right)
 //                L = flatten LID+BASE
+//                I = invert faces (not yet implemented)
 //                x = reserved for saving extended block info
-// BLK_FLAGS2   = %33_333/222_222_222/111_111_111/000_000_000     number = 0,1,2,3,4,5,6,7 = vertex index
-// BLK_OFFSETS1 = %7/666_666_666/555_555_555/444_444_444/333_3    000_000_000 = x,y,z offsets. 8 per direction. (64pix = 8 offsets)
-// BLK_OFFSETS2 = %000000000000000000000000/777_777_77
-// BLK_OFFSETS3 = %00000000000000000000000000000000
+// BLK_FLAGS2   = unused so far
+// BLK_OFFSETS1 = %2222_2222/1111_1111_1111/0000_0000_0000     number = 0,1,2,3,4,5,6,7 = vertex index
+// BLK_OFFSETS2 = %5555/4444_4444_4444/3333_3333_3333/2222     0000_0000_0000 = x,y,z offsets. 16 per direction. (64pix = 16 offsets)
+// BLK_OFFSETS3 = %7777_7777_7777/6666_6666_6666/5555_5555
                 
 
 

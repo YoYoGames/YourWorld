@@ -11,6 +11,7 @@
 // Date				Version		BY		Comment
 // ----------------------------------------------------------------------------------------------------------------------
 // 10/11/2013		V1.0.0      MJD     1st version
+// 06/11/2013		V1.0.1      MJD     Updated to map format V4
 // 
 // **********************************************************************************************************************
 using System;
@@ -36,8 +37,22 @@ namespace TileBuilder.MapCreation
         public int Base { get { return Faces[5]; } set { Faces[5] = value;  } }
         public int Ref;
 
+        // Flags1       = %x000000000ILST555444333222111000  (face 000= RHV =Rotate90, Flip-Horizontal, Flip-Vertical)
+        //                face 0=top,1=bottom,2=left,3=right,4=lid,5=base
+        //                T = flatten TOP+BOTTOM
+        //                S = Flatten SIDES (left/right)
+        //                L = flatten LID+BASE
+        //                I = invert faces (not yet implemented)
+        //                x = reserved for saving extended block info
         public uint Flags1 =0;
         public uint Flags2 =0;
+
+        // BLK_OFFSETS1 = %2222_2222/1111_1111_1111/0000_0000_0000     number = 0,1,2,3,4,5,6,7 = vertex index
+        // BLK_OFFSETS2 = %5555/4444_4444_4444/3333_3333_3333/2222     0000_0000_0000 = x,y,z offsets. 16 per direction. 
+        // BLK_OFFSETS3 = %7777_7777_7777/6666_6666_6666/5555_5555     (64pix = 16 offsets)
+        public uint Offsets1 = 0x00000000;
+        public uint Offsets2 = 0x00000000;
+        public uint Offsets3 = 0x00000000;
 
         private uint m_CRC=0xffffffff;
         public uint CRC { get { return m_CRC; } set { m_CRC = value; } }
@@ -131,6 +146,9 @@ namespace TileBuilder.MapCreation
             }
             crc = CRC32.CRC(Flags1, crc);
             crc = CRC32.CRC(Flags2, crc);
+            crc = CRC32.CRC(Offsets1, crc);
+            crc = CRC32.CRC(Offsets2, crc);
+            crc = CRC32.CRC(Offsets3, crc);
             m_CRC = crc;
             return m_CRC;
         }

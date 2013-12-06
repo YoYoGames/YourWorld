@@ -27,8 +27,8 @@
             <kind>1</kind>
             <string>/// Create everything
 global.Controller = id;
-global.XSpeed = 16;
-global.YSpeed = 16;
+global.XSpeed = 32;
+global.YSpeed = 32;
 global.ZSpeed = 32;
 global.Mode = MODE_PLAY;
 FreeCursorMode=0;
@@ -84,6 +84,18 @@ SetCamera(GameCamera);
 Map = instance_create(0,0,oMap);
 global.Map = Map;
 global.CurrentPolyCount = 0;
+
+// Try to load a default map
+var filename = "map.city";
+//debug("DIR="+working_directory+filename);
+var loadit = file_exists(filename);
+if( loadit ){
+    with(global.Map){
+        var buff = buffer_load(filename);
+        LoadMap(id,buff);    
+    }
+}
+
 
 
 EndDraw = instance_create(0,0,oEndDraw);
