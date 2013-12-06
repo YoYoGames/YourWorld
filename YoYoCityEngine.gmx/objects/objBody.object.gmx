@@ -91,22 +91,18 @@ if (global.Mode == MODE_PLAY)
     var yPos = y - lengthdir_y(frontDistance*(velocity/maxMoveSpeed), phy_rotation-90);
     var zPos = -650-(upHeight*(abs(velocity)/maxMoveSpeed));
     
-    //CameraCast(x, y, xPos, yPos);
-    //oCamera.CameraZ = zPos;
-    
-    //*
     // Move camera to position
     oCamera.CameraX = lerp(oCamera.CameraX, xPos, transition);
     oCamera.CameraY = lerp(oCamera.CameraY, yPos, transition);
     oCamera.CameraZ = lerp(oCamera.CameraZ, zPos, transition);
     
-    
-    var up    = (oCamera.CameraY-yPos&lt;0)*GetColumnSize(floor(oCamera.CameraX/64), floor(-oCamera.CameraY/64-0.8));
-    var down  = (oCamera.CameraY-yPos&gt;0)*GetColumnSize(floor(oCamera.CameraX/64), floor(-oCamera.CameraY/64+0.8));
-    var left  = (oCamera.CameraX-xPos&lt;0)*GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64));
-    var right = (oCamera.CameraX-xPos&lt;0)*GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64));
+    // Camera collisions
+    var up    = GetColumnSize(floor(oCamera.CameraX/64), floor(-oCamera.CameraY/64-0.8));
+    var down  = GetColumnSize(floor(oCamera.CameraX/64), floor(-oCamera.CameraY/64+0.8));
+    var left  = GetColumnSize(floor(oCamera.CameraX/64-0.8), floor(-oCamera.CameraY/64));
+    var right = GetColumnSize(floor(oCamera.CameraX/64+0.8), floor(-oCamera.CameraY/64));
 
-    zz = 5;
+    zz = 8;
     
     while (down &gt; zz)
         {
@@ -131,7 +127,6 @@ if (global.Mode == MODE_PLAY)
         oCamera.CameraX -= 0.1;
         right  = GetColumnSize(floor(oCamera.CameraX/64+0.1), floor(-oCamera.CameraY/64));
         }
-    //*/
     }
 
 </string>

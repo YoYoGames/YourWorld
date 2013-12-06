@@ -95,10 +95,18 @@ if( LoadSave==1 )
         var buff = buffer_load(LastFileName);
         LoadMap(id,buff);
         
-        // test spawning
+        // Create physics world controller
         instance_create(0, 0, objPhysicsController);
-        var newCar = instance_create(0, 0, objBody);
+        
+        // Create player car
+        var spawnX = 303*64  +32;
+        var spawnY = -153*64 +32;
+        var newCar = instance_create(spawnX, spawnY, objBody);
         newCar.z = 257;
+        
+        // Move camera to car position
+        oCamera.CameraX = newCar.x;
+        oCamera.CameraY = newCar.y;
     }
 }
 FullscreenMode(fullscreen);
@@ -179,13 +187,6 @@ var camera = global.Camera;
         <arguments>
           <argument>
             <kind>1</kind>
-        // test spawning
-        instance_create(0, 0, objPhysicsController);
-        
-        var spawnX = 303*64;
-        var spawnY = -153*64;
-        var newCar = instance_create(spawnX, spawnY, objBody);
-        newCar.z = 257;
             <string>/// Load the map
 if( !global.HTML5 ) {
     fullscreen = window_get_fullscreen();
