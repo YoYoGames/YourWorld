@@ -31,7 +31,7 @@
 WindowCaption="TILE SELECT";
 
 //Tab details
-TabMax=4
+TabMax=3
 </string>
           </argument>
         </arguments>
