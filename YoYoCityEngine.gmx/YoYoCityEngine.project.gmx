@@ -89,6 +89,7 @@
       <scripts name="IO">
         <script>scripts\SaveMap.gml</script>
         <script>scripts\LoadMap.gml</script>
+        <script>scripts\NewMap.gml</script>
       </scripts>
       <scripts name="Editing">
         <scripts name="Utils">

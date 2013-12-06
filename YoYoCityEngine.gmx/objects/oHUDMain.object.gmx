@@ -81,7 +81,7 @@ var buttonS=39; //Current button size in pixels
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"NEW") )
 {
-            
+    NewMap();            
 }
 buttonX+=buttonS
 buttonI+=1
@@ -227,7 +227,7 @@ buttonI+=1
 
 //Hide Menu
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"HIDE MENU [Q]") )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"HIDE MENU [TAB]") )
 {
     with(oHUDMain) instance_destroy()
     with(oHUDParent) instance_destroy()
