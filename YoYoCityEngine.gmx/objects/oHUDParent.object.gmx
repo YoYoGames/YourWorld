@@ -44,10 +44,14 @@ surface_set_target(WindowContent);
 draw_clear(c_white);
 surface_reset_target();
 WindowContentRedraw=true;
-WindowContentClicked=false;
+WindowContentClicked=1;
 WindowContentClickedX=0;
 WindowContentClickedY=0;
-for(var i=0; i&lt;=4; i+=1) {WindowContentSelected[i]=global.LeftMouseTile;}
+for(var i=0; i&lt;=4; i+=1)
+{
+    WindowContentSelectedL[i]=global.LeftMouseTile;
+    WindowContentSelectedR[i]=global.RightMouseTile;
+}
 
 //Content size and constraints
 WindowContentHeight=1024;
@@ -57,7 +61,7 @@ WindowContentYMin=0;
 
 //Current tab and maximum tab
 Tab=0;
-TabMax=4;
+TabMax=3;
 
 Holding=0;
 

@@ -89,6 +89,7 @@
       <scripts name="IO">
         <script>scripts\SaveMap.gml</script>
         <script>scripts\LoadMap.gml</script>
+        <script>scripts\NewMap.gml</script>
       </scripts>
       <scripts name="Editing">
         <scripts name="Utils">
@@ -123,6 +124,7 @@
     <scripts name="GUI">
       <script>scripts\mouse_rectangle.gml</script>
       <script>scripts\mouse_click_rectangle.gml</script>
+      <script>scripts\mouse_rclick_rectangle.gml</script>
       <script>scripts\mouse_hold_rectangle.gml</script>
       <script>scripts\mouse_release_rectangle.gml</script>
       <script>scripts\ColorButton.gml</script>
@@ -183,7 +185,6 @@
       <object>objects\oHUDMain</object>
       <object>objects\oHUDParent</object>
       <object>objects\oHUDTileSelect</object>
-      <object>objects\oHUDBlockSelect</object>
     </objects>
     <objects name="Car Physics">
       <object>objects\objPhysicsController</object>
