@@ -230,6 +230,7 @@ if (WindowContentRedraw==true
 &amp;&amp; instance_exists(oMap))
 {
     d3d_end();
+    d3d_transform_set_identity();
     surface_set_target(WindowContent);
     draw_clear_alpha(c_white,0.3);
     
@@ -251,6 +252,8 @@ if (WindowContentRedraw==true
         itemMax[2]=ini_read_real("details","roadsGroupCount",0)
         itemMax[3]=ini_read_real("details","landscapeGroupCount",0)
         itemMax[4]=ini_read_real("details","tilesGroupCount",0)
+        
+        show_debug_message("Tiles: "+string(itemMax[0]))
         
         //For each "group" as defined in the ini file
         for(var j=0; j&lt;itemMax[i]; j+=1)
