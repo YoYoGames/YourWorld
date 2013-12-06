@@ -36,3 +36,8 @@ ds_stack_destroy( FreeList );
 RefCount = 0;
 
 
+
+// Destroy physics controller and other gameplay stuff
+with (objPhysicsController) instance_destroy();
+with (objBody) instance_destroy();
+
