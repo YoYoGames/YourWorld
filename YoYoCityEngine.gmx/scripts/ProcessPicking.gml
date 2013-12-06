@@ -51,7 +51,7 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
         SelectionInstance.PickY2 = PickY2;
         SelectionInstance.PickZ2 = PickZ2;
         SelectionInstance.PickFace = TilePickFace;
-        SelectionInstance.Mode = 1;         // cube mode
+        SelectionInstance.Mode = 0;         // cube mode
     }
     else if( PickingMode==2){
         // Selecting dragging.....
@@ -121,7 +121,7 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
 if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInstance)) ){
     if( KMwheelup ) UseWheel(SelectionInstance,1);
     if( KMwheeldown ) UseWheel(SelectionInstance,-1);
-    if( Kinsert ) FillSelection(SelectionInstance);
+    if( Kinsert ) { FillSelection(SelectionInstance); }
     if( Kdelete) DeleteSelection(SelectionInstance);
     if( Kescape) KillSelection();
 }
