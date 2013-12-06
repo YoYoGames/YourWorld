@@ -117,7 +117,7 @@ with(_map)
         // in higher version numbers, we only read extended info IF we have it.  (if not all 0)
         if(version>3){
             if( (info[BLK_FLAGS1]&$80000000)!=0){
-                debug("extended");
+                debug("extended: "+string(i));
                 info[BLK_FLAGS2] = buffer_read(_buff, buffer_u32);
                 info[BLK_OFFSETS1] = buffer_read(_buff, buffer_u32);
                 info[BLK_OFFSETS2] = buffer_read(_buff, buffer_u32);
