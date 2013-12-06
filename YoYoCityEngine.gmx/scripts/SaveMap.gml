@@ -102,6 +102,7 @@ with(_map)
         // Do we need to save extended block info?
         var f = 0;
         if( info[BLK_FLAGS2]!=0 || info[BLK_OFFSETS1]!=0 || info[BLK_OFFSETS2]!=0 || info[BLK_OFFSETS3]!=0 ){ f=$80000000; }
+        //info[BLK_FLAGS1]&=$7fffffff;
         buffer_write(buff, buffer_u32, info[BLK_FLAGS1]|f);
         if( f!=0 ){
             buffer_write(buff, buffer_u32, info[BLK_FLAGS2]);

@@ -77,13 +77,13 @@
     <option_android_texture_page>2048</option_android_texture_page>
     <option_android_use_test_ads>0</option_android_use_test_ads>
     <option_argumenterrors>True</option_argumenterrors>
-    <option_author></option_author>
+    <option_author>YoYo Games Ltd</option_author>
     <option_backimage>nil</option_backimage>
     <option_changed>false</option_changed>
     <option_changeresolution>false</option_changeresolution>
     <option_closeesc>true</option_closeesc>
     <option_colordepth>0</option_colordepth>
-    <option_display_name>GameMaker: Studio</option_display_name>
+    <option_display_name>YoYoLabs: City Engine</option_display_name>
     <option_displayerrors>True</option_displayerrors>
     <option_facebook_appid></option_facebook_appid>
     <option_facebook_enable>0</option_facebook_enable>
@@ -126,7 +126,7 @@
     <option_in_app_purchase_enable>0</option_in_app_purchase_enable>
     <option_in_app_purchase_sandbox_mode>0</option_in_app_purchase_sandbox_mode>
     <option_in_app_purchase_server_url></option_in_app_purchase_server_url>
-    <option_information></option_information>
+    <option_information>The open source YoYo City Engine.</option_information>
     <option_interpolate>True</option_interpolate>
     <option_ios_adcolony_enable_V4VC>0</option_ios_adcolony_enable_V4VC>
     <option_ios_advertising_enable>0</option_ios_advertising_enable>
@@ -280,7 +280,7 @@
     <option_use_new_audio>True</option_use_new_audio>
     <option_variableerrors>False</option_variableerrors>
     <option_version>100</option_version>
-    <option_version_build>3</option_version_build>
+    <option_version_build>6</option_version_build>
     <option_version_company>YoYo Games Ltd.</option_version_company>
     <option_version_copyright>(c)YoYo Games Ltd</option_version_copyright>
     <option_version_description>Display a world top down</option_version_description>
@@ -324,7 +324,7 @@
     <option_win8_texture_page>1024</option_win8_texture_page>
     <option_win8_wide_logo>Configs\Default\Windows8\logos\logo310.png</option_win8_wide_logo>
     <option_windowcolor>clBlack</option_windowcolor>
-    <option_windows_build_version>3</option_windows_build_version>
+    <option_windows_build_version>6</option_windows_build_version>
     <option_windows_company_info>YoYo Games Ltd.</option_windows_company_info>
     <option_windows_copyright_info>(c)YoYo Games Ltd</option_windows_copyright_info>
     <option_windows_description_info>Display a world top down</option_windows_description_info>
