@@ -24,7 +24,7 @@ if(argument_count>=7) _lid=argument[6];
 
 with(_map)
 {
-    if(_x<0 || _x>MapWidth || _y<0 || _y>MapHeight || _z<1 || _z>MapDepth ) return -1;
+    if(_x<0 || _x>MapWidth || _y<0 || _y>MapHeight || _z<1 || _z>=MapDepth ) return -1;
     
     FreeBlock(id, _x,_y,_z);
      

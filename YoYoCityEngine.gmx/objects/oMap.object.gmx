@@ -28,7 +28,7 @@
             <string>/// Create an empty map
 
 StyleSprite=sStyle1;
-CreateMap(256,256,32, 16, 0,64,7, 64,70);
+CreateMap(256,256,32, 16, 0,64,7, 64,70,4);
 
 //StyleSprite=sStyle2;
 //CreateMap(256,256,16, 8, 0,20,7, 64,70);
@@ -43,14 +43,8 @@ if( os_browser != browser_not_a_browser ){
 
 CityFormat = global.CityFormat;
 
-//DiffuseSurface = -1;
-//SelectionSurface = -1;
 MouseX=0;
 MouseY=0;
-//PickY=-1;
-//PickX=-1;
-//PickZ=-1;
-//PickFace=-1;
 
 PickPixel=$7fffffff;
 LastFileName="mymap.city";
@@ -58,10 +52,56 @@ LastFileName="mymap.city";
 // Create the water plane
 Water = instance_create(0,0,oWater);
 
-
 // Create physics representation
 physics_world_create(0.0313);
 physics_world_gravity(0.0, 0.0);
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Do load/save after
+if( LoadSave==1 )
+{
+    var buff = SaveMap(id);
+    var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
+    if( filename!="" ){
+        debug("filename="+filename);
+        LastFileName=filename;
+        buffer_save_ext(buff, LastFileName, 0, buffer_tell(buff));
+    }
+}else{
+    var filename = get_open_filename("YoYo City Maps|*.city",LastFileName);
+    if( filename!=""){
+        LastFileName=filename;
+        var buff = buffer_load(LastFileName);
+        LoadMap(id,buff);
+        
+        // test spawning
+        instance_create(0, 0, objPhysicsController);
+        var newCar = instance_create(0, 0, objBody);
+        newCar.z = 257;
+    }
+}
+FullscreenMode(fullscreen);
 
 </string>
           </argument>
@@ -87,14 +127,6 @@ physics_world_gravity(0.0, 0.0);
             <kind>1</kind>
             <string>/// Render the map
 var camera = global.Camera;
-
-
-// Work out visible map bounds.
-//var gx1 = floor( camera.GroundX1/TileSize/GridCacheSize )-1;
-//var gy1 = floor( camera.GroundY1/TileSize/GridCacheSize )-1;
-//var gx2 = floor( (camera.GroundX2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
-//var gy2 = floor( (camera.GroundY2+(GridCacheSize*TileSize)-1)/TileSize/GridCacheSize )+1;
-//global.TotalGridBlocks = (gx2-gx1)*(gy2-gy1);
 
 {
         
@@ -147,13 +179,6 @@ var camera = global.Camera;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( !global.HTML5 ) {
-    var filename = get_open_filename("YoYo City Maps|*.city",LastFileName);
-    if( filename!=""){
-        LastFileName=filename;
-        var buff = buffer_load(LastFileName);
-        LoadMap(id,buff);
-        
         // test spawning
         instance_create(0, 0, objPhysicsController);
         
@@ -161,8 +186,15 @@ var camera = global.Camera;
         var spawnY = -153*64;
         var newCar = instance_create(spawnX, spawnY, objBody);
         newCar.z = 257;
-    }
+            <string>/// Load the map
+if( !global.HTML5 ) {
+    fullscreen = window_get_fullscreen();
+    FullscreenMode(false);
+    LoadSave=2;
+    alarm[0]=2;
 }
+
+
 
 </string>
           </argument>
@@ -186,13 +218,12 @@ var camera = global.Camera;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( !global.HTML5 ) {
-    var buff = SaveMap(id);
-    var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
-    if( filename!="" ){
-        LastFileName=filename;
-        buffer_save_ext(buff, LastFileName, 0, buffer_tell(buff));
-    }
+            <string>/// Save the map
+if( !global.HTML5 ) {
+    fullscreen = window_get_fullscreen();
+    FullscreenMode(false);
+    LoadSave=1;
+    alarm[0]=2;
 }
 
 </string>

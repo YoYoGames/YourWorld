@@ -47,7 +47,7 @@ WindowContentRedraw=true;
 WindowContentClicked=false;
 WindowContentClickedX=0;
 WindowContentClickedY=0;
-for(var i=0; i&lt;=ENTITY_TAB_MAX; i+=1) {WindowContentSelected[i]=global.LeftMouseTile;}
+for(var i=0; i&lt;=4; i+=1) {WindowContentSelected[i]=global.LeftMouseTile;}
 
 //Content size and constraints
 WindowContentHeight=1024;
@@ -55,13 +55,9 @@ WindowContentDrawY=73;
 WindowContentY=0;
 WindowContentYMin=0;
 
-//Current button and maximum button
-Button=global.EditorMode;
-ButtonMax=EDIT_SPRITES;
-
 //Current tab and maximum tab
 Tab=0;
-TabMax=ENTITY_TAB_MAX;
+TabMax=4;
 
 Holding=0;
 
@@ -70,6 +66,81 @@ device_mouse_raw_yprevious=device_mouse_raw_y(0)
 
 spriteInd[0]=sTree;
 spriteIndMax=0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>surface_free(WindowContent)
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Control manipulation of the window
+
+//Moving the window
+if (Holding==1)
+{
+    x+=(device_mouse_raw_x(0)-device_mouse_raw_xprevious)
+    y+=(device_mouse_raw_y(0)-device_mouse_raw_yprevious)
+    
+    x=clamp(x,-WindowWidth+10,window_get_width()-10)
+    y=clamp(y,35,window_get_height()-10)
+    
+    device_mouse_raw_xprevious=device_mouse_raw_x(0)
+    device_mouse_raw_yprevious=device_mouse_raw_y(0)
+}
+//Resizing the window
+else if (Holding==2)
+{
+    WindowWidth+=(device_mouse_raw_x(0)-device_mouse_raw_xprevious)
+    WindowHeight+=(device_mouse_raw_y(0)-device_mouse_raw_yprevious)
+    
+    WindowWidth =clamp(WindowWidth ,WindowWidthMin ,WindowWidthMax );
+    WindowHeight=clamp(WindowHeight,WindowHeightMin,WindowHeightMax);
+    
+    WindowContentY=clamp(WindowContentY,0,abs(WindowContentYMin))
+    
+    device_mouse_raw_xprevious=device_mouse_raw_x(0)
+    device_mouse_raw_yprevious=device_mouse_raw_y(0)
+    
+    WindowContentRedraw=true;
+} 
 </string>
           </argument>
         </arguments>

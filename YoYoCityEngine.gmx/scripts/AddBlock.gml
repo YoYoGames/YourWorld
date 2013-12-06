@@ -21,14 +21,14 @@ if(argument_count>=5) _remove=argument[4];
 if(argument_count>=6) _side=argument[5];
 if(argument_count>=7) _lid=argument[6];
 
-
+var block,info,ret_block;
 
 with(_map)
 {    
-    if(_x<0 || _x>MapWidth || _y<0 || _y>MapHeight || _z<0 || _z>MapDepth ) return -1;
+    if(_x<0 || _x>MapWidth || _y<0 || _y>MapHeight || _z<0 || _z>=MapDepth ) return -1;
 
-    var block = AllocBlock(id,_x,_y,_z);
-    var info = block_info[block];
+    var ret_block = AllocBlock(id,_x,_y,_z);
+    var info = block_info[ret_block];
     info[BLK_LEFT]   = _side;       // left
     info[BLK_RIGHT]  = _side;       // right
     info[BLK_TOP]    = _side;       // top
@@ -37,7 +37,10 @@ with(_map)
     info[BLK_BASE]   = _lid;        // behind (usually hidden)
     info[BLK_FLAGS1] =  0;          // block flags #2 (32bits)
     info[BLK_FLAGS2] =  0;          // block flags #1 (32bits)
-    block_info[block]=info;
+    info[BLK_OFFSETS1] = 0;         // vertex offsets
+    info[BLK_OFFSETS2] = 0;
+    info[BLK_OFFSETS3] = 0;
+    block_info[ret_block]=info;
      
     if( _remove )
     {
@@ -105,6 +108,7 @@ with(_map)
              
         
     }
+    return ret_block;
 }
 
 

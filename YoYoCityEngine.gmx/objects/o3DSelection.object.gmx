@@ -35,7 +35,7 @@ PickY2 = -1;
 PickZ2 = -1;
 PickFace = -1;
 
-// Render mode
+// Mode 0 is full 3D cube, Mode 1 is the FACE we're painting only
 Mode = 0;
 
 // update check
@@ -49,6 +49,7 @@ LPickFace = -1;
 Mode = 0;
 vbuff = -1; 
 ang=0;
+colour = $a0ffffff;
 </string>
           </argument>
         </arguments>
@@ -109,10 +110,9 @@ if( LPickX1!=PickX1 || LPickY1!=PickY1  || LPickZ1!=PickZ1 || LPickX2!=PickX2 ||
     LPickX2=PickX2;
     LPickY2=PickY2;
     LPickZ2=PickZ2;
-    var x1,y1,z2,x2,y2,z2,buff,colour,t;
+    var x1,y1,z2,x2,y2,z2,buff,t;
     
     buff = vbuff;
-    colour = $a0ffffff;
 
     x1 = PickX1;
     y1 = PickY1;
@@ -153,107 +153,125 @@ if( LPickX1!=PickX1 || LPickY1!=PickY1  || LPickZ1!=PickZ1 || LPickX2!=PickX2 ||
     
 
     vertex_begin(buff,global.SelectionFormat);
-    // top
-    vertex_position_3d(buff, x1,y2,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y2,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y2,z2);
-    vertex_argb(buff,colour);
     
-    vertex_position_3d(buff, x2,y2,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y2,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y2,z1);
-    vertex_argb(buff,colour);
+    if( Mode==0 || PickFace==2 )
+    {
+        // top
+        vertex_position_3d(buff, x1,y2,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y2,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y2,z2);
+        vertex_argb(buff,colour);
+        
+        vertex_position_3d(buff, x2,y2,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y2,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y2,z1);
+        vertex_argb(buff,colour);
+    }
 
-    // bottom
-    vertex_position_3d(buff, x1,y1,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y1,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y1,z2);
-    vertex_argb(buff,colour);
-      
-    vertex_position_3d(buff, x2,y1,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y1,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y1,z1);
-    vertex_argb(buff,colour);
-    
-    // left
-    vertex_position_3d(buff, x1,y1,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y1,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y2,z2);
-    vertex_argb(buff,colour);
-    
-    vertex_position_3d(buff, x1,y2,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y2,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y1,z1);
-    vertex_argb(buff,colour);
-
-    // right
-    vertex_position_3d(buff, x2,y1,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y2,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y2,z2);
-    vertex_argb(buff,colour);
+    if( Mode==0 || PickFace==1 )
+    {
+        // bottom
+        vertex_position_3d(buff, x1,y1,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y1,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y1,z2);
+        vertex_argb(buff,colour);
           
-    vertex_position_3d(buff, x2,y2,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y1,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y1,z1);
-    vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y1,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y1,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y1,z1);
+        vertex_argb(buff,colour);
+    }
+        
+    if( Mode==0 || PickFace==3 )
+    {
+        // left
+        vertex_position_3d(buff, x1,y1,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y1,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y2,z2);
+        vertex_argb(buff,colour);
+        
+        vertex_position_3d(buff, x1,y2,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y2,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y1,z1);
+        vertex_argb(buff,colour);
+    }
 
-    // lid    
-    vertex_position_3d(buff, x1,y1,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y2,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y2,z1);
-    vertex_argb(buff,colour);
+    if( Mode==0 || PickFace==4 )
+    {
+        // right
+        vertex_position_3d(buff, x2,y1,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y2,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y2,z2);
+        vertex_argb(buff,colour);
+              
+        vertex_position_3d(buff, x2,y2,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y1,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y1,z1);
+        vertex_argb(buff,colour);
+    }
+
+    if( Mode==0 || PickFace==6 )
+    {
+        // lid    
+        vertex_position_3d(buff, x1,y1,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y2,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y2,z1);
+        vertex_argb(buff,colour);
+        
+        vertex_position_3d(buff, x2,y2,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y1,z1);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y1,z1);
+        vertex_argb(buff,colour);
+    }
+        
+
+    if( Mode==0 || PickFace==5 )
+    {
+        // base
+        vertex_position_3d(buff, x2,y2,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y2,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x1,y1,z2);
+        vertex_argb(buff,colour);
+           
+        vertex_position_3d(buff, x1,y1,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y1,z2);
+        vertex_argb(buff,colour);
+        vertex_position_3d(buff, x2,y2,z2);
+        vertex_argb(buff,colour);
+    }
     
-    vertex_position_3d(buff, x2,y2,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y1,z1);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y1,z1);
-    vertex_argb(buff,colour);
-
-    // base
-    vertex_position_3d(buff, x2,y2,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y2,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x1,y1,z2);
-    vertex_argb(buff,colour);
-       
-    vertex_position_3d(buff, x1,y1,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y1,z2);
-    vertex_argb(buff,colour);
-    vertex_position_3d(buff, x2,y2,z2);
-    vertex_argb(buff,colour);
     vertex_end(buff);
     vertex_freeze(buff);
 }
-
-    ang+=1;
-    if( ang&gt;360 ) ang-=360;        
-    var s = sin(degtorad(ang))*16;
     
-    var m = matrix_build(0,0,0,0,0,0,1,1,1);
-    matrix_set(matrix_world,m);
 
 if( vbuff &gt;=0 ){
+    var m = matrix_build(0,0,0,0,0,0,1,1,1);
+    matrix_set(matrix_world,m);
+    
     d3d_set_zwriteenable(false);
     vertex_submit( vbuff, pr_trianglelist, 0 );
     d3d_set_zwriteenable(true);
