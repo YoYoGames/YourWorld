@@ -178,7 +178,14 @@ draw_set_color(c_white)
 //If you click the surface, remember the click position to process tile selection
 if (mouse_click_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))
 {
-    WindowContentClicked=true;
+    WindowContentClicked=1;
+    WindowContentRedraw=true;
+    WindowContentClickedX=device_mouse_raw_x(0)-(x);
+    WindowContentClickedY=device_mouse_raw_y(0)-(y+73)+(WindowContentY);
+}
+if (mouse_rclick_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))
+{
+    WindowContentClicked=2;
     WindowContentRedraw=true;
     WindowContentClickedX=device_mouse_raw_x(0)-(x);
     WindowContentClickedY=device_mouse_raw_y(0)-(y+73)+(WindowContentY);
@@ -211,17 +218,18 @@ draw_rectangle(x,y,x+WindowWidth,y+WindowHeight,1)
             <kind>1</kind>
             <string>///Draw window content
 
+//Redraw the surface if it doesn't exist
 if (!surface_exists(WindowContent))
 {
     WindowContentRedraw=true;
     WindowContent=surface_create(1024,1024);
 }
 
+//If the surface is flagged to redraw, do it now
 if (WindowContentRedraw==true
 &amp;&amp; instance_exists(oMap))
 {
     d3d_end();
-    //d3d_set_lighting(false);
     surface_set_target(WindowContent);
     draw_clear_alpha(c_white,0.3);
     
@@ -229,9 +237,9 @@ if (WindowContentRedraw==true
     
     //Read the group/entity details from the supplied .ini file
     ini_open("style1.yyg")
-    //for(var i=0; i&lt;=TabMax; i+=1)
     var i=Tab;
     {
+        //Set the correct section and key we're reading from
         var        itemSection="tiles"    ,itemKey="sides";
         if (i==1) {itemSection="tiles"    ;itemKey="tops";}
         if (i==2) {itemSection="roads"    ;itemKey="roads";}
@@ -244,16 +252,17 @@ if (WindowContentRedraw==true
         itemMax[3]=ini_read_real("details","landscapeGroupCount",0)
         itemMax[4]=ini_read_real("details","tilesGroupCount",0)
         
+        //For each "group" as defined in the ini file
         for(var j=0; j&lt;itemMax[i]; j+=1)
         {
+            //Set name, description (currently not used) and temporary string of appropriate tiles
             var itemName; itemName[i,j]=ini_read_string(itemSection,"name"+string(j),"MISSINGNO");
             var itemDesc; itemDesc[i,j]=ini_read_string(itemSection,"desc"+string(j),"MISSINGNO");
             var itemListPred           =ini_read_string(itemSection,itemKey+"_list"+string(j),"");
             
-            //This turns the ini file's string eg "0,1,4,7,12,13,14" into
+            //Turn the string of tiles "0,1,4,7,12,13,14" into
             //a queue of those numbers as real values
             var itemList; itemList[i,j]=ds_queue_create();
-            
             while (string_length(itemListPred)&gt;0)
             {
                 if (string_pos(",",itemListPred))
@@ -307,20 +316,29 @@ if (WindowContentRedraw==true
                 cursprite=ds_queue_dequeue(itemList[Tab,i])
                 if (Tab!=0 &amp;&amp; Tab!=4) cursprite+=oMap.TopBase
                 
-                //If you clicked the current tile, select it
-                if (WindowContentClicked==true)
+                //If you clicked the current tile (1=left, 2=right), select it
+                if (WindowContentClicked&gt;0)
                 {
                     if (WindowContentClickedX&gt;drawX+drawXoff
                     &amp;&amp;  WindowContentClickedY&gt;drawY+drawYoff
                     &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
                     &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
                     {
-                        WindowContentSelected[Tab]=cursprite
-                        global.LeftMouseTile=cursprite
+                        if (WindowContentClicked==1)
+                        {
+                            WindowContentSelectedL[Tab]=cursprite
+                            global.LeftMouseTile=cursprite;
+                        }
+                        if (WindowContentClicked==2)
+                        {
+                            WindowContentSelectedR[Tab]=cursprite
+                            global.RightMouseTile=cursprite;
+                        }
                             
                         if (cursprite&gt;=oMap.TopBase)
                         {
-                            global.LeftMouseTile-=oMap.TopBase;
+                            if (WindowContentClicked==1) global.LeftMouseTile-=oMap.TopBase;
+                            if (WindowContentClicked==2) global.RightMouseTile-=oMap.TopBase;
                             global.EditorMode_Sub=EDIT_SUB_LID;    
                         }
                         else
@@ -353,9 +371,13 @@ if (WindowContentRedraw==true
                                  drawX+drawXoff,drawY+drawYoff);
                 
                 //Draw a border around this tile if it's the selected one
-                if (WindowContentSelected[Tab]==cursprite)
+                if (WindowContentSelectedL[Tab]==cursprite)
                 {
                     draw_sprite(sHUDTileHighlight,0,drawX+drawXoff,drawY+drawYoff)
+                }
+                if (WindowContentSelectedR[Tab]==cursprite)
+                {
+                    draw_sprite(sHUDTileHighlight,1,drawX+drawXoff,drawY+drawYoff)
                 }
                                  
                 //Move boundaries as necessary
@@ -379,16 +401,17 @@ if (WindowContentRedraw==true
         }
     }
     
-    WindowContentHeight=drawY+tileH+(drawYoff*2)//1024;
+    WindowContentHeight=drawY+tileH+(drawYoff*2)
     
+    //Bring back the 3D, we're done drawing now
     draw_set_color(c_white);
     surface_reset_target();
     d3d_start();
-    //d3d_set_lighting(true);
+
     WindowContentYMin=min(0,(WindowHeight-WindowContentDrawY)-WindowContentHeight);
-    if (WindowContentClicked==true)
+    if (WindowContentClicked&gt;0)
     {
-        WindowContentClicked=false;
+        WindowContentClicked=0;
         WindowContentRedraw=true;
     }
     else

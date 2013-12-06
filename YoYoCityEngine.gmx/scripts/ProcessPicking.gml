@@ -3,7 +3,7 @@
 // Select 3D areas and fill/delete them. Also allow single cube add/remove.
 
 // If any mouse click, select an area on screen
-if( (KMleft || KMright || KMmiddle) && KZctrl )
+if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
 {
     // Not currently picking
     if( PickingMode==-1)
@@ -19,6 +19,7 @@ if( (KMleft || KMright || KMmiddle) && KZctrl )
         if( global.DoPick!=0 ) exit;
         Pick(mouse_x,mouse_y);
         PickingMode=1;
+        SelectionPick=true;
         
         //debug("-----------------------------------------------------------------start ("+string(MButton)+", "+string(mouse_x)+","+string(mouse_y));
     }
@@ -50,7 +51,7 @@ if( (KMleft || KMright || KMmiddle) && KZctrl )
         SelectionInstance.PickY2 = PickY2;
         SelectionInstance.PickZ2 = PickZ2;
         SelectionInstance.PickFace = TilePickFace;
-        SelectionInstance.Mode = 1;         // cube mode
+        SelectionInstance.Mode = 0;         // cube mode
     }
     else if( PickingMode==2){
         // Selecting dragging.....
@@ -74,22 +75,23 @@ if( (KMleft || KMright || KMmiddle) && KZctrl )
             // If we picked a block... deal with a single block
             SetSingleBlock( global.Map, MButton, PickX1,PickY1,PickZ1, PickFace );
             with(SelectionInstance) { instance_destroy(); }
-        }*/
+        }*/        
+        SelectionPick=false;
         PickingMode=-1; 
         //debug("-----------------------------------------------------------------end");
     }else 
         // Not selection mode (CTRL not held down)
-        if (KMleft || KMright || KMmiddle){
+        if ((KMleft || KMright || KMmiddle) && !SelectionPick){
         
             // Not currently picking
             if( PickingMode==-1)
             {
-                MButton=0;
-                if( KMleft ) MButton = 1;
-                if( KMright ) MButton = 2;
-                if( KMmiddle ) MButton = 3;
-                    
-                KillSelection();
+                // if there is a selection, then clicking will cancel it.
+                if( instance_exists(SelectionInstance) ){
+                    KillSelection();
+                    PickingMode=2;
+                    return -1;
+                }                   
         
                 MButton=0;
                 if( KMleft ) MButton = 1;
@@ -119,7 +121,7 @@ if( (KMleft || KMright || KMmiddle) && KZctrl )
 if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInstance)) ){
     if( KMwheelup ) UseWheel(SelectionInstance,1);
     if( KMwheeldown ) UseWheel(SelectionInstance,-1);
-    if( Kinsert ) FillSelection(SelectionInstance);
+    if( Kinsert ) { FillSelection(SelectionInstance); }
     if( Kdelete) DeleteSelection(SelectionInstance);
     if( Kescape) KillSelection();
 }

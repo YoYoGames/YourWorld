@@ -4,4 +4,4 @@ return(    device_mouse_raw_x(0)>=argument0
         && device_mouse_raw_y(0)>=argument1
         && device_mouse_raw_x(0)<=argument2
         && device_mouse_raw_y(0)<=argument3
-        && mouse_check_button_pressed(mb_left) )
+        && (mouse_check_button_pressed(mb_left)) )

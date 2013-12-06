@@ -22,9 +22,7 @@
       <filename>style1.yyg</filename>
     </datafile>
   </datafiles>
-  <NewExtensions>
-    <extension index="0">extensions\Extension1</extension>
-  </NewExtensions>
+  <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
@@ -49,6 +47,7 @@
     <scripts name="Game">
       <script>scripts\ProcessGame.gml</script>
       <script>scripts\ProcessKeys.gml</script>
+      <script>scripts\FullscreenMode.gml</script>
     </scripts>
     <script>scripts\draw_outline.gml</script>
     <scripts name="Sprite">
@@ -100,6 +99,7 @@
           <script>scripts\AddBlock.gml</script>
           <script>scripts\DeleteBlock.gml</script>
           <script>scripts\GetBlock.gml</script>
+          <script>scripts\GetRefCount.gml</script>
           <script>scripts\GetBlockIndex.gml</script>
         </scripts>
         <script>scripts\PullUpRegion.gml</script>
@@ -115,12 +115,14 @@
           <script>scripts\ProcessPicking.gml</script>
           <script>scripts\ProcessPainting.gml</script>
           <script>scripts\KillSelection.gml</script>
+          <script>scripts\PaintFace.gml</script>
         </scripts>
       </scripts>
     </scripts>
     <scripts name="GUI">
       <script>scripts\mouse_rectangle.gml</script>
       <script>scripts\mouse_click_rectangle.gml</script>
+      <script>scripts\mouse_rclick_rectangle.gml</script>
       <script>scripts\mouse_hold_rectangle.gml</script>
       <script>scripts\mouse_release_rectangle.gml</script>
       <script>scripts\ColorButton.gml</script>
@@ -180,7 +182,6 @@
       <object>objects\oHUDMain</object>
       <object>objects\oHUDParent</object>
       <object>objects\oHUDTileSelect</object>
-      <object>objects\oHUDBlockSelect</object>
     </objects>
     <objects name="Car Physics">
       <object>objects\objPhysicsController</object>

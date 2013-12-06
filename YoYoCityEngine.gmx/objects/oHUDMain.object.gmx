@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-10020</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,18 +25,27 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>rotate_value=(global.FlipRotateFlags&gt;=4);
+            <string>//Initialise "internal" values for rotate and flip
+rotate_value=(global.FlipRotateFlags&gt;=4);
 
 if (global.FlipRotateFlags &amp; 1==1 &amp;&amp; global.FlipRotateFlags &amp; 2==1)
 {
     rotate_value+=2
 }
 
+Tooltip="";
+
 dovflip=(global.FlipRotateFlags &amp; 1)^(rotate_value&gt;1)
 dohflip=(global.FlipRotateFlags &amp; 2)^(rotate_value&gt;1)
 
 sButtonSprite[0]=sButtonNavbar;
 sButtonSprite[1]=sButtonNavbarSel;
+
+//Auto-open Tile Select on creation if you're in that mode
+if (global.EditorMode==EDIT_PAINT)
+{
+    instance_create(60,60,oHUDTileSelect)
+}
 </string>
           </argument>
         </arguments>
@@ -61,14 +70,25 @@ sButtonSprite[1]=sButtonNavbarSel;
             <kind>1</kind>
             <string>///Draw and operate HUD top buttons
 
+Tooltip=""; //Tooltip text
+
 var buttonX=16;  //Current button X
 var buttonY=16;  //Current button Y
 var buttonI=0;  //Current button Sprite Index
 var buttonS=39; //Current button size in pixels
 
+//New
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"NEW") )
+{
+            
+}
+buttonX+=buttonS
+buttonI+=1
+
 //Open
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"LOAD [F3]") )
 {
     with(oMap) event_perform(ev_keypress,vk_f3)        
 }
@@ -77,25 +97,16 @@ buttonI+=1
 
 //Save
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"SAVE [F2]") )
 {
     with(oMap) event_perform(ev_keypress,vk_f2)       
 }
 buttonX+=(buttonS*2)
 buttonI+=1
 
-//Select
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
-{
-        
-}
-buttonX+=(buttonS*2)
-buttonI+=1
-
 //Block
 draw_sprite(sButtonSprite[global.EditorMode==EDIT_SELECTION],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE BLOCKS") )
 {
     global.EditorMode=EDIT_SELECTION;
     global.EditorMode_Sub=EDIT_SUB_NONE;        
@@ -105,47 +116,47 @@ buttonI+=1
 
 //Tile Tops
 draw_sprite(sButtonSprite[(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PAINT TILE TOPS") )
 {
-    global.EditorMode=EDIT_PAINT;
-    global.EditorMode_Sub=EDIT_SUB_LID;
-    
     if !instance_exists(oHUDTileSelect)
     {
         with(oHUDParent) instance_destroy()
         instance_create(60,60,oHUDTileSelect)
     }
-    else
+    else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID)
     {
         with(oHUDParent) instance_destroy()
     }        
+    
+    global.EditorMode=EDIT_PAINT;
+    global.EditorMode_Sub=EDIT_SUB_LID;        
 }
 buttonX+=buttonS
 buttonI+=1
 
 //Tile Sides
 draw_sprite(sButtonSprite[(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PAINT TILE SIDES") )
 {
-    global.EditorMode=EDIT_PAINT;
-    global.EditorMode_Sub=EDIT_SUB_SIDE;
-    
     if !instance_exists(oHUDTileSelect)
     {
         with(oHUDParent) instance_destroy()
         instance_create(60,60,oHUDTileSelect)
     }
-    else
+    else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)
     {
         with(oHUDParent) instance_destroy()
     }        
+    
+    global.EditorMode=EDIT_PAINT;
+    global.EditorMode_Sub=EDIT_SUB_SIDE;        
 }
 buttonX+=buttonS
 buttonI+=1
 
 //Decals
 draw_sprite(sButtonSprite[global.EditorMode==EDIT_SPRITES],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE DECALS") )
 {
     global.EditorMode=EDIT_SPRITES;
     global.EditorMode_Sub=EDIT_SUB_NONE;        
@@ -155,7 +166,7 @@ buttonI+=1
 
 //Object
 draw_sprite(sButtonSprite[global.EditorMode==EDIT_OBJECTS],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE OBJECTS") )
 {
     global.EditorMode=EDIT_OBJECTS;
     global.EditorMode_Sub=EDIT_SUB_NONE;        
@@ -164,7 +175,7 @@ buttonX+=(buttonS*2)
 buttonI+=1
 
 //Rotate
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"ROTATE TILE") )
 {
     global.FlipRotateFlags=0;
     rotate_value=(rotate_value+1)&amp;3;
@@ -185,8 +196,8 @@ buttonI+=1
 
 
 //Flip Horizontally
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) or (global.FlipRotateFlags &amp; 2)],buttonI,buttonX,buttonY)
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FLIP TILE") )
 {
     global.FlipRotateFlags^=2;
 }
@@ -194,8 +205,8 @@ buttonX+=buttonS
 buttonI+=1
 
 //Flip Vertically
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) or (global.FlipRotateFlags &amp; 1)],buttonI,buttonX,buttonY)
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FLIP TILE") )
 {
     global.FlipRotateFlags^=1;        
 }
@@ -204,16 +215,19 @@ buttonI+=1
 
 //Play
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLAY MODE [F1]") )
 {
-                
+    with(oHUDMain) instance_destroy()
+    with(oHUDParent) instance_destroy()
+    with(oController) FreeCursorMode=0;
+    global.Mode=MODE_PLAY;                    
 }
 buttonX+=buttonS
 buttonI+=1
 
 //Hide Menu
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"HIDE MENU [Q]") )
 {
     with(oHUDMain) instance_destroy()
     with(oHUDParent) instance_destroy()
@@ -222,7 +236,23 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) )
 buttonX+=buttonS
 buttonI+=1
 
-
+//Draw tooltip if one is necessary
+if (Tooltip!="")
+{
+    draw_set_font(fTwCenConS)
+    draw_set_halign(fa_left)
+    draw_set_valign(fa_top)
+    
+    var ttx=device_mouse_raw_x(0)+8, tty=device_mouse_raw_y(0)+32; //X and Y of tooltip draw coordinate
+    var ttw=string_width(Tooltip), tth=string_height(Tooltip), tto=5; //Width, height and offset/margin of background
+    
+    draw_set_color(c_white)
+    draw_rectangle(ttx-tto,tty-tto,ttx+ttw+tto,tty+tth+tto,0); //Draw background
+    draw_set_color($EEEEEE)
+    draw_rectangle(ttx-tto,tty-tto,ttx+ttw+tto,tty+tth+tto,1); //Draw outline
+    draw_set_color(c_black)
+    draw_text(ttx,tty,Tooltip) //Draw tooltip text
+}
 
 </string>
           </argument>

@@ -2,9 +2,104 @@
 //
 // Do "painting" on tiles (lids or sides)
 
-// If any mouse click, select an area on screen
-if( KMleft || KMright ) //|| KMmiddle )
+// If control pressed, then allow 2D selection of a set of faces.
+if( (KMleft || KMright) && (KZctrl || SelectionPick) )
 {
+    // Not currently picking
+    if( PickingMode==-1)
+    {
+        KillSelection();
+
+        MButton=0;
+        if( KMleft ) MButton = 1;
+        if( KMright ) MButton = 2;
+        if( KMmiddle ) MButton = 3;
+        
+        // Still picking?
+        if( global.DoPick!=0 ) exit;
+        Pick(mouse_x,mouse_y);
+        PickingMode=1;
+        SelectionPick=true;        
+    }
+    else if( PickingMode==1){
+        // First result
+        var pix = global.PickPixel;
+        
+        ProcessPickPixel(pix);
+        PickingMode=2;
+
+        // Place anchor
+        PickAnchor=true;
+        PickX1=TilePickX;
+        PickY1=TilePickY;
+        PickZ1=TilePickZ;
+        PickX2=TilePickX;
+        PickY2=TilePickY;
+        PickZ1=TilePickZ;
+        PickFace=TilePickFace;
+        Pick(mouse_x,mouse_y);     
+        
+        SelectionInstance = instance_create(0,0,o3DSelection);
+        SelectionInstance.Controller = id;
+        SelectionInstance.PickX1 = PickX1;
+        SelectionInstance.PickY1 = PickY1;
+        SelectionInstance.PickZ1 = PickZ1;
+        SelectionInstance.PickX2 = PickX2;
+        SelectionInstance.PickY2 = PickY2;
+        SelectionInstance.PickZ2 = PickZ2;
+        SelectionInstance.PickFace = TilePickFace;
+        SelectionInstance.Mode = 2;         // face mode
+
+        // If we haven't selected the correct face for this mode, then mark red for an error.
+        if( global.EditorMode_Sub==EDIT_SUB_LID ){
+            if( PickFace!=5 && PickFace!=6 ) SelectionInstance.colour = $a0ff0000;
+        }else{
+            if( PickFace<1 || PickFace>4 ) SelectionInstance.colour = $a0ff0000;
+        }
+    }
+    else if( PickingMode==2){
+        // Selecting dragging.....
+        var pix = global.PickPixel;
+        ProcessPickPixel(pix);
+        // Place anchor
+        PickX2=TilePickX;
+        PickY2=TilePickY;
+        PickZ2=TilePickZ;
+        Pick(mouse_x,mouse_y);
+        
+        SelectionInstance.PickX2 = PickX2;
+        SelectionInstance.PickY2 = PickY2;
+        SelectionInstance.PickZ2 = PickZ2;        
+        switch(SelectionInstance.PickFace){
+            case 1: //top
+            case 2: //bottom
+                    SelectionInstance.PickY2 = SelectionInstance.PickY1;
+                    break;
+            case 3: //left
+            case 4: //right
+                    SelectionInstance.PickX2 = SelectionInstance.PickX1;
+                    break;
+            case 5: //left
+            case 6: //right
+                    SelectionInstance.PickZ2 = SelectionInstance.PickZ1;
+                    break;
+        }
+    }
+
+}else if( !KMleft && !KMright && !KMmiddle && PickingMode>1)
+{      
+    SelectionPick=false;
+    PickingMode=-1; 
+}
+else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
+{
+    // if there is a selection, then clicking will cancel it.
+    if( instance_exists(SelectionInstance) ){
+        KillSelection();
+        PickingMode=2;
+        return -1;
+    }  
+
     // Not currently picking
     if( PickingMode==-1)
     {
@@ -19,8 +114,6 @@ if( KMleft || KMright ) //|| KMmiddle )
 
         Pick(mouse_x,mouse_y);
         PickingMode=1;
-        
-        //debug("-----------------------------------------------------------------start ("+string(MButton)+", "+string(mouse_x)+","+string(mouse_y));
     }
     else if( PickingMode==1)
     {
@@ -80,6 +173,9 @@ if( KMleft || KMright ) //|| KMmiddle )
 
 }
 
-
-
-
+if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInstance)) )
+{
+    if( Kinsert ) FillSelection(SelectionInstance, SelectionInstance.PickFace);
+    if( Kdelete) DeleteSelection(SelectionInstance);
+    if( Kescape) KillSelection();
+}
