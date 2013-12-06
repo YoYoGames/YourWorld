@@ -11,6 +11,7 @@
 // Date				Version		BY		Comment
 // ----------------------------------------------------------------------------------------------------------------------
 // 10/11/2013		V1.0.0      MJD     1st version, generate a map from a PNG
+// 06/12/2013		V1.0.1      MJD     Now saves V4 map format
 // 
 // **********************************************************************************************************************
 using System;
@@ -130,7 +131,7 @@ namespace TileBuilder.MapCreation
 
             BlockInfo.Add(new block_info());            // block "1" is "almost" empty
             BlockInfo[1].Ref = (_width * _height * GroundLevel) + 1; ;
-            BlockInfo[1].Flags1|=0x80000000;
+            BlockInfo[1].Flags1|=0x80000000;            // always set this - it's cleared on save
             BlockInfo[1].UpdateCRC();
             BlockCRCLookup.Add(BlockInfo[1].CRC,1);
             
@@ -842,9 +843,6 @@ namespace TileBuilder.MapCreation
         /// Function:<summary>
         ///          	Parse the image and create a map.
         ///          </summary>
-        ///
-        /// In:		<param name="_tile"></param>
-        ///
         // #############################################################################################
         public void Generate()
         {
@@ -970,7 +968,7 @@ namespace TileBuilder.MapCreation
             Buffer buff = new Buffer(1024 * 1024 * 8);
             unchecked
             {
-                buff.Write((UInt32)3);
+                buff.Write((UInt32)4);       // Map Version
                 buff.Write((UInt32)0);       // spare space.
                 buff.Write((UInt32)0);
                 buff.Write((UInt32)0);
@@ -1025,10 +1023,6 @@ namespace TileBuilder.MapCreation
                                 buff.Write((UInt32)0);
                                 sprite_count++;
                             }
-                            if (sprites.Count != 1)
-                            {
-                                Console.WriteLine("HERE!");
-                            }
                         }
 
                     }
@@ -1044,8 +1038,21 @@ namespace TileBuilder.MapCreation
                     {
                         buff.Write((UInt16)info[i]);
                     }
-                    buff.Write(((UInt32)info.Flags1));
-                    buff.Write((UInt32)info.Flags1);
+                    // Do we need to save extended block info?
+                    UInt32 f = 0;
+                    if (info.Flags2 != 0 || info.Offsets1 != 0 || info.Offsets2 != 0 || info.Offsets3 != 0)
+                    {
+                        f = 0x80000000;
+                    }
+                    // Clear off the temp bit, and or in the extended flag
+                    buff.Write(((UInt32)info.Flags1&0x7fffffff)|f);
+                    if (f != 0)
+                    {
+                        buff.Write((UInt32)info.Flags2);
+                        buff.Write((UInt32)info.Offsets1);
+                        buff.Write((UInt32)info.Offsets2);
+                        buff.Write((UInt32)info.Offsets3);
+                    }
                 }
             }
 

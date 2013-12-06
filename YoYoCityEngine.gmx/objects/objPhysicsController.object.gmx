@@ -27,32 +27,27 @@
             <kind>1</kind>
             <string>//*****************************************************************************
 // 
-// Format:
+// List system format:
 //  string cellID (Example: "x12y5z2")
 //  real   fixtureIndex (so we can reuse one of the right type)
 //  real   phyInstID
 //
 
-
+// Define physics world
 physics_world_create(1/16);
 physics_world_gravity(0.0, 0.0);
-
 
 // Get infomation that we need
 gridWidth  = oMap.MapWidth;
 gridHeight = oMap.MapHeight;
+cellCenterX = 0;
+cellCenterY = 0;
 halfRegion = 2;
-
 
 // Setup lists
 phyCache = ds_list_create();    // List of items from previous pass
 phyActive = ds_list_create();   // List of currently active items
 phyFree = ds_list_create();     // List of items that are free and ready for reuse
-
-
-cellCenterX = 0;
-cellCenterY = 0;
-
 
 // Define shapes
 PhysicsDefineBlock();
@@ -80,10 +75,12 @@ PhysicsDefineBlock();
           <argument>
             <kind>1</kind>
             <string>
-preCenterX = cellCenterX;
-preCenterY = cellCenterY;
+// Define the grid area around the player to check for collision spaces
+var preCenterX = cellCenterX;
+var preCenterY = cellCenterY;
 cellCenterX = round(objBody.x/64);
 cellCenterY = round(-objBody.y/64);
+
 
 // Do update if the player is in a new cell
 if (cellCenterX != preCenterX)
@@ -128,6 +125,7 @@ if (cellCenterX != preCenterX)
                 // If cell is a building
                 if (cellValue &gt; 1)
                     {
+                    // If there's a spare fixture currently unused, use it
                     if (!ds_list_empty(phyFree))
                         {
                         index = max(0, ds_list_find_index(phyFree, cellID));
@@ -153,6 +151,8 @@ if (cellCenterX != preCenterX)
                         ds_list_delete(phyFree, index);
                         ds_list_delete(phyFree, index);
                         }
+                        
+                    // If there's no spare fixtures left, create one
                     else
                         {
                         inst = instance_create(xx*64, -yy*64, objFixture);
@@ -175,7 +175,7 @@ if (cellCenterX != preCenterX)
         }
         
     ds_list_copy(phyCache, phyActive);  // Move active list to cache list
-    ds_list_clear(phyActive);           // Clear the active list
+    ds_list_clear(phyActive);           // Clear the active list (to refill next time)
     }
 
 </string>
@@ -201,25 +201,34 @@ if (cellCenterX != preCenterX)
           <argument>
             <kind>1</kind>
             <string>
-draw_set_color(c_black);
-draw_set_alpha(0.5);
-draw_rectangle(0, 0, 256, 512, 0);
-
-draw_set_color(c_white);
-draw_set_alpha(1.0);
-
-draw_text(8, 8, "Cell Position: "+string(cellCenterX)+", "+string(cellCenterY)+": "+string(GetBlockIndex(cellCenterX, cellCenterY, 5)));
-
-draw_text(8, 16+8, "Free List");
-for (n=0; n&lt;ds_list_size(phyFree)/3; n++)
+/// Draw Debug Information
+if (global.drawDebug)
     {
-    draw_text(8, 40+n*16, ds_list_find_value(phyFree, n*3));
-    }
-
-draw_text(96, 16+8, "Cache List");
-for (n=0; n&lt;ds_list_size(phyCache)/3; n++)
-    {
-    draw_text(96, 40+n*16, ds_list_find_value(phyCache, n*3));
+    var xPos   = browser_width - 256;
+    var yPos   = 0;
+    var width  = 256;
+    var height = 512;
+    
+    draw_set_color(c_black);
+    draw_set_alpha(0.5);
+    draw_rectangle(xPos, yPos, xPos+width, yPos+height, 0);
+    
+    draw_set_color(c_white);
+    draw_set_alpha(1.0);
+    
+    draw_text(xPos+8, yPos+8, "Cell Position: "+string(cellCenterX)+", "+string(cellCenterY)+": "+string(GetBlockIndex(cellCenterX, cellCenterY, 5)));
+    
+    draw_text(xPos+8, yPos+16+8, "Free List");
+    for (n=0; n&lt;ds_list_size(phyFree)/3; n++)
+        {
+        draw_text(xPos+8, yPos+40+n*16, ds_list_find_value(phyFree, n*3));
+        }
+    
+    draw_text(xPos+96, yPos+16+8, "Cache List");
+    for (n=0; n&lt;ds_list_size(phyCache)/3; n++)
+        {
+        draw_text(xPos+96, yPos+40+n*16, ds_list_find_value(phyCache, n*3));
+        }
     }
     
 </string>

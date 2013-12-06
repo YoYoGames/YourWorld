@@ -101,6 +101,7 @@
           <script>scripts\GetBlock.gml</script>
           <script>scripts\GetRefCount.gml</script>
           <script>scripts\GetBlockIndex.gml</script>
+          <script>scripts\GetColumnSize.gml</script>
         </scripts>
         <script>scripts\PullUpRegion.gml</script>
         <script>scripts\FreeMap.gml</script>

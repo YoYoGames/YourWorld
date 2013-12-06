@@ -95,10 +95,18 @@ if( LoadSave==1 )
         var buff = buffer_load(LastFileName);
         LoadMap(id,buff);
         
-        // test spawning
+        // Create physics world controller
         instance_create(0, 0, objPhysicsController);
-        var newCar = instance_create(0, 0, objBody);
+        
+        // Create player car
+        var spawnX = 303*64  +32;
+        var spawnY = -153*64 +32;
+        var newCar = instance_create(spawnX, spawnY, objBody);
         newCar.z = 257;
+        
+        // Move camera to car position
+        oCamera.CameraX = newCar.x;
+        oCamera.CameraY = newCar.y;
     }
 }
 FullscreenMode(fullscreen);
@@ -141,14 +149,18 @@ var camera = global.Camera;
         with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
         shader_reset();
         
+        // Draw the car
         with(objBody)
         {
-            Draw3dSprite(sprite_index,image_index,x+4,-y-4,z, image_xscale,image_yscale, image_angle, $40000000, 0.2);
-            Draw3dSprite(sprite_index,image_index,x,-y,z, image_xscale,image_yscale, image_angle, image_blend|$ff000000, 1.0);
+            Draw3dSprite(sprite_index,image_index,x+4,-y-4,z, image_xscale,image_yscale, image_angle, $40000000, 0.2);          // Shadow
+            Draw3dSprite(sprite_index,image_index,x,-y,z, image_xscale,image_yscale, image_angle, image_blend|$ff000000, 1.0);  // Actual
             
-            var mat = matrix_build(0, 0, -257, 0, 0, 0, 1, 1, 1);
-            matrix_set(matrix_world, mat);
-            physics_draw_debug();
+            if (global.drawDebug)
+                {
+                var mat = matrix_build(0, 0, -257, 0, 0, 0, 1, 1, 1);
+                matrix_set(matrix_world, mat);
+                physics_draw_debug();
+                }
         }
          
 }

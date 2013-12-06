@@ -1,5 +1,5 @@
 //
-// xygthop3's Refraction shader(HLSL9) Vertex
+// The world+selection fragment shader (HLSL9)
 //
 struct SInput { //in from attributes to vertex
     float4 Position : POSITION;
@@ -33,7 +33,7 @@ void main(in SInput IN, out SOutput OUT)
     OUT.Texcoord = IN.Texcoord;
 }
 //######################_==_YOYO_SHADER_MARKER_==_######################@~//
-// xygthop3's Refraction shader(HLSL9) Fragment
+// The world+selection fragment shader (HLSL9)
 //
 struct SInput { //in from vertex to pixel
     float4 Colour    : COLOR0;
