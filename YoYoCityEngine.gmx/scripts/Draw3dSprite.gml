@@ -14,15 +14,15 @@
 
 var _x1,_x2,_y1,_y2,_z1,_z2,_sprw,_sprh,_cx,_cy, _colour,_alpha;
 
-sprw = sprite_get_width(argument0);
-sprh = sprite_get_height(argument0);
-cx = sprite_get_xoffset(argument0);
-cy = sprite_get_yoffset(argument0);
+_sprw = sprite_get_width(argument0);
+_sprh = sprite_get_height(argument0);
+_cx = sprite_get_xoffset(argument0);
+_cy = sprite_get_yoffset(argument0);
  
-_x1 = -cx;
-_x2 = -cx+sprw;
-_y1 = -cy;
-_y2 = -cy+sprh;
+_x1 = -_cx;
+_x2 = -_cx+_sprw;
+_y1 = -_cy;
+_y2 = -_cy+_sprh;
 _z1 = 0; //-argument4;
 _alpha = argument9;
 _colour = argument8 | ((argument9*255)<<24)
