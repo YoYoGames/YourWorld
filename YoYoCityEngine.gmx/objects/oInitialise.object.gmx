@@ -33,7 +33,7 @@
     global.LoadSave=true;
     global.CityShader=RenderPlusSelection;
     global.SpriteShader=SpriteSelectionShader;
-    if( os_browser != browser_not_a_browser || os_type = os_android || os_type=os_macosx)
+    if( os_browser != browser_not_a_browser || os_type == os_android || os_type==os_macosx || os_type==os_linux)
     {
         global.HTML5=true;
         //global.LoadSave=false;
