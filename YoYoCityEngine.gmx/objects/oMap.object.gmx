@@ -34,13 +34,13 @@ CreateMap(256,256,32, 16, 0,64,7, 64,70,4);
 //CreateMap(256,256,16, 8, 0,20,7, 64,70);
 
 // HTML5?
-HTML5=false;
+/*HTML5=false;
 CityShader=RenderPlusSelection;
 if( os_browser != browser_not_a_browser ){
     HTML5=true;
     CityShader=SimpleShader;
 }
-
+*/
 CityFormat = global.CityFormat;
 
 MouseX=0;
@@ -133,11 +133,11 @@ var camera = global.Camera;
         // Now render the map
         var texture = sprite_get_texture(StyleSprite,0);
         var sprtexture = sprite_get_texture(sTree,0);
-        RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, CityShader, SpriteSelectionShader );
+        RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, global.CityShader, global.SpriteShader );
         with(Water){ DrawWater(); }
         
         // Draw all sprites
-        shader_set(SpriteSelectionShader);
+        shader_set(global.SpriteShader);
         with(oSprite) Draw3dSprite(sprite_index,image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
         shader_reset();
         
@@ -180,7 +180,7 @@ var camera = global.Camera;
           <argument>
             <kind>1</kind>
             <string>/// Load the map
-if( !global.HTML5 ) {
+if( global.LoadSave ) {
     fullscreen = window_get_fullscreen();
     FullscreenMode(false);
     LoadSave=2;
@@ -212,7 +212,7 @@ if( !global.HTML5 ) {
           <argument>
             <kind>1</kind>
             <string>/// Save the map
-if( !global.HTML5 ) {
+if( global.LoadSave ) {
     fullscreen = window_get_fullscreen();
     FullscreenMode(false);
     LoadSave=1;
