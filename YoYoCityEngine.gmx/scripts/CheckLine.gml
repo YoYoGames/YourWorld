@@ -6,8 +6,9 @@ for(var i=0;i<global.linecount;i++){
     var l = ds_list_find_value(list,i);
     // Must be both in the same direction ([4] = horizontal flag)
     if(l[4]==newline[4]){
+        var c1, c2, d1, d2, d3;
+        
         if(l[0]!=l[2]){
-            var cx,cy,d1,d2,xx;
             d1 = (l[2]-l[0])/2;
             c1 = d1+l[0];
             d2 = (newline[2]-newline[0])/2;
