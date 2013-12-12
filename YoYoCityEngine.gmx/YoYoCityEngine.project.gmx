@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="11" name="datafiles">
+  <datafiles number="14" name="datafiles">
     <datafile>
       <name>style1.yyg</name>
       <exists>-1</exists>
@@ -160,6 +160,8 @@
     <shader type="GLSLES">shaders\SelectionShader.shader</shader>
     <shader type="HLSL9">shaders\RenderPlusSelection.shader</shader>
     <shader type="GLSLES">shaders\RenderSelection.shader</shader>
+    <shader type="GLSLES">shaders\RenderCity.shader</shader>
+    <shader type="GLSLES">shaders\SimpleSpriteShader.shader</shader>
     <shader type="HLSL9">shaders\SpriteSelectionShader.shader</shader>
   </shaders>
   <fonts name="fonts">

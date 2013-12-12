@@ -64,20 +64,21 @@ if( AllowPick )
     //Allow the clicks through to the 3D world unless the mouse is in an area occupied by the GUI
     var HaltProcessing=false;
     
-    if instance_exists(oHUDParent)
+    if (instance_exists(oHUDParent))
     {
-        if mouse_rectangle(oHUDParent.x,oHUDParent.y,oHUDParent.x+oHUDParent.WindowWidth,oHUDParent.y+oHUDParent.WindowHeight)
+        if (mouse_rectangle(oHUDParent.x,oHUDParent.y,oHUDParent.x+oHUDParent.WindowWidth,oHUDParent.y+oHUDParent.WindowHeight)
+        or oHUDParent.Holding>0)
         {
             HaltProcessing=true;
         }
     }
     
-    if instance_exists(oHUDMain) && mouse_rectangle(0,0,window_get_width(),56)
+    if (instance_exists(oHUDMain) && mouse_rectangle(0,0,window_get_width(),56))
     {
         HaltProcessing=true;
     }
     
-    if !HaltProcessing
+    if (!HaltProcessing)
     {
         if( global.EditorMode==EDIT_SELECTION )
         or (global.EditorMode==EDIT_ROADS)
