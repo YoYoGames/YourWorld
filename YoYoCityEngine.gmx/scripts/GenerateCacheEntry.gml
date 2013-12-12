@@ -9,6 +9,7 @@ var gy = argument1;
 //show_debug_message("Cache: ("+string(gx)+","+string(gy)+")");
 var Mesh = vertex_create_buffer_ext(512*1024);
 var SpriteMesh = vertex_create_buffer_ext(8*1024);
+var RoadArrowsMesh = vertex_create_buffer_ext(8*1024);
 
 // Get map bounds.
 var x1 = gx*GridCacheSize;
@@ -112,6 +113,7 @@ if( spritepolys==0 ){
 }
 
 
+MeshA[3]=RoadArrowsMesh;
 MeshA[2]=spritepolys + polys;
 MeshA[1]=SpriteMesh;
 MeshA[0]=Mesh;

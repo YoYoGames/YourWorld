@@ -109,8 +109,15 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
                     
                     ProcessPickPixel(pix);
                     PickingMode=2;
-                    // set single block            
-                    SetSingleBlock( global.Map, MButton, TilePickX,TilePickY,TilePickZ, TilePickFace );
+                    if (global.EditorMode == EDIT_ROADS)
+                        {
+                        SetBlockRoadFlags(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
+                        }
+                    else
+                        {
+                        // set single block  
+                        SetSingleBlock( global.Map, MButton, TilePickX,TilePickY,TilePickZ, TilePickFace );
+                        }
                 }
             }else{
                 // Finished adding a single block... so just wait until mouse is lifted

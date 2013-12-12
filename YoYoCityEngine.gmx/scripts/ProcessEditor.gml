@@ -79,7 +79,9 @@ if( AllowPick )
     
     if !HaltProcessing
     {
-        if( global.EditorMode==EDIT_SELECTION ) ProcessPicking();
+        if( global.EditorMode==EDIT_SELECTION )
+        or (global.EditorMode==EDIT_ROADS)
+            ProcessPicking();
         if( global.EditorMode==EDIT_PAINT ) ProcessPainting();
     }
 }

@@ -107,12 +107,16 @@ block_info=0;
 // BLK_BOTTOM   = tile on bottom side
 // BLK_LID      = tile on lid side
 // BLK_BASE     = tile on base side
-// BLK_FLAGS1   = %x000000000ILST555444333222111000  (face 000= RHV =Rotate90, Flip-Horizontal, Flip-Vertical)
+// BLK_FLAGS1   = %x00000NESWILST555444333222111000  (face 000= RHV =Rotate90, Flip-Horizontal, Flip-Vertical)
 //                face 0=top,1=bottom,2=left,3=right,4=lid,5=base
 //                T = flatten TOP+BOTTOM
 //                S = Flatten SIDES (left/right)
 //                L = flatten LID+BASE
 //                I = invert faces (not yet implemented)
+//                N = Road North direction flag
+//                E = Road East direction flag
+//                S = Road South direction flag
+//                W = Road West direction flag
 //                x = reserved for saving extended block info
 // BLK_FLAGS2   = unused so far
 // BLK_OFFSETS1 = %2222_2222/1111_1111_1111/0000_0000_0000     number = 0,1,2,3,4,5,6,7 = vertex index

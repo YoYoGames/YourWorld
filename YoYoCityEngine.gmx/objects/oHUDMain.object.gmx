@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-10020</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>self</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -212,6 +212,26 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FL
 }
 buttonX+=(buttonS*2)
 buttonI+=1           
+
+// Road Direction Editing Toll
+draw_sprite(sprRoadsTool,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.EditorMode==EDIT_ROADS,buttonX,buttonY)
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Road Direction Tool") )
+    {
+    global.EditorMode = EDIT_ROADS;
+    if (!instance_exists(objRoadCompass))
+        {
+        with(objRoadCompass) instance_destroy()
+        instance_create( 60, 240, objRoadCompass)
+        }
+    else if (global.EditorMode==EDIT_ROADS)
+        {
+        with(objRoadCompass) instance_destroy()
+        global.EditorMode=EDIT_SELECTION;
+        global.EditorMode_Sub=EDIT_SUB_NONE;   
+        } 
+    }
+buttonX+=(buttonS*2)
+
 
 //Play
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
