@@ -127,7 +127,7 @@ var changed=0;
 if !instance_exists(oHUDTileSelect)
 {
     //If you scroll your mouse wheel up, move the chosen slot left
-    if (mouse_wheel_up())
+    if (mouse_wheel_up() &amp;&amp; global.EditorMode==EDIT_PAINT)
     {
         QuickSlotSelected-=1;
         
@@ -137,7 +137,7 @@ if !instance_exists(oHUDTileSelect)
     }
     
     //If you scroll your mouse wheel up, move the chosen slot right
-    if (mouse_wheel_down())
+    if (mouse_wheel_down() &amp;&amp; global.EditorMode==EDIT_PAINT)
     {
         QuickSlotSelected+=1;
         
@@ -156,10 +156,22 @@ for(var i=0;i&lt;=9;i+=1)
         
         if (QuickSlotSelected!=qstarg)
         {
-            QuickSlotSelected=qstarg
+            QuickSlotSelected=qstarg;
             changed=1;
         }
     }
+}
+
+///Select a tile with the mouse
+if mouse_click_rectangle(0,window_get_height()-64,window_get_width(),window_get_height())
+{
+    var idon=device_mouse_raw_x(0)-((window_get_width()/2)-318);
+        idon/=636;
+        idon*=10;
+        idon=floor(idon);
+       
+    QuickSlotSelected=idon;
+    changed=1;    
 }
 
 //If the slot was changed, switch the current placing to that slot's contents
@@ -413,7 +425,7 @@ for(var i=0; i&lt;QuickSlotMax; i+=1)
     
     if (i==QuickSlotSelected)
     {                                                                              
-        draw_sprite(sHUDQuickSlotHighlight,0,xx,yy)
+        draw_sprite(sHUDQuickSlotHighlight,keyboard_check(vk_control),xx,yy)
     }
     
     //Draw the tile/sprite/etc
