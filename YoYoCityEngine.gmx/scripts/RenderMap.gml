@@ -84,7 +84,7 @@
         for(i=0;i<RenderListCount;i++){
             MeshA = RenderList[i];
             if( MeshA[3]!=-1 ){
-                //vertex_submit(MeshA[3], pr_trianglelist, _arrowsTexture);
+                vertex_submit(MeshA[3], pr_trianglelist, _arrowsTexture);
             }
         }
         //shader_reset();

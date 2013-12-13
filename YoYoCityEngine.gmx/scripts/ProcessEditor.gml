@@ -73,6 +73,12 @@ if( AllowPick )
         }
     }
     
+    if (instance_exists(objRoadCompass)) {
+        if (mouse_rectangle(objRoadCompass.x-40,objRoadCompass.y-40,objRoadCompass.x+80,objRoadCompass.y+80)) {
+            HaltProcessing=true;
+        }
+    }
+    
     if (instance_exists(oHUDMain) && mouse_rectangle(0,0,window_get_width(),56))
     {
         HaltProcessing=true;

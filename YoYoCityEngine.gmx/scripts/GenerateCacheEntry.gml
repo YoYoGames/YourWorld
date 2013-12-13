@@ -19,11 +19,13 @@ var y2 = y1+GridCacheSize;
 
 var polys = global.polys;
 var spritepolys=0;
+var roadpolys = 0;
 
 // keep local for faster access
 var blockinfo = block_info;
 var themap = Map;
 var thesprites = Sprites;
+vertex_begin(RoadArrowsMesh, global.SpriteFormat);
 vertex_begin(SpriteMesh, global.SpriteFormat);
 vertex_begin(Mesh, global.CityFormat);
 
@@ -63,6 +65,14 @@ vertex_begin(Mesh, global.CityFormat);
                         base=info[BLK_BASE];
                         var flags = info[BLK_FLAGS1];
                         AddCube(Mesh, x,y-CubeEdge,z,  x+CubeEdge,y,z+CubeEdge, col+(zz|$80000000), t,b,l,r,lid,base, flags );
+                        
+                        var roadFlags = flags>>22;
+                        if (roadFlags)
+                            {
+                            show_debug_message(string(roadFlags));
+                            AddRoadArrow(RoadArrowsMesh, sprRoadArrows, 0, x, y, z, 1, 1, 0, $ffffffff, roadFlags);
+                            roadpolys += 2;
+                            }
                     }
                     z-=sp;
                 }
@@ -93,6 +103,7 @@ y=0;
 
 vertex_end(Mesh);
 vertex_end(SpriteMesh);
+vertex_end(RoadArrowsMesh);
 
 var MeshA = 0;
 var polys=global.polys-polys;
@@ -104,12 +115,19 @@ if( polys==0 ){
 }
 
 
-
 if( spritepolys==0 ){
     vertex_delete_buffer(SpriteMesh);
     SpriteMesh=-1;
 }else{
     vertex_freeze(SpriteMesh);
+}
+
+
+if( roadpolys==0 ){
+    vertex_delete_buffer(RoadArrowsMesh);
+    RoadArrowsMesh=-1;
+}else{
+    vertex_freeze(RoadArrowsMesh);
 }
 
 

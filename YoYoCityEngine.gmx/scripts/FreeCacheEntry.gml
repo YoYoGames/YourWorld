@@ -18,6 +18,9 @@ with(_map)
         if( MeshA[1]!=-1 ){
             vertex_delete_buffer(MeshA[1]);     // free VB
         }
+        if( MeshA[3]!=-1 ){
+            vertex_delete_buffer(MeshA[3]);     // free VB
+        }
         ds_grid_set(Cache,gx,gy,0);         // free grid slot
     }
 }

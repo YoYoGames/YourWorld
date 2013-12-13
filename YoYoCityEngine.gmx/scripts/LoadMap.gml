@@ -80,7 +80,7 @@ with(_map)
                     spr[i]=singlespr;
                     sprite_count++;
                 }
-                //ds_grid_set(Sprites,xx,yy,spr);            
+                ds_grid_set(Sprites,xx,yy,spr);            
             }
         }
     }
