@@ -84,6 +84,11 @@ if( AllowPick )
         HaltProcessing=true;
     }
     
+    if (instance_exists(oHUDMain) && mouse_rectangle(0,window_get_height()-64,window_get_width(),window_get_height()))
+    {
+        HaltProcessing=true;
+    }
+    
     if (!HaltProcessing)
     {
         if( global.EditorMode==EDIT_SELECTION )

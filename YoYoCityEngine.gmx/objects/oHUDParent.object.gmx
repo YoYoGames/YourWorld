@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-10010</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -167,7 +167,27 @@ else if (Holding==2)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>Holding=0;
+            <string>
+//If you're dragging something to the Quick Slots, control that
+if (Holding==4)
+{
+    if (mouse_rectangle((window_get_width()/2)-318,window_get_height()-64,(window_get_width()/2)+318,window_get_height()))
+    {
+        var idon=device_mouse_raw_x(0)-((window_get_width()/2)-318);
+        idon/=636;
+        idon*=10;
+        idon=floor(idon);
+        
+        if instance_exists(oHUDMain)
+        {
+            oHUDMain.QuickSlotSelected=idon
+        }
+        
+        SetQuickSlotFromHolding(idon+(keyboard_check(vk_control)*10));
+    }
+}
+
+Holding=0;
 </string>
           </argument>
         </arguments>
