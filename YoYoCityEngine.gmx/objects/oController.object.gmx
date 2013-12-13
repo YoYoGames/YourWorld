@@ -235,7 +235,11 @@ d3d_set_perspective(false);
 
 if( surface_exists(DiffuseSurface) ){
     draw_enable_alphablend(false);
-    draw_surface(DiffuseSurface,0,0);
+    if( os_type == os_android ){
+        draw_surface_stretched(DiffuseSurface,0,0,1920,1080);
+    }else{
+        draw_surface(DiffuseSurface,0,0);
+    }
     draw_enable_alphablend(true);    
 //    draw_surface(SelectionSurface,0,0);
 }
