@@ -105,6 +105,7 @@ if( loadit ){
 
 EndDraw = instance_create(0,0,oEndDraw);
 Shadows = instance_create(0,0,oShadows);
+HUD = instance_create(0,0,oHUDMain);
 
 
 DiffuseSurface=-1;
@@ -193,14 +194,12 @@ if keyboard_check_released(vk_tab)
 {
     if (global.Mode==MODE_EDIT)
     {    
-        if !instance_exists(oHUDMain)
+        if (FreeCursorMode==0)
         {
-            instance_create(64,64,oHUDMain)
             FreeCursorMode=1;
         }
         else
         {
-            with(oHUDMain) instance_destroy()
             with(oHUDParent) instance_destroy()
             FreeCursorMode=0;
         }

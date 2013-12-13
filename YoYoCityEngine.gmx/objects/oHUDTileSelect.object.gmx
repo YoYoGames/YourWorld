@@ -156,6 +156,8 @@ if (WindowContentYMin!=0) //Can scroll
     {
         scrolly=clamp(scrolly-20,scrollymin,scrollymax)
         scrollchanged=1;
+        
+        if (mouse_wheel_up()) {with(oHUDMain) DisableWheel=true}
     }
     //If you press the "Down" scroll button
     if (mouse_click_rectangle(x+WindowWidth-25,y+WindowHeight-50,x+WindowWidth,y+WindowHeight-25)
@@ -163,6 +165,8 @@ if (WindowContentYMin!=0) //Can scroll
     {
         scrolly=clamp(scrolly+20,scrollymin,scrollymax)
         scrollchanged=1;
+        
+        if (mouse_wheel_down()) {with(oHUDMain) DisableWheel=true}
     }
     
     if (scrollchanged==1)
@@ -319,38 +323,6 @@ if (WindowContentRedraw==true
                 cursprite=ds_queue_dequeue(itemList[Tab,i])
                 if (Tab!=0 &amp;&amp; Tab!=4) cursprite+=oMap.TopBase
                 
-                //If you clicked the current tile (1=left, 2=right), select it
-                if (WindowContentClicked&gt;0)
-                {
-                    if (WindowContentClickedX&gt;drawX+drawXoff
-                    &amp;&amp;  WindowContentClickedY&gt;drawY+drawYoff
-                    &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
-                    &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
-                    {
-                        if (WindowContentClicked==1)
-                        {
-                            WindowContentSelectedL[Tab]=cursprite
-                            global.LeftMouseTile=cursprite;
-                        }
-                        if (WindowContentClicked==2)
-                        {
-                            WindowContentSelectedR[Tab]=cursprite
-                            global.RightMouseTile=cursprite;
-                        }
-                            
-                        if (cursprite&gt;=oMap.TopBase)
-                        {
-                            if (WindowContentClicked==1) global.LeftMouseTile-=oMap.TopBase;
-                            if (WindowContentClicked==2) global.RightMouseTile-=oMap.TopBase;
-                            global.EditorMode_Sub=EDIT_SUB_LID;    
-                        }
-                        else
-                        {
-                            global.EditorMode_Sub=EDIT_SUB_SIDE;
-                        }   
-                    }
-                }
-                
                 curX=0; curY=0;
                 
                 //Find the coordinates of the current tile on the tile sheet
@@ -361,6 +333,43 @@ if (WindowContentRedraw==true
                     {
                         curX=0;
                         curY+=tileH;
+                    }
+                }
+                
+                //If you clicked the current tile (1=left, 2=right), select it
+                if (WindowContentClicked&gt;0)
+                {
+                    if (WindowContentClickedX&gt;drawX+drawXoff
+                    &amp;&amp;  WindowContentClickedY&gt;drawY+drawYoff
+                    &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
+                    &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
+                    {
+                        if (WindowContentClicked==1)
+                        {
+                            WindowContentSelectedL[Tab]=cursprite;
+                            global.LeftMouseTile=cursprite;
+                            
+                        }
+                        if (WindowContentClicked==2)
+                        {
+                            WindowContentSelectedR[Tab]=cursprite
+                            global.RightMouseTile=cursprite;
+                        }
+                        
+                        Holding=4;
+                            
+                        if (cursprite&gt;=oMap.TopBase)
+                        {
+                            if (WindowContentClicked==1) global.LeftMouseTile-=oMap.TopBase;
+                            if (WindowContentClicked==2) global.RightMouseTile-=oMap.TopBase;
+                            SetHoldingQuickSlot(EDIT_PAINT,EDIT_SUB_LID,cursprite-oMap.TopBase,tilesprite,curX+tileDiffX,curY+tileDiffY,tileActW,tileActH)
+                            global.EditorMode_Sub=EDIT_SUB_LID;    
+                        }
+                        else
+                        {
+                            SetHoldingQuickSlot(EDIT_PAINT,EDIT_SUB_SIDE,cursprite,tilesprite,curX+tileDiffX,curY+tileDiffY,tileActW,tileActH)
+                            global.EditorMode_Sub=EDIT_SUB_SIDE;
+                        }   
                     }
                 }
                 
@@ -377,6 +386,16 @@ if (WindowContentRedraw==true
                 if (WindowContentSelectedL[Tab]==cursprite)
                 {
                     draw_sprite(sHUDTileHighlight,0,drawX+drawXoff,drawY+drawYoff)
+                    
+                    if (keyboard_check(ord("X")))
+                    {
+                        SetQuickSlot(EDIT_PAINT,global.EditorMode_Sub,cursprite,tilesprite,curX+tileDiffX,curY+tileDiffY,tileActW,tileActH)    
+                    }
+                    
+                    if (instance_exists(oHUDMain))
+                    {
+                        oHUDMain.QuickSlot[oHUDMain.QuickSlotSelected,0]=EDIT_PAINT;
+                    }
                 }
                 if (WindowContentSelectedR[Tab]==cursprite)
                 {

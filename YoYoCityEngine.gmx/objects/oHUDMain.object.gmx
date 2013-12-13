@@ -35,16 +35,140 @@ if (global.FlipRotateFlags &amp; 1==1 &amp;&amp; global.FlipRotateFlags &amp; 2=
 
 Tooltip="";
 
+DisableWheel=false; //This is used to override wheel scrolling if you scrolled in a window
+                                
 dovflip=(global.FlipRotateFlags &amp; 1)^(rotate_value&gt;1)
 dohflip=(global.FlipRotateFlags &amp; 2)^(rotate_value&gt;1)
 
 sButtonSprite[0]=sButtonNavbar;
 sButtonSprite[1]=sButtonNavbarSel;
 
+QuickSlotSelected=0;
+QuickSlotMax=10;
+for(var i=0;i&lt;QuickSlotMax*2+1;i+=1)
+{
+    QuickSlot[i,0]=EDIT_PAINT;   //Main type of item here
+    QuickSlot[i,1]=EDIT_SUB_LID; //Sub type of item here
+    QuickSlot[i,2]=-1;           //ID of item here
+    QuickSlot[i,3]=sStyle1;      //Sprite
+    QuickSlot[i,4]=0;            //x of left
+    QuickSlot[i,5]=0;            //y of top
+    QuickSlot[i,6]=32;           //Width
+    QuickSlot[i,7]=32;           //Height
+}
+//Initialise data not for 10 slots, but 21.
+//You will be able to shift+set 10 extra slots for right click.
+//The 21st is to temporarily hold data when dragging a tile into 
+
+//The contents of the Quick Slots
+QuickSlotContent=surface_create(2048,2048);
+surface_set_target(QuickSlotContent);
+draw_clear_alpha(c_white,0);
+surface_reset_target();
+
 //Auto-open Tile Select on creation if you're in that mode
 if (global.EditorMode==EDIT_PAINT)
 {
     instance_create(60,60,oHUDTileSelect)
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>surface_free(QuickSlotContent)
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Control HUD
+
+//Make the HUD invisible if you're not in EDIT mode
+visible=(global.Mode==MODE_EDIT)
+
+//This variable will detect if you changed slot so it can recalibrate
+var changed=0;
+
+if !instance_exists(oHUDTileSelect)
+{
+    //If you scroll your mouse wheel up, move the chosen slot left
+    if (mouse_wheel_up())
+    {
+        QuickSlotSelected-=1;
+        
+        if (QuickSlotSelected)&lt;0 QuickSlotSelected+=QuickSlotMax;
+        
+        changed=1;    
+    }
+    
+    //If you scroll your mouse wheel up, move the chosen slot right
+    if (mouse_wheel_down())
+    {
+        QuickSlotSelected+=1;
+        
+        if (QuickSlotSelected)&gt;=QuickSlotMax QuickSlotSelected-=QuickSlotMax;
+        
+        changed=1;    
+    }
+}
+
+//If you push a number key, select the corresponding slot
+for(var i=0;i&lt;=9;i+=1)
+{
+    if (keyboard_check_pressed(ord(string(i))))
+    {
+        var qstarg=(i+9) mod QuickSlotMax;
+        
+        if (QuickSlotSelected!=qstarg)
+        {
+            QuickSlotSelected=qstarg
+            changed=1;
+        }
+    }
+}
+
+//If the slot was changed, switch the current placing to that slot's contents
+if (changed &amp;&amp; QuickSlot[QuickSlotSelected,2]&gt;-1)
+{
+    global.EditorMode=QuickSlot[QuickSlotSelected,0]
+    global.EditorMode_Sub=QuickSlot[QuickSlotSelected,1]
+    global.LeftMouseTile=QuickSlot[QuickSlotSelected,2]
+    global.RightMouseTile=QuickSlot[QuickSlotSelected+QuickSlotMax,2]
 }
 </string>
           </argument>
@@ -254,6 +378,71 @@ if (Tooltip!="")
     draw_text(ttx,tty,Tooltip) //Draw tooltip text
 }
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Draw and operate HUD quick slots
+
+var slotw=60; sloth=60; sloto=4; //Set slot width, height, and offset between each other
+
+var xx=(window_get_width()/2)-((slotw*(QuickSlotMax/2))+(sloto*((QuickSlotMax-1)/2)));
+var yy=(window_get_height()-(sloth+sloto));
+
+for(var i=0; i&lt;QuickSlotMax; i+=1)
+{
+    var qsID=i+(keyboard_check(vk_control)*QuickSlotMax);
+    
+    draw_sprite(sHUDQuickSlot,0,xx,yy);
+    
+    if (i==QuickSlotSelected)
+    {                                                                              
+        draw_sprite(sHUDQuickSlotHighlight,0,xx,yy)
+    }
+    
+    //Draw the tile/sprite/etc
+    
+    if (QuickSlot[qsID,2]!=-1)
+    {
+        draw_sprite_part_ext(QuickSlot[qsID,3],0,
+                             QuickSlot[qsID,4],QuickSlot[qsID,5],
+                             QuickSlot[qsID,6],QuickSlot[qsID,7],
+                             xx+5,yy+5,
+                             50/QuickSlot[qsID,6],50/QuickSlot[qsID,7],
+                             c_white,1)
+    }
+    
+    if (instance_exists(oHUDParent))
+    {
+        if (oHUDParent.Holding==4)
+        {
+            draw_sprite_part_ext(QuickSlot[QuickSlotMax*2+1,3],0,
+                                 QuickSlot[QuickSlotMax*2+1,4],QuickSlot[QuickSlotMax*2+1,5],
+                                 QuickSlot[QuickSlotMax*2+1,6],QuickSlot[QuickSlotMax*2+1,7],
+                                 device_mouse_raw_x(0)-25,device_mouse_raw_y(0)-25,
+                                 50/QuickSlot[QuickSlotMax*2+1,6],50/QuickSlot[QuickSlotMax*2+1,7],
+                                 c_white,1)
+        }
+    }
+                         
+    xx+=slotw+sloto;
+} 
 </string>
           </argument>
         </arguments>

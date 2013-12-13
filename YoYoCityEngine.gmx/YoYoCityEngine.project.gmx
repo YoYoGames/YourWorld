@@ -32,6 +32,8 @@
     <sprites name="HUD">
       <sprite>sprites\sButtonNavbar</sprite>
       <sprite>sprites\sButtonNavbarSel</sprite>
+      <sprite>sprites\sHUDQuickSlot</sprite>
+      <sprite>sprites\sHUDQuickSlotHighlight</sprite>
       <sprite>sprites\sHUDTileShadow</sprite>
       <sprite>sprites\sHUDTileHighlight</sprite>
       <sprite>sprites\sHUDScrollArrow</sprite>
@@ -122,12 +124,18 @@
       </scripts>
     </scripts>
     <scripts name="GUI">
-      <script>scripts\mouse_rectangle.gml</script>
-      <script>scripts\mouse_click_rectangle.gml</script>
-      <script>scripts\mouse_rclick_rectangle.gml</script>
-      <script>scripts\mouse_hold_rectangle.gml</script>
-      <script>scripts\mouse_release_rectangle.gml</script>
+      <scripts name="MouseControl">
+        <script>scripts\mouse_rectangle.gml</script>
+        <script>scripts\mouse_click_rectangle.gml</script>
+        <script>scripts\mouse_rclick_rectangle.gml</script>
+        <script>scripts\mouse_hold_rectangle.gml</script>
+        <script>scripts\mouse_release_rectangle.gml</script>
+      </scripts>
       <script>scripts\ColorButton.gml</script>
+      <script>scripts\SetQuickSlot.gml</script>
+      <script>scripts\SetHoldingQuickSlot.gml</script>
+      <script>scripts\SetCustomQuickSlot.gml</script>
+      <script>scripts\SetQuickSlotFromHolding.gml</script>
     </scripts>
     <scripts name="Car Physics">
       <script>scripts\GetForwardVelocity.gml</script>
