@@ -21,23 +21,6 @@
       </ConfigOptions>
       <filename>style1.yyg</filename>
     </datafile>
-    <datafile>
-      <name>map.city</name>
-      <exists>-1</exists>
-      <size>7746457</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>YOURCITY_MAP_LATEST_131213.city</filename>
-    </datafile>
   </datafiles>
   <NewExtensions/>
   <sounds name="sound"/>
@@ -62,6 +45,7 @@
       <sprite>sprites\sprWheel</sprite>
     </sprites>
     <sprite>sprites\sprRoadArrows</sprite>
+    <sprite>sprites\sprTraffic</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -224,6 +208,10 @@
       <object>objects\objBody</object>
       <object>objects\objFixture</object>
       <object>objects\objWheel</object>
+    </objects>
+    <objects name="Traffic">
+      <object>objects\objTrafficSpawner</object>
+      <object>objects\objTrafficCar</object>
     </objects>
   </objects>
   <rooms name="rooms">

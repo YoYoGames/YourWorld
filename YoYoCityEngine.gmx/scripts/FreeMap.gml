@@ -39,5 +39,5 @@ RefCount = 0;
 
 // Destroy physics controller and other gameplay stuff
 with (objPhysicsController) instance_destroy();
-with (objBody) instance_destroy();
+with (objTrafficSpawner) instance_destroy();
 

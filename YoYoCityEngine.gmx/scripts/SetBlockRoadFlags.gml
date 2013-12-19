@@ -21,7 +21,7 @@ with (_map)
             var info  = block_info[block];
             var flags = info[BLK_FLAGS1];
             
-            // Change it, (flags&$F87FFFFF) zeros directional bits, (objRoadCompass.roadFlag<<25) puts in the new ones
+            // Change it, (flags&$F87FFFFF) zeros directional bits, (objRoadCompass.roadFlag<<22) puts in the new ones
             flags = (flags&$FC3FFFFF) | (objRoadCompass.roadFlag<<22);
             
             // Put it back

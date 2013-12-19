@@ -97,6 +97,8 @@ if( loadit ){
         // Create physics world controller
         instance_create(0, 0, objPhysicsController);
         
+        instance_create(0, 0, objTrafficSpawner);
+        
         SpawnPlayer();
     }
 }
