@@ -69,7 +69,7 @@ vertex_begin(Mesh, global.CityFormat);
                         var roadFlags = flags>>22;
                         if (roadFlags)
                             {
-                            show_debug_message(string(roadFlags));
+                            //show_debug_message("roadFlags = "+string(roadFlags));
                             AddRoadArrow(RoadArrowsMesh, sprRoadArrows, 0, x, y, z, 1, 1, 0, $ffffffff, roadFlags);
                             roadpolys += 2;
                             }

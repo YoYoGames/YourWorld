@@ -80,6 +80,7 @@ ds_list_destroy(phyActive);
 ds_list_destroy(phyCache);
 
 with (objFixture) instance_destroy();
+with (objBody) instance_destroy();
 
 </string>
           </argument>

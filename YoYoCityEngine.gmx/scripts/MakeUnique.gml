@@ -1,6 +1,6 @@
 /// MakeUnique(map,x,y,z)
 //
-// Make a block "unique" so that we can alter faces/tyextures/flags etc and return the block_info index
+// Make a block "unique" so that we can alter faces/textures/flags etc and return the block_info index
 //
 var _map=argument0;
 var _x=argument1;

@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="14" name="datafiles">
+  <datafiles number="15" name="datafiles">
     <datafile>
       <name>style1.yyg</name>
       <exists>-1</exists>
@@ -45,6 +45,7 @@
       <sprite>sprites\sprWheel</sprite>
     </sprites>
     <sprite>sprites\sprRoadArrows</sprite>
+    <sprite>sprites\sprTraffic</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -208,6 +209,10 @@
       <object>objects\objBody</object>
       <object>objects\objFixture</object>
       <object>objects\objWheel</object>
+    </objects>
+    <objects name="Traffic">
+      <object>objects\objTrafficSpawner</object>
+      <object>objects\objTrafficCar</object>
     </objects>
   </objects>
   <rooms name="rooms">
