@@ -113,6 +113,10 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
                         {
                         SetBlockRoadFlags(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
                         }
+                    else if (global.EditorMode == EDIT_SPRITES)
+                        {
+                        SetSprite( global.Map, MButton, TilePickX,TilePickY,TilePickZ );
+                        }
                     else
                         {
                         // set single block  

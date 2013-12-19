@@ -41,7 +41,7 @@ with(_map)
     for(var yy=0;yy<MapHeight;yy++){
         for(var xx=0;xx<MapHeight;xx++){
             var Arr = ds_grid_get(Map,xx,yy);
-            var Spr = ds_grid_get(Sprites,xx,yy);
+            var Spr = ds_grid_get(Sprites,xx,yy); //Spr is an array of all of the sprites in that cell
             var cnt = array_length_1d(Arr);       
             var sz = cnt;                      
             // Do we have any sprites in this column? If so... set the top bit of the column size.

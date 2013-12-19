@@ -15,7 +15,7 @@ with(_map)
     show_debug_message("Process File");
     var version = buffer_read(_buff,buffer_u32);
     debug("Map version: "+string(version));
-
+    
     // Expansion
     buffer_read(_buff,buffer_u32);
     buffer_read(_buff,buffer_u32);
@@ -31,6 +31,7 @@ with(_map)
     MapDepth = buffer_read(_buff,buffer_u16);
     SideBase = buffer_read(_buff,buffer_u16);
     TopBase = buffer_read(_buff,buffer_u16);
+    TopBase = 82;
     TileSize = buffer_read(_buff,buffer_u16);
     TileBorder = buffer_read(_buff,buffer_u16);
     PavementTile = buffer_read(_buff,buffer_u16);
@@ -75,8 +76,8 @@ with(_map)
                 for(i=0;i<sz;i++){
                     var singlespr = 0;
                     singlespr[0] = buffer_read(_buff,buffer_u16);           // sprite type
-                    singlespr[1] = buffer_read(_buff,buffer_u32);           // sprite type
-                    singlespr[2] = buffer_read(_buff,buffer_u32);           // sprite type
+                    singlespr[1] = buffer_read(_buff,buffer_u32);           // xyz
+                    singlespr[2] = buffer_read(_buff,buffer_u32);           // other
                     spr[i]=singlespr;
                     sprite_count++;
                 }
