@@ -324,11 +324,11 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"RO
     if(dovflip) global.FlipRotateFlags^=1;            
     if(dohflip) global.FlipRotateFlags^=2; 
 }
-buttonI+=rotate_value
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-buttonX+=buttonS
-buttonI+=3-rotate_value
-buttonI+=1
+buttonI+=rotate_value;
+draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY);
+buttonX+=buttonS;
+buttonI+=3-rotate_value;
+buttonI+=1;
 
 
 //Flip Horizontally
@@ -337,8 +337,8 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FL
 {
     global.FlipRotateFlags^=2;
 }
-buttonX+=buttonS
-buttonI+=1
+buttonX+=buttonS;
+buttonI+=1;
 
 //Flip Vertically
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) or (global.FlipRotateFlags &amp; 1)],buttonI,buttonX,buttonY)
@@ -346,8 +346,8 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FL
 {
     global.FlipRotateFlags^=1;        
 }
-buttonX+=(buttonS*2)
-buttonI+=1           
+buttonX+=(buttonS*2);
+buttonI+=1;
 
 // Road Direction Editing Toll
 draw_sprite(sprRoadsTool,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.EditorMode==EDIT_ROADS,buttonX,buttonY)
@@ -356,16 +356,45 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Ro
     global.EditorMode = EDIT_ROADS;
     if (!instance_exists(objRoadCompass))
         {
-        with(objRoadCompass) instance_destroy()
-        instance_create( 60, 240, objRoadCompass)
+        with(objRoadCompass) instance_destroy();
+        instance_create( 60, 240, objRoadCompass);
         }
     else if (global.EditorMode==EDIT_ROADS)
         {
-        with(objRoadCompass) instance_destroy()
+        with(objRoadCompass) instance_destroy();
         global.EditorMode=EDIT_SELECTION;
         global.EditorMode_Sub=EDIT_SUB_NONE;   
         } 
     }
+
+buttonX+=buttonS;
+    
+// Toggle drawing road direction flags
+draw_sprite(sprToggleRoads,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.renderRoadFlags==true,buttonX,buttonY)
+if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Drawing Road Flags (F5)") )
+    {
+    global.renderRoadFlags ^= true;
+    }
+    
+buttonX+=buttonS;
+
+// Toggle Traffic Spawning
+draw_sprite(sprToggleTrafficSpawning,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.enableTrafficSpawn==true,buttonX,buttonY)
+if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Traffic Spawning") )
+    {
+    global.enableTrafficSpawn ^= true;
+    }
+    
+buttonX+=buttonS;
+    
+// Kill all traffic
+draw_sprite(sprKillTraffic,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS), buttonX, buttonY)
+if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Kill All Traffic") )
+    {
+    with (objTrafficCar)
+        instance_destroy();
+    }
+    
 buttonX+=(buttonS*2)
 
 
@@ -373,20 +402,20 @@ buttonX+=(buttonS*2)
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLAY MODE [F1]") )
 {
-    with(oHUDMain) instance_destroy()
-    with(oHUDParent) instance_destroy()
+    with(oHUDMain) instance_destroy();
+    with(oHUDParent) instance_destroy();
     with(oController) FreeCursorMode=0;
     global.Mode=MODE_PLAY;                    
 }
-buttonX+=buttonS
-buttonI+=1
+buttonX+=buttonS;
+buttonI+=1;
 
 //Hide Menu
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"HIDE MENU [TAB]") )
 {
-    with(oHUDMain) instance_destroy()
-    with(oHUDParent) instance_destroy()
+    with(oHUDMain) instance_destroy();
+    with(oHUDParent) instance_destroy();
     with(oController) FreeCursorMode=0;            
 }
 buttonX+=buttonS
@@ -395,19 +424,19 @@ buttonI+=1
 //Draw tooltip if one is necessary
 if (Tooltip!="")
 {
-    draw_set_font(fTwCenConS)
-    draw_set_halign(fa_left)
-    draw_set_valign(fa_top)
+    draw_set_font(fTwCenConS);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
     
     var ttx=device_mouse_raw_x(0)+8, tty=device_mouse_raw_y(0)+32; //X and Y of tooltip draw coordinate
     var ttw=string_width(Tooltip), tth=string_height(Tooltip), tto=5; //Width, height and offset/margin of background
     
-    draw_set_color(c_white)
+    draw_set_color(c_white);
     draw_rectangle(ttx-tto,tty-tto,ttx+ttw+tto,tty+tth+tto,0); //Draw background
-    draw_set_color($EEEEEE)
+    draw_set_color($EEEEEE);
     draw_rectangle(ttx-tto,tty-tto,ttx+ttw+tto,tty+tth+tto,1); //Draw outline
-    draw_set_color(c_black)
-    draw_text(ttx,tty,Tooltip) //Draw tooltip text
+    draw_set_color(c_black);
+    draw_text(ttx,tty,Tooltip); //Draw tooltip text
 }
 
 </string>

@@ -83,6 +83,10 @@ with (objTrafficCar) instance_destroy();
           <argument>
             <kind>1</kind>
             <string>
+// If we are even allowed to spawn traffic
+if (!global.enableTrafficSpawn)
+    exit;
+
 // Handle spawning cooldown
 if (--spawnTimer &gt; 0)
     exit;
@@ -233,7 +237,7 @@ if (hasRoad)
     var south = (roadFlags &amp; 2) &gt; 0; // 0010 = 2
     var west  = (roadFlags &amp; 1) &gt; 0; // 0001 = 1
     
-    show_debug_message("Unoccupied road found, spawning traffic at "+string(xPos)+", "+string(yPos));
+    //show_debug_message("Unoccupied road found, spawning traffic at "+string(xPos)+", "+string(yPos));
     var newCar = instance_create(xPos, yPos, objTrafficCar);
     newCar.z = 255+8;
     
@@ -242,9 +246,6 @@ if (hasRoad)
     if (south) newCar.direction = 90;
     if (west)  newCar.direction = 180;
     newCar.image_angle = newCar.direction-90;
-    
-    //newCar.x -= lengthdir_x(32, newCar.direction);
-    //newCar.y -= lengthdir_y(32, newCar.direction);
     }
 
 </string>

@@ -33,6 +33,9 @@
       <sprite>sprites\sButtonNavbar</sprite>
       <sprite>sprites\sButtonNavbarSel</sprite>
       <sprite>sprites\sprRoadsTool</sprite>
+      <sprite>sprites\sprToggleRoads</sprite>
+      <sprite>sprites\sprKillTraffic</sprite>
+      <sprite>sprites\sprToggleTrafficSpawning</sprite>
       <sprite>sprites\sprCompassButtons</sprite>
       <sprite>sprites\sHUDQuickSlot</sprite>
       <sprite>sprites\sHUDQuickSlotHighlight</sprite>

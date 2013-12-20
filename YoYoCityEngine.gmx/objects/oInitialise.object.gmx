@@ -43,6 +43,8 @@
 
     // Global variables
     global.drawDebug = false;
+    global.renderRoadFlags = true;
+    global.enableTrafficSpawn = false;
     
     // Create the Sprite Vertex Format
     vertex_format_begin();

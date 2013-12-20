@@ -76,19 +76,19 @@
     }
     
     
-    // Now, pass 2. Render all sprites
-    //if( _spriteshader>=0 )
-    //{
-        //shader_set( _spriteshader );
+    // Render all road direction flags
+    if (global.renderRoadFlags)
+        {
         var _arrowsTexture = sprite_get_texture(sprRoadArrows, 0);
-        for(i=0;i<RenderListCount;i++){
+        for(i=0;i<RenderListCount;i++)
+            {
             MeshA = RenderList[i];
-            if( MeshA[3]!=-1 ){
+            if( MeshA[3]!=-1 )
+                {
                 vertex_submit(MeshA[3], pr_trianglelist, _arrowsTexture);
+                }
             }
         }
-        //shader_reset();
-    //}
 
       
 }
