@@ -160,8 +160,8 @@ var camera = global.Camera;
         // Draw traffic cars
         with(objTrafficCar)
             {
-            Draw3dSprite(sprite_index, image_index, x+4, -y-4, z-1, image_xscale, image_yscale, image_angle, $40000000, 0.2);          // Shadow
-            Draw3dSprite(sprite_index, image_index, x,   -y,   z, image_xscale, image_yscale, image_angle, image_blend|$ff000000, 1.0);  // Actual
+            Draw3dSprite(sprite_index, image_index, VisualX+4, -VisualY-4, z-1, image_xscale, image_yscale, image_angle, $40000000, 0.2);          // Shadow
+            Draw3dSprite(sprite_index, image_index, VisualX,   -VisualY,   z, image_xscale, image_yscale, image_angle, image_blend|$ff000000, 1.0);  // Actual
             }
          
 }

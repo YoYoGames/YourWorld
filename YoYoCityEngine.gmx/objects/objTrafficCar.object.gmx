@@ -31,8 +31,16 @@ scale = 0.65;//0.21;
 image_xscale = scale;//diff*scale;
 image_yscale = scale;//diff*scale;
 
+
+Speed = 15;
+VisualX = x;
+VisualY = y;
+Direction = direction;
+Animate = false;
+
 // Traffic flow test
-alarm[0] = 30;
+routeCoordinates = ds_list_create();
+alarm[0] = Speed;
 parked = false;
 
 </string>
@@ -58,8 +66,67 @@ parked = false;
           <argument>
             <kind>1</kind>
             <string>
+//-----------------------------------------------
+// Trace route
+//*
+var routePoints, block, info, flags, hasRoad;
+
+
+// Get my current cell
+myCellX = floor(x/64);
+myCellY = ceil(y/64);
+myCellZ = 4;
+myCellIndex = GetBlockIndex(myCellX, -myCellY, myCellZ);
+hasRoad = GetHasRoad(myCellX, myCellY, myCellZ);
+
+
+// Add new coordiantes to route list
+// X, Y, DIRECTION
+/*TEST BREAKAGE*/ds_list_clear(routeCoordinates);
+routePoints = ds_list_size(routeCoordinates) div 3;
+
+// List is empty, add NEXT from current cell to list
+if (routePoints == 0)
+    {
+    // Get infomation about current cell, and calculate new cell
+    newCellX = myCellX + lengthdir_x(1, direction);
+    newCellY = myCellY + lengthdir_y(1, direction);
+    newCellZ = myCellZ;
+    
+    // Add new cell to list
+    ds_list_add(routeCoordinates, newCellX);
+    ds_list_add(routeCoordinates, newCellY);
+    ds_list_add(routeCoordinates, GetRandomDirection(newCellX, newCellY, newCellZ, direction));
+    }
+
+
+Animate = false;
+if (hasRoad)
+    {
+    Animate = true;
+    VisualX = x;
+    VisualY = y;
+    
+    x += lengthdir_x(64, direction);
+    y += lengthdir_y(64, direction);
+    
+    // Get the new block we are on, and change direction accordingly
+    Direction = direction;
+    direction = ds_list_find_value(routeCoordinates, 2);
+    }
+
+alarm[0] = Speed;
+    
+    
+    
+    
+    
+/*/
+
+Animate = false;
+
 // Get the block we are currently on
-var hasRoad = false;
+hasRoad = false;
 var xx = floor(x/64);
 var yy = ceil(y/64);
 var zz = 4; // Defining this as it may later be used for varying heights
@@ -79,11 +146,17 @@ if (cellValue)
             hasRoad = true;
             }
         }
+        
     }
     
 // Move from the current block in current direction, and set new direction from that block
 if (hasRoad)
     {
+    Animate = true;
+    VisualX = x;
+    VisualY = y;
+    Direction = direction;
+    
     //debug("car has road");
     x += lengthdir_x(64, direction);
     y += lengthdir_y(64, direction);
@@ -101,7 +174,7 @@ if (hasRoad)
             {
             // Get flags
             var north = (roadFlags &amp; 8) &gt; 0; // 1000 = 8
-            var east  = (roadFlags &amp; 4) &gt; 0; // 0100 = 4
+            var east  = (roadFlags &amp; 4) &gt; 0; // 0100 = 4 
             var south = (roadFlags &amp; 2) &gt; 0; // 0010 = 2
             var west  = (roadFlags &amp; 1) &gt; 0; // 0001 = 1
             
@@ -145,6 +218,8 @@ if (hasRoad)
             if (south &amp;&amp; choose(0, 1)) direction = 90;
             if (west  &amp;&amp; choose(0, 1)) direction = 180;
             }
+            
+        // We are no longer on the road
         else
             {
             parked = true;
@@ -152,8 +227,8 @@ if (hasRoad)
         }
     }
 
-alarm[0] = 10;
-    
+alarm[0] = Speed;
+//*/
 </string>
           </argument>
         </arguments>
@@ -177,6 +252,12 @@ alarm[0] = 10;
           <argument>
             <kind>1</kind>
             <string>
+if (Animate)
+    {
+    VisualX += lengthdir_x(64/Speed, Direction);
+    VisualY += lengthdir_y(64/Speed, Direction);
+    }
+
 image_angle = direction+90;
 
 </string>
