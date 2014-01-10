@@ -246,6 +246,8 @@ if (hasRoad)
     if (south) newCar.direction = 90;
     if (west)  newCar.direction = 180;
     newCar.image_angle = newCar.direction-90;
+    newCar.Direction = newCar.direction;
+    newCar.DesiredDirection = newCar.direction;
     }
 
 </string>

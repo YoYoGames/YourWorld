@@ -168,6 +168,7 @@
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\GetRandomDirection.gml</script>
     <script>scripts\GetHasRoad.gml</script>
+    <script>scripts\TrafficFindRoute.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>

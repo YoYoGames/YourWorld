@@ -32,203 +32,24 @@ image_xscale = scale;//diff*scale;
 image_yscale = scale;//diff*scale;
 
 
-Speed = 15;
+Speed = 0;
+DesiredSpeed = 4;
 VisualX = x;
 VisualY = y;
+DesiredX = x;
+DesiredY = y;
+myCellX = floor(x/64);
+myCellY = ceil(y/64);
+myCellZ = 4;
 Direction = direction;
+DesiredDirection = direction;
 Animate = false;
 
 // Traffic flow test
 routeCoordinates = ds_list_create();
-alarm[0] = Speed;
+//alarm[0] = 1;
 parked = false;
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>
-//-----------------------------------------------
-// Trace route
-//*
-var routePoints, block, info, flags, hasRoad;
-
-
-// Get my current cell
-myCellX = floor(x/64);
-myCellY = ceil(y/64);
-myCellZ = 4;
-myCellIndex = GetBlockIndex(myCellX, -myCellY, myCellZ);
-hasRoad = GetHasRoad(myCellX, myCellY, myCellZ);
-
-
-// Add new coordiantes to route list
-// X, Y, DIRECTION
-/*TEST BREAKAGE*/ds_list_clear(routeCoordinates);
-routePoints = ds_list_size(routeCoordinates) div 3;
-
-// List is empty, add NEXT from current cell to list
-if (routePoints == 0)
-    {
-    // Get infomation about current cell, and calculate new cell
-    newCellX = myCellX + lengthdir_x(1, direction);
-    newCellY = myCellY + lengthdir_y(1, direction);
-    newCellZ = myCellZ;
-    
-    // Add new cell to list
-    ds_list_add(routeCoordinates, newCellX);
-    ds_list_add(routeCoordinates, newCellY);
-    ds_list_add(routeCoordinates, GetRandomDirection(newCellX, newCellY, newCellZ, direction));
-    }
-
-
-Animate = false;
-if (hasRoad)
-    {
-    Animate = true;
-    VisualX = x;
-    VisualY = y;
-    
-    x += lengthdir_x(64, direction);
-    y += lengthdir_y(64, direction);
-    
-    // Get the new block we are on, and change direction accordingly
-    Direction = direction;
-    direction = ds_list_find_value(routeCoordinates, 2);
-    }
-
-alarm[0] = Speed;
-    
-    
-    
-    
-    
-/*/
-
-Animate = false;
-
-// Get the block we are currently on
-hasRoad = false;
-var xx = floor(x/64);
-var yy = ceil(y/64);
-var zz = 4; // Defining this as it may later be used for varying heights
-var cellValue = GetBlockIndex(xx, -yy, zz);
-if (cellValue)
-    {
-    var block = MakeUnique(global.Map, xx, -yy, zz);
-    var info  = oMap.block_info[block];
-    var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
-    if (roadFlags)
-        {
-        xPos = x + lengthdir_x(64, direction);
-        yPos = y + lengthdir_y(64, direction);
-        inst = instance_nearest(xPos, yPos, objTrafficCar);
-        if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 32)
-            {
-            hasRoad = true;
-            }
-        }
-        
-    }
-    
-// Move from the current block in current direction, and set new direction from that block
-if (hasRoad)
-    {
-    Animate = true;
-    VisualX = x;
-    VisualY = y;
-    Direction = direction;
-    
-    //debug("car has road");
-    x += lengthdir_x(64, direction);
-    y += lengthdir_y(64, direction);
-    
-    // Get the new block we are on, and change direction accordingly
-    xx = floor(x/64);
-    yy = ceil(y/64);
-    cellValue = GetBlockIndex(xx, -yy, zz);
-    if (cellValue)
-        {
-        block = MakeUnique(global.Map, xx, -yy, zz);
-        info  = oMap.block_info[block];
-        roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
-        if (roadFlags)
-            {
-            // Get flags
-            var north = (roadFlags &amp; 8) &gt; 0; // 1000 = 8
-            var east  = (roadFlags &amp; 4) &gt; 0; // 0100 = 4 
-            var south = (roadFlags &amp; 2) &gt; 0; // 0010 = 2
-            var west  = (roadFlags &amp; 1) &gt; 0; // 0001 = 1
-            
-            // Get a default direction
-            for (n=0; n&lt;4; n++)
-                {
-                switch (n)
-                    {
-                    case (0): potentialDir = 270; break;
-                    case (1): potentialDir = 0;   break;
-                    case (2): potentialDir = 90;  break;
-                    case (3): potentialDir = 180; break;
-                    }
-                
-                // Cancel directions in case of collision
-                xPos = x + lengthdir_x(64, potentialDir);
-                yPos = y + lengthdir_y(64, potentialDir);
-                inst = instance_nearest(xPos, yPos, objTrafficCar);
-                if (point_distance(xPos, yPos, inst.x, inst.y) &lt; 32)
-                &amp;&amp; (inst.parked == true)
-                    {
-                    switch (n)
-                        {
-                        case (0): north = false; break;
-                        case (1): east  = false; break;
-                        case (2): south = false; break;
-                        case (3): west  = false; break;
-                        }
-                    }
-                }
-                
-            // Get a default direction
-            if (north) direction = 270;
-            if (east)  direction = 0;
-            if (south) direction = 90;
-            if (west)  direction = 180;
-                
-            // Chose a random direction if possible
-            if (north &amp;&amp; choose(0, 1)) direction = 270;
-            if (east  &amp;&amp; choose(0, 1)) direction = 0;
-            if (south &amp;&amp; choose(0, 1)) direction = 90;
-            if (west  &amp;&amp; choose(0, 1)) direction = 180;
-            }
-            
-        // We are no longer on the road
-        else
-            {
-            parked = true;
-            }
-        }
-    }
-
-alarm[0] = Speed;
-//*/
 </string>
           </argument>
         </arguments>
@@ -252,13 +73,40 @@ alarm[0] = Speed;
           <argument>
             <kind>1</kind>
             <string>
-if (Animate)
+//show_debug_message(string(myCellX)+' == '+string(floor(DesiredX/64-1))+', '+string(myCellY)+' == '+string(floor(DesiredY/64+1)));
+
+if (point_distance(x, y, DesiredX, DesiredY) &lt; 48)
     {
-    VisualX += lengthdir_x(64/Speed, Direction);
-    VisualY += lengthdir_y(64/Speed, Direction);
+    if (!parked)
+        {
+        Animate = true;
+        TrafficFindRoute();
+        }
+    else if (point_distance(x, y, DesiredX, DesiredY) &gt; 8)
+        {
+        DesiredSpeed = 0;
+        Animate = true;
+        direction += (((((dir - direction) mod 360) + 540) mod 360) - 180)/10;
+        }
+    else
+        {
+        Animate = false;
+        }
     }
 
-image_angle = direction+90;
+if (Animate)
+    {
+    Speed += sign(DesiredSpeed-Speed)*0.2;
+    dir = point_direction(x, y, DesiredX, DesiredY);
+    direction += (((((dir - direction) mod 360) + 540) mod 360) - 180)/10;
+    dist = point_distance(x, y, DesiredX, DesiredY);
+    if (dist &gt; 2)
+        {
+        x += lengthdir_x(Speed, direction);
+        y += lengthdir_y(Speed, direction);
+        }
+    image_angle = direction+90;
+    }
 
 </string>
           </argument>
