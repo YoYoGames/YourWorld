@@ -70,7 +70,8 @@ global.EditorMode_Sub=EDIT_SUB_NONE;
 //global.EditorMode=EDIT_PAINT;
 //global.EditorMode_Sub=EDIT_SUB_LID;
 global.LeftMouseTile = 2;               
-global.RightMouseTile = 6;               
+global.RightMouseTile = 6;
+global.LeftMouseSprite = 1;               
 
 // used when painting..... flags are set into the current "painted" face.
 // bit 1=Fip-Vertically, bit 2=Flip-Horizontally, bit 3=Rotate 90
