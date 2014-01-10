@@ -1,6 +1,6 @@
-/// FreeCacheRegion(map,x1,y1,x2,y2)
+/// GenerateCacheRegion(map,x1,y1,x2,y2)
 //
-// Free a region of cache
+// Generate a region of cache
 // argument0 = map
 // argument1 = x1
 // argument2 = y1

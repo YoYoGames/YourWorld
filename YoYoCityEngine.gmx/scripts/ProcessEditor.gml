@@ -93,6 +93,7 @@ if( AllowPick )
     {
         if( global.EditorMode==EDIT_SELECTION )
         or (global.EditorMode==EDIT_ROADS)
+        or (global.EditorMode==EDIT_SPRITES)
             ProcessPicking();
         if( global.EditorMode==EDIT_PAINT ) ProcessPainting();
     }

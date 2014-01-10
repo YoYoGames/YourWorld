@@ -79,11 +79,15 @@ vertex_begin(Mesh, global.CityFormat);
                 
                 
                 // Now do all sprites in this column
-                a = ds_grid_get(thesprites,xx,yy);   
-                if( is_array(a) ){
+                a = ds_grid_get(thesprites,xx,yy);
+                   
+                if( is_array(a) )
+                {
                     // if its an array, then there are sprites here.
                     var l = array_length_1d(a);
-                    for(var i=0;i<l;i++){
+                    
+                    for(var i=0;i<l;i++)
+                    {
                         var s = a[i];
                         var image = GetImage( s[0] );
                         var sxx = x+(s[1]&$ff);
