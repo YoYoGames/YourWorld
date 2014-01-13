@@ -34,9 +34,19 @@ if (routePoints == 0)
 //Animate = false;
 if (hasRoad)
     {
-    DesiredX         = ds_list_find_value(routeCoordinates, 0)*64+32;
-    DesiredY         = ds_list_find_value(routeCoordinates, 1)*64-32;
-    DesiredDirection = ds_list_find_value(routeCoordinates, 2);
+    // TEST. Check for collision
+    var inst = instance_nearest(newCellX*64+32, newCellY*64-32, objTrafficCar);
+    if (point_distance(x, y, inst.x, inst.y) < 96)
+    && (inst != id)
+        {
+        //Animate = false;
+        }
+    else
+        {
+        DesiredX         = ds_list_find_value(routeCoordinates, 0)*64+32;
+        DesiredY         = ds_list_find_value(routeCoordinates, 1)*64-32;
+        DesiredDirection = ds_list_find_value(routeCoordinates, 2);
+        }
     }
 else
     {

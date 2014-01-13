@@ -75,6 +75,12 @@ parked = false;
             <string>
 //show_debug_message(string(myCellX)+' == '+string(floor(DesiredX/64-1))+', '+string(myCellY)+' == '+string(floor(DesiredY/64+1)));
 
+halfRegion = round(-oCamera.CameraZ)+8*64;
+if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
+    {
+    instance_destroy();
+    }
+
 if (point_distance(x, y, DesiredX, DesiredY) &lt; 48)
     {
     if (!parked)

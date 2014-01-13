@@ -91,7 +91,7 @@ if (!global.enableTrafficSpawn)
 if (--spawnTimer &gt; 0)
     exit;
 else
-    spawnTimer = 30;
+    spawnTimer = 10;
 
 
 // Define the grid area around the player to check for roads
@@ -99,13 +99,14 @@ var preCenterX = cellCenterX;
 var preCenterY = cellCenterY;
 cellCenterX = round(oCamera.CameraX/64);
 cellCenterY = round(-oCamera.CameraY/64);
+halfRegion = round(-oCamera.CameraZ/64);
 
 var startX, endX, topY, bottomY, xx, yy, cellValue, xPos, yPos, inst;
 
-var startX = max(0, cellCenterX-halfRegion);
-var endX = min(gridWidth, cellCenterX+halfRegion);
-var topY = (cellCenterY-halfRegion);
-var bottomY = (cellCenterY+halfRegion);
+startX = max(0, cellCenterX-halfRegion);
+endX = min(gridWidth, cellCenterX+halfRegion);
+topY = (cellCenterY-halfRegion);
+bottomY = (cellCenterY+halfRegion);
 
 var hasRoad = false;
 
