@@ -28,7 +28,62 @@
     <sprite>sprites\sprite0</sprite>
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
-    <sprite>sprites\sTree</sprite>
+    <sprites name="Decals">
+      <sprites name="Landscape">
+        <sprite>sprites\sTree</sprite>
+        <sprite>sprites\sBush1</sprite>
+        <sprite>sprites\sBush2</sprite>
+        <sprite>sprites\sBush3</sprite>
+        <sprite>sprites\sBush4</sprite>
+        <sprite>sprites\sBushBare</sprite>
+        <sprite>sprites\sShrubPot</sprite>
+      </sprites>
+      <sprites name="Pavement">
+        <sprite>sprites\sLitter1</sprite>
+        <sprite>sprites\sLitter2</sprite>
+        <sprite>sprites\sLitter3</sprite>
+        <sprite>sprites\sLitter4</sprite>
+        <sprite>sprites\sPavementDrain</sprite>
+        <sprite>sprites\sPavementVent</sprite>
+        <sprite>sprites\sPuddle1</sprite>
+        <sprite>sprites\sBrokenGlass</sprite>
+        <sprite>sprites\sCracks1</sprite>
+        <sprite>sprites\sCracks2</sprite>
+        <sprite>sprites\sCracks3</sprite>
+      </sprites>
+      <sprites name="Road">
+        <sprite>sprites\sMarksBusStop</sprite>
+        <sprite>sprites\sMarksCrossing</sprite>
+        <sprite>sprites\sMarksGetInLane</sprite>
+        <sprite>sprites\sMarksSlow</sprite>
+        <sprite>sprites\sMarksStop</sprite>
+        <sprite>sprites\sMarksTurn</sprite>
+        <sprite>sprites\sMarksTyre1</sprite>
+        <sprite>sprites\sMarksTyre2</sprite>
+        <sprite>sprites\sMarksTyre3</sprite>
+        <sprite>sprites\sMarksTyre4</sprite>
+        <sprite>sprites\sDrain</sprite>
+        <sprite>sprites\sSpiltOil1</sprite>
+        <sprite>sprites\sSpiltOil2</sprite>
+        <sprite>sprites\sPothole1</sprite>
+        <sprite>sprites\sPothole2</sprite>
+      </sprites>
+      <sprites name="Buildings">
+        <sprite>sprites\sPhoneLineConnecter</sprite>
+        <sprite>sprites\sRoofAirConCorner</sprite>
+        <sprite>sprites\sRoofAirConH</sprite>
+        <sprite>sprites\sRoofAirConV</sprite>
+        <sprite>sprites\sEdgeDirtCorner</sprite>
+        <sprite>sprites\sEdgeDirtStraight</sprite>
+        <sprite>sprites\sPipeCorner</sprite>
+        <sprite>sprites\sPipeV</sprite>
+        <sprite>sprites\sPipeH</sprite>
+        <sprite>sprites\sIndPipe1</sprite>
+        <sprite>sprites\sIndPipe2</sprite>
+        <sprite>sprites\sIndPipe3</sprite>
+        <sprite>sprites\sIndPipe4</sprite>
+      </sprites>
+    </sprites>
     <sprites name="HUD">
       <sprite>sprites\sButtonNavbar</sprite>
       <sprite>sprites\sButtonNavbarSel</sprite>
