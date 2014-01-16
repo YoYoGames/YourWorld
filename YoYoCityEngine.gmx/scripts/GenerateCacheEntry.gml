@@ -46,6 +46,7 @@ vertex_begin(Mesh, global.CityFormat);
                 var u,d,l,r,lid,base,block,a,z,len; 
                 
                 var col = (yy*(MapDepth*MapWidth))+(xx*MapDepth);
+                
                 a = ds_grid_get(themap,xx,yy);                          
 
                 z=0;    
@@ -64,6 +65,9 @@ vertex_begin(Mesh, global.CityFormat);
                         lid=info[BLK_LID];
                         base=info[BLK_BASE];
                         var flags = info[BLK_FLAGS1];
+                        if (keyboard_check(vk_insert))
+                            show_debug_message(string(col+(zz|$80000000)));
+
                         AddCube(Mesh, x,y-CubeEdge,z,  x+CubeEdge,y,z+CubeEdge, col+(zz|$80000000), t,b,l,r,lid,base, flags );
                         
                         var roadFlags = flags>>22;
@@ -90,10 +94,12 @@ vertex_begin(Mesh, global.CityFormat);
                     {
                         var s = a[i];
                         var image = GetImage( s[0] );
-                        var sxx = x+(s[1]&$ff);
+                        var sxx = x+(s[1]&$ff) ;                                        
                         var syy = y- ((s[1]&$ff00)>>8);
                         var szz = ((s[1]>>16)&$ffff);
-                        AddSprite(SpriteMesh, image,0,sxx,syy,szz, 1,1,0, $ffffffff ); 
+                        if (keyboard_check(vk_insert))
+                            show_debug_message(string(col+(i|$80000000)));
+                        AddSprite(SpriteMesh, image,0,sxx,syy,szz, 1,1,0, col+(i|$80000000));
                         spritepolys+=2;
                     }
                 }

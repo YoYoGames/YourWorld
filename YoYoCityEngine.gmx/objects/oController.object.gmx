@@ -249,6 +249,8 @@ if( surface_exists(DiffuseSurface) ){
 //    draw_surface(SelectionSurface,0,0);
 }
 
+//draw_surface_ext(SelectionSurface,0,0,1,1,0,c_white,1) /*DEBUG*/
+
 /*
 if( surface_exists(Shadows.ShadowSurface) ){
     draw_enable_alphablend(false);

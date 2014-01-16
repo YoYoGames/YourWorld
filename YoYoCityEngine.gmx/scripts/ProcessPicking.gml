@@ -115,6 +115,7 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
                         }
                     else if (global.EditorMode == EDIT_SPRITES)
                         {
+                        show_debug_message(string(pix))
                         SetSprite( global.Map, MButton, TilePickX,TilePickY,TilePickZ );
                         }
                     else
