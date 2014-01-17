@@ -138,7 +138,11 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
         var mask =$ffffffff-(7<<((TilePickFace-1)*3));
         
         // Now paint based on mode (lid or side)
-        if( global.EditorMode_Sub==EDIT_SUB_LID )
+        if (global.EditorMode == EDIT_ROADS)
+            {
+            SetBlockRoadFlags(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
+            }
+        else if( global.EditorMode_Sub==EDIT_SUB_LID )
         {
             switch(TilePickFace){
                 case 5: info[BLK_LID]=tile; 

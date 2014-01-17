@@ -47,7 +47,7 @@ Animate = false;
 
 // Traffic flow test
 routeCoordinates = ds_list_create();
-//alarm[0] = 1;
+madeDecision = false;
 parked = false;
 
 </string>
@@ -73,14 +73,24 @@ parked = false;
           <argument>
             <kind>1</kind>
             <string>
-//show_debug_message(string(myCellX)+' == '+string(floor(DesiredX/64-1))+', '+string(myCellY)+' == '+string(floor(DesiredY/64+1)));
+// Despawn if too far away from player
+halfRegion = round(-oCamera.CameraZ)+8*64;
+if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
+    {
+    instance_destroy();
+    }
 
 if (point_distance(x, y, DesiredX, DesiredY) &lt; 48)
     {
+    ds_list_delete(routeCoordinates, 0);
+    ds_list_delete(routeCoordinates, 0);
+    ds_list_delete(routeCoordinates, 0);
     if (!parked)
         {
         Animate = true;
-        TrafficFindRoute();
+        //show_debug_message(string(ds_list_size(routeCoordinates)));
+        repeat (10)
+            TrafficFindRoute();
         }
     else if (point_distance(x, y, DesiredX, DesiredY) &gt; 8)
         {
