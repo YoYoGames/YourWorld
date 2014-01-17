@@ -38,6 +38,10 @@ WindowHeightMax=min(1024,window_get_height());
 //What is drawn top left of window
 WindowCaption="ENTITY SELECT";
 
+//Current tab and maximum tab
+Tab=0;
+TabMax=3;
+
 //The content inside the window
 WindowContent=surface_create(2048,2048);
 surface_set_target(WindowContent);
@@ -47,7 +51,7 @@ WindowContentRedraw=true;
 WindowContentClicked=1;
 WindowContentClickedX=0;
 WindowContentClickedY=0;
-for(var i=0; i&lt;=4; i+=1)
+for(var i=0; i&lt;=TabMax; i+=1)
 {
     WindowContentSelectedL[i]=global.LeftMouseTile;
     WindowContentSelectedR[i]=global.RightMouseTile;
@@ -58,10 +62,6 @@ WindowContentHeight=1024;
 WindowContentDrawY=73;
 WindowContentY=0;
 WindowContentYMin=0;
-
-//Current tab and maximum tab
-Tab=0;
-TabMax=3;
 
 Holding=0;
 

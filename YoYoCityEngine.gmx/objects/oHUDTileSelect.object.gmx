@@ -85,7 +85,7 @@ for( var i=0; i&lt;=TabMax; i+=1)
     var tabx1=x+(i*86); //X location of this tab
     
     //Logic for selecting tabs
-    if (mouse_click_rectangle(tabx1,y+39,tabx1+86,y+72))
+    if (mouse_click_rectangle(tabx1,y+39,tabx1+86,y+72) &amp;&amp; !instance_exists(oHeadMenu))
     {
         Tab=i;
         if (Tab==0) global.EditorMode_Sub=EDIT_SUB_SIDE;
@@ -152,7 +152,7 @@ if (WindowContentYMin!=0) //Can scroll
     
     //If you press the "Up" scroll button or mouse wheel up
     if (mouse_click_rectangle(x+WindowWidth-25,y+72,x+WindowWidth,y+97)
-        or (mouse_wheel_up() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight)))
+        or (mouse_wheel_up() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))) &amp;&amp; !instance_exists(oHeadMenu)
     {
         scrolly=clamp(scrolly-20,scrollymin,scrollymax)
         scrollchanged=1;
@@ -161,7 +161,7 @@ if (WindowContentYMin!=0) //Can scroll
     }
     //If you press the "Down" scroll button
     if (mouse_click_rectangle(x+WindowWidth-25,y+WindowHeight-50,x+WindowWidth,y+WindowHeight-25)
-        or (mouse_wheel_down() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight)))
+        or (mouse_wheel_down() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))) &amp;&amp; !instance_exists(oHeadMenu)
     {
         scrolly=clamp(scrolly+20,scrollymin,scrollymax)
         scrollchanged=1;
@@ -180,14 +180,14 @@ if (WindowContentYMin!=0) //Can scroll
 draw_set_color(c_white)
 
 //If you click the surface, remember the click position to process tile selection
-if (mouse_click_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))
+if (mouse_click_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight)) &amp;&amp; !instance_exists(oHeadMenu)
 {
     WindowContentClicked=1;
     WindowContentRedraw=true;
     WindowContentClickedX=device_mouse_raw_x(0)-(x);
     WindowContentClickedY=device_mouse_raw_y(0)-(y+73)+(WindowContentY);
 }
-if (mouse_rclick_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))
+if (mouse_rclick_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight)) &amp;&amp; !instance_exists(oHeadMenu)
 {
     WindowContentClicked=2;
     WindowContentRedraw=true;
@@ -231,7 +231,7 @@ if (!surface_exists(WindowContent))
 
 //If the surface is flagged to redraw, do it now
 if (WindowContentRedraw==true
-&amp;&amp; instance_exists(oMap))
+&amp;&amp; instance_exists(oMap) &amp;&amp; !instance_exists(oHeadMenu))
 {
     d3d_end();
     d3d_transform_set_identity();

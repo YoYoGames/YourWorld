@@ -117,6 +117,9 @@ SelectionSurface=-1;
 dir =0;
 zdir=0;
 
+var hm=instance_create(0,0,oHeadMenu);
+hm.Fade=1;
+
 </string>
           </argument>
         </arguments>
@@ -413,9 +416,25 @@ if( keyboard_check(vk_alt) )
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// End game on Control+Escape
-if( keyboard_check(vk_shift) ){
+            <string>/// End game on Control+Escape, open Head Menu on Escape
+if( keyboard_check(vk_shift) )
+{
     game_end();
+}
+else
+{
+    if( instance_exists(oHeadMenu) )
+    {
+        with(oHeadMenu)
+        {
+            Fadeout^=true;
+        }
+    }
+    else
+    {
+        var p=instance_create(0,0,oHeadMenu);
+        p.Item=HM_PLAY;
+    }
 }
 </string>
           </argument>

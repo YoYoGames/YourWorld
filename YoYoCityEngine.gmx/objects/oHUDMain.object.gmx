@@ -206,6 +206,8 @@ if (changed &amp;&amp; QuickSlot[QuickSlotSelected,2]&gt;-1)
             <kind>1</kind>
             <string>///Draw and operate HUD top buttons
 
+if (instance_exists(oHeadMenu)) exit;
+
 Tooltip=""; //Tooltip text
 
 var buttonX=16;  //Current button X
@@ -295,17 +297,29 @@ draw_sprite(sButtonSprite[global.EditorMode==EDIT_SPRITES],buttonI,buttonX,butto
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE DECALS") )
 {
     global.EditorMode=EDIT_SPRITES;
-    global.EditorMode_Sub=EDIT_SUB_NONE;        
+    global.EditorMode_Sub=EDIT_SUB_NONE;
+    
+    if !instance_exists(oHUDDecalSelect)
+    {
+        with(oHUDParent) instance_destroy()
+        instance_create(60,60,oHUDDecalSelect)
+    }
+    else if (global.EditorMode==EDIT_SPRITES)
+    {
+        with(oHUDParent) instance_destroy()
+    }        
 }
 buttonX+=buttonS
 buttonI+=1
 
-//Object
+//Objects
 draw_sprite(sButtonSprite[global.EditorMode==EDIT_OBJECTS],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE OBJECTS") )
 {
     global.EditorMode=EDIT_OBJECTS;
-    global.EditorMode_Sub=EDIT_SUB_NONE;        
+    global.EditorMode_Sub=EDIT_SUB_NONE;
+    
+    with(oHUDParent) instance_destroy()        
 }
 buttonX+=(buttonS*2)
 buttonI+=1
@@ -460,6 +474,8 @@ if (Tooltip!="")
           <argument>
             <kind>1</kind>
             <string>///Draw and operate HUD quick slots
+
+if (instance_exists(oHeadMenu)) exit;
 
 var slotw=60; sloth=60; sloto=4; //Set slot width, height, and offset between each other
 

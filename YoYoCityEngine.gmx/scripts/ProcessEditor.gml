@@ -50,7 +50,7 @@ AllowPick=true;
 }
 
 
-if( FreeCursorMode==1 ){
+if( FreeCursorMode==1 or instance_exists(oHeadMenu) ){
 }else{
     camera.dir  +=( display_mouse_get_x()- (window_get_x()+(window_get_width() /2)) )/6
     camera.zdir +=( display_mouse_get_y()- (window_get_y()+(window_get_height()/2)) )/6
@@ -85,6 +85,11 @@ if( AllowPick )
     }
     
     if (instance_exists(oHUDMain) && mouse_rectangle(0,window_get_height()-64,window_get_width(),window_get_height()))
+    {
+        HaltProcessing=true;
+    }
+    
+    if (instance_exists(oHeadMenu))
     {
         HaltProcessing=true;
     }

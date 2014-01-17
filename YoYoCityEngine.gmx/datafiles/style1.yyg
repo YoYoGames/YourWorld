@@ -2,8 +2,64 @@
 tilesGroupCount=7.000000
 roadsGroupCount=3.000000
 landscapeGroupCount=4.000000
-spritesGroupCount=2.000000
+dcLandscapeGroupCount=3.000000
+dcRoadGroupCount=4.000000
+dcPavementGroupCount=4.000000
+dcBuildingsGroupCount=4.000000
 objectsGroupCount=0.000000
+
+[dcLandscape]
+name0=Trees
+desc0=Currently unused
+list0=1
+name1=Bushes
+desc1=Currently unused
+list1=2,3,4,5,6
+name2=Miscellaneous
+desc2=Currently unused
+list2=7
+
+[dcPavement]
+name0=Litter
+desc0=Currently unused
+list0=8,9,10,11
+name1=Damage
+desc1=Currently unused
+list1=15,16,17,18
+name2=Vents
+desc2=Currently unused
+list2=12,13
+name3=Miscellaneous
+desc3=Currently unused
+list3=14
+
+[dcRoad]
+name0=Markings
+desc0=Currently unused
+list0=19,20,21,22,23,24,25,26,27,28
+name1=Damage
+desc1=Currently unused
+list1=32,33
+name2=Vents
+desc2=Currently unused
+list2=29
+name3=Miscellaneous
+desc3=Currently unused
+list3=30,31
+
+[dcBuildings]
+name0=Industrial
+desc0=Currently unused
+list0=43,44,45,46
+name1=Dirt
+desc1=Currently unused
+list1=38,39
+name2=Pipes
+desc2=Currently unused
+list2=35,36,37,40,41,42
+name3=Miscellaneous
+desc3=Currently unused
+list3=34
 
 [tiles]
 name0=Commercial
@@ -59,10 +115,5 @@ ls_list2=58,59,60
 name3=Field
 desc3=A field
 ls_list3=61,62,63,64
-
-[sprites]
-name0=Tree
-desc0=Trees... beaches... bam - boo
-list0=0
 
 [objects]

@@ -1,4 +1,7 @@
 /// ProcessKeys()
+
+if( instance_exists(oHeadMenu) ) exit;
+
 var camera = global.Camera;
 
 //Set four temporary variables to whether the player is pressing each of the four direction buttons
