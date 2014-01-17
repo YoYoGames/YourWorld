@@ -18,6 +18,8 @@ with (_map)
         xx=_x;   //The tile x
         yy=_y;   //The tile y
         zz=_z++; //The ACTUAL z (0-65535)
+        
+        show_debug_message("Clicked @ ("+string(xx)+","+string(yy)+","+string(zz)+")");
 
         if(( zz>=0 && zz<MapDepth ) && (xx>=0 && xx<MapWidth) && (yy>=0 && yy<MapHeight))
         {        
@@ -31,17 +33,18 @@ with (_map)
             
             var s;
             s[0]=global.LeftMouseSprite;
-            s[1]=(( (zz*oMap.TileSize)+8 )<<16); //Z coordinate
+            s[1]=0;
+            s[1]+=(( (zz*oMap.TileSize)+8 )<<16); //Z coordinate
             s[1]+=irandom_range(oMap.TileSize*0.25,oMap.TileSize*0.75)<<8; //Y
             s[1]+=irandom_range(oMap.TileSize*0.25,oMap.TileSize*0.75); //X
             s[2]=0; //Extra info, currently null
             
             a[0]=s;
             
-            ds_grid_set(Sprites,gridx,gridy,a)            
+            ds_grid_set(Sprites,gridx,gridy,a)           
             
             FreeCacheRegion(id,xx-1,yy-1, xx+1,yy+1);   
-            GenerateCacheRegion(id, xx-1,yy-1, xx+1,yy+1);  
+            GenerateCacheRegion(id, xx-1    ,yy-1, xx+1,yy+1);  
         }
     }    
     // Right click
@@ -52,7 +55,7 @@ with (_map)
         yy=_y;   //The tile y
         zz=_z++; //The ACTUAL z (0-65535)
         
-        show_debug_message("1 PASSED ("+string(xx)+","+string(yy)+","+string(zz)+")");
+        show_debug_message("Clicked @ ("+string(xx)+","+string(yy)+","+string(zz)+")");
         
         if( _z>0 )
         {       

@@ -1,4 +1,4 @@
-/// AddSprite(Vbuffer,sprite,image,x,y,z,scalex,scaley,angle,colour)
+/// AddSprite(Vbuffer,sprite,image,x,y,z,scalex,scaley,angle,_colourolour)
 //
 // Add a sprite to our "sprite mesh"
 // argument0 = VertexBuffer
@@ -31,32 +31,38 @@ _z1 = -argument5;
 _scalex = argument6;
 _scaley = argument7;
 _angle = argument8;
-_colour = argument9;
+_colour = argument9 |(1<<26);;
 
 vertex_position_3d(_buff,_x1,_y2,_z1);
-vertex_colour(_buff, _colour, 1.0 );
+vertex_argb(_buff,_colour);
+//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[0],uvs[1] );
 
 vertex_position_3d(_buff,_x2,_y2,_z1);
-vertex_colour(_buff, _colour, 1.0 );
+vertex_argb(_buff,_colour);
+//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[2],uvs[1] );
 
 vertex_position_3d(_buff,_x2,_y1,_z1);
-vertex_colour(_buff, _colour, 1.0 );
+vertex_argb(_buff,_colour);
+//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[2],uvs[3] );
 
 
 
 vertex_position_3d(_buff,_x2,_y1,_z1);
-vertex_colour(_buff, _colour, 1.0 );
+vertex_argb(_buff,_colour);
+//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[2],uvs[3] );
 
 vertex_position_3d(_buff,_x1,_y1,_z1);
-vertex_colour(_buff, _colour, 1.0 );
+vertex_argb(_buff,_colour);
+//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[0],uvs[3] );
 
 vertex_position_3d(_buff,_x1,_y2,_z1);
-vertex_colour(_buff, _colour, 1.0 );
+vertex_argb(_buff,_colour);
+//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[0],uvs[1] );
 
 
