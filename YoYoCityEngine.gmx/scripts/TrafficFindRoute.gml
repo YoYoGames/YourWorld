@@ -10,10 +10,6 @@ myCellIndex = GetBlockIndex(myCellX, -myCellY, myCellZ);
 hasRoad = GetHasRoad(myCellX, myCellY, myCellZ);
 
 
-// Add new coordiantes to route list
-// X, Y, DIRECTION
-/*TEST BREAKAGE*///ds_list_clear(routeCoordinates);
-
 routePoints = ds_list_size(routeCoordinates) div 3;
 
 // List is empty, add NEXT from current cell to list
