@@ -97,7 +97,7 @@ if( ResetOptions )
         InitMenuItem("Settings",HM_SETTINGS);
         InitMenuItem("Exit",HM_EXIT);
     }
-    if( Item==HM_PLAY )
+    else if( Item==HM_PLAY )
     {
         Title="PLAY";
         InitMenuItem("New",HM_NEW);
@@ -105,36 +105,68 @@ if( ResetOptions )
         InitMenuItem("Load",HM_LOAD);
         InitMenuItem("Back",HM_MAINMENU);
     }
-    if( Item==HM_NEW )
+    else if( Item==HM_BUILD )
+    {
+        Title="BUILD";
+        InitMenuItem("New",HM_NEW);
+        InitMenuItem("Load",HM_LOAD);
+        InitMenuItem("Back",HM_MAINMENU);
+    }
+    else if( Item==HM_SETTINGS )
+    {
+        Title="SETTINGS";
+        InitMenuItem("Controls",HM_SETTINGSCONTROLS);
+        InitMenuItem("Graphics",HM_SETTINGSGRAPHICS);
+        InitMenuItem("Sound",HM_SETTINGSSOUND);
+        InitMenuItem("Back",HM_MAINMENU);
+    }
+    else if( Item==HM_SETTINGSCONTROLS )
+    {
+        Title="SETTINGS | CONTROLS"
+        InitMenuItem("Game Controls",HM_SETTINGSCONTROLS);
+        InitMenuItem("Editor Controls",HM_SETTINGSCONTROLS);
+        InitMenuItem("Back",HM_SETTINGS);
+    }
+    else if( Item==HM_SETTINGSGRAPHICS )
+    {
+        Title="SETTINGS | GRAPHICS"
+        InitMenuItem("Back",HM_SETTINGS);
+    }
+    else if( Item==HM_SETTINGSSOUND )
+    {
+        Title="SETTINGS | SOUND"
+        InitMenuItem("Back",HM_SETTINGS);
+    }
+    else if( Item==HM_NEW )
     {
         ItemMax=ItemMaxP;
         Fadeout=true;
         NewMap();
     }
-    if( Item==HM_RESUME )
+    else if( Item==HM_RESUME )
     {
         ItemMax=ItemMaxP;
         Fadeout=true;
     }
-    if( Item==HM_LOAD )
+    else if( Item==HM_LOAD )
     {
         Title="LOADING..."
         InitMenuItem("",HM_LOAD)
         alarm[0]=30 //Game will fadeout when this runs out
         with(oMap) event_perform(ev_keypress,vk_f3)
     }
-    if( Item==HM_EXIT )
+    else if( Item==HM_EXIT )
     {
         Title="REALLY EXIT?";
         InitMenuItem("Yes",HM_QUITGAME);
         InitMenuItem("No",HM_MAINMENU);
     }
-    if( Item==HM_QUITGAME )
+    else if( Item==HM_QUITGAME )
     {
         game_end();
     }
     
-    if( ItemMax==-1 )
+    else if( ItemMax==-1 )
     {
         Title="MISSINGNO";
         InitMenuItem("Back",HM_MAINMENU);
