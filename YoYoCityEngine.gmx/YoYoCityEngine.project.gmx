@@ -167,6 +167,8 @@
     </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\GetRandomDirection.gml</script>
+    <script>scripts\GetDirectionOptions.gml</script>
+    <script>scripts\GetOptionExists.gml</script>
     <script>scripts\GetHasRoad.gml</script>
     <script>scripts\TrafficFindRoute.gml</script>
   </scripts>
