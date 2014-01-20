@@ -35,6 +35,16 @@ ResetOptions=true;
 
 Fadeout=false;
 Fade=0;
+
+InfoW=0;
+InfoH=0;
+InfoA=0;
+InfoT="";
+InfoDrawW=0;
+InfoDrawH=0;
+InfoDataMax=-1;
+InfoDataCell1[0]="";
+InfoDataCell2[0]="";
 </string>
           </argument>
         </arguments>
@@ -86,8 +96,9 @@ Fadeout=true;
 
 if( ResetOptions )
 {
-    ItemMaxP=ItemMax;
-    ItemMax=-1;
+    ItemMaxP=ItemMax; ItemMax=-1; //Clickable variables
+    
+    InfoW=0; InfoT=""; InfoDataMax=-1; //Information window
     
     if( Item==HM_MAINMENU )
     {
@@ -122,19 +133,42 @@ if( ResetOptions )
     }
     else if( Item==HM_SETTINGSCONTROLS )
     {
-        Title="SETTINGS | CONTROLS"
-        InitMenuItem("Game Controls",HM_SETTINGSCONTROLS);
-        InitMenuItem("Editor Controls",HM_SETTINGSCONTROLS);
+        Title="CONTROLS";
+        InitMenuItem("Game",HM_SETTINGSCONTROLSGAME);
+        InitMenuItem("Editor",HM_SETTINGSCONTROLSEDITOR);
         InitMenuItem("Back",HM_SETTINGS);
+    }
+    else if( Item==HM_SETTINGSCONTROLSGAME )
+    {
+        ItemMax=ItemMaxP;
+        SetInfoWindow("Driving",500);
+        SetInfoRow("Action","Key");
+        SetInfoRow("Accelerate","W");
+        SetInfoRow("Brake/Reverse","S");
+        SetInfoRow("Steer Left","A");
+        SetInfoRow("Steer Right","D");
+        SetInfoRow("Handbrake","Space");
+    }
+    else if( Item==HM_SETTINGSCONTROLSEDITOR )
+    {
+        ItemMax=ItemMaxP;
+        SetInfoWindow("Editing",500);
+        SetInfoRow("Action","Key");
+        SetInfoRow("Accelerate","W");
+        SetInfoRow("Brake/Reverse","S");
+        SetInfoRow("Steer Left","A");
+        SetInfoRow("Steer Right","D");
+        SetInfoRow("Handbrake","Space");
+        SetInfoRow("Open Menu","Esc");
     }
     else if( Item==HM_SETTINGSGRAPHICS )
     {
-        Title="SETTINGS | GRAPHICS"
+        Title="GRAPHICS"
         InitMenuItem("Back",HM_SETTINGS);
     }
     else if( Item==HM_SETTINGSSOUND )
     {
-        Title="SETTINGS | SOUND"
+        Title="SOUND"
         InitMenuItem("Back",HM_SETTINGS);
     }
     else if( Item==HM_NEW )
@@ -196,9 +230,14 @@ if( ResetOptions )
             <kind>1</kind>
             <string>///Control fading
 
+//Fading of entire Head Menu
 Fade=lerp(Fade,Fadeout==false,0.15);
-
 if( Fadeout==true &amp;&amp; Fade&lt;0.05 ) instance_destroy();
+
+//Fading/scaling of Info 
+InfoDrawW=lerp(InfoDrawW,InfoW,0.2);
+InfoDrawH=lerp(InfoDrawH,InfoH,0.2);
+InfoA=lerp(InfoA,( InfoW&gt;1 ),0.2);
 </string>
           </argument>
         </arguments>
@@ -221,7 +260,7 @@ if( Fadeout==true &amp;&amp; Fade&lt;0.05 ) instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Draw the Head Menu
+            <string>///Draw the Head Menu background &amp; buttons
 
 var backscale=max(view_wview[0]/1920,view_hview[0]/1920);
 draw_sprite_ext(sHMBack,0,view_wview[0]/2,view_hview[0]/2,backscale,backscale,0,c_white,Fade);
@@ -233,13 +272,13 @@ draw_set_halign(fa_left)
 draw_set_valign(fa_bottom)
 draw_set_color(c_white)
 
-draw_text(view_wview[0]*0.15,(view_hview[0]*0.45)-((1-Fade)*200),Title);
+draw_text(view_wview[0]*0.1,(view_hview[0]*0.45)-((1-Fade)*200),Title);
 
 draw_set_font(fTwCenL)
 
 for(i=0;i&lt;=ItemMax;i+=1)
 {
-    var xx=(view_wview[0]*0.15)-((1-Fade)*200);
+    var xx=(view_wview[0]*0.1)-((1-Fade)*200);
     var yy=(view_hview[0]*0.55)+(i*50);
     var al=Fade*0.6;
     
@@ -261,6 +300,84 @@ for(i=0;i&lt;=ItemMax;i+=1)
 }
 
 draw_set_alpha(1)
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Draw the Info Window
+
+if( InfoA&gt;0.05 ) //If the transparency of the window is under a certain point, skip drawing it
+{
+
+    //Set the coordinates for the edges of the info window
+    var iwx1=round(view_wview[0]*0.3), iwy1=round((view_hview[0]*0.6)-(InfoDrawH/2));
+    var iwx2=round(iwx1+InfoDrawW), iwy2=round(iwy1+InfoDrawH);
+    var xx=iwx1+30, yy=iwy1; col=c_black; //Dynamic drawing coordinates
+    
+    //Draw the window itself
+    draw_set_alpha(sqr(InfoA)*0.7);
+    draw_set_color(c_black);
+    draw_rectangle(iwx1,iwy1,iwx2,iwy2,0);
+    
+    //Draw the contents of the window
+    draw_set_alpha(sqr(InfoA));
+    draw_set_color(c_white);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_center);
+    
+    //Title
+    draw_set_font(fTwCenL);
+    yy+=30;
+    draw_text(xx,yy+5,InfoT);
+    
+    //Table Contents
+    draw_set_font(fTwCenM);
+    for(i=0;i&lt;=InfoDataMax;i+=1)
+    {
+        yy+=40;
+        
+        if( round(i/2)==i/2 ) //If you're on an even number, tint the colour behind it
+        {
+            draw_set_alpha(sqr(InfoA)*0.2); draw_rectangle(iwx1,yy,iwx2,yy+40,0); draw_set_alpha(sqr(InfoA));
+        }
+        
+        draw_text(xx           ,yy+20,InfoDataCell1[i])
+        draw_text(mean(xx,iwx2),yy+20,InfoDataCell2[i])
+    }
+    
+    yy+=50;
+    InfoH=yy-iwy1;
+    
+    //Draw the glowy outline of the window
+    draw_sprite_ext(sHMInfoWindowC,0,iwx1  ,iwy1  ,1,1,  0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowC,0,iwx1  ,iwy2+1,1,1, 90,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowC,0,iwx2+1,iwy2+1,1,1,180,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowC,0,iwx2+1,iwy1  ,1,1,270,c_white,InfoA);
+    
+    draw_sprite_ext(sHMInfoWindowSH,0,mean(iwx1,iwx2),iwy1,(InfoDrawW-14)/16,1,0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowSH,0,mean(iwx1,iwx2),iwy2,(InfoDrawW-14)/16,1,0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowSV,0,iwx1,mean(iwy1,iwy2),1,(InfoDrawH-14)/16,0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowSV,0,iwx2,mean(iwy1,iwy2),1,(InfoDrawH-14)/16,0,c_white,InfoA);
+    
+    draw_set_color(c_white);
+    draw_set_alpha(1);
+}
 </string>
           </argument>
         </arguments>
