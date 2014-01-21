@@ -45,6 +45,16 @@ InfoDrawH=0;
 InfoDataMax=-1;
 InfoDataCell1[0]="";
 InfoDataCell2[0]="";
+InfoScrollY=0;
+InfoScrollYMin=0;
+DrawScrollY=view_hview[0]*0.6;
+DrawScrollYMin=0;
+DrawScrollYMax=0;
+DrawScrollReset=0;
+InfoSurface=surface_create(1024,2048);
+HasScrollbar=0;
+
+Holding=0;
 </string>
           </argument>
         </arguments>
@@ -98,7 +108,7 @@ if( ResetOptions )
 {
     ItemMaxP=ItemMax; ItemMax=-1; //Clickable variables
     
-    InfoW=0; InfoT=""; InfoDataMax=-1; //Information window
+    InfoW=0; InfoT=""; InfoDataMax=-1; InfoScrollY=0; DrawScrollReset=1; //Information window
     
     if( Item==HM_MAINMENU )
     {
@@ -159,6 +169,13 @@ if( ResetOptions )
         SetInfoRow("Steer Left","A");
         SetInfoRow("Steer Right","D");
         SetInfoRow("Handbrake","Space");
+        SetInfoRow("Open Menu","Esc");
+        SetInfoRow("Open Menu","Esc");
+        SetInfoRow("Open Menu","Esc");
+        SetInfoRow("Open Menu","Esc");
+        SetInfoRow("Open Menu","Esc");
+        SetInfoRow("Open Menu","Esc");
+        SetInfoRow("Open Menu","Esc");
         SetInfoRow("Open Menu","Esc");
     }
     else if( Item==HM_SETTINGSGRAPHICS )
@@ -243,6 +260,29 @@ InfoA=lerp(InfoA,( InfoW&gt;1 ),0.2);
         </arguments>
       </action>
     </event>
+    <event eventtype="6" enumb="56">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>Holding=0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
@@ -260,7 +300,7 @@ InfoA=lerp(InfoA,( InfoW&gt;1 ),0.2);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Draw the Head Menu background &amp; buttons
+            <string>///Draw the Head Menu background &amp; button
 
 var backscale=max(view_wview[0]/1920,view_hview[0]/1920);
 draw_sprite_ext(sHMBack,0,view_wview[0]/2,view_hview[0]/2,backscale,backscale,0,c_white,Fade);
@@ -324,16 +364,21 @@ draw_set_alpha(1)
 
 if( InfoA&gt;0.05 ) //If the transparency of the window is under a certain point, skip drawing it
 {
+    //Initialise the window surface
+    if( !surface_exists(InfoSurface) ) {InfoSurface=surface_create(1024,2048);}
+    d3d_end();
+    d3d_transform_set_identity();
+    surface_set_target(InfoSurface);
+    draw_clear_alpha(c_black,0.7);
+    
 
     //Set the coordinates for the edges of the info window
-    var iwx1=round(view_wview[0]*0.3), iwy1=round((view_hview[0]*0.6)-(InfoDrawH/2));
+    var swx1=round(view_wview[0]*0.3), swy1=round((view_hview[0]*0.6)-(InfoDrawH/2));
+    var swx2=round(swx1+InfoDrawW), swy2=round(swy1+InfoDrawH);
+    var iwx1=0, iwy1=0;
     var iwx2=round(iwx1+InfoDrawW), iwy2=round(iwy1+InfoDrawH);
     var xx=iwx1+30, yy=iwy1; col=c_black; //Dynamic drawing coordinates
-    
-    //Draw the window itself
-    draw_set_alpha(sqr(InfoA)*0.7);
-    draw_set_color(c_black);
-    draw_rectangle(iwx1,iwy1,iwx2,iwy2,0);
+    var MaxHeight=500;
     
     //Draw the contents of the window
     draw_set_alpha(sqr(InfoA));
@@ -354,7 +399,9 @@ if( InfoA&gt;0.05 ) //If the transparency of the window is under a certain point
         
         if( round(i/2)==i/2 ) //If you're on an even number, tint the colour behind it
         {
-            draw_set_alpha(sqr(InfoA)*0.2); draw_rectangle(iwx1,yy,iwx2,yy+40,0); draw_set_alpha(sqr(InfoA));
+            draw_set_alpha(sqr(InfoA)*0.2);
+            draw_rectangle(iwx1,yy,iwx2-(HasScrollbar*sprite_get_width(sScrollbar)),yy+40,0);
+            draw_set_alpha(sqr(InfoA));
         }
         
         draw_text(xx           ,yy+20,InfoDataCell1[i])
@@ -364,19 +411,85 @@ if( InfoA&gt;0.05 ) //If the transparency of the window is under a certain point
     yy+=50;
     InfoH=yy-iwy1;
     
-    //Draw the glowy outline of the window
-    draw_sprite_ext(sHMInfoWindowC,0,iwx1  ,iwy1  ,1,1,  0,c_white,InfoA);
-    draw_sprite_ext(sHMInfoWindowC,0,iwx1  ,iwy2+1,1,1, 90,c_white,InfoA);
-    draw_sprite_ext(sHMInfoWindowC,0,iwx2+1,iwy2+1,1,1,180,c_white,InfoA);
-    draw_sprite_ext(sHMInfoWindowC,0,iwx2+1,iwy1  ,1,1,270,c_white,InfoA);
+    //If the window is too big, enable the scrollbar
+    if( InfoH&gt;MaxHeight )
+    {
+        InfoScrollYMin=(MaxHeight-InfoH);
+        InfoH=MaxHeight;
+        HasScrollbar=1;
+    }
+    else
+    {
+        InfoScrollYMin=0;
+        HasScrollbar=0;
+    }
     
-    draw_sprite_ext(sHMInfoWindowSH,0,mean(iwx1,iwx2),iwy1,(InfoDrawW-14)/16,1,0,c_white,InfoA);
-    draw_sprite_ext(sHMInfoWindowSH,0,mean(iwx1,iwx2),iwy2,(InfoDrawW-14)/16,1,0,c_white,InfoA);
-    draw_sprite_ext(sHMInfoWindowSV,0,iwx1,mean(iwy1,iwy2),1,(InfoDrawH-14)/16,0,c_white,InfoA);
-    draw_sprite_ext(sHMInfoWindowSV,0,iwx2,mean(iwy1,iwy2),1,(InfoDrawH-14)/16,0,c_white,InfoA);
+    //Reset and draw the surface
+    surface_reset_target()
+    draw_surface_part(InfoSurface,0,floor(-InfoScrollY),iwx2-iwx1,iwy2-iwy1,swx1,swy1);
+    
+    //If necessary, draw/control the scrollbar
+    if( InfoScrollYMin&lt;0 )
+    {
+        DrawScrollYMin=swy1+sprite_get_width(sScrollbar);
+        DrawScrollYMax=swy2-sprite_get_width(sScrollbar)-sprite_get_height(sScrollbar);
+        
+        if( DrawScrollReset==1 )
+        {
+            DrawScrollY=DrawScrollYMin;
+            if( floor(InfoDrawH)==floor(InfoH) ) {DrawScrollReset=0;}
+        }
+        
+        if( mouse_click_rectangle(swx2-sprite_get_width(sScrollbar),DrawScrollYMin,swx2,swy2-sprite_get_width(sScrollbar)) )
+        {
+            Holding=1 //Dragging the scrollbar
+        }
+        else if( mouse_click_rectangle(swx2-sprite_get_width(sScrollbar),swy1,swx2,swy1+sprite_get_width(sScrollbar)) )
+        {
+            Holding=2 //Click Scroll Up
+        }
+        else if( mouse_click_rectangle(swx2-sprite_get_width(sScrollbar),swy2-sprite_get_width(sScrollbar),swx2,swy2) )
+        {
+            Holding=3 //Click Scroll Down
+        }
+        if( Holding&gt;0 )
+        {
+            if( Holding==1 ) DrawScrollY=clamp(device_mouse_raw_y(0)-sprite_get_width(sScrollbar),DrawScrollYMin,DrawScrollYMax);
+            if( Holding==2 ) DrawScrollY=clamp(DrawScrollY-10,DrawScrollYMin,DrawScrollYMax);
+            if( Holding==3 ) DrawScrollY=clamp(DrawScrollY+10,DrawScrollYMin,DrawScrollYMax);
+            
+            InfoScrollY=lerp(0,InfoScrollYMin,(DrawScrollY-DrawScrollYMin)/(DrawScrollYMax-DrawScrollYMin));
+            DrawScrollReset=0;
+        }
+        
+        draw_sprite(sScrollbar,0,swx2,DrawScrollY)
+        
+        //Draw/control buttons, etc
+        draw_sprite_ext(sScrollbarUp,0,swx2,swy1,1,1,0,c_white,sqr(InfoA));
+        draw_sprite_ext(sScrollbarDown,0,swx2,swy2,1,1,0,c_white,sqr(InfoA));
+        draw_sprite_ext(sHMInfoWindowSV,0,swx2-sprite_get_width(sScrollbar),mean(swy1,swy2),
+                        1,(InfoDrawH-(2*sprite_get_width(sScrollbar)))/16,0,c_white,sqr(InfoA));
+                       
+                
+    }
+    
+    InfoScrollY=clamp(InfoScrollY,InfoScrollYMin,0);
+    
+    //Draw the glowy outline of the window
+    draw_sprite_ext(sHMInfoWindowC,0,swx1  ,swy1  ,1,1,  0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowC,0,swx1  ,swy2+1,1,1, 90,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowC,0,swx2+1,swy2+1,1,1,180,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowC,0,swx2+1,swy1  ,1,1,270,c_white,InfoA);
+    
+    draw_sprite_ext(sHMInfoWindowSH,0,mean(swx1,swx2),swy1,(InfoDrawW-14)/16,1,0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowSH,0,mean(swx1,swx2),swy2,(InfoDrawW-14)/16,1,0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowSV,0,swx1,mean(swy1,swy2),1,(InfoDrawH-14)/16,0,c_white,InfoA);
+    draw_sprite_ext(sHMInfoWindowSV,0,swx2,mean(swy1,swy2),1,(InfoDrawH-14)/16,0,c_white,InfoA);
     
     draw_set_color(c_white);
     draw_set_alpha(1);
+    
+    d3d_start();
 }
 </string>
           </argument>

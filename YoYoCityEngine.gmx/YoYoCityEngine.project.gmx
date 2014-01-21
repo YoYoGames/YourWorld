@@ -102,6 +102,9 @@
         <sprite>sprites\sHMInfoWindowSV</sprite>
         <sprite>sprites\sHMInfoWindowSH</sprite>
         <sprite>sprites\sHMInfoWindowC</sprite>
+        <sprite>sprites\sScrollbarUp</sprite>
+        <sprite>sprites\sScrollbarDown</sprite>
+        <sprite>sprites\sScrollbar</sprite>
       </sprites>
     </sprites>
     <sprites name="Car Stuff">
