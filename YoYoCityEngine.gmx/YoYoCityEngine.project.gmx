@@ -99,6 +99,12 @@
       <sprite>sprites\sHUDScrollArrow</sprite>
       <sprites name="HeadMenu">
         <sprite>sprites\sHMBack</sprite>
+        <sprite>sprites\sHMInfoWindowSV</sprite>
+        <sprite>sprites\sHMInfoWindowSH</sprite>
+        <sprite>sprites\sHMInfoWindowC</sprite>
+        <sprite>sprites\sScrollbarUp</sprite>
+        <sprite>sprites\sScrollbarDown</sprite>
+        <sprite>sprites\sScrollbar</sprite>
       </sprites>
     </sprites>
     <sprites name="Car Stuff">
@@ -206,6 +212,8 @@
       <script>scripts\SetQuickSlotFromHolding.gml</script>
       <scripts name="HeadMenu">
         <script>scripts\InitMenuItem.gml</script>
+        <script>scripts\SetInfoWindow.gml</script>
+        <script>scripts\SetInfoRow.gml</script>
       </scripts>
     </scripts>
     <scripts name="Car Physics">
