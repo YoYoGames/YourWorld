@@ -1,13 +1,14 @@
 /// GetOptionExists(x, y, z, direction);
 //
+//  Returns TRUE if the given cell has the given road direction available.
+//
 //*****************************************************************************
 
-var block, info, flags, north, east, south, west, count;
+var block, info, flags, north, east, south, west;
 
 block = MakeUnique(global.Map, argument0, -argument1, argument2);
 info  = oMap.block_info[block];
 flags = (info[BLK_FLAGS1] >> 22) & $F;
-count = 0;
 if (flags)
     {
     // Get flags

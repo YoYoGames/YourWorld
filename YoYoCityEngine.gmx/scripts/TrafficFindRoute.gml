@@ -1,19 +1,25 @@
+/// TrafficFindRoute();
+//
+//  Builds a list of coordinates along the road for the car to follow.
+//
+//*****************************************************************************
 
-var routePoints, block, info, flags, hasRoad;
+var myCellX, myCellY, myCellZ, newCellX, newCellY, newCellZ, routePoints, hasRoad
+    start, lastDirection, newDirection;
 
-
+    
+//-----------------------------------------------------------------------------
 // Get my current cell
 myCellX = floor(DesiredX/64);
 myCellY = ceil(DesiredY/64);
 myCellZ = 4;
-myCellIndex = GetBlockIndex(myCellX, -myCellY, myCellZ);
 hasRoad = GetHasRoad(myCellX, myCellY, myCellZ);
 
 
+//-----------------------------------------------------------------------------
+// List is empty, add NEXT cell from current cell to list
 routePoints = ds_list_size(routeCoordinates) div 3;
-
-// List is empty, add NEXT from current cell to list
-if (routePoints == 0)
+if (!routePoints)
     {
     // Get infomation about current cell, and calculate new cell
     newCellX = myCellX + lengthdir_x(1, DesiredDirection);
@@ -26,11 +32,12 @@ if (routePoints == 0)
     ds_list_add(routeCoordinates, GetRandomDirection(newCellX, newCellY, newCellZ, DesiredDirection));
     }
     
+// List isn't empty, but isn't complete
 else if (routePoints < 10)
     {
     // Get infomation about last cell, and calculate new cell
-    var start = ds_list_size(routeCoordinates)-3;
-    var lastDirection = ds_list_find_value(routeCoordinates, start+2);
+    start = ds_list_size(routeCoordinates)-3;
+    lastDirection = ds_list_find_value(routeCoordinates, start+2);
     newCellX = ds_list_find_value(routeCoordinates, start+0) + lengthdir_x(1, lastDirection);
     newCellY = ds_list_find_value(routeCoordinates, start+1) + lengthdir_y(1, lastDirection);
     newCellZ = myCellZ;
@@ -40,9 +47,8 @@ else if (routePoints < 10)
         madeDecision = false;
     
     // Add new cell to list
-    var newDirection = lastDirection;
-    if (madeDecision == false)
-        newDirection = GetRandomDirection(newCellX, newCellY, newCellZ, DesiredDirection);
+    if (!madeDecision) newDirection = GetRandomDirection(newCellX, newCellY, newCellZ, DesiredDirection);
+    else               newDirection = lastDirection;
     ds_list_add(routeCoordinates, newCellX);
     ds_list_add(routeCoordinates, newCellY);
     ds_list_add(routeCoordinates, newDirection);
@@ -51,27 +57,17 @@ else if (routePoints < 10)
     if (lastDirection != newDirection)
         madeDecision = true;
     }
-
-
-//Animate = false;
+    
+    
+//-----------------------------------------------------------------------------
+// If we are on the road, allow movement to the next point
 if (hasRoad)
     {
-    // TEST. Check for collision
-    var inst = instance_nearest(newCellX*64+32, newCellY*64-32, objTrafficCar);
-    if (point_distance(x, y, inst.x, inst.y) < 96)
-    && (inst != id)
-        {
-        //Animate = false;
-        }
-    else
-        {
-        DesiredX         = ds_list_find_value(routeCoordinates, 0)*64+32;
-        DesiredY         = ds_list_find_value(routeCoordinates, 1)*64-32;
-        DesiredDirection = ds_list_find_value(routeCoordinates, 2);
-        }
+    DesiredX         = ds_list_find_value(routeCoordinates, 0)*64+32;
+    DesiredY         = ds_list_find_value(routeCoordinates, 1)*64-32;
+    DesiredDirection = ds_list_find_value(routeCoordinates, 2);
     }
-else
-    {
-    parked = true;
-    }
+
+// There's no road here, assume we're parked
+else parked = true;
 

@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="16" name="datafiles">
+  <datafiles number="17" name="datafiles">
     <datafile>
       <name>style1.yyg</name>
       <exists>-1</exists>
@@ -232,6 +232,9 @@
     <script>scripts\GetOptionExists.gml</script>
     <script>scripts\GetHasRoad.gml</script>
     <script>scripts\TrafficFindRoute.gml</script>
+    <script>scripts\OccupyCells.gml</script>
+    <script>scripts\OccupyFree.gml</script>
+    <script>scripts\OccupyEmpty.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>

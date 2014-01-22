@@ -35,6 +35,8 @@ halfRegion = 4;
 
 spawnTimer = 30;
 
+occupiedCells = ds_list_create();
+
 </string>
           </argument>
         </arguments>

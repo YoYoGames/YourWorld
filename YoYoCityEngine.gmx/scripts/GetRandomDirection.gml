@@ -33,14 +33,13 @@ if (flags)
             case (3): potentialDir = 180; break;
             }
         
-        // Cancel directions in case of collision
+        // Cancel directions in case of collision (parked car)
         xPos = argument0*64+32 + lengthdir_x(64, potentialDir);
         yPos = argument1*64-32 + lengthdir_y(64, potentialDir);
         inst = instance_nearest(xPos, yPos, objTrafficCar);
         if (point_distance(xPos, yPos, inst.x, inst.y) < 32)
-        && (inst.parked == true)
+        && (inst.parked)
             {
-            //show_debug_message("found parked");
             switch (n)
                 {
                 case (0): north = false; break;
@@ -52,10 +51,10 @@ if (flags)
         }
     
     // Get a default direction
-    if (north) dir = 270;
-    if (east)  dir = 0;
-    if (south) dir = 90;
-    if (west)  dir = 180;
+    if      (north) dir = 270;
+    else if (east)  dir = 0;
+    else if (south) dir = 90;
+    else if (west)  dir = 180;
     
     // Chose a random direction if possible
     if (north && choose(0, 1)) dir = 270;

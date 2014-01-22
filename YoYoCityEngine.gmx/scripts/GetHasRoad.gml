@@ -1,6 +1,8 @@
 /// GetHasRoad(x, y, z);
 //
+//  Returns TRUE if there are ANY road direction options in the given cell.
 //
+//*****************************************************************************
 
 var block, info, flags;
 
