@@ -1,20 +1,20 @@
 /// OccupyEmpty(cellList);
 //
+//  cellList: A list of cells occupied by the calling instance.
+//
 //*****************************************************************************
 
-var cellList, findValue, sIndex;
+var findValue, sIndex;
 
-cellList = argument0;
-
-repeat (ds_list_size(cellList))
+repeat (ds_list_size(argument0))
     {
     // Delete from shared list
-    findValue = ds_list_find_value(cellList, 0);
+    findValue = ds_list_find_value(argument0, 0);
     sIndex = ds_list_find_index(objTrafficSpawner.occupiedCells, findValue);
     if (sIndex != -1)
         ds_list_delete(objTrafficSpawner.occupiedCells, sIndex);
     
     // Delete from given local list
-    ds_list_delete(cellList, 0);
+    ds_list_delete(argument0, 0);
     }
 

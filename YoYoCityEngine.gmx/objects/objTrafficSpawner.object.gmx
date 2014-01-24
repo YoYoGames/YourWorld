@@ -111,14 +111,25 @@ topY = (cellCenterY-halfRegion);
 bottomY = (cellCenterY+halfRegion);
 
 var hasRoad = false;
+var roadOptions = 0;
 
 var lookat = choose(0, 1, 2, 3);
 
-// Check top row
+if (objBody.phy_speed_y &lt; -2)
+    lookat = 1;
+if (objBody.phy_speed_y &gt; 2)
+    lookat = 0;
+if (objBody.phy_speed_x &lt; -2)
+    lookat = 2;
+if (objBody.phy_speed_x &gt; 2)
+    lookat = 3;
+
+n = 0;
 switch (lookat)
     {
+    // Top row
     case (0):
-        if (topY &gt; 0)
+        //if (topY &gt; 0)
             {
             yy = topY;
             for (xx=startX; xx&lt;endX; xx++)
@@ -138,15 +149,20 @@ switch (lookat)
                         if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
                             {
                             hasRoad = true;
-                            break;
+                            roadOptions[n++] = xPos;
+                            roadOptions[n++] = yPos;
+                            roadOptions[n++] = roadFlags;
+                            //break;
                             }
                         }
                     }
                 }
             }
     break;
+    
+    // Bottom row
     case (1):
-        if (startX &gt; 0)
+        //if (startX &gt; 0)
             {
             yy = bottomY;
             for (xx=startX; xx&lt;endX; xx++)
@@ -166,15 +182,20 @@ switch (lookat)
                         if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
                             {
                             hasRoad = true;
-                            break;
+                            roadOptions[n++] = xPos;
+                            roadOptions[n++] = yPos;
+                            roadOptions[n++] = roadFlags;
+                            //break;
                             }
                         }
                     }
                 }
             }
     break;
+    
+    // Left column
     case (2):
-        if (bottomY &gt; 0)
+        //if (bottomY &gt; 0)
             {
             xx = startX;
             for (yy=topY; yy&lt;bottomY; yy++)
@@ -194,15 +215,20 @@ switch (lookat)
                         if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
                             {
                             hasRoad = true;
-                            break;
+                            roadOptions[n++] = xPos;
+                            roadOptions[n++] = yPos;
+                            roadOptions[n++] = roadFlags;
+                            //break;
                             }
                         }
                     }
                 }
             }
     break;
+    
+    // Right column
     case (3):
-        if (bottomY &gt; 0)
+        //if (bottomY &gt; 0)
             {
             xx = endX;
             for (yy=topY; yy&lt;bottomY; yy++)
@@ -222,7 +248,10 @@ switch (lookat)
                         if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
                             {
                             hasRoad = true;
-                            break;
+                            roadOptions[n++] = xPos;
+                            roadOptions[n++] = yPos;
+                            roadOptions[n++] = roadFlags;
+                            //break;
                             }
                         }
                     }
@@ -234,13 +263,19 @@ switch (lookat)
 
 if (hasRoad)
     {
+    // Choose one of the possible spawn locations that we found
+    var points = array_length_1d(roadOptions)/3;
+    var randomPoint = irandom(points-1)*3;
+    xPos = roadOptions[randomPoint+0];
+    yPos = roadOptions[randomPoint+1];
+    roadFlags = roadOptions[randomPoint+2];
+    
     // Convert roadFlags into variables we can read
     var north = (roadFlags &amp; 8) &gt; 0; // 1000 = 8
     var east  = (roadFlags &amp; 4) &gt; 0; // 0100 = 4
     var south = (roadFlags &amp; 2) &gt; 0; // 0010 = 2
     var west  = (roadFlags &amp; 1) &gt; 0; // 0001 = 1
     
-    //show_debug_message("Unoccupied road found, spawning traffic at "+string(xPos)+", "+string(yPos));
     var newCar = instance_create(xPos, yPos, objTrafficCar);
     newCar.z = 255+8;
     
@@ -248,6 +283,8 @@ if (hasRoad)
     if (east)  newCar.direction = 0;
     if (south) newCar.direction = 90;
     if (west)  newCar.direction = 180;
+    
+    //newCar.phy_rotation = newCar.direction-90;
     newCar.image_angle = newCar.direction-90;
     newCar.Direction = newCar.direction;
     newCar.DesiredDirection = newCar.direction;

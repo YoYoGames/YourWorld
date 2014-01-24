@@ -45,6 +45,7 @@ cellCenterY = 0;
 halfRegion = 2;
 
 // Setup lists
+instanceList = ds_list_create();
 phyCache = ds_list_create();    // List of items from previous pass
 phyActive = ds_list_create();   // List of currently active items
 phyFree = ds_list_create();     // List of items that are free and ready for reuse
@@ -105,6 +106,129 @@ with (objBody) instance_destroy();
           <argument>
             <kind>1</kind>
             <string>
+// Compile list of instances that require building collision
+ds_list_clear(instanceList);
+index = 0;
+ds_list_add(instanceList, objBody);
+for (n=0; n&lt;instance_number(objTrafficCar); n++)
+    {
+    i = instance_find(objTrafficCar, n);
+    if (!i.active)
+        ds_list_add(instanceList, i);
+    }
+
+
+listSize = ds_list_size(instanceList);
+for (n=0; n&lt;listSize; n++)
+    {
+    instValue = ds_list_find_value(instanceList, n);
+    var preCenterX = cellCenterX;
+    var preCenterY = cellCenterY;
+    cellCenterX = round(instValue.x/64);
+    cellCenterY = round(-instValue.y/64);
+    
+    
+    // Do update if the player is in a new cell
+    if (cellCenterX != preCenterX)
+    || (cellCenterY != preCenterY)
+        {
+        // Restrict region to inside the map (no point looking for things we know are not there)
+        var startX = max(0, cellCenterX-halfRegion);
+        var startY = max(0, cellCenterY-halfRegion);
+        var endX = min(gridWidth, cellCenterX+halfRegion);
+        var endY = min(gridHeight, cellCenterY+halfRegion);
+        
+        var xx, yy, cellID, existingCell;
+        
+        for (xx=startX; xx&lt;endX; xx++)
+            {
+            for (yy=startY; yy&lt;endY; yy++)
+                {
+                // Get uid for this cell
+                cellID = "x"+string(xx)+"y"+string(yy)+"z"+string(0);
+                
+                // If this cell already has a body attached to it
+                existingCell = ds_list_find_index(phyCache, cellID);
+                if (existingCell != -1)
+                    {
+                    // Copy over to active list
+                    ds_list_add(phyActive, ds_list_find_value(phyCache, existingCell));
+                    ds_list_add(phyActive, ds_list_find_value(phyCache, existingCell+1));
+                    ds_list_add(phyActive, ds_list_find_value(phyCache, existingCell+2));
+                    
+                    // Remove from cache list
+                    ds_list_delete(phyCache, existingCell);
+                    ds_list_delete(phyCache, existingCell);
+                    ds_list_delete(phyCache, existingCell);
+                    }
+                    
+                // There is nothing currently for this cell
+                else if (ds_list_find_index(phyActive, cellID) == -1)
+                    {
+                    // Get type of cell
+                    cellValue = GetBlockIndex(xx, yy, 5);
+                    
+                    // If cell is a building
+                    if (cellValue &gt; 1)
+                        {
+                        // If there's a spare fixture currently unused, use it
+                        if (!ds_list_empty(phyFree))
+                            {
+                            index = max(0, ds_list_find_index(phyFree, cellID));
+                            
+                            // Get old cellID
+                            oldID = ds_list_find_value(phyFree, index);
+                            
+                            // Get and move the instance
+                            inst = ds_list_find_value(phyFree, index+2);
+                            inst.phy_position_x = xx*64;
+                            inst.phy_position_y = -yy*64;
+                            
+                            // Get the type (later this could be adapted to swap fixture)
+                            type = ds_list_find_value(phyFree, index+1);
+                            
+                            // Add all the to the active list
+                            ds_list_add(phyActive, cellID);
+                            ds_list_add(phyActive, type);
+                            ds_list_add(phyActive, inst);
+                            
+                            // Delete the item from the free list
+                            ds_list_delete(phyFree, index);
+                            ds_list_delete(phyFree, index);
+                            ds_list_delete(phyFree, index);
+                            }
+                            
+                        // If there's no spare fixtures left, create one
+                        else
+                            {
+                            inst = instance_create(xx*64, -yy*64, objFixture);
+                            physics_fixture_bind(global.physicsBlock, inst);
+                            ds_list_add(phyActive, cellID);
+                            ds_list_add(phyActive, global.physicsBlock);
+                            ds_list_add(phyActive, inst);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+// Move leftover items from the cache list to free list
+for (n=0; n&lt;ds_list_size(phyCache); n+=3)
+    {
+    ds_list_add(phyFree, ds_list_find_value(phyCache, n));
+    ds_list_add(phyFree, ds_list_find_value(phyCache, n+1));
+    ds_list_add(phyFree, ds_list_find_value(phyCache, n+2));
+    }
+    
+ds_list_copy(phyCache, phyActive);  // Move active list to cache list
+ds_list_clear(phyActive);           // Clear the active list (to refill next time)
+
+
+
+
+/*
 // Define the grid area around the player to check for collision spaces
 var preCenterX = cellCenterX;
 var preCenterY = cellCenterY;
@@ -207,7 +331,7 @@ if (cellCenterX != preCenterX)
     ds_list_copy(phyCache, phyActive);  // Move active list to cache list
     ds_list_clear(phyActive);           // Clear the active list (to refill next time)
     }
-
+*/
 </string>
           </argument>
         </arguments>

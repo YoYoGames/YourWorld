@@ -113,6 +113,14 @@
     </sprites>
     <sprite>sprites\sprRoadArrows</sprite>
     <sprite>sprites\sprTraffic</sprite>
+    <sprites name="Traffic Cars">
+      <sprite>sprites\sprToyotaCorona</sprite>
+      <sprite>sprites\sprMerc</sprite>
+      <sprite>sprites\sprStationWagon</sprite>
+      <sprite>sprites\sprPickup</sprite>
+      <sprite>sprites\sprVan</sprite>
+      <sprite>sprites\sprLamborghini</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

@@ -26,12 +26,53 @@
           <argument>
             <kind>1</kind>
             <string>
-scale = 0.65;//0.21;
-//diff = (sprite_yoffset*1.5)/sprite_get_height(sprCarBody);
-image_xscale = scale;//diff*scale;
-image_yscale = scale;//diff*scale;
+// Scale down car images to match game world scale
+scale = 0.65;
+image_xscale = scale;
+image_yscale = scale;
 
 
+// Choose a random car sprite
+sprite_index = choose(
+    sprToyotaCorona,
+    sprMerc,
+    sprStationWagon,
+    sprPickup,
+    sprVan,
+    sprLamborghini
+    );
+    
+
+//x1 = 3.36;
+//y1 = 3.36;
+//x2 = 28.56;
+//y2 = 60.48;
+x1 = 0;
+y1 = 0;
+x2 = sprite_width;
+y2 = sprite_height;
+bodyFixture = physics_fixture_create();
+var xoff = sprite_xoffset*1.5;//77;//sprite_xoffset;
+var yoff = sprite_yoffset*1.5;//301;//sprite_yoffset;
+// Define shape, currently based on sprite size
+physics_fixture_set_polygon_shape(bodyFixture);
+physics_fixture_add_point(bodyFixture, x1-xoff*scale, y1-yoff*scale);
+physics_fixture_add_point(bodyFixture, x2-xoff*scale, y1-yoff*scale);
+physics_fixture_add_point(bodyFixture, x2-xoff*scale, y2-yoff*scale);
+physics_fixture_add_point(bodyFixture, x1-xoff*scale, y2-yoff*scale);
+// Define properties
+physics_fixture_set_density(bodyFixture, 1.5);
+physics_fixture_set_restitution(bodyFixture, 0.25);
+physics_fixture_set_collision_group(bodyFixture, 1);
+physics_fixture_set_linear_damping(bodyFixture, 0.6);
+physics_fixture_set_angular_damping(bodyFixture, 2.0);
+physics_fixture_set_friction(bodyFixture, 0);
+physics_fixture_set_awake(bodyFixture, true);
+// Bind to object and destroy to finish
+physics_fixture_bind(bodyFixture, id);
+
+
+// Movement variables
 Speed = 0;
 DesiredSpeed = 4;
 VisualX = x;
@@ -44,8 +85,10 @@ myCellZ = 4;
 Direction = direction;
 DesiredDirection = direction;
 Animate = false;
+active = true;
 
-// Traffic flow test
+
+// Route finding setup
 routeCoordinates = ds_list_create();
 occupiedCells = ds_list_create();
 madeDecision = false;
@@ -74,6 +117,7 @@ parked = false;
           <argument>
             <kind>1</kind>
             <string>
+// Clear all cells occupied by this car's route
 OccupyEmpty(occupiedCells);
 
 </string>
@@ -99,6 +143,7 @@ OccupyEmpty(occupiedCells);
           <argument>
             <kind>1</kind>
             <string>
+//-----------------------------------------------------------------------------
 // Despawn if too far away from player
 halfRegion = round(-oCamera.CameraZ)+8*64;
 if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
@@ -107,67 +152,74 @@ if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
     exit;
     }
 
-if (point_distance(x, y, DesiredX, DesiredY) &lt; 48)
-    {
-    // Remove last cell from lists
-    OccupyFree(occupiedCells, 0);
-    ds_list_delete(routeCoordinates, 0);
-    ds_list_delete(routeCoordinates, 0);
-    ds_list_delete(routeCoordinates, 0);
     
+if (active)
+    {
+    //-----------------------------------------------------------------------------
+    // If we are close to our destination point
+    if (point_distance(x, y, DesiredX, DesiredY) &lt; 48)
+        {
+        // Remove last cell from lists
+        OccupyFree(occupiedCells, 0);
+        ds_list_delete(routeCoordinates, 0);
+        ds_list_delete(routeCoordinates, 0);
+        ds_list_delete(routeCoordinates, 0);
+        
+        // We're NOT parked, we are moving
+        if (!parked)
+            {
+            Animate = true;
+            repeat (8)
+                TrafficFindRoute();
+            }
+            
+        // We are parking, and are closing in to final destination
+        else if (point_distance(x, y, DesiredX, DesiredY) &gt; 8)
+            {
+            DesiredSpeed = 0;
+            Animate = true;
+            direction += (((((dir - direction) mod 360) + 540) mod 360) - 180)/10;
+            }
+            
+        // We are fully parked
+        else
+            Animate = false;
+        }
+    
+        
+    //-----------------------------------------------------------------------------
+    // Find suitable speed for current situation
     if (!parked)
         {
-        Animate = true;
-        repeat (10)
-            TrafficFindRoute();
+        // Mark cells as used by this vehicle
+        OccupyCells(occupiedCells, routeCoordinates, 5);
+        
+        // If unable to plan a longer path, alter speed
+        switch (ds_list_size(occupiedCells))
+            {
+            case (1): DesiredSpeed = 0; break;
+            case (2): DesiredSpeed = 1; break;
+            case (3): DesiredSpeed = 2; break;
+            default:  DesiredSpeed = 4; break;
+            }
         }
-    else if (point_distance(x, y, DesiredX, DesiredY) &gt; 8)
+        
+        
+    //-----------------------------------------------------------------------------
+    // If we are moving, handle all the mathsy stuff
+    if (Animate)
         {
-        DesiredSpeed = 0;
-        Animate = true;
+        Speed += (DesiredSpeed-Speed)*0.05;
+        dir = point_direction(x, y, DesiredX, DesiredY);
         direction += (((((dir - direction) mod 360) + 540) mod 360) - 180)/10;
+        dist = point_distance(x, y, DesiredX, DesiredY);
+        if (dist &gt; 2)
+            {
+            phy_position_x += lengthdir_x(Speed, direction);
+            phy_position_y += lengthdir_y(Speed, direction);
+            }
+        phy_rotation = 180-direction+90;
         }
-    else
-        {
-        Animate = false;
-        }
-    //show_debug_message(string(ds_list_size(occupiedCells)));
-    }
-
-    
-if (!parked)
-    {
-    // Mark cells as used by this vehicle
-    OccupyCells(occupiedCells, routeCoordinates, 4);
-    
-    // If unable to plan a longer path, alter speed
-    switch (ds_list_size(occupiedCells))
-        {
-        case (1):
-            DesiredSpeed = 0;
-            break;
-        case (2):
-            DesiredSpeed = 2;
-            break;
-        default:
-            DesiredSpeed = 4;
-            break;
-        }
-    }
-    
-
-if (Animate)
-    {
-    Speed += sign(DesiredSpeed-Speed)*0.2;
-    dir = point_direction(x, y, DesiredX, DesiredY);
-    direction += (((((dir - direction) mod 360) + 540) mod 360) - 180)/10;
-    dist = point_distance(x, y, DesiredX, DesiredY);
-    if (dist &gt; 2)
-        {
-        x += lengthdir_x(Speed, direction);
-        y += lengthdir_y(Speed, direction);
-        }
-    image_angle = direction+90;
     }
 
 </string>
