@@ -43,17 +43,13 @@ sprite_index = choose(
     );
     
 
-//x1 = 3.36;
-//y1 = 3.36;
-//x2 = 28.56;
-//y2 = 60.48;
 x1 = 0;
 y1 = 0;
 x2 = sprite_width;
 y2 = sprite_height;
 bodyFixture = physics_fixture_create();
-var xoff = sprite_xoffset*1.5;//77;//sprite_xoffset;
-var yoff = sprite_yoffset*1.5;//301;//sprite_yoffset;
+var xoff = sprite_xoffset*1.5;
+var yoff = sprite_yoffset*1.5;
 // Define shape, currently based on sprite size
 physics_fixture_set_polygon_shape(bodyFixture);
 physics_fixture_add_point(bodyFixture, x1-xoff*scale, y1-yoff*scale);
@@ -160,7 +156,13 @@ if (active)
     if (point_distance(x, y, DesiredX, DesiredY) &lt; 48)
         {
         // Remove last cell from lists
-        OccupyFree(occupiedCells, 0);
+        // Get unique cell id
+        xx = ds_list_find_value(routeCoordinates, 0);
+        yy = ds_list_find_value(routeCoordinates, 1);
+        cellID = (yy * oMap.MapHeight) + xx;
+        if (ds_list_find_value(occupiedCells, 0) != cellID)
+            OccupyFree(occupiedCells, 0);
+        
         ds_list_delete(routeCoordinates, 0);
         ds_list_delete(routeCoordinates, 0);
         ds_list_delete(routeCoordinates, 0);
@@ -197,11 +199,26 @@ if (active)
         // If unable to plan a longer path, alter speed
         switch (ds_list_size(occupiedCells))
             {
+            case (0): DesiredSpeed = 0; break;
             case (1): DesiredSpeed = 0; break;
-            case (2): DesiredSpeed = 1; break;
+            case (2): DesiredSpeed = 0; break;
             case (3): DesiredSpeed = 2; break;
+            case (4): DesiredSpeed = 3; break;
             default:  DesiredSpeed = 4; break;
             }
+            
+        // Try not to run into another car
+        /*
+        xx = ds_list_find_value(routeCoordinates, 0)*64+32;
+        yy = ds_list_find_value(routeCoordinates, 1)*64-32;
+        inst = instance_nearest(xx, yy, objTrafficCar);
+        if (point_distance(x, y, inst.x, inst.y) &lt; 64)
+        &amp;&amp; (inst != id)
+        //if (physics_test_overlap(x, y, phy_rotation, all))
+            {
+            DesiredSpeed = 0;
+            show_debug_message("overlapping!");
+            }*/
         }
         
         

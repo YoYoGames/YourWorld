@@ -69,7 +69,7 @@ if( (KMleft || KMright) && (KZctrl || SelectionPick) )
         
         SelectionInstance.PickX2 = PickX2;
         SelectionInstance.PickY2 = PickY2;
-        SelectionInstance.PickZ2 = PickZ2;        
+        SelectionInstance.PickZ2 = PickZ2;
         switch(SelectionInstance.PickFace){
             case 1: //top
             case 2: //bottom
@@ -79,8 +79,8 @@ if( (KMleft || KMright) && (KZctrl || SelectionPick) )
             case 4: //right
                     SelectionInstance.PickX2 = SelectionInstance.PickX1;
                     break;
-            case 5: //left
-            case 6: //right
+            case 5: //lid?
+            case 6: //base?
                     SelectionInstance.PickZ2 = SelectionInstance.PickZ1;
                     break;
         }
@@ -120,10 +120,10 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
         var map = global.Map;
         var pix = global.PickPixel;
 
-        // Setup NEXT frame pick        
-        Pick(mouse_x,mouse_y);  
+        // Setup NEXT frame pick
+        Pick(mouse_x,mouse_y);
         // Get picked pixel details. If false, we didn't click a tile. (location, face etc...)
-        if( !ProcessPickPixel(pix) ) return false;;
+        if( !ProcessPickPixel(pix) ) return false;
 
         // Make sure this block is unique.
         blk = MakeUnique(map, TilePickX,TilePickY,TilePickZ);
@@ -137,11 +137,37 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
         var flags=global.FlipRotateFlags<<((TilePickFace-1)*3);
         var mask =$ffffffff-(7<<((TilePickFace-1)*3));
         
-        // Now paint based on mode (lid or side)
+        // PAINT ROADS
         if (global.EditorMode == EDIT_ROADS)
             {
             SetBlockRoadFlags(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
             }
+            
+        // PAINT PEDESTRIAN ZONES
+        else if (global.EditorMode == EDIT_PEDS)
+            {
+            show_debug_message("Painting pedszone");
+            SetBlockPedsFlag(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
+            }
+            
+        // PAINT SPRITES
+        else if (global.EditorMode == EDIT_SPRITES)
+            {
+            // Paint sprites
+            if (keyboard_check(ord('Z')))
+            || (MButton == 2)
+                SetSprite(global.Map, MButton, TilePickX, TilePickY, TilePickZ, global.LeftMouseSprite);
+                
+            // Place sprite accurately
+            else if (!instance_exists(objSpritePlacer))
+            && (MButton == 1)
+                {
+                var newPlacer = instance_create(0, 0, objSpritePlacer);
+                newPlacer.sprite_index = GetImage(global.LeftMouseSprite);
+                }
+            }
+            
+        // PAINT WHATEVER THIS IS
         else if( global.EditorMode_Sub==EDIT_SUB_LID )
         {
             switch(TilePickFace){
@@ -151,7 +177,7 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
                 case 6: info[BLK_BASE]=tile; 
                         info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
                         break;
-            }        
+            }
         }else if( global.EditorMode_Sub==EDIT_SUB_SIDE )
         {
             switch(TilePickFace){
@@ -160,11 +186,11 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
                         break;
                 case 2: info[BLK_BOTTOM]=tile;
                         info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
-                        break;                
-                case 3: info[BLK_LEFT]=tile; 
+                        break;
+                case 3: info[BLK_LEFT]=tile;
                         info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
-                        break;                
-                case 4: info[BLK_RIGHT]=tile; 
+                        break;
+                case 4: info[BLK_RIGHT]=tile;
                         info[BLK_FLAGS1]=(info[BLK_FLAGS1]&mask)|flags;
                         break;                
             }
@@ -174,7 +200,6 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
     }
 }else{
     PickingMode=-1;     // come out of picking mode.
-
 }
 
 if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInstance)) )
@@ -183,3 +208,4 @@ if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInst
     if( Kdelete) DeleteSelection(SelectionInstance);
     if( Kescape) KillSelection();
 }
+

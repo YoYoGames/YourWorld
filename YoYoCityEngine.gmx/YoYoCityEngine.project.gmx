@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="17" name="datafiles">
+  <datafiles number="18" name="datafiles">
     <datafile>
       <name>style1.yyg</name>
       <exists>-1</exists>
@@ -88,9 +88,11 @@
       <sprite>sprites\sButtonNavbar</sprite>
       <sprite>sprites\sButtonNavbarSel</sprite>
       <sprite>sprites\sprRoadsTool</sprite>
+      <sprite>sprites\sprPedsTool</sprite>
       <sprite>sprites\sprToggleRoads</sprite>
       <sprite>sprites\sprKillTraffic</sprite>
       <sprite>sprites\sprToggleTrafficSpawning</sprite>
+      <sprite>sprites\sprSnapToGrid</sprite>
       <sprite>sprites\sprCompassButtons</sprite>
       <sprite>sprites\sHUDQuickSlot</sprite>
       <sprite>sprites\sHUDQuickSlotHighlight</sprite>
@@ -121,6 +123,12 @@
       <sprite>sprites\sprVan</sprite>
       <sprite>sprites\sprLamborghini</sprite>
     </sprites>
+    <sprites name="Pedestrians">
+      <sprite>sprites\sprPed1_Walking</sprite>
+      <sprite>sprites\sprPed2_Walking</sprite>
+      <sprite>sprites\sprPed3_Walking</sprite>
+      <sprite>sprites\sprPed1_Running</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -130,7 +138,6 @@
       <script>scripts\ProcessKeys.gml</script>
       <script>scripts\FullscreenMode.gml</script>
     </scripts>
-    <script>scripts\draw_outline.gml</script>
     <scripts name="Sprite">
       <script>scripts\Draw3dSprite.gml</script>
     </scripts>
@@ -180,6 +187,7 @@
           <script>scripts\AllocBlock.gml</script>
           <script>scripts\AddBlock.gml</script>
           <script>scripts\AddRoadArrow.gml</script>
+          <script>scripts\AddPavementTile.gml</script>
           <script>scripts\DeleteBlock.gml</script>
           <script>scripts\GetBlock.gml</script>
           <script>scripts\GetRefCount.gml</script>
@@ -197,6 +205,7 @@
           <script>scripts\DeleteSelection.gml</script>
           <script>scripts\SetSingleBlock.gml</script>
           <script>scripts\SetBlockRoadFlags.gml</script>
+          <script>scripts\SetBlockPedsFlag.gml</script>
           <script>scripts\SetSprite.gml</script>
           <script>scripts\ProcessPicking.gml</script>
           <script>scripts\ProcessPainting.gml</script>
@@ -242,15 +251,24 @@
       <script>scripts\PhysicsDefineBlock.gml</script>
       <script>scripts\UpdateFriction.gml</script>
     </scripts>
+    <scripts name="Traffic">
+      <script>scripts\GetRandomDirection.gml</script>
+      <script>scripts\GetDirectionOptions.gml</script>
+      <script>scripts\GetOptionExists.gml</script>
+      <script>scripts\GetHasRoad.gml</script>
+      <script>scripts\TrafficFindRoute.gml</script>
+      <script>scripts\OccupyCells.gml</script>
+      <script>scripts\OccupyFree.gml</script>
+      <script>scripts\OccupyEmpty.gml</script>
+      <script>scripts\NewTrafficCar.gml</script>
+    </scripts>
+    <scripts name="Pedestrians">
+      <script>scripts\NewPedestrian.gml</script>
+      <script>scripts\GetPavementDirection.gml</script>
+      <script>scripts\GetHasPavement.gml</script>
+    </scripts>
     <script>scripts\SpawnPlayer.gml</script>
-    <script>scripts\GetRandomDirection.gml</script>
-    <script>scripts\GetDirectionOptions.gml</script>
-    <script>scripts\GetOptionExists.gml</script>
-    <script>scripts\GetHasRoad.gml</script>
-    <script>scripts\TrafficFindRoute.gml</script>
-    <script>scripts\OccupyCells.gml</script>
-    <script>scripts\OccupyFree.gml</script>
-    <script>scripts\OccupyEmpty.gml</script>
+    <script>scripts\draw_outline.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -302,17 +320,23 @@
       <object>objects\objFixture</object>
       <object>objects\objWheel</object>
     </objects>
-    <objects name="Traffic">
-      <object>objects\objTrafficSpawner</object>
-      <object>objects\objTrafficCar</object>
+    <objects name="Mobiles">
+      <objects name="Traffic">
+        <object>objects\objTrafficSpawner</object>
+        <object>objects\objTrafficCar</object>
+      </objects>
+      <objects name="Pedestrians">
+        <object>objects\objPedestrian</object>
+      </objects>
     </objects>
+    <object>objects\objSpritePlacer</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>
     <room>rooms\room0</room>
     <room>rooms\room1</room>
   </rooms>
-  <constants number="53">
+  <constants number="54">
     <constant name="MODE_NONE">0</constant>
     <constant name="MODE_EDIT">1</constant>
     <constant name="MODE_PLAY">2</constant>
@@ -336,6 +360,7 @@
     <constant name="EDIT_SPRITES">3</constant>
     <constant name="EDIT_OBJECTS">4</constant>
     <constant name="EDIT_ROADS">5</constant>
+    <constant name="EDIT_PEDS">6</constant>
     <constant name="EDIT_SUB_LID">1</constant>
     <constant name="EDIT_SUB_SIDE">2</constant>
     <constant name="EDIT_SUB_NONE">0</constant>

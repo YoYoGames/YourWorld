@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-10020</depth>
   <persistent>0</persistent>
-  <parentName>self</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -318,7 +318,6 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PL
 {
     global.EditorMode=EDIT_OBJECTS;
     global.EditorMode_Sub=EDIT_SUB_NONE;
-    
     with(oHUDParent) instance_destroy()        
 }
 buttonX+=(buttonS*2)
@@ -335,8 +334,8 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"RO
         case 2: global.FlipRotateFlags=3; break;
         case 3: global.FlipRotateFlags=7; break;
     }
-    if(dovflip) global.FlipRotateFlags^=1;            
-    if(dohflip) global.FlipRotateFlags^=2; 
+    if(dovflip) global.FlipRotateFlags^=1;
+    if(dohflip) global.FlipRotateFlags^=2;
 }
 buttonI+=rotate_value;
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY);
@@ -348,22 +347,37 @@ buttonI+=1;
 //Flip Horizontally
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) or (global.FlipRotateFlags &amp; 2)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FLIP TILE") )
-{
-    global.FlipRotateFlags^=2;
-}
+    global.FlipRotateFlags ^= 2;
+
 buttonX+=buttonS;
 buttonI+=1;
 
 //Flip Vertically
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) or (global.FlipRotateFlags &amp; 1)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FLIP TILE") )
-{
-    global.FlipRotateFlags^=1;        
-}
+    global.FlipRotateFlags ^= 1;
+    
 buttonX+=(buttonS*2);
 buttonI+=1;
 
-// Road Direction Editing Toll
+// Pedestrian Area Editing Tool
+draw_sprite(sprPedsTool,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.EditorMode==EDIT_PEDS,buttonX,buttonY)
+if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Pedestrian Zone Tool") )
+    {
+    if (global.EditorMode != EDIT_PEDS)
+        global.EditorMode = EDIT_PEDS;
+        
+    else
+        {
+        global.EditorMode=EDIT_SELECTION;
+        global.EditorMode_Sub=EDIT_SUB_NONE;   
+        }
+    }
+    
+buttonX+=(buttonS*2);
+buttonI+=1;
+
+// Road Direction Editing Tool
 draw_sprite(sprRoadsTool,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.EditorMode==EDIT_ROADS,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Road Direction Tool") )
     {
@@ -386,18 +400,14 @@ buttonX+=buttonS;
 // Toggle drawing road direction flags
 draw_sprite(sprToggleRoads,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.renderRoadFlags==true,buttonX,buttonY)
 if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Drawing Road Flags (F5)") )
-    {
     global.renderRoadFlags ^= true;
-    }
     
 buttonX+=buttonS;
 
 // Toggle Traffic Spawning
 draw_sprite(sprToggleTrafficSpawning,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.enableTrafficSpawn==true,buttonX,buttonY)
 if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Traffic Spawning") )
-    {
     global.enableTrafficSpawn ^= true;
-    }
     
 buttonX+=buttonS;
     
@@ -408,6 +418,14 @@ if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Kil
     with (objTrafficCar)
         instance_destroy();
     }
+    
+buttonX+=(buttonS*2)
+
+
+// Toggle snap-to-grid
+draw_sprite(sprSnapToGrid, global.snapToGrid, buttonX, buttonY)
+if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Snap-To-Grid") )
+    global.snapToGrid ^= true;
     
 buttonX+=(buttonS*2)
 

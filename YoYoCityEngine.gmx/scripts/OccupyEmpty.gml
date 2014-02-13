@@ -2,6 +2,8 @@
 //
 //  cellList: A list of cells occupied by the calling instance.
 //
+//  Removes all cells occupied by this vehicle.
+//
 //*****************************************************************************
 
 var findValue, sIndex;

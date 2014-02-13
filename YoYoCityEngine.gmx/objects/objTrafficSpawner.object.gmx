@@ -33,8 +33,12 @@ cellCenterX = 0;
 cellCenterY = 0;
 halfRegion = 4;
 
+// Set limits
+pedestrianLimit = 30;
+spawnLimit = 20;
 spawnTimer = 30;
 
+// Have a memory
 occupiedCells = ds_list_create();
 
 </string>
@@ -60,7 +64,12 @@ occupiedCells = ds_list_create();
           <argument>
             <kind>1</kind>
             <string>
+// Kill all mobiles
 with (objTrafficCar) instance_destroy();
+with (objPedestrian) instance_destroy();
+
+// Free data
+ds_list_destroy(occupiedCells);
 
 </string>
           </argument>
@@ -91,6 +100,8 @@ if (!global.enableTrafficSpawn)
 
 // Handle spawning cooldown
 if (--spawnTimer &gt; 0)
+or (instance_number(objTrafficCar) &gt;= spawnLimit
+&amp;&amp; instance_number(objPedestrian) &gt;= pedestrianLimit)
     exit;
 else
     spawnTimer = 10;
@@ -110,50 +121,64 @@ endX = min(gridWidth, cellCenterX+halfRegion);
 topY = (cellCenterY-halfRegion);
 bottomY = (cellCenterY+halfRegion);
 
-var hasRoad = false;
-var roadOptions = 0;
+var hasRoad, roadOptions, paveOptions;
+hasRoad = false;    // Bool
+hasPave = false;    // Bool
+roadOptions = 0;    // Array
+paveOptions = 0;    // Array
 
-var lookat = choose(0, 1, 2, 3);
+// Pick a random side to scan, bias towards direction you're moving
+var lookat;
+lookat = choose(0, 1, 2, 3);
+if (objBody.phy_speed_y &lt; -2) lookat = 1;
+if (objBody.phy_speed_y &gt; 2)  lookat = 0;
+if (objBody.phy_speed_x &lt; -2) lookat = 2;
+if (objBody.phy_speed_x &gt; 2)  lookat = 3;
 
-if (objBody.phy_speed_y &lt; -2)
-    lookat = 1;
-if (objBody.phy_speed_y &gt; 2)
-    lookat = 0;
-if (objBody.phy_speed_x &lt; -2)
-    lookat = 2;
-if (objBody.phy_speed_x &gt; 2)
-    lookat = 3;
-
+pn = 0;
 n = 0;
 switch (lookat)
     {
     // Top row
     case (0):
-        //if (topY &gt; 0)
+        yy = topY;
+        for (xx=startX; xx&lt;endX; xx++)
             {
-            yy = topY;
-            for (xx=startX; xx&lt;endX; xx++)
+            zz = 4; // Defining this as it may later be used for varying heights
+            cellValue = GetBlockIndex(xx, yy, zz);
+            if (cellValue)
                 {
-                zz = 4; // Defining this as it may later be used for varying heights
-                cellValue = GetBlockIndex(xx, yy, zz);
-                if (cellValue)
+                block = MakeUnique(global.Map, xx, yy, zz);
+                var info  = oMap.block_info[block];
+                var paveFlag = (info[BLK_FLAGS1] &gt;&gt; 26) &amp; 1;
+                var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
+                
+                if (paveFlag)
                     {
-                    block = MakeUnique(global.Map, xx, yy, zz);
-                    var info  = oMap.block_info[block];
-                    var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
-                    if (roadFlags)
+                    hasPave = true;
+                    xPos = xx*64+random_range(8, 56);
+                    yPos = -yy*64-random_range(8, 56);;//// CANT USE N
+                    paveOptions[pn++] = xPos;
+                    paveOptions[pn++] = yPos;
+                    }
+                
+                if (roadFlags)
+                    {
+                    xPos = xx*64+32;
+                    yPos = -yy*64-32;
+                    
+                    xx = floor(xPos/64);
+                    yy = floor(yPos/64);
+                    cellID = (yy * oMap.MapHeight) + xx;
+                    
+                    inst = instance_nearest(xPos, yPos, objTrafficCar);
+                    if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
+                    or (ds_list_find_index(occupiedCells, cellID) == -1)
                         {
-                        xPos = xx*64+32;
-                        yPos = -yy*64-32;
-                        inst = instance_nearest(xPos, yPos, objTrafficCar);
-                        if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
-                            {
-                            hasRoad = true;
-                            roadOptions[n++] = xPos;
-                            roadOptions[n++] = yPos;
-                            roadOptions[n++] = roadFlags;
-                            //break;
-                            }
+                        hasRoad = true;
+                        roadOptions[n++] = xPos;
+                        roadOptions[n++] = yPos;
+                        roadOptions[n++] = roadFlags;
                         }
                     }
                 }
@@ -162,31 +187,38 @@ switch (lookat)
     
     // Bottom row
     case (1):
-        //if (startX &gt; 0)
+        yy = bottomY;
+        for (xx=startX; xx&lt;endX; xx++)
             {
-            yy = bottomY;
-            for (xx=startX; xx&lt;endX; xx++)
+            zz = 4; // Defining this as it may later be used for varying heights
+            cellValue = GetBlockIndex(xx, yy, zz);
+            if (cellValue)
                 {
-                zz = 4; // Defining this as it may later be used for varying heights
-                cellValue = GetBlockIndex(xx, yy, zz);
-                if (cellValue)
+                block = MakeUnique(global.Map, xx, yy, zz);
+                var info  = oMap.block_info[block];
+                var paveFlag = (info[BLK_FLAGS1] &gt;&gt; 26) &amp; 1;
+                var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
+                
+                if (paveFlag)
                     {
-                    block = MakeUnique(global.Map, xx, yy, zz);
-                    var info  = oMap.block_info[block];
-                    var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
-                    if (roadFlags)
+                    hasPave = true;
+                    xPos = xx*64+random_range(8, 56);
+                    yPos = -yy*64-random_range(8, 56);
+                    paveOptions[pn++] = xPos;
+                    paveOptions[pn++] = yPos;
+                    }
+                
+                if (roadFlags)
+                    {
+                    xPos = xx*64+32;
+                    yPos = -yy*64-32;
+                    inst = instance_nearest(xPos, yPos, objTrafficCar);
+                    if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
                         {
-                        xPos = xx*64+32;
-                        yPos = -yy*64-32;
-                        inst = instance_nearest(xPos, yPos, objTrafficCar);
-                        if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
-                            {
-                            hasRoad = true;
-                            roadOptions[n++] = xPos;
-                            roadOptions[n++] = yPos;
-                            roadOptions[n++] = roadFlags;
-                            //break;
-                            }
+                        hasRoad = true;
+                        roadOptions[n++] = xPos;
+                        roadOptions[n++] = yPos;
+                        roadOptions[n++] = roadFlags;
                         }
                     }
                 }
@@ -195,31 +227,38 @@ switch (lookat)
     
     // Left column
     case (2):
-        //if (bottomY &gt; 0)
+        xx = startX;
+        for (yy=topY; yy&lt;bottomY; yy++)
             {
-            xx = startX;
-            for (yy=topY; yy&lt;bottomY; yy++)
+            zz = 4; // Defining this as it may later be used for varying heights
+            cellValue = GetBlockIndex(xx, yy, zz);
+            if (cellValue)
                 {
-                zz = 4; // Defining this as it may later be used for varying heights
-                cellValue = GetBlockIndex(xx, yy, zz);
-                if (cellValue)
+                block = MakeUnique(global.Map, xx, yy, zz);
+                var info  = oMap.block_info[block];
+                var paveFlag = (info[BLK_FLAGS1] &gt;&gt; 26) &amp; 1;
+                var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
+                
+                if (paveFlag)
                     {
-                    block = MakeUnique(global.Map, xx, yy, zz);
-                    var info  = oMap.block_info[block];
-                    var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
-                    if (roadFlags)
+                    hasPave = true;
+                    xPos = xx*64+random_range(8, 56);;
+                    yPos = -yy*64-random_range(8, 56);;
+                    paveOptions[pn++] = xPos;
+                    paveOptions[pn++] = yPos;
+                    }
+                
+                if (roadFlags)
+                    {
+                    xPos = xx*64+32;
+                    yPos = -yy*64-32;
+                    inst = instance_nearest(xPos, yPos, objTrafficCar);
+                    if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
                         {
-                        xPos = xx*64+32;
-                        yPos = -yy*64-32;
-                        inst = instance_nearest(xPos, yPos, objTrafficCar);
-                        if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
-                            {
-                            hasRoad = true;
-                            roadOptions[n++] = xPos;
-                            roadOptions[n++] = yPos;
-                            roadOptions[n++] = roadFlags;
-                            //break;
-                            }
+                        hasRoad = true;
+                        roadOptions[n++] = xPos;
+                        roadOptions[n++] = yPos;
+                        roadOptions[n++] = roadFlags;
                         }
                     }
                 }
@@ -228,31 +267,38 @@ switch (lookat)
     
     // Right column
     case (3):
-        //if (bottomY &gt; 0)
+        xx = endX;
+        for (yy=topY; yy&lt;bottomY; yy++)
             {
-            xx = endX;
-            for (yy=topY; yy&lt;bottomY; yy++)
+            zz = 4; // Defining this as it may later be used for varying heights
+            cellValue = GetBlockIndex(xx, yy, zz);
+            if (cellValue)
                 {
-                zz = 4; // Defining this as it may later be used for varying heights
-                cellValue = GetBlockIndex(xx, yy, zz);
-                if (cellValue)
+                block = MakeUnique(global.Map, xx, yy, zz);
+                var info  = oMap.block_info[block];
+                var paveFlag = (info[BLK_FLAGS1] &gt;&gt; 26) &amp; 1;
+                var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
+                
+                if (paveFlag)
                     {
-                    block = MakeUnique(global.Map, xx, yy, zz);
-                    var info  = oMap.block_info[block];
-                    var roadFlags = (info[BLK_FLAGS1] &gt;&gt; 22) &amp; $F;
-                    if (roadFlags)
+                    hasPave = true;
+                    xPos = xx*64+random_range(8, 56);;
+                    yPos = -yy*64-random_range(8, 56);;
+                    paveOptions[pn++] = xPos;
+                    paveOptions[pn++] = yPos;
+                    }
+                
+                if (roadFlags)
+                    {
+                    xPos = xx*64+32;
+                    yPos = -yy*64-32;
+                    inst = instance_nearest(xPos, yPos, objTrafficCar);
+                    if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
                         {
-                        xPos = xx*64+32;
-                        yPos = -yy*64-32;
-                        inst = instance_nearest(xPos, yPos, objTrafficCar);
-                        if (point_distance(xPos, yPos, inst.x, inst.y) &gt; 128)
-                            {
-                            hasRoad = true;
-                            roadOptions[n++] = xPos;
-                            roadOptions[n++] = yPos;
-                            roadOptions[n++] = roadFlags;
-                            //break;
-                            }
+                        hasRoad = true;
+                        roadOptions[n++] = xPos;
+                        roadOptions[n++] = yPos;
+                        roadOptions[n++] = roadFlags;
                         }
                     }
                 }
@@ -260,35 +306,8 @@ switch (lookat)
     break;
     }
 
-
-if (hasRoad)
-    {
-    // Choose one of the possible spawn locations that we found
-    var points = array_length_1d(roadOptions)/3;
-    var randomPoint = irandom(points-1)*3;
-    xPos = roadOptions[randomPoint+0];
-    yPos = roadOptions[randomPoint+1];
-    roadFlags = roadOptions[randomPoint+2];
-    
-    // Convert roadFlags into variables we can read
-    var north = (roadFlags &amp; 8) &gt; 0; // 1000 = 8
-    var east  = (roadFlags &amp; 4) &gt; 0; // 0100 = 4
-    var south = (roadFlags &amp; 2) &gt; 0; // 0010 = 2
-    var west  = (roadFlags &amp; 1) &gt; 0; // 0001 = 1
-    
-    var newCar = instance_create(xPos, yPos, objTrafficCar);
-    newCar.z = 255+8;
-    
-    if (north) newCar.direction = 270;
-    if (east)  newCar.direction = 0;
-    if (south) newCar.direction = 90;
-    if (west)  newCar.direction = 180;
-    
-    //newCar.phy_rotation = newCar.direction-90;
-    newCar.image_angle = newCar.direction-90;
-    newCar.Direction = newCar.direction;
-    newCar.DesiredDirection = newCar.direction;
-    }
+if (hasPave &amp;&amp; instance_number(objPedestrian) &lt; pedestrianLimit) NewPedestrian(paveOptions);
+if (hasRoad &amp;&amp; instance_number(objTrafficCar) &lt; spawnLimit) NewTrafficCar(roadOptions);
 
 </string>
           </argument>

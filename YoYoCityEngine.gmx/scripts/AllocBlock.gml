@@ -53,7 +53,7 @@ with(_map)
     info[BLK_FLAGS2] =  0;      // block flags (32bits)
     info[BLK_OFFSETS1] = 0;     // Vertex points offsets
     info[BLK_OFFSETS2] = 0;
-    info[BLK_OFFSETS3] = 0;    
+    info[BLK_OFFSETS3] = 0;
     block_info[NewBlock]=info;
     RefCount[NewBlock]=1;
     return NewBlock;

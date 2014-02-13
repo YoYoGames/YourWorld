@@ -109,16 +109,20 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
                     
                     ProcessPickPixel(pix);
                     PickingMode=2;
-                    if (global.EditorMode == EDIT_ROADS)
-                        {
-                        SetBlockRoadFlags(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
-                        }
-                    else if (global.EditorMode == EDIT_SPRITES)
-                        {
-                        show_debug_message(string(pix))
-                        SetSprite( global.Map, MButton, TilePickX,TilePickY,TilePickZ );
-                        }
-                    else
+                    //if (global.EditorMode == EDIT_ROADS)
+                        //{
+                        //SetBlockRoadFlags(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
+                        //}
+                    //else
+                    //if (global.EditorMode == EDIT_SPRITES)
+                        //{
+                        //show_debug_message(string(pix))
+                        //SetSprite( global.Map, MButton, TilePickX,TilePickY,TilePickZ );
+                        //}
+                    
+                    //else
+                    if (global.EditorMode != EDIT_ROADS)
+                    || (global.EditorMode != EDIT_SPRITES)
                         {
                         // set single block  
                         SetSingleBlock( global.Map, MButton, TilePickX,TilePickY,TilePickZ, TilePickFace );

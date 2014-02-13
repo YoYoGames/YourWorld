@@ -70,11 +70,19 @@ vertex_begin(Mesh, global.CityFormat);
 
                         AddCube(Mesh, x,y-CubeEdge,z,  x+CubeEdge,y,z+CubeEdge, col+(zz|$80000000), t,b,l,r,lid,base, flags );
                         
-                        var roadFlags = flags>>22;
+                        var roadFlags = (flags>>22)&$F;
                         if (roadFlags)
                             {
                             //show_debug_message("roadFlags = "+string(roadFlags));
                             AddRoadArrow(RoadArrowsMesh, sprRoadArrows, 0, x, y, z, 1, 1, 0, $ffffffff, roadFlags);
+                            roadpolys += 2;
+                            }
+                            
+                        var pedFlag = (flags>>26)&1;
+                        if (pedFlag)
+                            {
+                            //show_debug_message("roadFlags = "+string(roadFlags));
+                            AddPavementTile(RoadArrowsMesh, sprRoadArrows, 0, x, y, z, 1, 1, 0, $ffffffff, pedFlag);
                             roadpolys += 2;
                             }
                     }
@@ -85,7 +93,7 @@ vertex_begin(Mesh, global.CityFormat);
                 // Now do all sprites in this column
                 a = ds_grid_get(thesprites,xx,yy);
                    
-                if( is_array(a) )
+                if (is_array(a))
                 {
                     // if its an array, then there are sprites here.
                     var l = array_length_1d(a);
@@ -93,8 +101,8 @@ vertex_begin(Mesh, global.CityFormat);
                     for(var i=0;i<l;i++)
                     {
                         var s = a[i];
-                        var image = GetImage( s[0] );
-                        var sxx = x+(s[1]&$ff) ;                                        
+                        var image = GetImage(s[0]);
+                        var sxx = x+(s[1]&$ff);                                        
                         var syy = y- ((s[1]&$ff00)>>8);
                         var szz = ((s[1]>>16)&$ffff);
                         if (keyboard_check(vk_insert))

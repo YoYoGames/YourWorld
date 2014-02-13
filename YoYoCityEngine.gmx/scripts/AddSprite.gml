@@ -17,9 +17,9 @@ var _x1,_x2,_y1,_y2,_z1,_z2,_sprw,_sprh,_cx,_cy, _colour,_alpha, _buff, tex, uvs
 _buff = argument0;
 
 sprw = sprite_get_width(argument1);
-sprh = sprite_get_width(argument1);
+sprh = sprite_get_height(argument1);
 cx = sprite_get_xoffset(argument1);
-cy = sprite_get_xoffset(argument1);
+cy = sprite_get_yoffset(argument1);
 tex = sprite_get_texture( argument1, argument2 );
 uvs = sprite_get_uvs(argument1,argument2);
  
