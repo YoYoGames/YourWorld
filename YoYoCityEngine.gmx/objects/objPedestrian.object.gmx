@@ -28,10 +28,17 @@
             <string>
 image_xscale = 0.5;
 image_yscale = 0.5;
-image_speed = 0.25;
+image_speed = 0;
 direction = random(360);
 
-sprite_index = choose(sprPed1_Walking, sprPed2_Walking, sprPed3_Walking);
+PedIndex = choose(1, 2, 3, 4);
+
+WalkingSprite = asset_get_index('sprPed'+string(PedIndex)+'_Walking');
+RunningSprite = asset_get_index('sprPed'+string(PedIndex)+'_Running');
+
+sprite_index = WalkingSprite;
+
+moveSpeed = random_range(0.5, 2.2);
 
 //var newPosition = GetPavementDirection(floor(x/64), floor(y/64), 4);
 //destX = newPosition[0];
@@ -71,21 +78,24 @@ if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
     }
 
 
-x += lengthdir_x(1, direction);
-y += lengthdir_y(1, direction);
+x += lengthdir_x(moveSpeed, direction);
+y += lengthdir_y(moveSpeed, direction);
 
 checkxr = floor((x+lengthdir_x(32, direction+16))/64);
 checkyr = floor((y+lengthdir_y(32, direction+16))/64);
 checkxl = floor((x+lengthdir_x(32, direction-16))/64);
 checkyl = floor((y+lengthdir_y(32, direction-16))/64);
 
-if (!GetHasPavement(checkxl, checkyl+1, 4))
-    direction += 16;
-    
-else if (!GetHasPavement(checkxr, checkyr+1, 4))
-    direction -= 16;
-    
+if (!GetHasPavement(checkxl, checkyl+1, 4))      direction += 16;
+else if (!GetHasPavement(checkxr, checkyr+1, 4)) direction -= 16;
+
+if (moveSpeed &gt; 1.5)
+    sprite_index = RunningSprite;
+else
+    sprite_index = WalkingSprite;
+
 image_angle = direction+90;
+image_index += moveSpeed/5;
 
 /*
 var dist, dir;

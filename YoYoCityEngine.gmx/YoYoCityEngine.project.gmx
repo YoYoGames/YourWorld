@@ -125,9 +125,13 @@
     </sprites>
     <sprites name="Pedestrians">
       <sprite>sprites\sprPed1_Walking</sprite>
-      <sprite>sprites\sprPed2_Walking</sprite>
-      <sprite>sprites\sprPed3_Walking</sprite>
       <sprite>sprites\sprPed1_Running</sprite>
+      <sprite>sprites\sprPed2_Walking</sprite>
+      <sprite>sprites\sprPed2_Running</sprite>
+      <sprite>sprites\sprPed3_Walking</sprite>
+      <sprite>sprites\sprPed3_Running</sprite>
+      <sprite>sprites\sprPed4_Walking</sprite>
+      <sprite>sprites\sprPed4_Running</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background"/>

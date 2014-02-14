@@ -34,7 +34,7 @@ cellCenterY = 0;
 halfRegion = 4;
 
 // Set limits
-pedestrianLimit = 30;
+pedestrianLimit = 40;
 spawnLimit = 20;
 spawnTimer = 30;
 
