@@ -35,9 +35,10 @@ with (_map)
             if (!l)
                 {
                 var s;
+                height = DecalGetHeight(_sprite);
                 s[0]=_sprite;
                 s[1]=0;
-                s[1]+=(( (zz*oMap.TileSize)+8 )<<16); // Z coordinate
+                s[1]+=(( (zz*oMap.TileSize)+height )<<16); // Z coordinate
                 if (global.snapToGrid)
                     {
                     s[1] += (oMap.TileSize*0.5)<<8; // Y

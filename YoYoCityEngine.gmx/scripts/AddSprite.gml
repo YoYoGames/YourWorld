@@ -25,7 +25,7 @@ uvs = sprite_get_uvs(argument1,argument2);
  
 _x1 = -cx + argument3;
 _x2 = -cx+sprw + argument3;
-_y1 = -cy + argument4;      
+_y1 = -cy + argument4;
 _y2 = -cy+sprh + argument4; 
 _z1 = -argument5;
 _scalex = argument6;
@@ -33,41 +33,30 @@ _scaley = argument7;
 _angle = argument8;
 _colour = argument9 |(1<<26);;
 
+
+// Add to mesh
 vertex_position_3d(_buff,_x1,_y2,_z1);
 vertex_argb(_buff,_colour);
-//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[0],uvs[1] );
 
 vertex_position_3d(_buff,_x2,_y2,_z1);
 vertex_argb(_buff,_colour);
-//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[2],uvs[1] );
 
 vertex_position_3d(_buff,_x2,_y1,_z1);
 vertex_argb(_buff,_colour);
-//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[2],uvs[3] );
-
 
 
 vertex_position_3d(_buff,_x2,_y1,_z1);
 vertex_argb(_buff,_colour);
-//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[2],uvs[3] );
 
 vertex_position_3d(_buff,_x1,_y1,_z1);
 vertex_argb(_buff,_colour);
-//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[0],uvs[3] );
 
 vertex_position_3d(_buff,_x1,_y2,_z1);
 vertex_argb(_buff,_colour);
-//vertex_colour(_buff, _colour, 1.0 );
 vertex_texcoord(_buff,uvs[0],uvs[1] );
-
-
-
-
-
-
 

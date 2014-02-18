@@ -131,12 +131,18 @@ FullscreenMode(fullscreen);
 /// Render the map
 var camera = global.Camera;
 
+
+// Render the sky
+draw_clear(c_black);
+
         
 // Now render the map
 var texture = sprite_get_texture(StyleSprite,0);
 var sprtexture = sprite_get_texture(GetImage(global.LeftMouseSprite),0);
 RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, global.CityShader, global.SpriteShader );
 with(Water){ DrawWater(); }
+
+draw_set_alpha_test(true);
 
 
 // Draw all sprites
@@ -153,8 +159,8 @@ with (objSpritePlacer)
 // Draw the car
 with(objBody)
     {
-    Draw3dSprite(sprite_index, image_index, x+4, -y-4, z+3, image_xscale, image_yscale, image_angle, $40000000, 0.2);          // Shadow
-    Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend|$ff000000, 1.0);  // Actual
+    Draw3dSprite(sprite_index, image_index, x+3, -y-3, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
+    Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
     
     if (global.drawDebug)
         {
@@ -168,25 +174,25 @@ with(objBody)
 // Draw pedestrians
 with(objPedestrian)
     {
-    Draw3dSprite(sprite_index, image_index, x+4, -y-4, z+3, image_xscale, image_yscale, image_angle, $40000000, 0.2);          // Shadow
-    Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend|$ff000000, 1.0);  // Actual
+    Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
+    Draw3dSprite(sprite_index, image_index, x,   -y,   z+8, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
     }
     
     
 // Draw traffic cars
 with(objTrafficCar)
     {
-    Draw3dSprite(sprite_index, image_index, x+4, -y-4, z+3, image_xscale, image_yscale, image_angle, $40000000, 0.2);          // Shadow
-    Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend|$ff000000, 1.0);  // Actual
+    Draw3dSprite(sprite_index, image_index, x+3, -y-3, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
+    Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
     
     if (global.drawDebug)
         {
+        // Draw physics debug
         var mat = matrix_build(0, 0, -270, 0, 0, 0, 1, 1, 1);
         matrix_set(matrix_world, mat);
         physics_draw_debug();
         
-    
-        //* DEBUG
+        // Draw route
         var mat = matrix_build(0, 0, -270, 0, 0, 0, 1, 1, 1);
         matrix_set(matrix_world, mat);
         draw_set_alpha(1);
@@ -204,10 +210,8 @@ with(objTrafficCar)
             
             xxpre = xx;
             yypre = yy;
-            //Draw3dSprite(sprWheel, 0, xx*64+32, -yy*64+32, z, 1, 1, 0, c_white, 1.0);
             }
         }
-    //*/
     }
 
 </string>

@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="18" name="datafiles">
+  <datafiles number="19" name="datafiles">
     <datafile>
       <name>style1.yyg</name>
       <exists>-1</exists>
@@ -114,7 +114,6 @@
       <sprite>sprites\sprWheel</sprite>
     </sprites>
     <sprite>sprites\sprRoadArrows</sprite>
-    <sprite>sprites\sprTraffic</sprite>
     <sprites name="Traffic Cars">
       <sprite>sprites\sprToyotaCorona</sprite>
       <sprite>sprites\sprMerc</sprite>
@@ -165,6 +164,7 @@
         <scripts name="Sprites">
           <script>scripts\AddSprite.gml</script>
           <script>scripts\GetImage.gml</script>
+          <script>scripts\DecalGetHeight.gml</script>
         </scripts>
       </scripts>
       <scripts name="Camera">
@@ -309,6 +309,7 @@
       <object>objects\o3DSelection</object>
       <object>objects\oController</object>
       <object>objects\oEndDraw</object>
+      <object>objects\objSpritePlacer</object>
     </objects>
     <objects name="HUD">
       <object>objects\oHeadMenu</object>
@@ -333,7 +334,6 @@
         <object>objects\objPedestrian</object>
       </objects>
     </objects>
-    <object>objects\objSpritePlacer</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>

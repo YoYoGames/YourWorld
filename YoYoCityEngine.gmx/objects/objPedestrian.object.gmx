@@ -26,6 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>
+hp = 3;
+active = true;
+
 image_xscale = 0.5;
 image_yscale = 0.5;
 image_speed = 0;
@@ -38,11 +41,25 @@ RunningSprite = asset_get_index('sprPed'+string(PedIndex)+'_Running');
 
 sprite_index = WalkingSprite;
 
-moveSpeed = random_range(0.5, 2.2);
+moveSpeed = 0.7 + choose(
+    random(1.5),
+    random(1.0),
+    random(0.5)
+    );
 
 //var newPosition = GetPavementDirection(floor(x/64), floor(y/64), 4);
 //destX = newPosition[0];
 //destY = newPosition[1];
+
+// Physics shape
+var myFixture;
+myFixture = physics_fixture_create();
+physics_fixture_set_circle_shape(myFixture, 8);
+physics_fixture_set_collision_group(myFixture, 1);
+physics_fixture_set_density(myFixture, 0.01);
+physics_fixture_set_linear_damping(myFixture, 1.0);
+physics_fixture_set_angular_damping(myFixture, 1.0);
+physics_fixture_bind(myFixture, id);
 
 </string>
           </argument>
@@ -76,44 +93,48 @@ if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
     instance_destroy();
     exit;
     }
-
-
-x += lengthdir_x(moveSpeed, direction);
-y += lengthdir_y(moveSpeed, direction);
-
-checkxr = floor((x+lengthdir_x(32, direction+16))/64);
-checkyr = floor((y+lengthdir_y(32, direction+16))/64);
-checkxl = floor((x+lengthdir_x(32, direction-16))/64);
-checkyl = floor((y+lengthdir_y(32, direction-16))/64);
-
-if (!GetHasPavement(checkxl, checkyl+1, 4))      direction += 16;
-else if (!GetHasPavement(checkxr, checkyr+1, 4)) direction -= 16;
-
-if (moveSpeed &gt; 1.5)
-    sprite_index = RunningSprite;
-else
-    sprite_index = WalkingSprite;
-
-image_angle = direction+90;
-image_index += moveSpeed/5;
-
-/*
-var dist, dir;
-dist = point_distance(x, y, destX, destY);
-dir = point_direction(x, y, destX, destY);
-
-if (dist &gt; 4)
+    
+    
+//-----------------------------------------------------------------------------
+// Kill if health has depleated
+if (hp &lt;= 0)
     {
-    x += lengthdir_x(2, dir);
-    y += lengthdir_y(2, dir);
+    instance_destroy();
+    exit;
     }
-else
+
+
+//----------------------------------------------------------------------------- 
+// If ped is active; has AI control basically
+if (active)
     {
-    var newPosition = GetPavementDirection(floor(x/64), floor(y/64), 4);
-    destX = newPosition[0];
-    destY = newPosition[1];
+    phy_position_x += lengthdir_x(moveSpeed, direction);
+    phy_position_y += lengthdir_y(moveSpeed, direction);
+    
+    var checkxy, checkyr, checkxl, checkyl, hasr, hasl;
+    checkxr = (x+lengthdir_x(32, direction+16));
+    checkyr = (y+lengthdir_y(32, direction+16));
+    checkxl = (x+lengthdir_x(32, direction-16));
+    checkyl = (y+lengthdir_y(32, direction-16));
+    hasr = !GetHasPavement(floor(checkxl/64), floor(checkyl/64)+1, 4);
+    hasl = !GetHasPavement(floor(checkxr/64), floor(checkyr/64)+1, 4);
+    //hasr |= collision_circle(checkxl, checkyl, 1, objBody, false, true);
+    //hasl |= collision_circle(checkxr, checkyr, 1, objBody, false, true);
+    hasr |= physics_test_overlap(checkxl, checkyl, 0, objBody);
+    hasl |= physics_test_overlap(checkxr, checkyr, 0, objBody);
+    
+    if (hasr)      direction += 16;
+    else if (hasl) direction -= 16;
+    
+    if (moveSpeed &gt; 1.5)
+        sprite_index = RunningSprite;
+    else
+        sprite_index = WalkingSprite;
+    
+    image_angle = direction+90;
+    phy_rotation = -image_angle;
+    image_index += moveSpeed/5;
     }
-*/
 
 </string>
           </argument>
