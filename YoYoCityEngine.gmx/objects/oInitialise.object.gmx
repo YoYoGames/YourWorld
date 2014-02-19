@@ -46,6 +46,7 @@
     global.renderRoadFlags = true;
     global.enableTrafficSpawn = false;
     global.snapToGrid = true;
+    global.decalsVisible = true;
     
     // Create the Sprite Vertex Format
     vertex_format_begin();

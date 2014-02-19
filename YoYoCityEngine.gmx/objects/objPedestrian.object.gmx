@@ -38,6 +38,7 @@ PedIndex = choose(1, 2, 3, 4);
 
 WalkingSprite = asset_get_index('sprPed'+string(PedIndex)+'_Walking');
 RunningSprite = asset_get_index('sprPed'+string(PedIndex)+'_Running');
+DeadSprite    = asset_get_index('sprPed'+string(1)+'_Dead');
 
 sprite_index = WalkingSprite;
 

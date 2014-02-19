@@ -62,18 +62,21 @@
     
     
     
-    // Now, pass 2. Render all sprites
-    if( _spriteshader>=0 )
-    {
-        shader_set( _spriteshader );
-        for(i=0;i<RenderListCount;i++){
-            MeshA = RenderList[i];
-            if( MeshA[1]!=-1 ){
-                vertex_submit(MeshA[1], pr_trianglelist,_sprtexture);
+    // Now, pass 2. Render all Decals
+    if (global.decalsVisible)
+        {
+        if( _spriteshader>=0 )
+            {
+            shader_set( _spriteshader );
+            for(i=0;i<RenderListCount;i++)
+                {
+                MeshA = RenderList[i];
+                if (MeshA[1] != -1)
+                    vertex_submit(MeshA[1], pr_trianglelist,_sprtexture);
+                }
+            shader_reset();
             }
         }
-        shader_reset();
-    }
     
     
     // Render all road direction flags

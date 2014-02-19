@@ -427,6 +427,14 @@ draw_sprite(sprSnapToGrid, global.snapToGrid, buttonX, buttonY)
 if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Snap-To-Grid") )
     global.snapToGrid ^= true;
     
+buttonX+=buttonS;
+buttonI+=1;
+
+// Toggle Visible Decals
+draw_sprite(sprToggleDecalsVisible, global.decalsVisible, buttonX, buttonY)
+if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Decals Visibility") )
+    global.decalsVisible ^= true;
+    
 buttonX+=(buttonS*2)
 
 

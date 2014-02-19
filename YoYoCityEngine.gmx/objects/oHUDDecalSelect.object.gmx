@@ -234,7 +234,8 @@ if (!surface_exists(WindowContent))
 
 //If the surface is flagged to redraw, do it now
 if (WindowContentRedraw==true
-&amp;&amp; instance_exists(oMap) &amp;&amp; !instance_exists(oHeadMenu))
+&amp;&amp; instance_exists(oMap)
+&amp;&amp; !instance_exists(oHeadMenu))
 {
     d3d_end();
     d3d_transform_set_identity();
@@ -253,10 +254,10 @@ if (WindowContentRedraw==true
         if (i==2) {itemSection="dcRoad"     ;}
         if (i==3) {itemSection="dcBuildings";}
         
-        itemMax[0]=ini_read_real("details","dcLandscapeGroupCount",0)
-        itemMax[1]=ini_read_real("details","dcPavementGroupCount",0)
-        itemMax[2]=ini_read_real("details","dcRoadGroupCount",0)
-        itemMax[3]=ini_read_real("details","dcBuildingsGroupCount",0)
+        itemMax[0]=ini_read_real("details","dcLandscapeGroupCount",0);
+        itemMax[1]=ini_read_real("details","dcPavementGroupCount",0);
+        itemMax[2]=ini_read_real("details","dcRoadGroupCount",0);
+        itemMax[3]=ini_read_real("details","dcBuildingsGroupCount",0);
         
         //For each "group" as defined in the ini file
         for(var j=0; j&lt;itemMax[i]; j+=1)
@@ -287,8 +288,12 @@ if (WindowContentRedraw==true
     }
     ini_close()
     
+    var _sprite, _spriteWidth, _spriteHeight;
+    
     //Set tileset
-    var tilesprite=sStyle1, spritewidth=sprite_get_width(tilesprite);
+    var tilesprite, spritewidth;
+    tilesprite = sStyle1;
+    spritewidth = sprite_get_width(tilesprite);
     //Set tile sizes
     var tileW=70, tileH=70, tileActW=64, tileActH=64, tileDiffX=(tileW-tileActW)/2, tileDiffY=(tileH-tileActH)/2;
     //Set tile count and current location/number
@@ -319,9 +324,13 @@ if (WindowContentRedraw==true
             //Go through the queue of tiles in this group, drawing and controlling each one
             while !ds_queue_empty(itemList[Tab,i])
             {
-                cursprite=ds_queue_dequeue(itemList[Tab,i])
+                cursprite = ds_queue_dequeue(itemList[Tab,i]);
+                _sprite = DecalGetImage(cursprite);
+                _spriteWidth = sprite_get_width(_sprite);
+                _spriteHeight = sprite_get_height(_sprite);
                 
-                curX=0; curY=0;
+                curX=0;
+                curY=0;
                 
                 //Find the coordinates of the current tile on the tile sheet
                 repeat(cursprite)
@@ -355,17 +364,17 @@ if (WindowContentRedraw==true
                         }
                         
                         Holding=4;
-                            
-                        SetHoldingQuickSlot(EDIT_SPRITES,EDIT_SUB_NONE,cursprite,GetImage(cursprite),0,0,sprite_get_width(GetImage(cursprite)),sprite_get_height(GetImage(cursprite)))
+                        
+                        SetHoldingQuickSlot(EDIT_SPRITES, EDIT_SUB_NONE, cursprite, _sprite, 0, 0, _spriteWidth, _spriteHeight);
                         global.EditorMode_Sub=EDIT_SUB_NONE;   
                     }
                 }
                 
                 //Draw the relevant section of the spritesheet
+                var sprSize;
+                sprSize = min(32/_spriteWidth, 32/_spriteHeight);
                 
-                var sprSize=min(32/sprite_get_width(GetImage(cursprite)),32/sprite_get_height(GetImage(cursprite)))
-                
-                draw_sprite_ext(GetImage(cursprite),0,
+                draw_sprite_ext(_sprite, 0,
                                 drawX+drawXoff+32,drawY+drawYoff+32,
                                 sprSize,sprSize,
                                 0,c_white,1)
@@ -418,15 +427,15 @@ if (WindowContentRedraw==true
     surface_reset_target();
     d3d_start();
 
-    WindowContentYMin=min(0,(WindowHeight-WindowContentDrawY)-WindowContentHeight);
-    if (WindowContentClicked&gt;0)
+    WindowContentYMin = min(0,(WindowHeight-WindowContentDrawY)-WindowContentHeight);
+    if (WindowContentClicked &gt; 0)
     {
-        WindowContentClicked=0;
-        WindowContentRedraw=true;
+        WindowContentClicked = 0;
+        WindowContentRedraw = true;
     }
     else
     {
-        WindowContentRedraw=false;
+        WindowContentRedraw = false;
     }
 }
 

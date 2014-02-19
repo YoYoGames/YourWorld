@@ -92,6 +92,7 @@
       <sprite>sprites\sprToggleRoads</sprite>
       <sprite>sprites\sprKillTraffic</sprite>
       <sprite>sprites\sprToggleTrafficSpawning</sprite>
+      <sprite>sprites\sprToggleDecalsVisible</sprite>
       <sprite>sprites\sprSnapToGrid</sprite>
       <sprite>sprites\sprCompassButtons</sprite>
       <sprite>sprites\sHUDQuickSlot</sprite>
@@ -125,6 +126,7 @@
     <sprites name="Pedestrians">
       <sprite>sprites\sprPed1_Walking</sprite>
       <sprite>sprites\sprPed1_Running</sprite>
+      <sprite>sprites\sprPed1_Dead</sprite>
       <sprite>sprites\sprPed2_Walking</sprite>
       <sprite>sprites\sprPed2_Running</sprite>
       <sprite>sprites\sprPed3_Walking</sprite>
@@ -163,7 +165,7 @@
         </scripts>
         <scripts name="Sprites">
           <script>scripts\AddSprite.gml</script>
-          <script>scripts\GetImage.gml</script>
+          <script>scripts\DecalGetImage.gml</script>
           <script>scripts\DecalGetHeight.gml</script>
         </scripts>
       </scripts>

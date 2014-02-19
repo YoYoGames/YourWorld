@@ -1,4 +1,4 @@
-/// GetImage(sprite_type)
+/// DecalGetImage(sprite_type)
 /// Give a sprite type, return the image
 switch( argument0 )
 {

@@ -138,7 +138,7 @@ draw_clear(c_black);
         
 // Now render the map
 var texture = sprite_get_texture(StyleSprite,0);
-var sprtexture = sprite_get_texture(GetImage(global.LeftMouseSprite),0);
+var sprtexture = sprite_get_texture(DecalGetImage(global.LeftMouseSprite),0);
 RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, global.CityShader, global.SpriteShader );
 with(Water){ DrawWater(); }
 

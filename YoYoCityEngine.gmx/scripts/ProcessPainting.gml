@@ -163,7 +163,7 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
             && (MButton == 1)
                 {
                 var newPlacer = instance_create(0, 0, objSpritePlacer);
-                newPlacer.sprite_index = GetImage(global.LeftMouseSprite);
+                newPlacer.sprite_index = DecalGetImage(global.LeftMouseSprite);
                 }
             }
             
