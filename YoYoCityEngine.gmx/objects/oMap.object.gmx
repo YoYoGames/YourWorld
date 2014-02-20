@@ -140,9 +140,14 @@ draw_clear(c_black);
 var texture = sprite_get_texture(StyleSprite,0);
 var sprtexture = sprite_get_texture(DecalGetImage(global.LeftMouseSprite),0);
 RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, global.CityShader, global.SpriteShader );
-with(Water){ DrawWater(); }
+with(Water) DrawWater();
 
 draw_set_alpha_test(true);
+
+
+// Draw temporary splat images, these fade out
+with (objSplat)
+    Draw3dSprite(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 
 
 // Draw all sprites
@@ -169,10 +174,10 @@ with(objBody)
         physics_draw_debug();
         }
     }
-    
+
     
 // Draw pedestrians
-with(objPedestrian)
+with (objPedestrian)
     {
     Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+8, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
@@ -180,7 +185,7 @@ with(objPedestrian)
     
     
 // Draw traffic cars
-with(objTrafficCar)
+with (objTrafficCar)
     {
     Draw3dSprite(sprite_index, image_index, x+3, -y-3, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual

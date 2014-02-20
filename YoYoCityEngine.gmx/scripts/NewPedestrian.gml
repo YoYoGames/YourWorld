@@ -2,6 +2,8 @@
 //
 //  array - And array of pavement cells available to spawn this pedestrian on.
 //
+//  Spawns a new pedestrian on a random tile within the given array.
+//
 //*****************************************************************************
 
 var paveArray;

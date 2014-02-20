@@ -181,14 +181,17 @@ if (global.Mode == MODE_PLAY)
           <argument>
             <kind>1</kind>
             <string>
-var damage = point_distance(phy_speed_x, phy_speed_y, other.phy_speed_x, other.phy_speed_y);
-show_debug_message(string(damage));
+var damage;
+damage = point_distance(phy_speed_x, phy_speed_y, other.phy_speed_x, other.phy_speed_y);
+//show_debug_message(string(damage));
 
 with (other)
     {
     hp -= damage;
     //active = false;
     }
+    
+PedestriansPanic(x, y, -1, 8*64);
 
 </string>
           </argument>

@@ -129,10 +129,13 @@
       <sprite>sprites\sprPed1_Dead</sprite>
       <sprite>sprites\sprPed2_Walking</sprite>
       <sprite>sprites\sprPed2_Running</sprite>
+      <sprite>sprites\sprPed2_Dead</sprite>
       <sprite>sprites\sprPed3_Walking</sprite>
       <sprite>sprites\sprPed3_Running</sprite>
+      <sprite>sprites\sprPed3_Dead</sprite>
       <sprite>sprites\sprPed4_Walking</sprite>
       <sprite>sprites\sprPed4_Running</sprite>
+      <sprite>sprites\sprPed4_Dead</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background"/>
@@ -272,6 +275,7 @@
       <script>scripts\NewPedestrian.gml</script>
       <script>scripts\GetPavementDirection.gml</script>
       <script>scripts\GetHasPavement.gml</script>
+      <script>scripts\PedestriansPanic.gml</script>
     </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\draw_outline.gml</script>
@@ -336,6 +340,7 @@
         <object>objects\objPedestrian</object>
       </objects>
     </objects>
+    <object>objects\objSplat</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>

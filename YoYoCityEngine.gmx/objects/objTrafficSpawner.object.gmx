@@ -34,7 +34,7 @@ cellCenterY = 0;
 halfRegion = 4;
 
 // Set limits
-pedestrianLimit = 40;
+pedestrianLimit = 80;
 spawnLimit = 20;
 spawnTimer = 30;
 
@@ -307,7 +307,7 @@ switch (lookat)
     }
 
 if (hasPave &amp;&amp; instance_number(objPedestrian) &lt; pedestrianLimit) NewPedestrian(paveOptions);
-if (hasRoad &amp;&amp; instance_number(objTrafficCar) &lt; spawnLimit) NewTrafficCar(roadOptions);
+if (hasRoad &amp;&amp; instance_number(objTrafficCar) &lt; spawnLimit)      NewTrafficCar(roadOptions);
 
 </string>
           </argument>
