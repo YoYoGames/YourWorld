@@ -25,9 +25,37 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\sprite0</sprite>
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
+    <sprites name="HUD">
+      <sprite>sprites\sButtonNavbar</sprite>
+      <sprite>sprites\sButtonNavbarSel</sprite>
+      <sprite>sprites\sprRoadsTool</sprite>
+      <sprite>sprites\sprPedsTool</sprite>
+      <sprite>sprites\sprToggleRoads</sprite>
+      <sprite>sprites\sprKillTraffic</sprite>
+      <sprite>sprites\sprToggleTrafficSpawning</sprite>
+      <sprite>sprites\sprToggleDecalsVisible</sprite>
+      <sprite>sprites\sprSnapToGrid</sprite>
+      <sprite>sprites\sprCompassButtons</sprite>
+      <sprite>sprites\sHUDQuickSlot</sprite>
+      <sprite>sprites\sHUDQuickSlotHighlight</sprite>
+      <sprite>sprites\sHUDTileShadow</sprite>
+      <sprite>sprites\sHUDTileHighlight</sprite>
+      <sprite>sprites\sHUDScrollArrow</sprite>
+      <sprites name="HeadMenu">
+        <sprite>sprites\sHMBack</sprite>
+        <sprite>sprites\sHMInfoWindowSV</sprite>
+        <sprite>sprites\sHMInfoWindowSH</sprite>
+        <sprite>sprites\sHMInfoWindowC</sprite>
+        <sprite>sprites\sScrollbarUp</sprite>
+        <sprite>sprites\sScrollbarDown</sprite>
+        <sprite>sprites\sScrollbar</sprite>
+      </sprites>
+    </sprites>
+    <sprites name="Tool Guides">
+      <sprite>sprites\sprRoadArrows</sprite>
+    </sprites>
     <sprites name="Decals">
       <sprites name="Landscape">
         <sprite>sprites\sTree</sprite>
@@ -84,37 +112,10 @@
         <sprite>sprites\sIndPipe4</sprite>
       </sprites>
     </sprites>
-    <sprites name="HUD">
-      <sprite>sprites\sButtonNavbar</sprite>
-      <sprite>sprites\sButtonNavbarSel</sprite>
-      <sprite>sprites\sprRoadsTool</sprite>
-      <sprite>sprites\sprPedsTool</sprite>
-      <sprite>sprites\sprToggleRoads</sprite>
-      <sprite>sprites\sprKillTraffic</sprite>
-      <sprite>sprites\sprToggleTrafficSpawning</sprite>
-      <sprite>sprites\sprToggleDecalsVisible</sprite>
-      <sprite>sprites\sprSnapToGrid</sprite>
-      <sprite>sprites\sprCompassButtons</sprite>
-      <sprite>sprites\sHUDQuickSlot</sprite>
-      <sprite>sprites\sHUDQuickSlotHighlight</sprite>
-      <sprite>sprites\sHUDTileShadow</sprite>
-      <sprite>sprites\sHUDTileHighlight</sprite>
-      <sprite>sprites\sHUDScrollArrow</sprite>
-      <sprites name="HeadMenu">
-        <sprite>sprites\sHMBack</sprite>
-        <sprite>sprites\sHMInfoWindowSV</sprite>
-        <sprite>sprites\sHMInfoWindowSH</sprite>
-        <sprite>sprites\sHMInfoWindowC</sprite>
-        <sprite>sprites\sScrollbarUp</sprite>
-        <sprite>sprites\sScrollbarDown</sprite>
-        <sprite>sprites\sScrollbar</sprite>
-      </sprites>
-    </sprites>
     <sprites name="Car Stuff">
       <sprite>sprites\sprCarBody</sprite>
       <sprite>sprites\sprWheel</sprite>
     </sprites>
-    <sprite>sprites\sprRoadArrows</sprite>
     <sprites name="Traffic Cars">
       <sprite>sprites\sprToyotaCorona</sprite>
       <sprite>sprites\sprMerc</sprite>
@@ -224,6 +225,11 @@
       </scripts>
     </scripts>
     <scripts name="GUI">
+      <scripts name="HeadMenu">
+        <script>scripts\InitMenuItem.gml</script>
+        <script>scripts\SetInfoWindow.gml</script>
+        <script>scripts\SetInfoRow.gml</script>
+      </scripts>
       <scripts name="MouseControl">
         <script>scripts\mouse_rectangle.gml</script>
         <script>scripts\mouse_click_rectangle.gml</script>
@@ -236,11 +242,6 @@
       <script>scripts\SetHoldingQuickSlot.gml</script>
       <script>scripts\SetCustomQuickSlot.gml</script>
       <script>scripts\SetQuickSlotFromHolding.gml</script>
-      <scripts name="HeadMenu">
-        <script>scripts\InitMenuItem.gml</script>
-        <script>scripts\SetInfoWindow.gml</script>
-        <script>scripts\SetInfoRow.gml</script>
-      </scripts>
     </scripts>
     <scripts name="Car Physics">
       <script>scripts\GetForwardVelocity.gml</script>

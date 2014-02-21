@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>
-alpha = 5;
+alpha = 6;
 
 </string>
           </argument>
@@ -51,7 +51,7 @@ alpha = 5;
           <argument>
             <kind>1</kind>
             <string>
-alpha -= 0.05;
+alpha -= 0.025;
 image_alpha = min(alpha, 1.0);
 
 if (alpha &lt;= 0)

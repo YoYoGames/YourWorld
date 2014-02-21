@@ -1,5 +1,7 @@
 /// DecalGetHeight(id);
 //
+//  The height the given decal should be from the ground.
+//
 //*****************************************************************************
 
 switch( argument0 )

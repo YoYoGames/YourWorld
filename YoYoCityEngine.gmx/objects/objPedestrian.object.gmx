@@ -102,6 +102,7 @@ if (hp &lt;= 0)
     newSplat.sprite_index = DeadSprite;
     newSplat.image_xscale = image_xscale;
     newSplat.image_yscale = image_yscale;
+    newSplat.image_angle = random(360);
     exit;
     }
     

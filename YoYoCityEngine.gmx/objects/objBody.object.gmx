@@ -180,18 +180,21 @@ if (global.Mode == MODE_PLAY)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>                        
 var damage;
-damage = point_distance(phy_speed_x, phy_speed_y, other.phy_speed_x, other.phy_speed_y);
-//show_debug_message(string(damage));
+damage = point_distance(phy_speed_x, phy_speed_y, other.x-other.xprevious, other.y-other.yprevious);
+//show_debug_message(string(damage div 2));
 
-with (other)
+if (damage &gt; 1.5)
     {
-    hp -= damage;
-    //active = false;
+    with (other)
+        {
+        hp -= damage;
+        //active = false;
+        }
+        
+    PedestriansPanic(x, y, -1, 8*64);
     }
-    
-PedestriansPanic(x, y, -1, 8*64);
 
 </string>
           </argument>
