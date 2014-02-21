@@ -272,12 +272,12 @@ var cam = global.Camera;
 
 
 s = "("+string(cam.GroundX1)+","+string(cam.GroundY1)+","+string(cam.GroundX2)+","+string(cam.GroundY2)+")";
-draw_outline( 40,2, s, c_white );
+DrawTextOutline( 40,2, s, c_white );
 
 s = "button ("+string(KMleft)+","+string(KMmiddle)+","+string(KMright)+")   P="+string(global.DoPick)+","+string(PickingMode);
-draw_outline( 40,22, s, c_white );
+DrawTextOutline( 40,22, s, c_white );
 s = "button ("+string(PickX1)+","+string(PickY1)+","+string(PickZ1)+")   ("+string(PickX2)+","+string(PickY2)+","+string(PickZ2)+")";
-draw_outline( 40,42, s, c_white );
+DrawTextOutline( 40,42, s, c_white );
 */
 
 

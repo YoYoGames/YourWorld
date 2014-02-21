@@ -141,11 +141,12 @@ room_goto_next();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_font(arial)
+            <string>
+draw_set_font(arial)
 draw_set_halign(fa_center)
 draw_set_valign(fa_center)
-draw_clear_alpha($202020,1);
-draw_outline(1280/2,720/2,"Loading, please wait.............",c_white);
+draw_clear_alpha($202020, 1);
+DrawTextOutline(1280/2, 720/2, "Loading, please wait.............", c_white);
 
 </string>
           </argument>
