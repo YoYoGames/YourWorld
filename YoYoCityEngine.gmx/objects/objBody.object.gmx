@@ -31,15 +31,15 @@ scale = 0.21;
 pcDefineDefault();
 
 driveType     = DRIVE_RWD;  // _RWD, _FWD, _4WD. If using _4WD you actually will need to lower the power (maxDriveForce)
-maxMoveSpeed  = 15;         // Top speed essentially. This varies on the pixel-meter ratio. So in theory 19 could be 50MPH, just a matter of translation.
+maxMoveSpeed  = 12;         // Top speed essentially. This varies on the pixel-meter ratio. So in theory 19 could be 50MPH, just a matter of translation.
 maxDriveForce = 83;         // The force applied to the wheels, I guess this translates best as torque. (It's weird because there's no wheel friction, only lateral grip)
 steerLow      = 1;          // Steering response at low speed (0 being unresponsive, 1 being completely responsive)
-steerHigh     = 1;        // Steering response at high speed (0 being unresponsive, 1 being completely responsive, so 0.5 is semi-responsive)
+steerHigh     = 0.8;        // Steering response at high speed (0 being unresponsive, 1 being completely responsive, so 0.5 is semi-responsive)
 maxSteerAngle = 50;         // Wheel angle/turning circle at low speed
-minSteerAngle = 14;         // Wheel angle/turning circle at high speed
-frontGrip     = 4;          // LATERAL grip of front tyres
-rearGrip      = 2.8;          // LATERAL Grip of rear tyres
-frontBrakes   = 0;
+minSteerAngle = 20;         // Wheel angle/turning circle at high speed
+frontGrip     = 5;          // LATERAL grip of front tyres
+rearGrip      = 3.5;          // LATERAL Grip of rear tyres
+frontBrakes   = 5;
 rearBrakes    = 20;
 toe           = 0;          // This is the individual inward angle (degrees) of the front tyres, negative is an outward angle
 ackerman      = 1.44;       // 1.44 = 36 / 24 degrees. The ratio of turn between inside and outside tyres.
