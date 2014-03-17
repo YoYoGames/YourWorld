@@ -52,8 +52,8 @@ myFixture = physics_fixture_create();
 physics_fixture_set_circle_shape(myFixture, 8);
 physics_fixture_set_collision_group(myFixture, 1);
 physics_fixture_set_density(myFixture, 0.02);
-physics_fixture_set_linear_damping(myFixture, 2.0);
-physics_fixture_set_angular_damping(myFixture, 5.0);
+physics_fixture_set_linear_damping(myFixture, 50.0);
+physics_fixture_set_angular_damping(myFixture, 50.0);
 physics_fixture_set_restitution(myFixture, 0.0);
 physics_fixture_bind(myFixture, id);
 
@@ -92,7 +92,7 @@ if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
     
     
 //-----------------------------------------------------------------------------
-// Kill if health has depleated
+// Kill if health has depleated, spawn splat image
 if (hp &lt;= 0)
     {
     instance_destroy();

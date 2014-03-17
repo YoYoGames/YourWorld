@@ -135,6 +135,7 @@ if (objBody.phy_speed_y &gt; 2)  lookat = 0;
 if (objBody.phy_speed_x &lt; -2) lookat = 2;
 if (objBody.phy_speed_x &gt; 2)  lookat = 3;
 
+var n, pn;
 pn = 0;
 n = 0;
 switch (lookat)
@@ -157,7 +158,7 @@ switch (lookat)
                     {
                     hasPave = true;
                     xPos = xx*64+random_range(8, 56);
-                    yPos = -yy*64-random_range(8, 56);;//// CANT USE N
+                    yPos = -yy*64-random_range(8, 56);
                     paveOptions[pn++] = xPos;
                     paveOptions[pn++] = yPos;
                     }
@@ -242,8 +243,8 @@ switch (lookat)
                 if (paveFlag)
                     {
                     hasPave = true;
-                    xPos = xx*64+random_range(8, 56);;
-                    yPos = -yy*64-random_range(8, 56);;
+                    xPos = xx*64+random_range(8, 56);
+                    yPos = -yy*64-random_range(8, 56);
                     paveOptions[pn++] = xPos;
                     paveOptions[pn++] = yPos;
                     }
@@ -282,8 +283,8 @@ switch (lookat)
                 if (paveFlag)
                     {
                     hasPave = true;
-                    xPos = xx*64+random_range(8, 56);;
-                    yPos = -yy*64-random_range(8, 56);;
+                    xPos = xx*64+random_range(8, 56);
+                    yPos = -yy*64-random_range(8, 56);
                     paveOptions[pn++] = xPos;
                     paveOptions[pn++] = yPos;
                     }

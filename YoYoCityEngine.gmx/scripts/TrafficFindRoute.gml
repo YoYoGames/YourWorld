@@ -4,7 +4,7 @@
 //
 //*****************************************************************************
 
-var myCellX, myCellY, myCellZ, newCellX, newCellY, newCellZ, routePoints, hasRoad
+var myCellX, myCellY, myCellZ, newCellX, newCellY, newCellZ, routePoints, hasRoad,
     start, lastDirection, newDirection;
 
     

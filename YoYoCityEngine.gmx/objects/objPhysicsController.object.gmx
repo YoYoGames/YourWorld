@@ -76,10 +76,12 @@ PhysicsDefineBlock();
           <argument>
             <kind>1</kind>
             <string>
+// Free lists
 ds_list_destroy(phyFree);
 ds_list_destroy(phyActive);
 ds_list_destroy(phyCache);
 
+// Destroy instances
 with (objFixture) instance_destroy();
 with (objBody) instance_destroy();
 
