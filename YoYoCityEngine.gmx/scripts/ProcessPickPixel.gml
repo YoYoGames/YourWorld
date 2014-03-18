@@ -1,4 +1,4 @@
- /// ProcessPick(screen_pixel)
+/// ProcessPick(screen_pixel)
 //
 // Given the pixel read from the screen, workout what we've clicked.
 //

@@ -278,12 +278,14 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PA
 {
     if !instance_exists(oHUDTileSelect)
     {
-        with(oHUDParent) instance_destroy()
+        with(oHUDParent)
+            instance_destroy()
         instance_create(60,60,oHUDTileSelect)
     }
     else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)
     {
-        with(oHUDParent) instance_destroy()
+        with(oHUDParent)
+            instance_destroy()
     }        
     
     global.EditorMode=EDIT_PAINT;
@@ -301,12 +303,14 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PL
     
     if !instance_exists(oHUDDecalSelect)
     {
-        with(oHUDParent) instance_destroy()
+        with(oHUDParent)
+            instance_destroy();
         instance_create(60,60,oHUDDecalSelect)
     }
     else if (global.EditorMode==EDIT_SPRITES)
     {
-        with(oHUDParent) instance_destroy()
+        with(oHUDParent)
+            instance_destroy();
     }        
 }
 buttonX+=buttonS
@@ -315,11 +319,21 @@ buttonI+=1
 //Objects
 draw_sprite(sButtonSprite[global.EditorMode==EDIT_OBJECTS],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE OBJECTS") )
-{
-    global.EditorMode=EDIT_OBJECTS;
-    global.EditorMode_Sub=EDIT_SUB_NONE;
-    with(oHUDParent) instance_destroy()        
-}
+    {
+    global.EditorMode = EDIT_OBJECTS;
+    global.EditorMode_Sub = EDIT_SUB_NONE;
+    if (!instance_exists(oHUDObjectSelect))
+        {
+        with (oHUDParent)
+            instance_destroy();
+        instance_create(60,60,oHUDObjectSelect)
+        }
+    else if (global.EditorMode == EDIT_OBJECTS)
+        {
+        with (oHUDParent)
+            instance_destroy();
+        }
+    }
 buttonX+=(buttonS*2)
 buttonI+=1
 

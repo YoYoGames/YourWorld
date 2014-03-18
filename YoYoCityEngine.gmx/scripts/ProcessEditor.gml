@@ -97,8 +97,7 @@ if( AllowPick )
     if (!HaltProcessing)
     {
         if( global.EditorMode==EDIT_SELECTION )
-        //or (global.EditorMode==EDIT_ROADS)
-        //or (global.EditorMode==EDIT_SPRITES)
+        or (global.EditorMode==EDIT_OBJECTS)
             ProcessPicking();
         if( global.EditorMode==EDIT_PAINT )
         or (global.EditorMode==EDIT_ROADS)

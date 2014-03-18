@@ -105,9 +105,9 @@ vertex_begin(Mesh, global.CityFormat);
                         var sxx = x+(s[1]&$ff);
                         var syy = y- ((s[1]&$ff00)>>8);
                         var szz = ((s[1]>>16)&$ffff);//+irandom(48);
-                        show_debug_message(string(szz));
-                        if (keyboard_check(vk_insert))
-                            show_debug_message(string(col+(i|$80000000)));
+                        //show_debug_message(string(szz));
+                        //if (keyboard_check(vk_insert))
+                            //show_debug_message(string(col+(i|$80000000)));
                         AddSprite(SpriteMesh, image,0,sxx,syy,szz, 1,1,0, col+(i|$80000000));
                         spritepolys+=2;
                     }

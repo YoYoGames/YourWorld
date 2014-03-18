@@ -6,7 +6,7 @@ dcLandscapeGroupCount=3.000000
 dcRoadGroupCount=4.000000
 dcPavementGroupCount=4.000000
 dcBuildingsGroupCount=4.000000
-objectsGroupCount=0.000000
+objectsGroupCount=1.000000
 
 [dcLandscape]
 name0=Trees
@@ -117,3 +117,6 @@ desc3=A field
 ls_list3=61,62,63,64
 
 [objects]
+name0=Test
+desc0=Currently unused
+list0=1

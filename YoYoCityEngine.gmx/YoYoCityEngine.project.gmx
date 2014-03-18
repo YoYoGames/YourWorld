@@ -27,6 +27,32 @@
   <sprites name="sprites">
     <sprite>sprites\sStyle1</sprite>
     <sprite>sprites\sWater</sprite>
+    <sprites name="Pedestrians">
+      <sprite>sprites\sprPed1_Walking</sprite>
+      <sprite>sprites\sprPed1_Running</sprite>
+      <sprite>sprites\sprPed1_Dead</sprite>
+      <sprite>sprites\sprPed2_Walking</sprite>
+      <sprite>sprites\sprPed2_Running</sprite>
+      <sprite>sprites\sprPed2_Dead</sprite>
+      <sprite>sprites\sprPed3_Walking</sprite>
+      <sprite>sprites\sprPed3_Running</sprite>
+      <sprite>sprites\sprPed3_Dead</sprite>
+      <sprite>sprites\sprPed4_Walking</sprite>
+      <sprite>sprites\sprPed4_Running</sprite>
+      <sprite>sprites\sprPed4_Dead</sprite>
+    </sprites>
+    <sprites name="Traffic Cars">
+      <sprite>sprites\sprToyotaCorona</sprite>
+      <sprite>sprites\sprMerc</sprite>
+      <sprite>sprites\sprStationWagon</sprite>
+      <sprite>sprites\sprPickup</sprite>
+      <sprite>sprites\sprVan</sprite>
+      <sprite>sprites\sprLamborghini</sprite>
+    </sprites>
+    <sprites name="Car Stuff">
+      <sprite>sprites\sprCarBody</sprite>
+      <sprite>sprites\sprWheel</sprite>
+    </sprites>
     <sprites name="HUD">
       <sprite>sprites\sButtonNavbar</sprite>
       <sprite>sprites\sButtonNavbarSel</sprite>
@@ -112,31 +138,8 @@
         <sprite>sprites\sIndPipe4</sprite>
       </sprites>
     </sprites>
-    <sprites name="Car Stuff">
-      <sprite>sprites\sprCarBody</sprite>
-      <sprite>sprites\sprWheel</sprite>
-    </sprites>
-    <sprites name="Traffic Cars">
-      <sprite>sprites\sprToyotaCorona</sprite>
-      <sprite>sprites\sprMerc</sprite>
-      <sprite>sprites\sprStationWagon</sprite>
-      <sprite>sprites\sprPickup</sprite>
-      <sprite>sprites\sprVan</sprite>
-      <sprite>sprites\sprLamborghini</sprite>
-    </sprites>
-    <sprites name="Pedestrians">
-      <sprite>sprites\sprPed1_Walking</sprite>
-      <sprite>sprites\sprPed1_Running</sprite>
-      <sprite>sprites\sprPed1_Dead</sprite>
-      <sprite>sprites\sprPed2_Walking</sprite>
-      <sprite>sprites\sprPed2_Running</sprite>
-      <sprite>sprites\sprPed2_Dead</sprite>
-      <sprite>sprites\sprPed3_Walking</sprite>
-      <sprite>sprites\sprPed3_Running</sprite>
-      <sprite>sprites\sprPed3_Dead</sprite>
-      <sprite>sprites\sprPed4_Walking</sprite>
-      <sprite>sprites\sprPed4_Running</sprite>
-      <sprite>sprites\sprPed4_Dead</sprite>
+    <sprites name="Objects">
+      <sprite>sprites\sprCrate</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background"/>
@@ -217,6 +220,7 @@
           <script>scripts\SetBlockRoadFlags.gml</script>
           <script>scripts\SetBlockPedsFlag.gml</script>
           <script>scripts\SetSprite.gml</script>
+          <script>scripts\PlaceObject.gml</script>
           <script>scripts\ProcessPicking.gml</script>
           <script>scripts\ProcessPainting.gml</script>
           <script>scripts\KillSelection.gml</script>
@@ -280,6 +284,7 @@
     </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\DrawTextOutline.gml</script>
+    <script>scripts\ObjectGetIndex.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -324,6 +329,7 @@
       <object>objects\oHUDParent</object>
       <object>objects\oHUDTileSelect</object>
       <object>objects\oHUDDecalSelect</object>
+      <object>objects\oHUDObjectSelect</object>
       <object>objects\objRoadCompass</object>
     </objects>
     <objects name="Car Physics">
@@ -340,6 +346,9 @@
       <objects name="Pedestrians">
         <object>objects\objPedestrian</object>
       </objects>
+    </objects>
+    <objects name="Objects">
+      <object>objects\objCrate</object>
     </objects>
     <object>objects\objSplat</object>
   </objects>

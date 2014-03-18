@@ -40,7 +40,7 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
         PickY2=TilePickY;
         PickZ1=TilePickZ;
         PickFace=TilePickFace;
-        Pick(mouse_x,mouse_y);     
+        Pick(mouse_x, mouse_y);     
         
         SelectionInstance = instance_create(0,0,o3DSelection);
         SelectionInstance.Controller = id;
@@ -61,37 +61,41 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
         PickX2=TilePickX;
         PickY2=TilePickY;
         PickZ2=TilePickZ;
-        Pick(mouse_x,mouse_y);
+        Pick(mouse_x, mouse_y);
         
         SelectionInstance.PickX2 = PickX2;
         SelectionInstance.PickY2 = PickY2;
         SelectionInstance.PickZ2 = PickZ2;        
     }
-}else{    
+}
+else
+    {    
     if( !KMleft && !KMright && !KMmiddle && PickingMode>1)
-    {
+        {
         /*if( PickX1==PickX2 && PickY1==PickY2 && PickZ1==PickZ1 )
         {
             // If we picked a block... deal with a single block
             SetSingleBlock( global.Map, MButton, PickX1,PickY1,PickZ1, PickFace );
             with(SelectionInstance) { instance_destroy(); }
         }*/        
-        SelectionPick=false;
-        PickingMode=-1; 
-        //debug("-----------------------------------------------------------------end");
-    }else 
+        SelectionPick = false;
+        PickingMode = -1;
+        }
+    else
+        {
         // Not selection mode (CTRL not held down)
-        if ((KMleft || KMright || KMmiddle) && !SelectionPick){
-        
+        if ((KMleft || KMright || KMmiddle) && !SelectionPick)
+            {
             // Not currently picking
             if( PickingMode==-1)
-            {
+                {
                 // if there is a selection, then clicking will cancel it.
-                if( instance_exists(SelectionInstance) ){
+                if( instance_exists(SelectionInstance) )
+                    {
                     KillSelection();
                     PickingMode=2;
                     return -1;
-                }                   
+                    }                   
         
                 MButton=0;
                 if( KMleft ) MButton = 1;
@@ -99,48 +103,44 @@ if( (KMleft || KMright || KMmiddle) && (KZctrl || SelectionPick) )
                 if( KMmiddle ) MButton = 3;
                 
                 // Still picking?
-                if( global.DoPick!=0 ) exit;
+                if( global.DoPick!=0 )
+                    exit;
                 Pick(mouse_x,mouse_y);
                 PickingMode=1;            
-            }else if( PickingMode==1){
-                    // First result
-                    var pix = global.PickPixel;
-                    //debug("mouse=("+string(global.Map.MouseX)+","+string(global.Map.MouseY)+")    pixel="+Hex(pix)+"  Button="+string(MButton) );
-                    
-                    ProcessPickPixel(pix);
-                    PickingMode=2;
-                    //if (global.EditorMode == EDIT_ROADS)
-                        //{
-                        //SetBlockRoadFlags(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
-                        //}
-                    //else
-                    //if (global.EditorMode == EDIT_SPRITES)
-                        //{
-                        //show_debug_message(string(pix))
-                        //SetSprite( global.Map, MButton, TilePickX,TilePickY,TilePickZ );
-                        //}
-                    
-                    //else
-                    if (global.EditorMode != EDIT_ROADS)
-                    || (global.EditorMode != EDIT_SPRITES)
-                        {
-                        // set single block  
-                        SetSingleBlock( global.Map, MButton, TilePickX,TilePickY,TilePickZ, TilePickFace );
-                        }
-                }
-            }else{
-                // Finished adding a single block... so just wait until mouse is lifted
             }
-}
+            else if( PickingMode==1)
+                {
+                // First result
+                var pix = global.PickPixel;
+                //debug("mouse=("+string(global.Map.MouseX)+","+string(global.Map.MouseY)+")    pixel="+Hex(pix)+"  Button="+string(MButton) );
+                ProcessPickPixel(pix);
+                PickingMode=2;
+                
+                // Place object
+                if (global.EditorMode == EDIT_OBJECTS)
+                    PlaceObject(global.Map, MButton, TilePickX, TilePickY, TilePickZ);
+                
+                // Place block
+                else if (global.EditorMode != EDIT_ROADS)
+                || (global.EditorMode != EDIT_SPRITES)
+                    SetSingleBlock(global.Map, MButton, TilePickX, TilePickY, TilePickZ, TilePickFace);
+                }
+            }
+        else
+            {
+            // Finished adding a single block... so just wait until mouse is lifted
+            }
+        }
+    }
 
 // use the wheel to go up and down (face specific)
-if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInstance)) ){
+if ((PickingMode==-1) && (SelectionInstance>0)
+&& (instance_exists(SelectionInstance)) )
+    {
     if( KMwheelup ) UseWheel(SelectionInstance,1);
     if( KMwheeldown ) UseWheel(SelectionInstance,-1);
     if( Kinsert ) { FillSelection(SelectionInstance); }
     if( Kdelete) DeleteSelection(SelectionInstance);
     if( Kescape) KillSelection();
-}
-
-
+    }
 

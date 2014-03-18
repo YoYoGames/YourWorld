@@ -112,10 +112,20 @@ with (objBody) instance_destroy();
 ds_list_clear(instanceList);
 index = 0;
 ds_list_add(instanceList, objBody);
+
+// Sort physics enabled traffic into list
 for (n=0; n&lt;instance_number(objTrafficCar); n++)
     {
     i = instance_find(objTrafficCar, n);
     if (!i.active)
+        ds_list_add(instanceList, i);
+    }
+    
+// Sort moving physics objects into list
+for (n=0; n&lt;instance_number(objCrate); n++)
+    {
+    i = instance_find(objCrate, n);
+    if (i.moving)
         ds_list_add(instanceList, i);
     }
 
