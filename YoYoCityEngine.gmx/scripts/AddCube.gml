@@ -1,4 +1,4 @@
-/// AddCube(x1,y1,z1,x2,y2,z2,colour,top,bottom,left,right,lid,base,flip_flags)
+/// AddCube(mesh, x1, y1, z1, x2, y2, z2, colour, top, bottom, left, right, lid, base, flip_flags)
 //
 // Add a cube to a mesh
 //

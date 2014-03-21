@@ -44,6 +44,32 @@ TabMax=0
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+//Make the HUD invisible if you're not in EDIT mode
+visible = (global.Mode == MODE_EDIT);
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
@@ -93,20 +119,20 @@ for( var i=0; i&lt;=TabMax; i+=1)
     
     //Logic for selecting tabs
     if (mouse_click_rectangle(tabx1,y+39,tabx1+86,y+72) &amp;&amp; !instance_exists(oHeadMenu))
-    {
+        {
         Tab=i;
         global.EditorMode_Sub=EDIT_SUB_NONE;
         WindowContentRedraw=true;
-    }
+        }
     
     //Selected colour
     if (i==Tab)
-    {
+        {
         draw_set_color($EEEEEE);
         draw_set_alpha(0.5);
         draw_rectangle(tabx1,y+39,tabx1+86,y+72,0);
         draw_set_alpha(1);
-    }
+        }
     
     //Outline
     draw_set_color(c_white);
@@ -158,22 +184,30 @@ if (WindowContentYMin!=0) //Can scroll
     
     //If you press the "Up" scroll button or mouse wheel up
     if (mouse_click_rectangle(x+WindowWidth-25,y+72,x+WindowWidth,y+97)
-        or (mouse_wheel_up() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))) &amp;&amp; !instance_exists(oHeadMenu)
-    {
+    or (mouse_wheel_up() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))) &amp;&amp; !instance_exists(oHeadMenu)
+        {
         scrolly=clamp(scrolly-20,scrollymin,scrollymax)
         scrollchanged=1;
         
-        if (mouse_wheel_up()) {with(oHUDMain) DisableWheel=true}
-    }
+        if (mouse_wheel_up())
+            {
+            with(oHUDMain)
+                DisableWheel=true;
+            }
+        }
     //If you press the "Down" scroll button
     if (mouse_click_rectangle(x+WindowWidth-25,y+WindowHeight-50,x+WindowWidth,y+WindowHeight-25)
-        or (mouse_wheel_down() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))) &amp;&amp; !instance_exists(oHeadMenu)
-    {
+    or (mouse_wheel_down() &amp;&amp; mouse_rectangle(x,y+73,x+WindowWidth-28,y+WindowHeight))) &amp;&amp; !instance_exists(oHeadMenu)
+        {
         scrolly=clamp(scrolly+20,scrollymin,scrollymax)
         scrollchanged=1;
         
-        if (mouse_wheel_down()) {with(oHUDMain) DisableWheel=true}
-    }
+        if (mouse_wheel_down())
+            {
+            with(oHUDMain)
+                DisableWheel=true;
+            }
+        }
     
     if (scrollchanged==1)
     {
@@ -343,30 +377,31 @@ if (WindowContentRedraw==true
                 
                 //If you clicked the current tile (1=left, 2=right), select it
                 if (WindowContentClicked&gt;0)
-                {
+                    {
                     if (WindowContentClickedX&gt;drawX+drawXoff
                     &amp;&amp;  WindowContentClickedY&gt;drawY+drawYoff
                     &amp;&amp;  WindowContentClickedX&lt;drawX+drawXoff+tileActW
                     &amp;&amp;  WindowContentClickedY&lt;drawY+drawYoff+tileActH) //If you clicked on this tile to select it
-                    {
+                        {
                         if (WindowContentClicked==1)
-                        {
-                            WindowContentSelectedL[Tab]=cursprite;
-                            global.LeftMouseSprite=cursprite;
-                            
-                        }
+                            {
+                            WindowContentSelectedL[Tab] = cursprite;
+                            global.LeftMouseSprite = cursprite;
+                            show_debug_message("global.LeftMouseSprite = "+string(global.LeftMouseSprite));
+                            }
                         if (WindowContentClicked==2)
-                        {
-                            WindowContentSelectedL[Tab]=cursprite
-                            global.LeftMouseSprite=cursprite;
-                        }
+                            {
+                            WindowContentSelectedL[Tab] = cursprite;
+                            global.LeftMouseSprite = cursprite;
+                            show_debug_message("global.LeftMouseSprite = "+string(global.LeftMouseSprite));
+                            }
                         
                         Holding=4;
                         
                         SetHoldingQuickSlot(EDIT_OBJECTS, EDIT_SUB_NONE, cursprite, _sprite, 0, 0, _spriteWidth, _spriteHeight);
                         global.EditorMode_Sub=EDIT_SUB_NONE;
+                        }
                     }
-                }
                 
                 //Draw the relevant section of the spritesheet
                 var sprSize;
@@ -379,23 +414,19 @@ if (WindowContentRedraw==true
                 
                 //Draw a border around this tile if it's the selected one
                 if (WindowContentSelectedL[Tab]==cursprite)
-                {
+                    {
                     draw_sprite(sHUDTileHighlight,0,drawX+drawXoff,drawY+drawYoff)
                     
                     if (keyboard_check(ord("X")))
-                    {
                         SetQuickSlot(EDIT_PAINT,global.EditorMode_Sub,cursprite,tilesprite,curX+tileDiffX,curY+tileDiffY,tileActW,tileActH)    
-                    }
                     
                     if (instance_exists(oHUDMain))
-                    {
                         oHUDMain.QuickSlot[oHUDMain.QuickSlotSelected,0]=EDIT_PAINT;
                     }
-                }
                 //if (WindowContentSelectedR[Tab]==cursprite)
-                //{
+                //    {
                 //    draw_sprite(sHUDTileHighlight,1,drawX+drawXoff,drawY+drawYoff)
-                //}
+                //    }
                                  
                 //Move boundaries as necessary
                 if !ds_queue_empty(itemList[Tab,i])

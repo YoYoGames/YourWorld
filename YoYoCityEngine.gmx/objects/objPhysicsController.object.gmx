@@ -122,10 +122,18 @@ for (n=0; n&lt;instance_number(objTrafficCar); n++)
     }
     
 // Sort moving physics objects into list
-for (n=0; n&lt;instance_number(objCrate); n++)
+for (n=0; n&lt;instance_number(parObject); n++)
     {
-    i = instance_find(objCrate, n);
+    i = instance_find(parObject, n);
     if (i.moving)
+        ds_list_add(instanceList, i);
+    }
+    
+// Sort moving physics object particles into list
+for (n=0; n&lt;instance_number(objObjectParticle); n++)
+    {
+    i = instance_find(objObjectParticle, n);
+    //if (i.moving)
         ds_list_add(instanceList, i);
     }
 

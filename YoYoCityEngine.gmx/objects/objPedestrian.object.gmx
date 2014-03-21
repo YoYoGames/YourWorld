@@ -96,13 +96,15 @@ if (point_distance(x, y, oCamera.CameraX, oCamera.CameraY) &gt; halfRegion)
 if (hp &lt;= 0)
     {
     instance_destroy();
-    var newSplat;
-    newSplat = instance_create(x, y, objSplat);
-    newSplat.z = z;
-    newSplat.sprite_index = DeadSprite;
-    newSplat.image_xscale = image_xscale;
-    newSplat.image_yscale = image_yscale;
-    newSplat.image_angle = random(360);
+    var bloodSprite, rand;
+    repeat (5)
+        {
+        rand = string(irandom_range(1, 7));
+        bloodSprite = asset_get_index("sprBlood"+rand);
+        show_debug_message("sprBlood"+rand);
+        CreateSplat(x+random_range(-16, 16), y+random_range(-16, 16), z-1, bloodSprite, image_xscale);
+        }
+    CreateSplat(x, y, z, DeadSprite, image_xscale);
     exit;
     }
     

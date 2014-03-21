@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>
+animated = false;
 alpha = 6;
 
 </string>
@@ -51,10 +52,14 @@ alpha = 6;
           <argument>
             <kind>1</kind>
             <string>
-alpha -= 0.025;
-image_alpha = min(alpha, 1.0);
+if (!animated)
+    {
+    alpha -= 0.025;
+    image_alpha = min(alpha, 1.0);
+    }
 
 if (alpha &lt;= 0)
+or (image_index &gt; sprite_get_number(sprite_index)-1)
     instance_destroy();
 
 </string>

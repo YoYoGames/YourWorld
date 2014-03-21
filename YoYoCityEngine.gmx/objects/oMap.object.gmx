@@ -56,6 +56,8 @@ Water = instance_create(0,0,oWater);
 physics_world_create(0.0313);
 physics_world_gravity(0.0, 0.0);
 
+instance_create(0, 0, objMinimap);
+
 </string>
           </argument>
         </arguments>
@@ -137,25 +139,36 @@ draw_clear(c_black);
 
         
 // Now render the map
-var texture = sprite_get_texture(StyleSprite,0);
-var sprtexture = sprite_get_texture(DecalGetImage(global.LeftMouseSprite),0);
-RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, global.CityShader, global.SpriteShader );
+var texture = sprite_get_texture(StyleSprite, 0);
+var sprtexture = sprite_get_texture(sTree, 0);   // Any decal, they should all be on the same sheet!
+RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, global.CityShader, global.SpriteShader ); 
 with(Water) DrawWater();
 
 draw_set_alpha_test(true);
+
+
+// DEBUG CHECKING FOR 3D&gt;2D
+if (keyboard_check_pressed(vk_f9))
+    toScreenXY();
 
 
 // Draw temporary splat images, these fade out
 with (objSplat)
     Draw3dSprite(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
     
-with (objCrate)
+// Draw all Objects
+with (parObject)
+    Draw3dSprite(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
+    
+// Draw all Objects
+with (objObjectParticle)
     Draw3dSprite(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 
 
 // Draw all sprites
 shader_set(global.SpriteShader);
-with (oSprite) Draw3dSprite(sprite_index, image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
+with (oSprite)
+    Draw3dSprite(sprite_index, image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
 shader_reset();
 with (objSpritePlacer)
     {
@@ -169,6 +182,11 @@ with(objBody)
     {
     Draw3dSprite(sprite_index, image_index, x+3, -y-3, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
+    
+    //worldMatrix = matrix_get(matrix_world)
+    //show_debug_message("Matrix size check (4x4): "+string(array_length_1d(worldMatrix)))
+    //for (n=0; n&lt;array_length_1d(worldMatrix); n++)
+        //show_debug_message("Matrix value ["+string(n)+"]: "+string_format(worldMatrix[n], 4, 16));
     
     if (global.drawDebug)
         {

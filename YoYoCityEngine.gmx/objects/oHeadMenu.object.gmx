@@ -371,7 +371,6 @@ if( InfoA&gt;0.05 ) //If the transparency of the window is under a certain point
     surface_set_target(InfoSurface);
     draw_clear_alpha(c_black,0.7);
     
-
     //Set the coordinates for the edges of the info window
     var swx1=round(view_wview[0]*0.3), swy1=round((view_hview[0]*0.6)-(InfoDrawH/2));
     var swx2=round(swx1+InfoDrawW), swy2=round(swy1+InfoDrawH);

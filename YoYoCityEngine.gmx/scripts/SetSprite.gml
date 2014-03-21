@@ -1,4 +1,4 @@
-/// SetSprite(map, button, x, y, z);
+/// SetSprite(map, button, x, y, z, sprite);
 //
 
 //show_debug_message("Setting sprites");

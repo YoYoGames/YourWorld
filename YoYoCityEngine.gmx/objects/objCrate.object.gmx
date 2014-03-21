@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>parObject</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -26,7 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>
-moving = false;
+event_inherited();
+
+image_speed = 0;
+image_index = 0;
 
 </string>
           </argument>
@@ -51,10 +54,20 @@ moving = false;
           <argument>
             <kind>1</kind>
             <string>
-if (phy_speed &gt; 0)
-    moving = true;
-else
-    moving = false;
+event_inherited();
+    
+if (doEffect)
+    {
+    instance_destroy();
+    var dir;
+    dir = point_direction(0, 0, phy_speed_x, phy_speed_y);
+    CreateObjectParticle(x+10, y+10, z, sprCrateParticles, 0, phy_speed*1.5, dir+random_range(-45, 45));
+    CreateObjectParticle(x, y+10, z, sprCrateParticles, 1, phy_speed*1.5, dir+random_range(-45, 45));
+    CreateObjectParticle(x, y-10, z, sprCrateParticles, 2, phy_speed*1.5, dir+random_range(-45, 45));
+    CreateObjectParticle(x-10, y-10, z, sprCrateParticles, 3, phy_speed*1.5, dir+random_range(-20, 45));
+    CreateObjectParticle(x, y, z, sprCrateParticles, 4, phy_speed*1.5, dir+random_range(-45, 45));
+    CreateSplat(x, y, z+1, sprSmokePuff, 1);
+    }
 
 </string>
           </argument>
@@ -65,18 +78,18 @@ else
   <PhysicsObject>-1</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>1</PhysicsObjectShape>
-  <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
+  <PhysicsObjectDensity>0.300000011920929</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>1</PhysicsObjectGroup>
-  <PhysicsObjectLinearDamping>0.800000011920929</PhysicsObjectLinearDamping>
+  <PhysicsObjectLinearDamping>1</PhysicsObjectLinearDamping>
   <PhysicsObjectAngularDamping>0.800000011920929</PhysicsObjectAngularDamping>
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
   <PhysicsShapePoints>
-    <point>16,16</point>
-    <point>48,16</point>
-    <point>48,48</point>
-    <point>16,48</point>
+    <point>0,0</point>
+    <point>38,0</point>
+    <point>38,38</point>
+    <point>0,38</point>
   </PhysicsShapePoints>
 </object>

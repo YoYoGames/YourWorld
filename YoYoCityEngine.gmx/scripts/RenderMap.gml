@@ -82,6 +82,7 @@
     // Render all road direction flags
     if (global.renderRoadFlags)
         {
+        d3d_set_lighting(false);
         var _arrowsTexture = sprite_get_texture(sprRoadArrows, 0);
         for(i=0;i<RenderListCount;i++)
             {
@@ -91,6 +92,7 @@
                 vertex_submit(MeshA[3], pr_trianglelist, _arrowsTexture);
                 }
             }
+        //d3d_set_lighting(true);
         }
 
       

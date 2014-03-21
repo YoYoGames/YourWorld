@@ -140,7 +140,33 @@
     </sprites>
     <sprites name="Objects">
       <sprite>sprites\sprCrate</sprite>
+      <sprite>sprites\sprCrateParticles</sprite>
+      <sprite>sprites\sprCone</sprite>
+      <sprite>sprites\sprBin</sprite>
+      <sprite>sprites\sprBinAnimation</sprite>
+      <sprite>sprites\sprBinFinal</sprite>
     </sprites>
+    <sprites name="Effects">
+      <sprites name="Blood">
+        <sprite>sprites\sprBlood1</sprite>
+        <sprite>sprites\sprBlood2</sprite>
+        <sprite>sprites\sprBlood3</sprite>
+        <sprite>sprites\sprBlood4</sprite>
+        <sprite>sprites\sprBlood5</sprite>
+        <sprite>sprites\sprBlood6</sprite>
+        <sprite>sprites\sprBlood7</sprite>
+        <sprite>sprites\sprBloodParticle1</sprite>
+        <sprite>sprites\sprBloodParticle2</sprite>
+        <sprite>sprites\sprBloodTyre1</sprite>
+        <sprite>sprites\sprBloodTyre2</sprite>
+        <sprite>sprites\sprBloodTyre3</sprite>
+        <sprite>sprites\sprBloodTyre4</sprite>
+      </sprites>
+      <sprites name="Smoke">
+        <sprite>sprites\sprSmokePuff</sprite>
+      </sprites>
+    </sprites>
+    <sprite>sprites\sprPoint</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -220,7 +246,6 @@
           <script>scripts\SetBlockRoadFlags.gml</script>
           <script>scripts\SetBlockPedsFlag.gml</script>
           <script>scripts\SetSprite.gml</script>
-          <script>scripts\PlaceObject.gml</script>
           <script>scripts\ProcessPicking.gml</script>
           <script>scripts\ProcessPainting.gml</script>
           <script>scripts\KillSelection.gml</script>
@@ -282,9 +307,16 @@
       <script>scripts\GetHasPavement.gml</script>
       <script>scripts\PedestriansPanic.gml</script>
     </scripts>
+    <scripts name="Objects">
+      <script>scripts\ObjectGetIndex.gml</script>
+      <script>scripts\PlaceObject.gml</script>
+    </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\DrawTextOutline.gml</script>
-    <script>scripts\ObjectGetIndex.gml</script>
+    <script>scripts\toScreenXY.gml</script>
+    <script>scripts\MatrixInverse.gml</script>
+    <script>scripts\CreateSplat.gml</script>
+    <script>scripts\CreateObjectParticle.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -348,9 +380,14 @@
       </objects>
     </objects>
     <objects name="Objects">
+      <object>objects\objObjectParticle</object>
+      <object>objects\parObject</object>
       <object>objects\objCrate</object>
+      <object>objects\objCone</object>
+      <object>objects\objBin</object>
     </objects>
     <object>objects\objSplat</object>
+    <object>objects\objMinimap</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>
