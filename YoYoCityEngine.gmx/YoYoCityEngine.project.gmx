@@ -167,6 +167,7 @@
       </sprites>
     </sprites>
     <sprite>sprites\sprPoint</sprite>
+    <sprite>sprites\sprLosCone</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

@@ -27,29 +27,30 @@
     RenderListCount=0;                                  // Number of tiles in render list
     var CacheWidth = floor(MapWidth/GridCacheSize);
     var CacheHeight = floor(MapWidth/GridCacheSize);
-    if( _gx1>CacheWidth ) _gx1=CacheWidth;
-    if( _gx2>CacheWidth ) _gx2=CacheWidth;
-    if( _gy1>CacheHeight ) _gy1=CacheHeight;
-    if( _gy2>CacheHeight ) _gy2=CacheHeight;
+    if (_gx1>CacheWidth) _gx1 = CacheWidth;
+    if (_gx2>CacheWidth) _gx2 = CacheWidth;
+    if (_gy1>CacheHeight) _gy1 = CacheHeight;
+    if (_gy2>CacheHeight) _gy2 = CacheHeight;
     for(yy=_gy1;yy<_gy2;yy++){
         for(xx=_gx1;xx<_gx2;xx++){
             if( xx>=0 && xx<CacheWidth) && (yy>=0 && yy<CacheHeight)
             {
                 MeshA = GetCacheEntry(xx,yy);
-                if( is_array(MeshA) ){
+                if (is_array(MeshA))
+                {
                     RenderList[RenderListCount]=MeshA;
                     RenderListCount++;
                     global.CurrentPolyCount += MeshA[2];
                 }
             }
         }
-    }        
+    }
     
     // Now, pass 1. Render all building sides and lids
     if( _shader>=0 )
     {
         draw_enable_alphablend(false);
-        shader_set( _shader );
+        shader_set(_shader);
         for(i=0;i<RenderListCount;i++){
             MeshA = RenderList[i];
             if( MeshA[0]!=-1 ){
