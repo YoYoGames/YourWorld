@@ -101,7 +101,6 @@ if (hp &lt;= 0)
         {
         rand = string(irandom_range(1, 7));
         bloodSprite = asset_get_index("sprBlood"+rand);
-        show_debug_message("sprBlood"+rand);
         CreateSplat(x+random_range(-16, 16), y+random_range(-16, 16), z-1, bloodSprite, image_xscale);
         }
     CreateSplat(x, y, z, DeadSprite, image_xscale);

@@ -110,7 +110,6 @@ with(_map)
             buffer_write(buff, buffer_u32, info[BLK_OFFSETS2]);
             buffer_write(buff, buffer_u32, info[BLK_OFFSETS3]);
         }
-
     }
     
         

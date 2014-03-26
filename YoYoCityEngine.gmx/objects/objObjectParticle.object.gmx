@@ -115,8 +115,8 @@ if (alpha &lt;= 0)
   <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>
-  <PhysicsObjectLinearDamping>0.800000011920929</PhysicsObjectLinearDamping>
-  <PhysicsObjectAngularDamping>0.5</PhysicsObjectAngularDamping>
+  <PhysicsObjectLinearDamping>1.5</PhysicsObjectLinearDamping>
+  <PhysicsObjectAngularDamping>1</PhysicsObjectAngularDamping>
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>

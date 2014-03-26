@@ -182,7 +182,11 @@ if (global.Mode == MODE_PLAY)
             <kind>1</kind>
             <string>
 if (other.phy_speed &gt; 1)
+    {
     other.doEffect = true;
+    other.phy_speed_x = phy_speed_x;
+    other.phy_speed_y = phy_speed_y;
+    }
 
 </string>
           </argument>

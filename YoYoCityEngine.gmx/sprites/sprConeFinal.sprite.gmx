@@ -2,24 +2,24 @@
 <sprite>
   <type>0</type>
   <xorig>10</xorig>
-  <yorigin>16</yorigin>
+  <yorigin>9</yorigin>
   <colkind>1</colkind>
   <coltolerance>0</coltolerance>
   <sepmasks>0</sepmasks>
   <bboxmode>0</bboxmode>
   <bbox_left>0</bbox_left>
-  <bbox_right>20</bbox_right>
+  <bbox_right>19</bbox_right>
   <bbox_top>0</bbox_top>
-  <bbox_bottom>32</bbox_bottom>
+  <bbox_bottom>17</bbox_bottom>
   <HTile>0</HTile>
   <VTile>0</VTile>
   <TextureGroups>
     <TextureGroup0>2</TextureGroup0>
   </TextureGroups>
   <For3D>0</For3D>
-  <width>21</width>
-  <height>33</height>
+  <width>20</width>
+  <height>18</height>
   <frames>
-    <frame index="0">images\sprBinFinal_0.png</frame>
+    <frame index="0">images\sprConeFinal_0.png</frame>
   </frames>
 </sprite>

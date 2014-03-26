@@ -24,6 +24,7 @@ with (_map)
         show_debug_message("global.LeftMouseSprite = "+string(global.LeftMouseSprite));
         newObject = instance_create(xx*64+32+irandom_range(-8, 8), -yy*64-32+irandom_range(-8, 8), ObjectGetIndex(global.LeftMouseSprite));
         newObject.z = zz*64+8;
+        newObject.zstart = newObject.z;
         newObject.phy_rotation = random(360);
         
         /*

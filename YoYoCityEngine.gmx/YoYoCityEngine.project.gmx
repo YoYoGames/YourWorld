@@ -142,6 +142,8 @@
       <sprite>sprites\sprCrate</sprite>
       <sprite>sprites\sprCrateParticles</sprite>
       <sprite>sprites\sprCone</sprite>
+      <sprite>sprites\sprConeAnimation</sprite>
+      <sprite>sprites\sprConeFinal</sprite>
       <sprite>sprites\sprBin</sprite>
       <sprite>sprites\sprBinAnimation</sprite>
       <sprite>sprites\sprBinFinal</sprite>
@@ -318,6 +320,8 @@
     <script>scripts\MatrixInverse.gml</script>
     <script>scripts\CreateSplat.gml</script>
     <script>scripts\CreateObjectParticle.gml</script>
+    <script>scripts\ObjectHide.gml</script>
+    <script>scripts\ObjectRestore.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -381,13 +385,19 @@
       </objects>
     </objects>
     <objects name="Objects">
-      <object>objects\objObjectParticle</object>
       <object>objects\parObject</object>
-      <object>objects\objCrate</object>
-      <object>objects\objCone</object>
-      <object>objects\objBin</object>
+      <objects name="Movables">
+        <object>objects\objCrate</object>
+        <object>objects\objCone</object>
+        <object>objects\objCone2</object>
+        <object>objects\objBin</object>
+        <object>objects\objBin2</object>
+      </objects>
+      <objects name="Effects">
+        <object>objects\objObjectParticle</object>
+        <object>objects\objSplat</object>
+      </objects>
     </objects>
-    <object>objects\objSplat</object>
     <object>objects\objMinimap</object>
   </objects>
   <rooms name="rooms">

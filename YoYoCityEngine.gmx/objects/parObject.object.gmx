@@ -28,6 +28,7 @@
             <string>
 doEffect = false;
 moving = false;
+respawnTimer = -1;
 
 </string>
           </argument>

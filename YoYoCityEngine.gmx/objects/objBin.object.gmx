@@ -56,6 +56,20 @@ image_index = 0;
             <string>
 event_inherited();
 
+ObjectRestore();
+
+if (doEffect)
+    {
+    var newObject;
+    newObject = instance_create(phy_position_x, phy_position_y, objBin2);
+    newObject.phy_rotation = phy_rotation;
+    newObject.phy_speed_x = phy_speed_x;
+    newObject.phy_speed_y = phy_speed_y;
+    newObject.z = z;
+    
+    ObjectHide();
+    }
+
 </string>
           </argument>
         </arguments>
