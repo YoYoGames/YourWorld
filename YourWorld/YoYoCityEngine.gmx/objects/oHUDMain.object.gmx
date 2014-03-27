@@ -241,31 +241,7 @@ if( ButtonControlFull(sprNavCube,0,"PLACE BLOCKS",true) )
     global.EditorMode_Sub=EDIT_SUB_NONE;
 }
 
-<<<<<<< HEAD
 if( ButtonControlFull(sprNavPaint,0,"PAINT",true) ) {}
-=======
-//Tile Sides
-draw_sprite(sButtonSprite[(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PAINT TILE SIDES") )
-{
-    if !instance_exists(oHUDTileSelect)
-    {
-        with(oHUDParent)
-            instance_destroy()
-        instance_create(60,60,oHUDTileSelect)
-    }
-    else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)
-    {
-        with(oHUDParent)
-            instance_destroy()
-    }        
-    
-    global.EditorMode=EDIT_PAINT;
-    global.EditorMode_Sub=EDIT_SUB_SIDE;        
-}
-buttonX+=buttonS
-buttonI+=1
->>>>>>> 1d90d036a8f8490a22f13f9ef579fb5eb3a26ba0
 
 if( ButtonControlFull(sprNavDecals,0,"PLACE DECALS",true) )
 {
@@ -285,36 +261,12 @@ if( ButtonControlFull(sprNavDecals,0,"PLACE DECALS",true) )
     }        
 }
 
-<<<<<<< HEAD
-
 if( ButtonControlFull(sprNavObjects,0,"PLACE OBJECTS",true) )
 {
     global.EditorMode=EDIT_OBJECTS;
     global.EditorMode_Sub=EDIT_SUB_NONE;
     with(oHUDParent) instance_destroy()        
 }
-=======
-//Objects
-draw_sprite(sButtonSprite[global.EditorMode==EDIT_OBJECTS],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE OBJECTS") )
-    {
-    global.EditorMode = EDIT_OBJECTS;
-    global.EditorMode_Sub = EDIT_SUB_NONE;
-    if (!instance_exists(oHUDObjectSelect))
-        {
-        with (oHUDParent)
-            instance_destroy();
-        instance_create(60,60,oHUDObjectSelect)
-        }
-    else if (global.EditorMode == EDIT_OBJECTS)
-        {
-        with (oHUDParent)
-            instance_destroy();
-        }
-    }
-buttonX+=(buttonS*2)
-buttonI+=1
->>>>>>> 1d90d036a8f8490a22f13f9ef579fb5eb3a26ba0
 
 ButtonDivider()
 
