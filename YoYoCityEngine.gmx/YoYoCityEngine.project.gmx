@@ -30,6 +30,33 @@
     <sprites name="HUD">
       <sprite>sprites\sButtonNavbar</sprite>
       <sprite>sprites\sButtonNavbarSel</sprite>
+      <sprites name="Navbar">
+        <sprite>sprites\sprNavNew</sprite>
+        <sprite>sprites\sprNavOpen</sprite>
+        <sprite>sprites\sprNavSave</sprite>
+        <sprite>sprites\sprNavSelect</sprite>
+        <sprite>sprites\sprNavCube</sprite>
+        <sprite>sprites\sprNavPaint</sprite>
+        <sprites name="NavPaintSub">
+          <sprite>sprites\sprNavPaintSides</sprite>
+          <sprite>sprites\sprNavPaintTops</sprite>
+          <sprite>sprites\sprNavPaintLand</sprite>
+          <sprite>sprites\sprNavPaintRoads</sprite>
+        </sprites>
+        <sprite>sprites\sprNavDecals</sprite>
+        <sprite>sprites\sprNavObjects</sprite>
+        <sprite>sprites\sprNavRotL</sprite>
+        <sprite>sprites\sprNavRotR</sprite>
+        <sprite>sprites\sprNavFlipV</sprite>
+        <sprite>sprites\sprNavFlipH</sprite>
+        <sprite>sprites\sprNavView</sprite>
+        <sprites name="NavViewSub">
+          <sprite>sprites\sprNavToggleRoadDir</sprite>
+          <sprite>sprites\sprNavToggleTrafficSpawn</sprite>
+          <sprite>sprites\sprNavToggleTraffic</sprite>
+        </sprites>
+        <sprite>sprites\sprNavDivider</sprite>
+      </sprites>
       <sprite>sprites\sprRoadsTool</sprite>
       <sprite>sprites\sprPedsTool</sprite>
       <sprite>sprites\sprToggleRoads</sprite>
@@ -236,6 +263,9 @@
         <script>scripts\mouse_rclick_rectangle.gml</script>
         <script>scripts\mouse_hold_rectangle.gml</script>
         <script>scripts\mouse_release_rectangle.gml</script>
+        <script>scripts\ButtonControlFull.gml</script>
+        <script>scripts\ButtonControlSub.gml</script>
+        <script>scripts\ButtonDivider.gml</script>
       </scripts>
       <script>scripts\ColorButton.gml</script>
       <script>scripts\SetQuickSlot.gml</script>

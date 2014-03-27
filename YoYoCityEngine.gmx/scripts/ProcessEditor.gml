@@ -62,7 +62,7 @@ if( FreeCursorMode==1 or instance_exists(oHeadMenu) ){
 if( AllowPick )
 {
     //Allow the clicks through to the 3D world unless the mouse is in an area occupied by the GUI
-    var HaltProcessing=false;
+    var HaltProcessing=(alarm[0]>0);
     
     if (instance_exists(oHUDParent))
     {
