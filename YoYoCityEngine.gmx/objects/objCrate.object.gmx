@@ -2,7 +2,7 @@
 <object>
   <spriteName>sprCrate</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>parObject</parentName>
@@ -57,6 +57,9 @@ image_index = 0;
 event_inherited();
 
 ObjectRestore();
+
+if (phy_speed &gt; 1)
+    doEffect = true;
     
 if (doEffect)
     {
@@ -72,6 +75,8 @@ if (doEffect)
     
     ObjectHide();
     }
+    
+//show_debug_message("inst.x = "+string(floor(xstart))+", "+string(floor(x))+", "+string(floor(phy_position_x)));
 
 </string>
           </argument>

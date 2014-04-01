@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -29,6 +29,7 @@
 doEffect = false;
 moving = false;
 respawnTimer = -1;
+zstart = -1;
 
 </string>
           </argument>
@@ -57,6 +58,7 @@ var dis;
 dis = point_distance(phy_position_xprevious, phy_position_yprevious, phy_position_x, phy_position_y);
 
 if (dis &gt; 0)
+&amp;&amp; (respawnTimer &lt;= 0)
     moving = true;
 else
     moving = false;

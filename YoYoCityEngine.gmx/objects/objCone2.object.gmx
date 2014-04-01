@@ -2,7 +2,7 @@
 <object>
   <spriteName>sprConeFinal</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>parObject</parentName>
@@ -30,6 +30,8 @@ event_inherited();
 
 image_speed = 0;
 image_index = 0;
+
+despawnTimer = 10*room_speed;
 
 realSprite = sprite_index;
 sprite_index = sprConeAnimation;
@@ -61,6 +63,11 @@ image_speed = 2/animationTime/2;
             <kind>1</kind>
             <string>
 event_inherited();
+
+
+despawnTimer--;
+if (despawnTimer &lt;= 0)
+    instance_destroy();
 
 
 if (animationTime == 0)

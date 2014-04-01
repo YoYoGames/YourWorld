@@ -11,11 +11,10 @@ var _flags=0;
 _map=argument[0];
 if( argument_count>1)_flags=argument[1];
 
+var buff = buffer_create(1024*1024*4,buffer_grow,1);
 
 with(_map)
 {
-    var buff = buffer_create(1024*1024*4,buffer_grow,1);
-
     // Map version
     buffer_write(buff,buffer_u32, 4);
     buffer_write(buff,buffer_u32, 0);
@@ -87,7 +86,7 @@ with(_map)
         buffer_write(buff,buffer_u8,a);
     }
 
-    // Write out number of block info structs we have    
+    // Write out number of block info structs we have
     size = block_info_size;
     buffer_write(buff, buffer_u32, size );
     
@@ -111,9 +110,69 @@ with(_map)
             buffer_write(buff, buffer_u32, info[BLK_OFFSETS3]);
         }
     }
-    
-        
-     // delete temp buffer    
-    buffer_delete(raw);
-    return buff;
 }
+
+
+//-------------------------------------------------------------------------
+// OBJECTS
+//
+// 32 bits: Number of objects
+// List of 32 bits:
+// t = type
+// r = rotation
+// x, y, z = position
+// - = spare
+// tttt tttt ---- ---- rrrr rr-- zzzz zzzz
+// yyyy yyyy yyyy yyyy xxxx xxxx xxxx xxxx
+//
+
+var numberOfObjects, n, p, object, xPos, yPos, zPos, rotation, type;
+
+// Sort the real objects from the sissy ones
+numberOfObjects = instance_number(parObject);
+n = 0;
+p = 0;
+repeat (numberOfObjects)
+    {
+    inst = instance_find(parObject, n++);
+    if (ObjectGetObjectIndex(inst.object_index) != -1)
+        object[p++] = inst;
+    }
+    
+// Write number of objects to save
+numberOfObjects = array_length_1d(object);
+buffer_write(buff, buffer_u32, numberOfObjects);
+
+// Go through all Objects and sqeeze the info together, then write to buffer
+for (n=0; n<numberOfObjects; n++)
+    {
+    inst = object[n];
+    with (inst)
+        {
+        type = ObjectGetObjectIndex(object_index) & $FF;
+        xPos = floor(xstart) & $FFFF;
+        yPos = floor(-ystart) & $FFFF;
+        zPos = floor(zstart/64) & $FF;
+        rotation = floor(phy_rotation/64) & $3F;
+        
+        //show_debug_message("type = "+string(type));
+        //show_debug_message("inst.xstart = "+string(floor(xstart))+", "+string(floor(x))+", "+string(floor(phy_position_x)));
+        //show_debug_message("inst.ystart = "+string(floor(ystart))+", "+string(floor(y))+", "+string(floor(phy_position_y)));
+        //show_debug_message("inst.zstart = "+string(floor(zstart/64)));
+        //show_debug_message("inst.phy_rotation = "+string(floor(phy_rotation/64)));
+        
+        final1 = (type<<24) | (rotation<<10) | (zPos);
+        final2 = (yPos<<16) | (xPos);
+        //show_debug_message("        "+string(final1));
+        //show_debug_message("        "+string(final2));
+        buffer_write(buff, buffer_u32, final1);
+        buffer_write(buff, buffer_u32, final2);
+        }
+    }
+
+
+//-----------------------------------------------------
+// delete temp buffer
+buffer_delete(raw);
+return buff;
+

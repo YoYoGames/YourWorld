@@ -133,7 +133,58 @@ with(_map)
     // Make sure they have at least 1 ref
     RefCount[0]++;    
     RefCount[1]++;    
-    RefCount[2]++;          
+    RefCount[2]++;
+    
+    
+    //-------------------------------------------------------------------------
+    // OBJECTS
+    //
+    // 32 bits: Number of objects
+    // List of 32 bits:
+    // t = type
+    // r = rotation
+    // x, y, z = position
+    // - = spare
+    // tttt tttt ---- ---- rrrr rr-- zzzz zzzz
+    // yyyy yyyy yyyy yyyy xxxx xxxx xxxx xxxx
+    //
+    
+    var numberOfObjects, n, p, object, xPos, yPos, zPos, rotation, type;
+        
+    // Get number of objects to load
+    numberOfObjects = buffer_read(_buff, buffer_u32);
+    show_debug_message(string(numberOfObjects));
+    
+    // Go through all Objects and sqeeze the info together, then write to buffer
+    for (n=0; n<numberOfObjects; n++)
+        {
+        final1 = buffer_read(_buff, buffer_u32);
+        final2 = buffer_read(_buff, buffer_u32);
+        
+        type = (final1>>24) & $FF;
+        xPos = (final2) & $FFFF;
+        yPos = (final2>>16) & $FFFF;
+        zPos = (final1) & $FF;
+        rotation = (final1>>10) & $3F;
+        
+        newObject = instance_create(xPos, -yPos, ObjectGetIndex(type));
+        with (newObject)
+            {
+            z = zPos*64+8;
+            zstart = z;
+            phy_rotation = rotation*64;
+            ObjectHide();
+            respawnTimer = 1;
+            }
+        
+        show_debug_message("        "+string(final1));
+        show_debug_message("        "+string(final2));
+        show_debug_message("type = "+string(type));
+        show_debug_message("x = "+string(floor(xPos)));
+        show_debug_message("y = "+string(floor(-yPos)));
+        show_debug_message("z = "+string(floor(newObject.z)));
+        show_debug_message("rotation = "+string(rotation));
+        }
 
   
     show_debug_message("Calc Refs");

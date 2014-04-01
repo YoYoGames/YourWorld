@@ -2,7 +2,7 @@
 <object>
   <spriteName>sprBinFinal</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>parObject</parentName>
@@ -27,6 +27,8 @@
             <kind>1</kind>
             <string>
 event_inherited();
+
+despawnTimer = 10*room_speed;
 
 image_speed = 0;
 image_index = 0;
@@ -61,6 +63,11 @@ animationTime = 10;
 event_inherited();
 
 
+despawnTimer--;
+if (despawnTimer &lt;= 0)
+    instance_destroy();
+
+
 if (animationTime == 0)
     sprite_index = realSprite;
 else
@@ -75,11 +82,11 @@ else
   <PhysicsObject>-1</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>1</PhysicsObjectShape>
-  <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
+  <PhysicsObjectDensity>0.100000001490116</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>1</PhysicsObjectGroup>
-  <PhysicsObjectLinearDamping>0.800000011920929</PhysicsObjectLinearDamping>
-  <PhysicsObjectAngularDamping>0.800000011920929</PhysicsObjectAngularDamping>
+  <PhysicsObjectLinearDamping>0.899999976158142</PhysicsObjectLinearDamping>
+  <PhysicsObjectAngularDamping>0.899999976158142</PhysicsObjectAngularDamping>
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>

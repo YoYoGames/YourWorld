@@ -54,24 +54,28 @@ surface_reset_target();
           <argument>
             <kind>1</kind>
             <string>
-// Draw the mini-map
-var xPos, yPos, zoom;
-zoom = 5;
-xPos = objBody.x/64;
-yPos = -objBody.y/64;
-draw_surface_part_ext(surface, xPos-128/zoom, yPos-128/zoom, 256/zoom, 256/zoom, browser_width-256, 0, zoom, zoom, c_white, 0.8);
-
-
-// Draw symbols for points of interest
-//................
-
-
-// Draw symbols for mission markers
-//................
-
-
-// Draw the player's LOS as a cone
-draw_sprite_ext(sprLosCone, 0, browser_width-256+128, 0+128, 1, 1, -90-objBody.image_angle, c_lime, 1.0);
+if (instance_exists(objBody))
+&amp;&amp; (global.Mode == MODE_PLAY)
+    {
+    // Draw the mini-map
+    var xPos, yPos, zoom;
+    zoom = 5;
+    xPos = objBody.x/64;
+    yPos = -objBody.y/64;
+    draw_surface_part_ext(surface, xPos-128/zoom, yPos-128/zoom, 256/zoom, 256/zoom, browser_width-256, 0, zoom, zoom, c_white, 0.8);
+    
+    
+    // Draw symbols for points of interest
+    //................
+    
+    
+    // Draw symbols for mission markers
+    //................
+    
+    
+    // Draw the player's LOS as a cone
+    draw_sprite_ext(sprLosCone, 0, browser_width-256+128, 0+128, 1, 1, -90-objBody.image_angle, c_lime, 1.0);
+    }
 
 </string>
           </argument>

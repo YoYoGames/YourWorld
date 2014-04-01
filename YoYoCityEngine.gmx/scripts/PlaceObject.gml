@@ -26,6 +26,7 @@ with (_map)
         newObject.z = zz*64+8;
         newObject.zstart = newObject.z;
         newObject.phy_rotation = random(360);
+        return newObject;
         
         /*
         show_debug_message("Clicked @ ("+string(xx)+","+string(yy)+","+string(zz)+")");

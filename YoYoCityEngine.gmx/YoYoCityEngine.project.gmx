@@ -312,16 +312,17 @@
     </scripts>
     <scripts name="Objects">
       <script>scripts\ObjectGetIndex.gml</script>
+      <script>scripts\ObjectGetObjectIndex.gml</script>
       <script>scripts\PlaceObject.gml</script>
+      <script>scripts\CreateObjectParticle.gml</script>
+      <script>scripts\ObjectHide.gml</script>
+      <script>scripts\ObjectRestore.gml</script>
     </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\DrawTextOutline.gml</script>
     <script>scripts\toScreenXY.gml</script>
     <script>scripts\MatrixInverse.gml</script>
     <script>scripts\CreateSplat.gml</script>
-    <script>scripts\CreateObjectParticle.gml</script>
-    <script>scripts\ObjectHide.gml</script>
-    <script>scripts\ObjectRestore.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
