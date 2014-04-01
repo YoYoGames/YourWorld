@@ -170,6 +170,27 @@
     </sprites>
     <sprite>sprites\sprPoint</sprite>
     <sprite>sprites\sprLosCone</sprite>
+    <sprite>sprites\sprNavDecals</sprite>
+    <sprite>sprites\sprNavDivider</sprite>
+    <sprite>sprites\sprNavFlipH</sprite>
+    <sprite>sprites\sprNavFlipV</sprite>
+    <sprite>sprites\sprNavNew</sprite>
+    <sprite>sprites\sprNavObjects</sprite>
+    <sprite>sprites\sprNavOpen</sprite>
+    <sprite>sprites\sprNavPaint</sprite>
+    <sprite>sprites\sprNavPaintLand</sprite>
+    <sprite>sprites\sprNavPaintRoads</sprite>
+    <sprite>sprites\sprNavPaintSides</sprite>
+    <sprite>sprites\sprNavPaintTops</sprite>
+    <sprite>sprites\sprNavRotL</sprite>
+    <sprite>sprites\sprNavRotR</sprite>
+    <sprite>sprites\sprNavSave</sprite>
+    <sprite>sprites\sprNavSelect</sprite>
+    <sprite>sprites\sprNavToggleRoadDir</sprite>
+    <sprite>sprites\sprNavToggleTraffic</sprite>
+    <sprite>sprites\sprNavToggleTrafficSpawn</sprite>
+    <sprite>sprites\sprNavView</sprite>
+    <sprite>sprites\sprNavCube</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -323,6 +344,9 @@
     <script>scripts\toScreenXY.gml</script>
     <script>scripts\MatrixInverse.gml</script>
     <script>scripts\CreateSplat.gml</script>
+    <script>scripts\ButtonControlFull.gml</script>
+    <script>scripts\ButtonControlSub.gml</script>
+    <script>scripts\ButtonDivider.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>

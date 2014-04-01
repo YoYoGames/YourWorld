@@ -66,6 +66,9 @@ surface_set_target(QuickSlotContent);
 draw_clear_alpha(c_white,0);
 surface_reset_target();
 
+HoverContent=-1;
+HoverX=0;
+
 //Auto-open Tile Select on creation if you're in that mode
 if (global.EditorMode==EDIT_PAINT)
 {
@@ -206,97 +209,42 @@ if (changed &amp;&amp; QuickSlot[QuickSlotSelected,2]&gt;-1)
             <kind>1</kind>
             <string>///Draw and operate HUD top buttons
 
-if (instance_exists(oHeadMenu)) exit;
+if( instance_exists(oHeadMenu) ) exit;
 
 Tooltip=""; //Tooltip text
 
-var buttonX=16;  //Current button X
-var buttonY=16;  //Current button Y
-var buttonI=0;  //Current button Sprite Index
-var buttonS=39; //Current button size in pixels
+buttonX=0;  //Current button X
+buttonY=0;  //Current button Y
+buttonI=0;  //Current button Sprite Index
+buttonS=40; //Current button size in pixels
 
-//New
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"NEW") )
+if( ButtonControlFull(sprNavNew,0,"NEW",true) )
 {
-    NewMap();            
+    NewMap();
 }
-buttonX+=buttonS
-buttonI+=1
 
-//Open
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"LOAD [F3]") )
+if( ButtonControlFull(sprNavSave,0,"SAVE [F2]",true) )
 {
-    with(oMap) event_perform(ev_keypress,vk_f3)        
+    with(oMap) event_perform(ev_keypress,vk_f2);
 }
-buttonX+=buttonS
-buttonI+=1
 
-//Save
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"SAVE [F2]") )
+if( ButtonControlFull(sprNavOpen,0,"OPEN [F3]",true) )
 {
-    with(oMap) event_perform(ev_keypress,vk_f2)       
+    with(oMap) event_perform(ev_keypress,vk_f3);
 }
-buttonX+=(buttonS*2)
-buttonI+=1
 
-//Block
-draw_sprite(sButtonSprite[global.EditorMode==EDIT_SELECTION],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE BLOCKS") )
+ButtonDivider()
+   
+if( ButtonControlFull(sprNavCube,0,"PLACE BLOCKS",true) )
 {
     global.EditorMode=EDIT_SELECTION;
-    global.EditorMode_Sub=EDIT_SUB_NONE;        
+    global.EditorMode_Sub=EDIT_SUB_NONE;
 }
-buttonX+=buttonS
-buttonI+=1
 
-//Tile Tops
-draw_sprite(sButtonSprite[(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PAINT TILE TOPS") )
-{
-    if !instance_exists(oHUDTileSelect)
-    {
-        with(oHUDParent) instance_destroy()
-        instance_create(60,60,oHUDTileSelect)
-    }
-    else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID)
-    {
-        with(oHUDParent) instance_destroy()
-    }        
-    
-    global.EditorMode=EDIT_PAINT;
-    global.EditorMode_Sub=EDIT_SUB_LID;        
-}
-buttonX+=buttonS
-buttonI+=1
+if( ButtonControlFull(sprNavPaint,0,"PAINT",true) ) {}
 
-//Tile Sides
-draw_sprite(sButtonSprite[(global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PAINT TILE SIDES") )
-{
-    if !instance_exists(oHUDTileSelect)
-    {
-        with(oHUDParent)
-            instance_destroy()
-        instance_create(60,60,oHUDTileSelect)
-    }
-    else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)
-    {
-        with(oHUDParent)
-            instance_destroy()
-    }        
-    
-    global.EditorMode=EDIT_PAINT;
-    global.EditorMode_Sub=EDIT_SUB_SIDE;        
-}
-buttonX+=buttonS
-buttonI+=1
-
-//Decals
-draw_sprite(sButtonSprite[global.EditorMode==EDIT_SPRITES],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE DECALS") )
+// Decals
+if( ButtonControlFull(sprNavDecals,0,"PLACE DECALS",true) )
 {
     global.EditorMode=EDIT_SPRITES;
     global.EditorMode_Sub=EDIT_SUB_NONE;
@@ -313,32 +261,48 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PL
             instance_destroy();
     }        
 }
-buttonX+=buttonS
-buttonI+=1
 
-//Objects
-draw_sprite(sButtonSprite[global.EditorMode==EDIT_OBJECTS],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLACE OBJECTS") )
-    {
-    global.EditorMode = EDIT_OBJECTS;
-    global.EditorMode_Sub = EDIT_SUB_NONE;
-    if (!instance_exists(oHUDObjectSelect))
+// Objects
+if( ButtonControlFull(sprNavObjects,0,"PLACE OBJECTS",true) )
+{
+    global.EditorMode=EDIT_OBJECTS;
+    global.EditorMode_Sub=EDIT_SUB_NONE;
+    
+    if !instance_exists(oHUDObjectSelect)
         {
         with (oHUDParent)
             instance_destroy();
-        instance_create(60,60,oHUDObjectSelect)
+        instance_create(60, 60, oHUDObjectSelect);
         }
     else if (global.EditorMode == EDIT_OBJECTS)
         {
         with (oHUDParent)
             instance_destroy();
         }
-    }
-buttonX+=(buttonS*2)
-buttonI+=1
+}
 
-//Rotate
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"ROTATE TILE") )
+ButtonDivider()
+
+if( ButtonControlFull(sprNavRotL,0,"ROTATE TILE AC",true) )
+{
+    global.FlipRotateFlags=0;
+    rotate_value=(rotate_value+3)&amp;3;
+    switch(rotate_value)
+    {
+        case 1: global.FlipRotateFlags=4; break;
+        case 2: global.FlipRotateFlags=3; break;
+        case 3: global.FlipRotateFlags=7; break;
+    }
+    if(dovflip) global.FlipRotateFlags^=1;
+    if(dohflip) global.FlipRotateFlags^=2;
+}
+//buttonI+=rotate_value;
+//draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY);
+//draw_sprite(sprNavRotL,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS),buttonX,buttonY)
+//buttonX+=buttonS;
+//buttonI+=3-rotate_value;
+
+if( ButtonControlFull(sprNavRotR,0,"ROTATE TILE C",true) )
 {
     global.FlipRotateFlags=0;
     rotate_value=(rotate_value+1)&amp;3;
@@ -351,107 +315,41 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"RO
     if(dovflip) global.FlipRotateFlags^=1;
     if(dohflip) global.FlipRotateFlags^=2;
 }
-buttonI+=rotate_value;
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY);
-buttonX+=buttonS;
-buttonI+=3-rotate_value;
-buttonI+=1;
+//buttonI+=rotate_value;
+//draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY);
+//draw_sprite(sprNavRotR,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS),buttonX,buttonY)
+//buttonX+=buttonS;
+//buttonI+=3-rotate_value;
 
 
-//Flip Horizontally
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) or (global.FlipRotateFlags &amp; 2)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FLIP TILE") )
+if( ButtonControlFull(sprNavFlipH,0,"FLIP TILE H",true) )
+{
     global.FlipRotateFlags ^= 2;
+}
 
-buttonX+=buttonS;
-buttonI+=1;
-
-//Flip Vertically
-draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) or (global.FlipRotateFlags &amp; 1)],buttonI,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"FLIP TILE") )
+if( ButtonControlFull(sprNavFlipV,0,"FLIP TILE V",true) )
+{
     global.FlipRotateFlags ^= 1;
-    
-buttonX+=(buttonS*2);
-buttonI+=1;
+}
 
-// Pedestrian Area Editing Tool
-draw_sprite(sprPedsTool,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.EditorMode==EDIT_PEDS,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Pedestrian Zone Tool") )
-    {
-    if (global.EditorMode != EDIT_PEDS)
-        global.EditorMode = EDIT_PEDS;
-        
-    else
-        {
-        global.EditorMode=EDIT_SELECTION;
-        global.EditorMode_Sub=EDIT_SUB_NONE;   
-        }
-    }
-    
-buttonX+=(buttonS*2);
-buttonI+=1;
+ButtonDivider()
 
-// Road Direction Editing Tool
-draw_sprite(sprRoadsTool,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.EditorMode==EDIT_ROADS,buttonX,buttonY)
-if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Road Direction Tool") )
-    {
-    global.EditorMode = EDIT_ROADS;
-    if (!instance_exists(objRoadCompass))
-        {
-        with(objRoadCompass) instance_destroy();
-        instance_create( 60, 240, objRoadCompass);
-        }
-    else if (global.EditorMode==EDIT_ROADS)
-        {
-        with(objRoadCompass) instance_destroy();
-        global.EditorMode=EDIT_SELECTION;
-        global.EditorMode_Sub=EDIT_SUB_NONE;   
-        } 
-    }
+if( ButtonControlFull(sprNavView,0,"VIEW",true) ) {}
 
-buttonX+=buttonS;
-    
-// Toggle drawing road direction flags
-draw_sprite(sprToggleRoads,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.renderRoadFlags==true,buttonX,buttonY)
-if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Drawing Road Flags (F5)") )
-    global.renderRoadFlags ^= true;
-    
-buttonX+=buttonS;
+ButtonDivider()
 
-// Toggle Traffic Spawning
-draw_sprite(sprToggleTrafficSpawning,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS) || global.enableTrafficSpawn==true,buttonX,buttonY)
-if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Traffic Spawning") )
-    global.enableTrafficSpawn ^= true;
-    
-buttonX+=buttonS;
-    
-// Kill all traffic
-draw_sprite(sprKillTraffic,mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS), buttonX, buttonY)
-if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Kill All Traffic") )
-    {
-    with (objTrafficCar)
-        instance_destroy();
-    }
-    
-buttonX+=(buttonS*2)
-
-
-// Toggle snap-to-grid
-draw_sprite(sprSnapToGrid, global.snapToGrid, buttonX, buttonY)
-if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Snap-To-Grid") )
+if( ButtonControlFull(sprSnapToGrid,global.snapToGrid,"TOGGLE SNAP TO GRID",true) )
+{
     global.snapToGrid ^= true;
-    
-buttonX+=buttonS;
-buttonI+=1;
+}
 
-// Toggle Visible Decals
-draw_sprite(sprToggleDecalsVisible, global.decalsVisible, buttonX, buttonY)
-if (mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"Toggle Decals Visibility") )
+if( ButtonControlFull(sprToggleDecalsVisible,global.decalsVisible,"TOGGLE DECALS VISIBILITY",true) )
+{
     global.decalsVisible ^= true;
-    
-buttonX+=(buttonS*2)
+}    
 
 
+/*
 //Play
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
 if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PLAY MODE [F1]") )
@@ -462,7 +360,7 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"PL
     global.Mode=MODE_PLAY;                    
 }
 buttonX+=buttonS;
-buttonI+=1;
+;
 
 //Hide Menu
 draw_sprite(sButtonSprite[mouse_hold_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS)],buttonI,buttonX,buttonY)
@@ -473,9 +371,135 @@ if ( mouse_release_rectangle(buttonX,buttonY,buttonX+buttonS,buttonY+buttonS,"HI
     with(oController) FreeCursorMode=0;            
 }
 buttonX+=buttonS
-buttonI+=1
 
-//Draw tooltip if one is necessary
+*/
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw and operate HUD top button dropdowns
+
+if( HoverContent==sprNavPaint )
+{
+    if( ButtonControlSub(sprNavPaintTops,0,"PAINT TILE TOPS") )
+    {
+        if !instance_exists(oHUDTileSelect)
+        {
+            with(oHUDParent) instance_destroy()
+            instance_create(60,60,oHUDTileSelect)
+        }
+        else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_LID)
+        {
+            with(oHUDParent) instance_destroy()
+        }        
+        
+        global.EditorMode=EDIT_PAINT;
+        global.EditorMode_Sub=EDIT_SUB_LID;
+    }
+    
+    if( ButtonControlSub(sprNavPaintSides,0,"PAINT TILE SIDES") )
+    {
+        if !instance_exists(oHUDTileSelect)
+        {
+            with(oHUDParent) instance_destroy()
+            instance_create(60,60,oHUDTileSelect)
+        }
+        else if (global.EditorMode==EDIT_PAINT &amp;&amp; global.EditorMode_Sub==EDIT_SUB_SIDE)
+        {
+            with(oHUDParent) instance_destroy()
+        }        
+        
+        global.EditorMode=EDIT_PAINT;
+        global.EditorMode_Sub=EDIT_SUB_SIDE;
+    }
+}
+
+if( HoverContent==sprNavView )
+{
+    if( ButtonControlSub(sprPedsTool,global.EditorMode==EDIT_PEDS,"PEDESTRIAN ZONE TOOL") )
+    {
+        if (global.EditorMode != EDIT_PEDS)
+        {
+            global.EditorMode = EDIT_PEDS;
+        }    
+        else
+        {
+            global.EditorMode=EDIT_SELECTION;
+            global.EditorMode_Sub=EDIT_SUB_NONE;   
+        }
+    }
+    
+    if( ButtonControlSub(sprRoadsTool,global.EditorMode==EDIT_ROADS,"ROAD DIRECTION TOOL") )
+    {                                                            
+        global.EditorMode = EDIT_ROADS;
+        if (!instance_exists(objRoadCompass))
+        {
+            with(objRoadCompass) instance_destroy();
+            instance_create( 60, 240, objRoadCompass);
+        }
+        else if (global.EditorMode==EDIT_ROADS)
+        {
+            with(objRoadCompass) instance_destroy();
+            global.EditorMode=EDIT_SELECTION;
+            global.EditorMode_Sub=EDIT_SUB_NONE;   
+        } 
+    }
+    
+    if( ButtonControlSub(sprNavToggleRoadDir,global.renderRoadFlags*2,"TOGGLE DRAW ROAD FLAGS [F5]") )
+    {
+        global.renderRoadFlags ^= true;
+    }
+    
+    if( ButtonControlSub(sprNavToggleTrafficSpawn,global.enableTrafficSpawn*2,"TOGGLE TRAFFIC SPAWNING") )
+    {
+        global.enableTrafficSpawn ^= true;
+    }
+    
+    if( ButtonControlSub(sprNavToggleTraffic,2,"KILL TRAFFIC") )
+    {
+        with (objTrafficCar) instance_destroy();
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Draw and operate HUD tooltips
+
 if (Tooltip!="")
 {
     draw_set_font(fTwCenConS);
@@ -492,7 +516,6 @@ if (Tooltip!="")
     draw_set_color(c_black);
     draw_text(ttx,tty,Tooltip); //Draw tooltip text
 }
-
 </string>
           </argument>
         </arguments>
