@@ -1,8 +1,9 @@
+/// pcApplyProperties();
+//
+//  This sets up the car based on the "Star" system.
+//  This can probably be KILLED
+//
 //*****************************************************************************
-// pcApplyProperties();
-//
-// This sets up the car based on the "Star" system.
-//
 
 
 // Setup control variables

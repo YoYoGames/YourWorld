@@ -1,4 +1,4 @@
-/// LoadBuffer(map,buffer)
+/// LoadBuffer(map, buffer)
 /// Save our "block" data... Do it quick and simple
 /// use "get_save_filename(filter, fname);" to save anywhere.
 // This function just creates a buffer with the save data in it.
@@ -131,8 +131,8 @@ with(_map)
         RefCount[i]=0;
     }
     // Make sure they have at least 1 ref
-    RefCount[0]++;    
-    RefCount[1]++;    
+    RefCount[0]++;
+    RefCount[1]++;
     RefCount[2]++;
     
     
@@ -153,37 +153,24 @@ with(_map)
         
     // Get number of objects to load
     numberOfObjects = buffer_read(_buff, buffer_u32);
-    show_debug_message(string(numberOfObjects));
+    show_debug_message("Load Objects: "+string(numberOfObjects));
     
-    // Go through all Objects and sqeeze the info together, then write to buffer
+    // Read back all the data and translate it into Objects again
     for (n=0; n<numberOfObjects; n++)
         {
+        // Get the two 32bit values
         final1 = buffer_read(_buff, buffer_u32);
         final2 = buffer_read(_buff, buffer_u32);
         
+        // Get the values hidden within
         type = (final1>>24) & $FF;
         xPos = (final2) & $FFFF;
         yPos = (final2>>16) & $FFFF;
         zPos = (final1) & $FF;
         rotation = (final1>>10) & $3F;
         
-        newObject = instance_create(xPos, -yPos, ObjectGetIndex(type));
-        with (newObject)
-            {
-            z = zPos*64+8;
-            zstart = z;
-            phy_rotation = rotation*64;
-            ObjectHide();
-            respawnTimer = 1;
-            }
-        
-        show_debug_message("        "+string(final1));
-        show_debug_message("        "+string(final2));
-        show_debug_message("type = "+string(type));
-        show_debug_message("x = "+string(floor(xPos)));
-        show_debug_message("y = "+string(floor(-yPos)));
-        show_debug_message("z = "+string(floor(newObject.z)));
-        show_debug_message("rotation = "+string(rotation));
+        // Add all that info to a list for loading AFTER the physics world has been setup.
+        ds_list_add(LoadObjects, xPos, -yPos, ObjectGetIndex(type), zPos*64+8, rotation*64);
         }
 
   
@@ -219,8 +206,4 @@ with(_map)
     
     show_debug_message("done");
 }
-
-
-
-
 

@@ -1,4 +1,4 @@
-/// buffer = SaveMap(map,flags)
+/// buffer = SaveMap(map, flags);
 //
 /// Save our "block" data... Do it quick and simple
 /// use "get_save_filename(filter, fname);" to save anywhere.
@@ -126,7 +126,7 @@ with(_map)
 // yyyy yyyy yyyy yyyy xxxx xxxx xxxx xxxx
 //
 
-var numberOfObjects, n, p, object, xPos, yPos, zPos, rotation, type;
+var numberOfObjects, n, p, object, xPos, yPos, zPos, rotation, type, final1, final2;
 
 // Sort the real objects from the sissy ones
 numberOfObjects = instance_number(parObject);
@@ -149,22 +149,18 @@ for (n=0; n<numberOfObjects; n++)
     inst = object[n];
     with (inst)
         {
+        // Get all the indivual values and fix their size
         type = ObjectGetObjectIndex(object_index) & $FF;
         xPos = floor(xstart) & $FFFF;
         yPos = floor(-ystart) & $FFFF;
         zPos = floor(zstart/64) & $FF;
         rotation = floor(phy_rotation/64) & $3F;
         
-        //show_debug_message("type = "+string(type));
-        //show_debug_message("inst.xstart = "+string(floor(xstart))+", "+string(floor(x))+", "+string(floor(phy_position_x)));
-        //show_debug_message("inst.ystart = "+string(floor(ystart))+", "+string(floor(y))+", "+string(floor(phy_position_y)));
-        //show_debug_message("inst.zstart = "+string(floor(zstart/64)));
-        //show_debug_message("inst.phy_rotation = "+string(floor(phy_rotation/64)));
-        
+        // Compile all the stuff into two 32 bit values
         final1 = (type<<24) | (rotation<<10) | (zPos);
         final2 = (yPos<<16) | (xPos);
-        //show_debug_message("        "+string(final1));
-        //show_debug_message("        "+string(final2));
+        
+        // Write those values
         buffer_write(buff, buffer_u32, final1);
         buffer_write(buff, buffer_u32, final2);
         }

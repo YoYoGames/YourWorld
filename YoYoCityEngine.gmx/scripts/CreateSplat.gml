@@ -1,8 +1,10 @@
 /// CreateSplat(x, y, z, sprite, scale);
 //
-//  
+//  Creates a splat object at the given position.
+//  A splat looks like a decal, but it despawns after a time.
 //
 //*****************************************************************************
+
 
 // Create new splat and position
 var newSplat;

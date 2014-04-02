@@ -90,19 +90,20 @@ global.CurrentPolyCount = 0;
 var filename = "map.city";
 //debug("DIR="+working_directory+filename);
 var loadit = file_exists(filename);
-if( loadit ){
-    with(global.Map){
+if (loadit)
+    {
+    with(global.Map)
+        {
+        LoadObjects = ds_list_create();
         var buff = buffer_load(filename);
-        LoadMap(id,buff);
+        LoadMap(id, buff);
         
-        // Create physics world controller
         instance_create(0, 0, objPhysicsController);
-        
+        CreateObjectsFromList(LoadObjects);
         instance_create(0, 0, objTrafficSpawner);
-        
         SpawnPlayer();
+        }
     }
-}
 
 
 

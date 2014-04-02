@@ -1,3 +1,6 @@
+/// GetLateralSpeed();
+//
+//*****************************************************************************
 
 normalDirection = GetWorldDirection(0);
 normalX = lengthdir_x(1, normalDirection);

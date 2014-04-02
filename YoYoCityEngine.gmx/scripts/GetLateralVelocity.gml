@@ -1,8 +1,8 @@
+/// GetLateralVelocity()
+//
+//  Gets the speed the object is moving sideways.
+//
 //*****************************************************************************
-// GetLateralVelocity()
-//
-// Gets the speed the object is moving sideways.
-//
 
 var normalDirection = GetWorldDirection(0);
 var normalX = lengthdir_x(1, normalDirection);

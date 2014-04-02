@@ -1,9 +1,9 @@
+/// GetForwardVelocity();
+// 
+//  Returns the magnitude of speed along the forward vector
+//  as well as saving the forwardX and forwardY variables (these are the vector)
+//
 //*****************************************************************************
-// GetForwardVelocity();
-//
-// Returns the magnitude of speed along the forward vector
-// as well as saving the forwardX and forwardY variables (these are the vector)
-//
 
 var normalDirection = GetWorldDirection(90);
 var normalX = lengthdir_x(1, normalDirection);

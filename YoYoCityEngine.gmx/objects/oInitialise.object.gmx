@@ -27,62 +27,59 @@
             <kind>1</kind>
             <string>/// Initialise the engine
 
-{
-    // HTML5?
-    global.HTML5=false;
-    global.LoadSave=true;
-    global.CityShader=RenderPlusSelection;
-    global.SpriteShader=SpriteSelectionShader;
-    if( os_browser != browser_not_a_browser || os_type == os_android || os_type==os_macosx || os_type==os_linux)
+// HTML5?
+global.HTML5=false;
+global.LoadSave=true;
+global.CityShader=RenderPlusSelection;
+global.SpriteShader=SpriteSelectionShader;
+if( os_browser != browser_not_a_browser || os_type == os_android || os_type==os_macosx || os_type==os_linux)
     {
-        global.HTML5=true;
-        //global.LoadSave=false;
-        global.CityShader=RenderCity;
-        global.SpriteShader=SimpleSpriteShader;
+    global.HTML5=true;
+    //global.LoadSave=false;
+    global.CityShader=RenderCity;
+    global.SpriteShader=SimpleSpriteShader;
     }
 
-    // Global variables
-    global.drawDebug = false;
-    global.renderRoadFlags = true;
-    global.enableTrafficSpawn = false;
-    global.snapToGrid = true;
-    global.decalsVisible = true;
-    
-    // Create the Sprite Vertex Format
-    vertex_format_begin();
-    vertex_format_add_position_3d();
-    vertex_format_add_colour();
-    vertex_format_add_textcoord();
-    global.SpriteFormat = vertex_format_end();
-    
-    
-    // Create the Vertex Format we'll use
-    vertex_format_begin();
-    vertex_format_add_position_3d();
-    vertex_format_add_normal();
-    vertex_format_add_colour();
-    vertex_format_add_textcoord();
-    global.CityFormat = vertex_format_end();
-    
-    // Create the Selection Vertex Format
-    vertex_format_begin();
-    vertex_format_add_position_3d();
-    vertex_format_add_colour();
-    global.SelectionFormat = vertex_format_end();
-        
-    
-    
-    // Create the Vertex Format we'll use
-    global.TempSpriteBuffer = vertex_create_buffer_ext(4*1024);
-    
-    global.cubes=0;
-    global.polys=0;
-    global.cube=-1;
-            
-    // Room change on the 4th frame
-    alarm[0]=15;
-}
+// Global variables
+global.drawDebug = false;
+global.renderRoadFlags = true;
+global.enableTrafficSpawn = false;
+global.snapToGrid = true;
+global.decalsVisible = true;
 
+// Create the Sprite Vertex Format
+vertex_format_begin();
+vertex_format_add_position_3d();
+vertex_format_add_colour();
+vertex_format_add_textcoord();
+global.SpriteFormat = vertex_format_end();
+
+
+// Create the Vertex Format we'll use
+vertex_format_begin();
+vertex_format_add_position_3d();
+vertex_format_add_normal();
+vertex_format_add_colour();
+vertex_format_add_textcoord();
+global.CityFormat = vertex_format_end();
+
+// Create the Selection Vertex Format
+vertex_format_begin();
+vertex_format_add_position_3d();
+vertex_format_add_colour();
+global.SelectionFormat = vertex_format_end();
+    
+
+
+// Create the Vertex Format we'll use
+global.TempSpriteBuffer = vertex_create_buffer_ext(4*1024);
+
+global.cubes=0;
+global.polys=0;
+global.cube=-1;
+        
+// Room change on the 4th frame
+alarm[0]=15;
 
 </string>
           </argument>

@@ -32,12 +32,12 @@ block_info_size=0;
 
 
 // Lastly delete the ref count array, and the free array
-ds_stack_destroy( FreeList );
+ds_stack_destroy(FreeList);
 RefCount = 0;
-
 
 
 // Destroy physics controller and other gameplay stuff
 with (objPhysicsController) instance_destroy();
 with (objTrafficSpawner) instance_destroy();
+with (parObject) instance_destroy();
 

@@ -290,6 +290,11 @@
         <script>scripts\mouse_hold_rectangle.gml</script>
         <script>scripts\mouse_release_rectangle.gml</script>
       </scripts>
+      <scripts name="Buttons">
+        <script>scripts\ButtonControlFull.gml</script>
+        <script>scripts\ButtonControlSub.gml</script>
+        <script>scripts\ButtonDivider.gml</script>
+      </scripts>
       <script>scripts\ColorButton.gml</script>
       <script>scripts\SetQuickSlot.gml</script>
       <script>scripts\SetHoldingQuickSlot.gml</script>
@@ -341,12 +346,8 @@
     </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\DrawTextOutline.gml</script>
-    <script>scripts\toScreenXY.gml</script>
-    <script>scripts\MatrixInverse.gml</script>
     <script>scripts\CreateSplat.gml</script>
-    <script>scripts\ButtonControlFull.gml</script>
-    <script>scripts\ButtonControlSub.gml</script>
-    <script>scripts\ButtonDivider.gml</script>
+    <script>scripts\CreateObjectsFromList.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>

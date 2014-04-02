@@ -81,30 +81,42 @@ instance_create(0, 0, objMinimap);
           <argument>
             <kind>1</kind>
             <string>/// Do load/save after
-if( LoadSave==1 )
-{
-    var buff = SaveMap(id);
-    var filename = get_save_filename("YoYo City Maps|*.city",LastFileName);
-    if( filename!="" ){
+
+// Save game
+if (LoadSave == 1)
+    {
+    var filename = get_save_filename("YoYo City Maps|*.city", LastFileName);
+    if( filename!="" )
+        {
         debug("filename="+filename);
-        LastFileName=filename;
+        var buff = SaveMap(id);
+        LastFileName = filename;
         buffer_save_ext(buff, LastFileName, 0, buffer_tell(buff));
+        }
     }
-}else{
+
+
+// Load game
+else
+    {
     var filename = get_open_filename("YoYo City Maps|*.city",LastFileName);
-    if( filename!=""){
+    if( filename!="")
+        {
+        LoadObjects = ds_list_create();
         LastFileName=filename;
         var buff = buffer_load(LastFileName);
         LoadMap(id,buff);
         
-        // Create physics world controller
+        // Create stuff, this should be better controlled, example: player shouldn't spawn without spawn point
         instance_create(0, 0, objPhysicsController);
-        
+        CreateObjectsFromList(LoadObjects);
         instance_create(0, 0, objTrafficSpawner);
-        
         SpawnPlayer();
+        }
     }
-}
+
+
+// Fullscreen (explorer window screws game window)
 FullscreenMode(fullscreen);
 
 </string>
@@ -145,11 +157,6 @@ RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, text
 with(Water) DrawWater();
 
 draw_set_alpha_test(true);
-
-
-// DEBUG CHECKING FOR 3D&gt;2D
-if (keyboard_check_pressed(vk_f9))
-    toScreenXY();
 
 
 // Draw temporary splat images, these fade out
