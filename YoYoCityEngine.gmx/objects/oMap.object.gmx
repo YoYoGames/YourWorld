@@ -58,6 +58,11 @@ physics_world_gravity(0.0, 0.0);
 
 instance_create(0, 0, objMinimap);
 
+global.numberOfObjects = 0;
+global.enableRenderCity = false;
+global.enableRenderSprites = false;
+global.enableRenderObjects = false
+
 </string>
           </argument>
         </arguments>
@@ -147,13 +152,26 @@ var camera = global.Camera;
 
 
 // Render the sky
-draw_clear(c_black);
+draw_clear($ECCFA0);
 
-        
+
+// Choose the necessary shader to use (with/without rendering to picking surface)
+var shaderCity, shaderSprites, shaderObjects;
+shaderCity = RenderCity2;
+shaderSprites = RenderSprites;
+shaderObjects = RenderObjects;
+if (global.DoPick == 1)
+    {
+    if (global.enableRenderCity)    shaderCity = global.CityShader;
+    if (global.enableRenderSprites) shaderSprites = global.SpriteShader;
+    if (global.enableRenderObjects) shaderObjects = RenderObjectsSelection;
+    }
+
+
 // Now render the map
 var texture = sprite_get_texture(StyleSprite, 0);
 var sprtexture = sprite_get_texture(sTree, 0);   // Any decal, they should all be on the same sheet!
-RenderMap( global.groundx1,global.groundy1,global.groundx2,global.groundy2, texture, sprtexture, global.CityShader, global.SpriteShader ); 
+RenderMap(global.groundx1, global.groundy1, global.groundx2, global.groundy2, texture, sprtexture, shaderCity, shaderSprites); 
 with(Water) DrawWater();
 
 draw_set_alpha_test(true);
@@ -162,38 +180,34 @@ draw_set_alpha_test(true);
 // Draw temporary splat images, these fade out
 with (objSplat)
     Draw3dSprite(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
-    
+
+
 // Draw all Objects
+if (shaderObjects != -1)
+    shader_set(shaderObjects);
 with (parObject)
-    Draw3dSprite(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
-    
-// Draw all Objects
+    DrawObject(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, idColor, image_alpha);
+shader_reset();
+
+
+// Draw all Object particles
 with (objObjectParticle)
     Draw3dSprite(sprite_index, image_index, x, -y, z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 
 
-// Draw all sprites
-shader_set(global.SpriteShader);
-with (oSprite)
-    Draw3dSprite(sprite_index, image_index,x,y,z, image_xscale,image_yscale, image_angle, image_blend, image_alpha);
-shader_reset();
+// Draw sprite placemet preview
 with (objSpritePlacer)
     {
     if (sprite_exists(sprite_index))
         Draw3dSprite(sprite_index, 0, x, y, z, 1, 1, 0, c_white, 1.0);
     }
 
-    
+
 // Draw the car
 with(objBody)
     {
     Draw3dSprite(sprite_index, image_index, x+3, -y-3, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
-    
-    //worldMatrix = matrix_get(matrix_world)
-    //show_debug_message("Matrix size check (4x4): "+string(array_length_1d(worldMatrix)))
-    //for (n=0; n&lt;array_length_1d(worldMatrix); n++)
-        //show_debug_message("Matrix value ["+string(n)+"]: "+string_format(worldMatrix[n], 4, 16));
     
     if (global.drawDebug)
         {
@@ -207,7 +221,7 @@ with(objBody)
 // Draw pedestrians
 with (objPedestrian)
     {
-    Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
+    Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);       // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+8, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
     }
     
@@ -215,7 +229,7 @@ with (objPedestrian)
 // Draw traffic cars
 with (objTrafficCar)
     {
-    Draw3dSprite(sprite_index, image_index, x+3, -y-3, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);               // Shadow
+    Draw3dSprite(sprite_index, image_index, x+3, -y-3, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);       // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+4, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
     
     if (global.drawDebug)

@@ -5,7 +5,6 @@
 //
 //*****************************************************************************
 
-
 // Create new splat and position
 var newSplat;
 newSplat = instance_create(argument0, argument1, objSplat);
@@ -24,4 +23,3 @@ if (sprite_get_number(argument3) > 1)
     newSplat.image_index = 1;
     newSplat.alpha = 1000000;
     }
-

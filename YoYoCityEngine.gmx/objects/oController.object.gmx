@@ -281,7 +281,7 @@ if( surface_exists(DiffuseSurface) ){
 //    draw_surface(SelectionSurface,0,0);
 }
 
-//draw_surface_ext(SelectionSurface,0,0,1,1,0,c_white,1) /*DEBUG*/
+//draw_surface_ext(SelectionSurface,0,0,1,1,0,c_white,0.5) /*DEBUG*/
 
 /*
 if( surface_exists(Shadows.ShadowSurface) ){
@@ -340,7 +340,7 @@ DrawTextOutline( 40,42, s, c_white );
     if( !surface_exists(SelectionSurface) ){
         SelectionSurface = surface_create(view_wport[0],view_hport[0] );
     }
-   
+
     EndDraw.DiffuseSurface = DiffuseSurface;
     EndDraw.SelectionSurface = SelectionSurface;
 
@@ -349,10 +349,10 @@ DrawTextOutline( 40,42, s, c_white );
     d3d_start();
     d3d_set_perspective(true);
     d3d_set_hidden(true);
-    d3d_set_culling(true);        
-    d3d_set_projection_perspective(0,0, room_width, room_height, 90);  
+    d3d_set_culling(true);
+    d3d_set_projection_perspective(0,0, room_width, room_height, 90);
 
-        
+
     /*// Work out unit light vector
     LightX = 0.2;
     LightY = 0.45;
@@ -361,14 +361,14 @@ DrawTextOutline( 40,42, s, c_white );
     LightX = LightX*d;
     LightY = LightY*d;
     LightZ = LightZ*d;
-                        
 
-    // Start the drawing sequence.    
+
+    // Start the drawing sequence.
     draw_set_color(c_red);
     d3d_set_lighting(true);
     d3d_light_define_direction(0,  LightX,LightY,LightZ, $fce7ce);
     d3d_light_define_ambient($ff404040);
-    d3d_light_enable(0,true);           
+    d3d_light_enable(0,true);
     d3d_set_lighting(true);*/
     
     // First set surfaces and reset projection
@@ -385,7 +385,7 @@ DrawTextOutline( 40,42, s, c_white );
     global.groundx2 = floor( (GameCamera.GroundX2+(Map.GridCacheSize*Map.TileSize)-1)/Map.TileSize/Map.GridCacheSize )+1;
     global.groundy2 = floor( (GameCamera.GroundY2+(Map.GridCacheSize*Map.TileSize)-1)/Map.TileSize/Map.GridCacheSize )+1;
     global.TotalGridBlocks = (global.groundx2-global.groundx1)*(global.groundy2-global.groundy1);
-               
+    
     global.CurrentPolyCount = 0;
 }
 

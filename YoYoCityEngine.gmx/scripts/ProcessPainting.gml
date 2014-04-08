@@ -1,6 +1,8 @@
 /// ProcessPainting()
 //
-// Do "painting" on tiles (lids or sides)
+//  Do "painting" on tiles (lids or sides)
+//
+//*****************************************************************************
 
 // If control pressed, then allow 2D selection of a set of faces.
 if( (KMleft || KMright) && (KZctrl || SelectionPick) )
@@ -198,14 +200,14 @@ else if( (KMleft || KMright) && (!KZctrl && !SelectionPick) )
         map.block_info[blk] = info;
         FreeCacheEntry(map, TilePickX, TilePickY );
     }
-}else{
+}else
     PickingMode=-1;     // come out of picking mode.
-}
+
 
 if( (PickingMode==-1) && (SelectionInstance>0) && (instance_exists(SelectionInstance)) )
-{
+    {
     if( Kinsert ) FillSelection(SelectionInstance, SelectionInstance.PickFace);
     if( Kdelete) DeleteSelection(SelectionInstance);
     if( Kescape) KillSelection();
-}
+    }
 

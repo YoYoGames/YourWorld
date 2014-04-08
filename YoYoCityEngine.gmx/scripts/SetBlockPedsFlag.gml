@@ -1,26 +1,28 @@
 /// SetBlockRoadFlags(map, button, x, y, z);
 //
+//*****************************************************************************
 
-//show_debug_message("Setting road flags");
-
-var _map    = argument0;
-var _button = argument1;
-var _x      = argument2;
-var _y      = argument3;
-var _z      = argument4;
+var _map, _button, _x, _y, _z;
+_map    = argument0;
+_button = argument1;
+_x      = argument2;
+_y      = argument3;
+_z      = argument4;
 
 with (_map)
     {
-    // Left click
-    if(( _z>=0 && _z<MapDepth ) && (_x>=0 && _x<MapWidth) && (_y>=0 && _y<MapHeight))
+    if (_z>=0 && _z<MapDepth)
+    && (_x>=0 && _x<MapWidth)
+    && (_y>=0 && _y<MapHeight)
         {
         // Left click
         if (_button == 1)
             {
             // Get the info we're about to change
-            var block = MakeUnique(_map, _x, _y, _z);
-            var info  = block_info[block];
-            var flags = info[BLK_FLAGS1];
+            var block, info, flags;
+            block = MakeUnique(_map, _x, _y, _z);
+            info  = block_info[block];
+            flags = info[BLK_FLAGS1];
             
             // Change it, (flags&$F87FFFFF) zeros directional bits, (objRoadCompass.roadFlag<<22) puts in the new ones
             flags = (flags&$FBFFFFFF) | (1<<26);
@@ -38,9 +40,10 @@ with (_map)
         else if (_button == 2)
             {
             // Get the info we're about to change
-            var block = MakeUnique(_map, _x, _y, _z);
-            var info  = block_info[block];
-            var flags = info[BLK_FLAGS1];
+            var block, info, flags;
+            block = MakeUnique(_map, _x, _y, _z);
+            info  = block_info[block];
+            flags = info[BLK_FLAGS1];
             
             // Change it, (flags&$F87FFFFF) zeros directional bits, (objRoadCompass.roadFlag<<22) puts in the new ones
             flags = (flags&$FBFFFFFF) | (0<<26);

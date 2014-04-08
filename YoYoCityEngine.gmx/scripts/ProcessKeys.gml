@@ -15,23 +15,27 @@ KZup=keyboard_check(vk_pageup);
 KZdown=keyboard_check(vk_pagedown);
 Kshift=keyboard_check(vk_lshift) or keyboard_check(vk_rshift);
 
+
 if (!instance_exists(objBody))
     {
-    if( Kshift ){
-        if( KZdown ) camera.CameraZ += global.ZSpeed/4;
-        if( KZup ) camera.CameraZ -= global.ZSpeed/4;
-        if( Kleft ) camera.CameraX -= global.XSpeed/4;
-        if( Kright ) camera.CameraX += global.XSpeed/4;
-        if( Kup ) camera.CameraY += global.YSpeed/4;
-        if( Kdown ) camera.CameraY -= global.YSpeed/4;
-    }else{
-        if( KZdown ) camera.CameraZ += global.ZSpeed;
-        if( KZup ) camera.CameraZ -= global.ZSpeed;
-        if( Kleft ) camera.CameraX -= global.XSpeed;
-        if( Kright ) camera.CameraX += global.XSpeed;
-        if( Kup ) camera.CameraY += global.YSpeed;
-        if( Kdown ) camera.CameraY -= global.YSpeed;
-    }
+    if (Kshift)
+        {
+        if (KZdown) camera.CameraZ += global.ZSpeed/4;
+        if (KZup)   camera.CameraZ -= global.ZSpeed/4;
+        if (Kleft)  camera.CameraX -= global.XSpeed/4;
+        if (Kright) camera.CameraX += global.XSpeed/4;
+        if (Kup)    camera.CameraY += global.YSpeed/4;
+        if (Kdown)  camera.CameraY -= global.YSpeed/4;
+        }
+    else
+        {
+        if (KZdown) camera.CameraZ += global.ZSpeed;
+        if (KZup)   camera.CameraZ -= global.ZSpeed;
+        if (Kleft)  camera.CameraX -= global.XSpeed;
+        if (Kright) camera.CameraX += global.XSpeed;
+        if (Kup)    camera.CameraY += global.YSpeed;
+        if (Kdown)  camera.CameraY -= global.YSpeed;
+        }
     }
 
-camera.CameraZ=min(-32,camera.CameraZ)
+camera.CameraZ = min(-32, camera.CameraZ);

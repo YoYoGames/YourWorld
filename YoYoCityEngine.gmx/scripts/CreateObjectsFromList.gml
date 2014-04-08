@@ -8,7 +8,7 @@
 var numberOfObjects;
 numberOfObjects = ds_list_size(argument0);
 
-var n, xPos, yPos, zPos, type, rotation;
+var n, xPos, yPos, zPos, type, rotation, newObject;
 for (n=0; n<numberOfObjects; n+=5)
     {
     // Get all the data from the list
@@ -31,4 +31,3 @@ for (n=0; n<numberOfObjects; n+=5)
 
 // Free the list
 ds_list_destroy(argument0);
-

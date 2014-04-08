@@ -7,7 +7,6 @@
 //*****************************************************************************
 
 var findValue, sIndex;
-
 repeat (ds_list_size(argument0))
     {
     // Delete from shared list
@@ -19,4 +18,3 @@ repeat (ds_list_size(argument0))
     // Delete from given local list
     ds_list_delete(argument0, 0);
     }
-

@@ -4,12 +4,11 @@
 //
 //*****************************************************************************
 
-var myCellX, myCellY, myCellZ, newCellX, newCellY, newCellZ, routePoints, hasRoad,
-    start, lastDirection, newDirection;
+var newCellX, newCellY, newCellZ, routePoints, start, lastDirection, newDirection;
 
-    
-//-----------------------------------------------------------------------------
+
 // Get my current cell
+var myCellX, myCellY, myCellZ, hasRoad;
 myCellX = floor(DesiredX/64);
 myCellY = ceil(DesiredY/64);
 myCellZ = 4;
@@ -47,8 +46,10 @@ else if (routePoints < 10)
         madeDecision = false;
     
     // Add new cell to list
-    if (!madeDecision) newDirection = GetRandomDirection(newCellX, newCellY, newCellZ, DesiredDirection);
-    else               newDirection = lastDirection;
+    if (!madeDecision)
+        newDirection = GetRandomDirection(newCellX, newCellY, newCellZ, DesiredDirection);
+    else
+        newDirection = lastDirection;
     ds_list_add(routeCoordinates, newCellX);
     ds_list_add(routeCoordinates, newCellY);
     ds_list_add(routeCoordinates, newDirection);
@@ -58,8 +59,7 @@ else if (routePoints < 10)
         madeDecision = true;
     }
     
-    
-//-----------------------------------------------------------------------------
+
 // If we are on the road, allow movement to the next point
 if (hasRoad)
     {
@@ -70,4 +70,3 @@ if (hasRoad)
 
 // There's no road here, assume we're parked
 else parked = true;
-

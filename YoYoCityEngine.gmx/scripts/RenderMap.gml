@@ -9,14 +9,14 @@
 // shader = argument5   sprite shader to use (-1 don't draw)
 //
 {
-    var _gx1 = argument0
-    var _gy1 = argument1
-    var _gx2 = argument2
-    var _gy2 = argument3
-    var _texture = argument4
-    var _sprtexture = argument5
-    var _shader = argument6
-    var _spriteshader = argument7
+    var _gx1 = argument0;
+    var _gy1 = argument1;
+    var _gx2 = argument2;
+    var _gy2 = argument3;
+    var _texture = argument4;
+    var _sprtexture = argument5;
+    var _shader = argument6;
+    var _spriteshader = argument7;
 
     var xx,yy,i,MeshA,RenderListCount;
     

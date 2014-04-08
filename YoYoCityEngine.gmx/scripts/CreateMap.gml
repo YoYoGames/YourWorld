@@ -175,6 +175,3 @@ block_info_size = 3;
 
 //debug("pavement="+string(_pavement));
 
-
-
-

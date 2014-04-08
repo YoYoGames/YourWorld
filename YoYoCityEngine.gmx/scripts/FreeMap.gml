@@ -1,4 +1,4 @@
-/// Free the map completely
+/// FreeMap();
 
 
 // First free the map arrays
@@ -6,6 +6,7 @@ ds_grid_destroy(Map);
 ds_grid_destroy(Sprites);
 Map=-1;
 Sprites=-1;
+
 
 // free render list
 RenderList = 0;
@@ -21,6 +22,7 @@ for(var yy=0;yy<gh;yy++){
 }
 ds_grid_destroy(Cache);
 Cache=-1;
+
 
 // Now delete the block_info structs
 var len = array_length_1d(block_info);

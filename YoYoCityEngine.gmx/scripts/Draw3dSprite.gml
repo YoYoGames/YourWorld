@@ -1,4 +1,5 @@
-/// Draw3dSprite(sprite,subimg,x,y,z,scalex,scaley,rotation,colour,alpha)
+/// Draw3dSprite(sprite, subimg, x, y, z, scalex, scaley, rotation, colour, alpha);
+//
 // Almost the same as draw_sprite_ext()
 // argument0 = sprite
 // argument1 = subimage
@@ -10,12 +11,11 @@
 // argument7 = rotation
 // argument8 = colour 
 // argument9 = alpha
-
-
-var _x1,_x2,_y1,_y2,_z1,_z2,_sprw,_sprh,_cx,_cy, _colour,_alpha;
+//
+//*****************************************************************************
 
 // Get sprite dimentions, and find out how much we need to scale as uvs don't cover lost space
-var tex, uvs;
+var _sprw, _sprh, _cx, _cy, tex, uvs, uvwidth, uvheight, texelx, texely, needwidth, needheight, scalex, scaley;
 _sprw = sprite_get_width(argument0);
 _sprh = sprite_get_height(argument0);
 _cx = sprite_get_xoffset(argument0);
@@ -32,21 +32,29 @@ scalex = uvwidth/needwidth;
 scaley = uvheight/needheight;
 
  
+var _x1, _x2, _y1, _y2, _z1, _alpha, _colour;
 _x1 = -_cx*scalex;
 _x2 = -_cx*scalex+_sprw*scalex;
 _y1 = -_cy*scaley;
 _y2 = -_cy*scaley+_sprh*scaley;
-_z1 = 0; //-argument4;
+_z1 = 0;
 _alpha = argument9;
 _colour = argument8 | ((argument9*255)<<24)
 
-var m = matrix_build(argument2,-argument3,-argument4, 0,0, argument7, argument5,argument6,1);
+
+// Rotate everything for drawing as needed
+var m;
+m = matrix_build(argument2,-argument3,-argument4, 0,0, argument7, argument5,argument6,1);
 matrix_set(matrix_world, m);
 
-var buff = global.TempSpriteBuffer;
+
+// Begin drawing
+var buff;
+buff = global.TempSpriteBuffer;
 vertex_begin(buff,global.SpriteFormat);
 
-//debug("uv=("+string(uvs[0])+","+string(uvs[1])+",  "+string(uvs[2])+","+string(uvs[3])+")");
+
+// Draw the first triangle
 vertex_position_3d(buff,_x1,_y2,_z1);
 vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[0],uvs[1] );
@@ -60,6 +68,7 @@ vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[2],uvs[3] );
 
 
+// Draw the second triangle
 vertex_position_3d(buff,_x2,_y1,_z1);
 vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[2],uvs[3] );
@@ -72,6 +81,8 @@ vertex_position_3d(buff,_x1,_y2,_z1);
 vertex_argb(buff, _colour );
 vertex_texcoord(buff,uvs[0],uvs[1] );
 
+
+// Finish drawing
 vertex_end(buff);
 vertex_submit(buff, pr_trianglelist, tex);
 

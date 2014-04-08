@@ -59,4 +59,3 @@ switch (myDir)
     }
     
 return position;
-

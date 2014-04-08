@@ -22,87 +22,82 @@ Kdelete=keyboard_check(ord("E"));
 Kescape=keyboard_check(vk_escape);
 AllowPick=true;
 
-{
-    //Forward/backward and strafing speed (quartered if you're holding left shift)
-    var CameraVSpeed=global.YSpeed; 
-    var CameraHSpeed=global.XSpeed; 
-    
-    if(Kshift || KZctrl)
+
+//Forward/backward and strafing speed (quartered if you're holding left shift)
+var CameraVSpeed = global.YSpeed;
+var CameraHSpeed = global.XSpeed;
+
+if (Kshift || KZctrl)
     {
-        CameraVSpeed/=4; 
-        CameraHSpeed/=4; 
+    CameraVSpeed/=4;
+    CameraHSpeed/=4;
     }
 
-    
-    //Move the camera if you're telling it to
-    if Cu {camera.CameraX+=lengthdir_x(CameraVSpeed,camera.dir   );camera.CameraY+=lengthdir_y(CameraVSpeed,camera.dir   );}
-    if Cl {camera.CameraX+=lengthdir_x(CameraHSpeed,camera.dir-90);camera.CameraY+=lengthdir_y(CameraHSpeed,camera.dir-90);}
-    if Cd {camera.CameraX-=lengthdir_x(CameraVSpeed,camera.dir   );camera.CameraY-=lengthdir_y(CameraVSpeed,camera.dir   );}
-    if Cr {camera.CameraX+=lengthdir_x(CameraHSpeed,camera.dir+90);camera.CameraY+=lengthdir_y(CameraHSpeed,camera.dir+90);}
-    if( Kshift ){
-        if( KZdown ) camera.CameraZ += global.ZSpeed/4;
-        if( KZup ) camera.CameraZ -= global.ZSpeed/4;
-    }else{
-        if( KZdown ) camera.CameraZ += global.ZSpeed;
-        if( KZup ) camera.CameraZ -= global.ZSpeed;
-    }
-    camera.CameraZ=min(-32,camera.CameraZ)
-}
 
-
-if( FreeCursorMode==1 or instance_exists(oHeadMenu) ){
+//Move the camera if you're telling it to
+if Cu {camera.CameraX+=lengthdir_x(CameraVSpeed,camera.dir   );camera.CameraY+=lengthdir_y(CameraVSpeed,camera.dir   );}
+if Cl {camera.CameraX+=lengthdir_x(CameraHSpeed,camera.dir-90);camera.CameraY+=lengthdir_y(CameraHSpeed,camera.dir-90);}
+if Cd {camera.CameraX-=lengthdir_x(CameraVSpeed,camera.dir   );camera.CameraY-=lengthdir_y(CameraVSpeed,camera.dir   );}
+if Cr {camera.CameraX+=lengthdir_x(CameraHSpeed,camera.dir+90);camera.CameraY+=lengthdir_y(CameraHSpeed,camera.dir+90);}
+if (Kshift) {
+    if (KZdown) camera.CameraZ += global.ZSpeed/4;
+    if (KZup)   camera.CameraZ -= global.ZSpeed/4;
 }else{
+    if (KZdown) camera.CameraZ += global.ZSpeed;
+    if (KZup)   camera.CameraZ -= global.ZSpeed;
+}
+camera.CameraZ=min(-32,camera.CameraZ)
+
+
+// The cursor is locked the the screen center
+if (FreeCursorMode!=1 && !instance_exists(oHeadMenu))
+    {
     camera.dir  +=( display_mouse_get_x()- (window_get_x()+(window_get_width() /2)) )/6
     camera.zdir +=( display_mouse_get_y()- (window_get_y()+(window_get_height()/2)) )/6
     camera.zdir = clamp(camera.zdir,-80,+80)
     display_mouse_set(window_get_x()+(window_get_width()/2),window_get_y()+(window_get_height()/2))
+    }
 
-}
 
-if( AllowPick )
-{
-    //Allow the clicks through to the 3D world unless the mouse is in an area occupied by the GUI
+if (AllowPick)
+    {
+    // Allow the clicks through to the 3D world unless the mouse is in an area occupied by the GUI
     var HaltProcessing=false;
     
     if (instance_exists(oHUDParent))
-    {
+        {
         if (mouse_rectangle(oHUDParent.x,oHUDParent.y,oHUDParent.x+oHUDParent.WindowWidth,oHUDParent.y+oHUDParent.WindowHeight)
         or oHUDParent.Holding>0)
+            HaltProcessing=true;
+        }
+    
+    if (instance_exists(objRoadCompass))
         {
+        if (mouse_rectangle(objRoadCompass.x-40,objRoadCompass.y-40,objRoadCompass.x+80,objRoadCompass.y+80))
             HaltProcessing=true;
         }
-    }
     
-    if (instance_exists(objRoadCompass)) {
-        if (mouse_rectangle(objRoadCompass.x-40,objRoadCompass.y-40,objRoadCompass.x+80,objRoadCompass.y+80)) {
-            HaltProcessing=true;
-        }
-    }
+    if ((instance_exists(oHUDMain))
+    && (mouse_rectangle(0,0,window_get_width(),56)))
+    || (instance_exists(oHUDMain)
+    && (mouse_rectangle(0,window_get_height()-64,window_get_width(),window_get_height())))
+    || (instance_exists(oHeadMenu))
+        HaltProcessing = true;
     
-    if (instance_exists(oHUDMain) && mouse_rectangle(0,0,window_get_width(),56))
-    {
-        HaltProcessing=true;
-    }
-    
-    if (instance_exists(oHUDMain) && mouse_rectangle(0,window_get_height()-64,window_get_width(),window_get_height()))
-    {
-        HaltProcessing=true;
-    }
-    
-    if (instance_exists(oHeadMenu))
-    {
-        HaltProcessing=true;
-    }
-    
+        
     if (!HaltProcessing)
-    {
-        if( global.EditorMode==EDIT_SELECTION )
-        or (global.EditorMode==EDIT_OBJECTS)
+        {
+        // Click once to change only
+        if (global.EditorMode == EDIT_SELECTION)
+        or (global.EditorMode == EDIT_OBJECTS)
             ProcessPicking();
-        if( global.EditorMode==EDIT_PAINT )
-        or (global.EditorMode==EDIT_ROADS)
-        or (global.EditorMode==EDIT_SPRITES)
-        or (global.EditorMode==EDIT_PEDS)
+            
+        // Click and drag to constantly change
+        if (global.EditorMode == EDIT_PAINT)
+        or (global.EditorMode == EDIT_ROADS)
+        or (global.EditorMode == EDIT_SPRITES)
+        or (global.EditorMode == EDIT_PEDS)
             ProcessPainting();
+        }
     }
-}
+

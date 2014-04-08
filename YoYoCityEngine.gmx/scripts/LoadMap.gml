@@ -112,9 +112,9 @@ with(_map)
         info[BLK_OFFSETS3] = 0;
         
         
-        if( version<=3 ){
+        if( version<=3 )
             info[BLK_FLAGS2] = buffer_read(_buff, buffer_u32);
-        }
+            
         
         // in higher version numbers, we only read extended info IF we have it.  (if not all 0)
         if(version>3){
@@ -148,14 +148,14 @@ with(_map)
     // tttt tttt ---- ---- rrrr rr-- zzzz zzzz
     // yyyy yyyy yyyy yyyy xxxx xxxx xxxx xxxx
     //
-    
-    var numberOfObjects, n, p, object, xPos, yPos, zPos, rotation, type;
         
     // Get number of objects to load
+    var numberOfObjects;
     numberOfObjects = buffer_read(_buff, buffer_u32);
     show_debug_message("Load Objects: "+string(numberOfObjects));
     
     // Read back all the data and translate it into Objects again
+    var n, final1, final2, type, xPos, yPos, zPos, rotation;
     for (n=0; n<numberOfObjects; n++)
         {
         // Get the two 32bit values
@@ -174,35 +174,37 @@ with(_map)
         }
 
   
-    show_debug_message("Calc Refs");
     
     // Work out ref counts...
+    show_debug_message("Calc Refs");
     for(var yy=0;yy<MapHeight;yy++)
-    {
-        for(var xx=0;xx<MapHeight;xx++)
         {
+        for(var xx=0;xx<MapHeight;xx++)
+            {
             var Arr = ds_grid_get(Map,xx,yy);
             var l = array_length_1d(Arr);
-            for(var zz=0;zz<l;zz++){
+            for(var zz=0;zz<l;zz++)
+                {
                 var a = Arr[zz];
-                if( a>block_info_size ){
+                if( a>block_info_size )
                     show_debug_message("a="+string(a));
-                }
                 RefCount[a]++;
+                }
+            ds_grid_set(Map, xx, yy, Arr);
             }
-            ds_grid_set(Map,xx,yy,Arr);
         }
-    }    
 
         
     // Now recreate the free list
     show_debug_message("Build Free list");
-    for(var xx=0;xx<block_info_size;xx++){
-        if( RefCount[xx]==0 ) {
+    for(var xx=0;xx<block_info_size;xx++)
+        {
+        if( RefCount[xx]==0 )
+            {
             //show_debug_message("free="+string(xx));
             ds_stack_push(FreeList,xx);
+            }
         }
-    }
     
     show_debug_message("done");
 }

@@ -2,13 +2,13 @@
 //
 //*****************************************************************************
 
-var cellList, routeList, reserveSpaces, index, xx, yy, cellID;
-
+var cellList, routeList, reserveSpaces;
 cellList = argument0;
 routeList = argument1;
 reserveSpaces = argument2;
 
 // Generate cell IDs and add them to occupied cells list
+var index, xx, yy, cellID;
 for (index=0; index<reserveSpaces; index++)
     {
     // Get unique cell id
@@ -21,11 +21,9 @@ for (index=0; index<reserveSpaces; index++)
         {
         ds_list_add(cellList, cellID);
         ds_list_add(objTrafficSpawner.occupiedCells, cellID);
-        //show_debug_message('SET: '+string(cellID));
         }
         
     // If this cell has not been taken by the calling instance
     else if (ds_list_find_index(cellList, cellID) == -1)
         exit;
     }
-

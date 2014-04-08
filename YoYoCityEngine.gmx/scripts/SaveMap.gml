@@ -126,9 +126,8 @@ with(_map)
 // yyyy yyyy yyyy yyyy xxxx xxxx xxxx xxxx
 //
 
-var numberOfObjects, n, p, object, xPos, yPos, zPos, rotation, type, final1, final2;
-
 // Sort the real objects from the sissy ones
+var numberOfObjects, n, p, inst;
 numberOfObjects = instance_number(parObject);
 n = 0;
 p = 0;
@@ -144,6 +143,7 @@ numberOfObjects = array_length_1d(object);
 buffer_write(buff, buffer_u32, numberOfObjects);
 
 // Go through all Objects and sqeeze the info together, then write to buffer
+var type, xPos, yPos, zPos, rotation, final1, final2;
 for (n=0; n<numberOfObjects; n++)
     {
     inst = object[n];

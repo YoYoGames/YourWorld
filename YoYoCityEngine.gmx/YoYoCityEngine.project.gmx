@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="21" name="datafiles">
+  <datafiles number="22" name="datafiles">
     <datafile>
       <name>style1.yyg</name>
       <exists>-1</exists>
@@ -347,11 +347,12 @@
       <script>scripts\CreateObjectParticle.gml</script>
       <script>scripts\ObjectHide.gml</script>
       <script>scripts\ObjectRestore.gml</script>
+      <script>scripts\CreateObjectsFromList.gml</script>
+      <script>scripts\DrawObject.gml</script>
     </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\DrawTextOutline.gml</script>
     <script>scripts\CreateSplat.gml</script>
-    <script>scripts\CreateObjectsFromList.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -359,10 +360,14 @@
     <shader type="GLSLES">shaders\WaterShader.shader</shader>
     <shader type="GLSLES">shaders\SelectionShader.shader</shader>
     <shader type="HLSL9">shaders\RenderPlusSelection.shader</shader>
+    <shader type="HLSL9">shaders\RenderCity2.shader</shader>
     <shader type="GLSLES">shaders\RenderSelection.shader</shader>
     <shader type="GLSLES">shaders\RenderCity.shader</shader>
     <shader type="GLSLES">shaders\SimpleSpriteShader.shader</shader>
     <shader type="HLSL9">shaders\SpriteSelectionShader.shader</shader>
+    <shader type="HLSL9">shaders\RenderObjects.shader</shader>
+    <shader type="HLSL9">shaders\RenderObjectsSelection.shader</shader>
+    <shader type="HLSL9">shaders\RenderSprites.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\arial</font>

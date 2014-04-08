@@ -33,21 +33,18 @@ with (_map)
     // Right click, remove the selected object
     else if (_button == 2)
         {
-        /*
-        var xx, yy, zz;
-        xx = _x;   //The tile x
-        yy = _y;   //The tile y
-        zz = _z++; //The ACTUAL z (0-65535)
-        
-        show_debug_message("Clicked @ ("+string(xx)+","+string(yy)+","+string(zz)+")");
-        
-        if (_z > 0)
+        var findId;
+        findId = global.PickPixel&$FFFFFF;
+        with (parObject)
             {
-            ds_grid_set(Sprites, xx, yy, -1)
-            FreeCacheRegion(id,_x-1,_y-1, _x+1,_y+1);   
-            GenerateCacheRegion(id, _x-1,_y-1, _x+1,_y+1);  
+            if (idColor == findId)
+                {
+                instance_destroy();
+                break;
+                }
             }
-        */
+        
+        show_debug_message("Object ID: ("+string(global.PickPixel&$FFFFFF)+")");
         }
     }
     
