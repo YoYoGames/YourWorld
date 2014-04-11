@@ -473,10 +473,11 @@ if( HoverContent==sprNavView )
         global.enableTrafficSpawn ^= true;
     }
     
-    if( ButtonControlSub(sprNavToggleTraffic,2,"KILL TRAFFIC") )
-    {
+    if (ButtonControlSub(sprNavToggleTraffic,2,"KILL TRAFFIC"))
+        {
         with (objTrafficCar) instance_destroy();
-    }
+        with (objPedestrian) instance_destroy();
+        }
 }
 </string>
           </argument>
