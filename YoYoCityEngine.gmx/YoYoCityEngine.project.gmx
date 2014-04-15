@@ -66,6 +66,8 @@
       <sprites name="Minimap">
         <sprite>sprites\sprPoint</sprite>
         <sprite>sprites\sprLosCone</sprite>
+        <sprite>sprites\sprMiniMissionPointer</sprite>
+        <sprite>sprites\sprMiniMissionTarget</sprite>
       </sprites>
       <sprites name="OLD__to_be_removed_">
         <sprite>sprites\sButtonNavbar</sprite>
@@ -80,31 +82,33 @@
         <sprite>sprites\sprCompassButtons</sprite>
         <sprite>sprites\sHUDQuickSlot</sprite>
       </sprites>
-      <sprite>sprites\sprNavDecals</sprite>
-      <sprite>sprites\sprNavDivider</sprite>
-      <sprite>sprites\sprNavFlipH</sprite>
-      <sprite>sprites\sprNavFlipV</sprite>
-      <sprite>sprites\sprNavNew</sprite>
-      <sprite>sprites\sprNavObjects</sprite>
-      <sprite>sprites\sprNavOpen</sprite>
-      <sprite>sprites\sprNavPaint</sprite>
-      <sprite>sprites\sprNavPaintLand</sprite>
-      <sprite>sprites\sprNavPaintRoads</sprite>
-      <sprite>sprites\sprNavPaintSides</sprite>
-      <sprite>sprites\sprNavPaintTops</sprite>
-      <sprite>sprites\sprNavRotL</sprite>
-      <sprite>sprites\sprNavRotR</sprite>
-      <sprite>sprites\sprNavSave</sprite>
-      <sprite>sprites\sprNavSelect</sprite>
-      <sprite>sprites\sprNavToggleRoadDir</sprite>
-      <sprite>sprites\sprNavToggleTraffic</sprite>
-      <sprite>sprites\sprNavToggleTrafficSpawn</sprite>
-      <sprite>sprites\sprNavView</sprite>
-      <sprite>sprites\sprNavCube</sprite>
-      <sprite>sprites\sHUDQuickSlotHighlight</sprite>
-      <sprite>sprites\sHUDTileShadow</sprite>
-      <sprite>sprites\sHUDTileHighlight</sprite>
-      <sprite>sprites\sHUDScrollArrow</sprite>
+      <sprites name="User Interface">
+        <sprite>sprites\sprNavDecals</sprite>
+        <sprite>sprites\sprNavDivider</sprite>
+        <sprite>sprites\sprNavFlipH</sprite>
+        <sprite>sprites\sprNavFlipV</sprite>
+        <sprite>sprites\sprNavNew</sprite>
+        <sprite>sprites\sprNavObjects</sprite>
+        <sprite>sprites\sprNavOpen</sprite>
+        <sprite>sprites\sprNavPaint</sprite>
+        <sprite>sprites\sprNavPaintLand</sprite>
+        <sprite>sprites\sprNavPaintRoads</sprite>
+        <sprite>sprites\sprNavPaintSides</sprite>
+        <sprite>sprites\sprNavPaintTops</sprite>
+        <sprite>sprites\sprNavRotL</sprite>
+        <sprite>sprites\sprNavRotR</sprite>
+        <sprite>sprites\sprNavSave</sprite>
+        <sprite>sprites\sprNavSelect</sprite>
+        <sprite>sprites\sprNavToggleRoadDir</sprite>
+        <sprite>sprites\sprNavToggleTraffic</sprite>
+        <sprite>sprites\sprNavToggleTrafficSpawn</sprite>
+        <sprite>sprites\sprNavView</sprite>
+        <sprite>sprites\sprNavCube</sprite>
+        <sprite>sprites\sHUDQuickSlotHighlight</sprite>
+        <sprite>sprites\sHUDTileShadow</sprite>
+        <sprite>sprites\sHUDTileHighlight</sprite>
+        <sprite>sprites\sHUDScrollArrow</sprite>
+      </sprites>
     </sprites>
     <sprites name="Tool Guides">
       <sprite>sprites\sprRoadArrows</sprite>
@@ -350,9 +354,23 @@
       <script>scripts\CreateObjectsFromList.gml</script>
       <script>scripts\DrawObject.gml</script>
     </scripts>
+    <scripts name="Missions">
+      <script>scripts\MissionAdd.gml</script>
+      <script>scripts\MissionNotification.gml</script>
+      <script>scripts\MissionChainNew.gml</script>
+      <script>scripts\MissionChainDestroy.gml</script>
+      <script>scripts\MissionChainStarted.gml</script>
+      <script>scripts\MissionChainStart.gml</script>
+      <script>scripts\MissionGet.gml</script>
+      <script>scripts\MissionStart.gml</script>
+      <script>scripts\MissionComplete.gml</script>
+      <script>scripts\MissionAddMarker.gml</script>
+      <script>scripts\MissionRemoveMarker.gml</script>
+    </scripts>
     <script>scripts\SpawnPlayer.gml</script>
     <script>scripts\DrawTextOutline.gml</script>
     <script>scripts\CreateSplat.gml</script>
+    <script>scripts\FindPavementRect.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\SimpleShader.shader</shader>
@@ -433,7 +451,18 @@
         <object>objects\objSplat</object>
       </objects>
     </objects>
-    <object>objects\objMinimap</object>
+    <objects name="Missions">
+      <objects name="Parents">
+        <object>objects\parMissionTarget</object>
+      </objects>
+      <objects name="NPCs">
+        <object>objects\objTaxiFare</object>
+      </objects>
+      <object>objects\objMinimap</object>
+      <object>objects\objMissionControl</object>
+      <object>objects\objMissionNotification</object>
+      <object>objects\objMissionTrigger</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\Initialise</room>

@@ -43,3 +43,5 @@ with (objPhysicsController) instance_destroy();
 with (objTrafficSpawner) instance_destroy();
 with (parObject) instance_destroy();
 
+global.numberOfObjects = 0;
+

@@ -1,5 +1,9 @@
-/// ObjectGetIndex(object_type)
-/// Give a sprite type, return the image
+/// ObjectGetIndex(type);
+//
+//  Give an object type, return the object.
+//
+//*****************************************************************************
+
 switch (argument0)
     {
     case (0): return -1; break;

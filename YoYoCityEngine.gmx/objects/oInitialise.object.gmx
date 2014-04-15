@@ -27,14 +27,16 @@
             <kind>1</kind>
             <string>/// Initialise the engine
 
+random_set_seed(get_timer());
+
 // HTML5?
-global.HTML5=false;
-global.LoadSave=true;
-global.CityShader=RenderPlusSelection;
-global.SpriteShader=SpriteSelectionShader;
-if( os_browser != browser_not_a_browser || os_type == os_android || os_type==os_macosx || os_type==os_linux)
+global.HTML5 = false;
+global.LoadSave = true;
+global.CityShader = RenderPlusSelection;
+global.SpriteShader = SpriteSelectionShader;
+if (os_browser != browser_not_a_browser || os_type == os_android || os_type==os_macosx || os_type==os_linux)
     {
-    global.HTML5=true;
+    global.HTML5 = true;
     //global.LoadSave=false;
     global.CityShader=RenderCity;
     global.SpriteShader=SimpleSpriteShader;
@@ -42,7 +44,7 @@ if( os_browser != browser_not_a_browser || os_type == os_android || os_type==os_
 
 // Global variables
 global.drawDebug = false;
-global.renderRoadFlags = true;
+global.renderRoadFlags = false;
 global.enableTrafficSpawn = false;
 global.snapToGrid = true;
 global.decalsVisible = true;

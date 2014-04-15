@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -26,14 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>
-doEffect = false;
-moving = false;
-respawnTimer = -1;
-zstart = -1;
+icon = -1;
+text = "";
 
-// Set ID color
-global.numberOfObjects++;
-idColor = global.numberOfObjects;
+lifeTimer = 5*room_speed;
 
 </string>
           </argument>
@@ -58,14 +54,40 @@ idColor = global.numberOfObjects;
           <argument>
             <kind>1</kind>
             <string>
-var dis;
-dis = point_distance(phy_position_xprevious, phy_position_yprevious, phy_position_x, phy_position_y);
+lifeTimer--;
+if (lifeTimer &lt;= 0)
+    instance_destroy();
 
-if (dis &gt; 0)
-&amp;&amp; (respawnTimer &lt;= 0)
-    moving = true;
-else
-    moving = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+if (text != "")
+    {
+    draw_set_halign(fa_center);
+    draw_set_font(fTwCenBoldL);
+    draw_set_alpha(1.0);
+    DrawTextOutline(browser_width/2, 64, text, c_white);
+    }
 
 </string>
           </argument>

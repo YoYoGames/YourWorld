@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -26,14 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>
-doEffect = false;
-moving = false;
-respawnTimer = -1;
-zstart = -1;
+newMissionTimer = 2*room_speed;
 
-// Set ID color
-global.numberOfObjects++;
-idColor = global.numberOfObjects;
+target = ds_list_create();
+mission = ds_map_create();
+markers = ds_list_create();
 
 </string>
           </argument>
@@ -58,15 +55,59 @@ idColor = global.numberOfObjects;
           <argument>
             <kind>1</kind>
             <string>
-var dis;
-dis = point_distance(phy_position_xprevious, phy_position_yprevious, phy_position_x, phy_position_y);
+newMissionTimer--;
+if (newMissionTimer == 0)
+    {
+    var position;
+    debug("Creating new mision chain...");
+    
+    // Spawn mission NPC at random pavement position
+    position = FindPavementRect(0, 0, oMap.MapWidth-1, oMap.MapHeight-1);
+    position[0] = position[0]*64+32;
+    position[1] = -position[1]*64-32;
+    position[2] = position[2]*64+8;
+    var newTarget;
+    newTarget = ds_list_create();
+    ds_list_add(newTarget, position[0], position[1], position[2], objTaxiFare);
+    
+    // Create trigger at delivery destination
+    position = FindPavementRect(0, 0, oMap.MapWidth-1, oMap.MapHeight-1);
+    position[0] = position[0]*64+32;
+    position[1] = -position[1]*64-32;
+    position[2] = position[2]*64+8;
+    var newDestination;
+    newDestination = ds_list_create();
+    ds_list_add(newDestination, position[0], position[1], position[2], objMissionTrigger);
+    
+    // Add missions
+    MissionChainNew("testChain");
+    MissionAdd(target, newTarget, "A", -1, c_lime, "testChain", 0, "Collect fare at Point A!", "Fare collected!");
+    MissionAdd(target, newDestination, "B", -1, c_aqua, "testChain", 1, "Take fare to Point B!", "Fare reached destination!");
+    }
 
-if (dis &gt; 0)
-&amp;&amp; (respawnTimer &lt;= 0)
-    moving = true;
-else
-    moving = false;
 
+// Mission chain handling
+if (ds_map_exists(mission, "testChain"))
+    {
+    var currentChain;
+    currentChain = mission[? "testChain"];
+    if (!MissionChainStarted("testChain"))
+        MissionChainStart("testChain");
+    }
+
+
+// Check for reached destinations
+with (parMissionTarget)
+    {
+    distance = point_distance(objBody.x, objBody.y, x, y);
+    if (distance &lt; 128)
+        {
+        MissionRemoveMarker(id);
+        MissionComplete(mission);
+        instance_destroy();
+        }
+    }
+    
 </string>
           </argument>
         </arguments>

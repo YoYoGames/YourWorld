@@ -31,3 +31,4 @@ for (n=0; n<numberOfObjects; n+=5)
 
 // Free the list
 ds_list_destroy(argument0);
+

@@ -1,5 +1,8 @@
 /// ObjectGetObjectIndex(objectIndex)
+//
 //  Give a sprite type, return the image
+//
+//*****************************************************************************
 
 switch (argument0)
     {

@@ -56,8 +56,6 @@ Water = instance_create(0,0,oWater);
 physics_world_create(0.0313);
 physics_world_gravity(0.0, 0.0);
 
-instance_create(0, 0, objMinimap);
-
 global.numberOfObjects = 0;
 global.enableRenderCity = false;
 global.enableRenderSprites = false;
@@ -117,6 +115,9 @@ else
         CreateObjectsFromList(LoadObjects);
         instance_create(0, 0, objTrafficSpawner);
         SpawnPlayer();
+        
+        instance_create(0, 0, objMissionControl);
+        instance_create(0, 0, objMinimap);
         }
     }
 
@@ -223,6 +224,19 @@ with (objPedestrian)
     {
     Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);       // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+8, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
+    }
+    
+    
+// Draw NPCs
+with (objTaxiFare)
+    {
+    Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);       // Shadow
+    Draw3dSprite(sprite_index, image_index, x,   -y,   z+8, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
+    
+    var mat = matrix_build(x, y, -z, 0, 0, 0, 1, 1, 1);
+    matrix_set(matrix_world, mat);
+    draw_set_alpha(0.4);
+    d3d_draw_cone(-64, -64, -1024, 64, 64, 0, -1, 1, 1, true, 8);
     }
     
     

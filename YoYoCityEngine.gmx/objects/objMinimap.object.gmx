@@ -59,22 +59,69 @@ if (instance_exists(objBody))
     {
     // Draw the mini-map
     var xPos, yPos, zoom;
-    zoom = 5;
+    zoom = 6;
     xPos = objBody.x/64;
     yPos = -objBody.y/64;
-    draw_surface_part_ext(surface, xPos-128/zoom, yPos-128/zoom, 256/zoom, 256/zoom, browser_width-256, 0, zoom, zoom, c_white, 0.8);
-    
+    if (!surface_exists(surface))
+        {
+        debug("Recreating mini-map surface...");
+        surface = surface_create(1024, 1024);
+        surface_set_target(surface);
+        draw_clear_alpha(c_teal, 1.0);
+        surface_reset_target();
+        }
+    else
+        {
+        texture_set_interpolation(false);
+        draw_surface_part_ext(surface, xPos-128/zoom, yPos-128/zoom, 256/zoom, 256/zoom, 0, browser_height-256, zoom, zoom, c_white, 0.8);
+        texture_set_interpolation(true);
+        }
+        
     
     // Draw symbols for points of interest
     //................
     
     
     // Draw symbols for mission markers
-    //................
+    with (objMissionControl)
+        {
+        var currentTraces, index, currentMap, currentTarget, miniX, miniY, dir, dist;
+        currentTraces = ds_list_size(markers);
+        index = 0;
+        repeat (currentTraces)
+            {
+            // Get the marker values
+            currentMap = ds_list_find_value(markers, index++);
+            currentTarget = currentMap[? "id"];
+            currentText   = currentMap[? "text"];
+            currentColor  = currentMap[? "color"];
+            
+            // Get position and convert it to restricted mini-map position
+            miniX = currentTarget.x/64;
+            miniY = -currentTarget.y/64;
+            dir = point_direction(xPos, yPos, miniX, miniY);
+            dist = min(112, point_distance(xPos, yPos, miniX, miniY)*zoom);
+            miniX = 0+128+lengthdir_x(dist, dir);
+            miniY = browser_height-128+lengthdir_y(dist, dir);
+            
+            // Draw icon
+            if (dist &gt;= 112)
+                draw_sprite_ext(sprMiniMissionPointer, 0, miniX, miniY, 1, 1, dir, currentColor, 1.0);
+            else
+                draw_sprite_ext(sprMiniMissionTarget, 0, miniX, miniY, 1, 1, 0, currentColor, 1.0);
+                
+            // Draw text
+            draw_set_halign(fa_left);
+            draw_set_valign(fa_bottom);
+            draw_set_font(fTwCenConM);
+            draw_set_alpha(1.0);
+            DrawTextOutline(miniX+5, miniY-6, currentText, currentColor);
+            }
+        }
     
     
     // Draw the player's LOS as a cone
-    draw_sprite_ext(sprLosCone, 0, browser_width-256+128, 0+128, 1, 1, -90-objBody.image_angle, c_lime, 1.0);
+    draw_sprite_ext(sprLosCone, 0, 0+128, browser_height-128, 1, 1, -90-objBody.image_angle, c_lime, 1.0);
     }
 
 </string>

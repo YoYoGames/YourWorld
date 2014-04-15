@@ -43,8 +43,6 @@ with (_map)
                 break;
                 }
             }
-        
-        show_debug_message("Object ID: ("+string(global.PickPixel&$FFFFFF)+")");
         }
     }
     
