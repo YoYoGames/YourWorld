@@ -81,8 +81,8 @@ if (newMissionTimer == 0)
     
     // Add missions
     MissionChainNew("testChain");
-    MissionAdd(target, newTarget, "A", -1, c_lime, "testChain", 0, "Collect fare at Point A!", "Fare collected!");
-    MissionAdd(target, newDestination, "B", -1, c_aqua, "testChain", 1, "Take fare to Point B!", "Fare reached destination!");
+    MissionAdd(target, newTarget, 60, "A", -1, c_lime, "testChain", 0, "Collect fare at Point A!", "Fare collected!");
+    MissionAdd(target, newDestination, 60, "B", -1, c_aqua, "testChain", 1, "Take fare to Point B!", "Fare reached destination!");
     }
 
 

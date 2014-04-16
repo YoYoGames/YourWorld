@@ -100,6 +100,7 @@ if (instance_exists(objBody))
             miniX = currentTarget.x/64;
             miniY = -currentTarget.y/64;
             dir = point_direction(xPos, yPos, miniX, miniY);
+            meters = string(floor(point_distance(xPos, yPos, miniX, miniY)*4))+"m";
             dist = min(112, point_distance(xPos, yPos, miniX, miniY)*zoom);
             miniX = 0+128+lengthdir_x(dist, dir);
             miniY = browser_height-128+lengthdir_y(dist, dir);
@@ -115,7 +116,7 @@ if (instance_exists(objBody))
             draw_set_valign(fa_bottom);
             draw_set_font(fTwCenConM);
             draw_set_alpha(1.0);
-            DrawTextOutline(miniX+5, miniY-6, currentText, currentColor);
+            DrawTextOutline(miniX+5, miniY-6, currentText+" "+meters, currentColor);
             }
         }
     
