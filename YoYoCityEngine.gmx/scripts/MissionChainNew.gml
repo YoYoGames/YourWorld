@@ -4,21 +4,21 @@
 //  Fails if the chain already exists.
 //
 //  What the values mean:
-//  -- state; Has the chain been started? 0 = NO, 1 = YES.
+//  -- state; Has the chain been started? 0 = NO, 1 = YES, 2 = PROGRESS.
 //  -- index; The current mission in the chain.
 //
 //*****************************************************************************
 
-var chain;
-chain = argument0;
-if (!ds_map_exists(mission, chain))
+var _chain;
+_chain = argument0;
+if (!ds_map_exists(mission, _chain))
     {
-    var newMap;
-    newMap = ds_map_create();
-    mission[? chain] = newMap;
-    newMap[? "state"] = 0;
-    newMap[? "index"] = 0;
-    return newMap;
+    var _newMap;
+    _newMap = ds_map_create();
+    mission[? _chain] = _newMap;
+    _newMap[? "state"] = 0;
+    _newMap[? "index"] = 0;
+    return _newMap;
     }
 
 // Chain already existed

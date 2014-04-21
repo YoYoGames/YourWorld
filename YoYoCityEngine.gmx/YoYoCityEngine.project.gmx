@@ -65,6 +65,7 @@
       </sprites>
       <sprites name="Minimap">
         <sprite>sprites\sprPoint</sprite>
+        <sprite>sprites\sprite139</sprite>
         <sprite>sprites\sprLosCone</sprite>
         <sprite>sprites\sprMiniMissionPointer</sprite>
         <sprite>sprites\sprMiniMissionTarget</sprite>
@@ -199,6 +200,7 @@
         <sprite>sprites\sprSmokePuff</sprite>
       </sprites>
     </sprites>
+    <sprite>sprites\sprMissionArea</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -361,9 +363,14 @@
       <script>scripts\MissionChainDestroy.gml</script>
       <script>scripts\MissionChainStarted.gml</script>
       <script>scripts\MissionChainStart.gml</script>
+      <script>scripts\MissionChainGetIndex.gml</script>
+      <script>scripts\MissionChainPlusIndex.gml</script>
+      <script>scripts\MissionChainGetState.gml</script>
+      <script>scripts\MissionChainSetState.gml</script>
       <script>scripts\MissionGet.gml</script>
       <script>scripts\MissionStart.gml</script>
       <script>scripts\MissionComplete.gml</script>
+      <script>scripts\MissionFail.gml</script>
       <script>scripts\MissionAddMarker.gml</script>
       <script>scripts\MissionRemoveMarker.gml</script>
     </scripts>

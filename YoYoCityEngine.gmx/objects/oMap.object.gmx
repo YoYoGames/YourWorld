@@ -225,12 +225,25 @@ with (objPedestrian)
     Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);       // Shadow
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+8, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
     }
+
+
+// Draw Markers
+with (objMissionTrigger)
+    {
+    Draw3dSprite(sprMissionArea, 0, x,   -y,   z+4, 1, 1, 0, c_white, 1.0);
     
-    
+    var mat = matrix_build(x, y, -z, 0, 0, 0, 1, 1, 1);
+    matrix_set(matrix_world, mat);
+    draw_set_alpha(0.4);
+    d3d_draw_cone(-64, -64, -1024, 64, 64, 0, -1, 1, 1, true, 8);
+    }
+
+
 // Draw NPCs
 with (objTaxiFare)
     {
     Draw3dSprite(sprite_index, image_index, x+2, -y-2, z+1, image_xscale, image_yscale, image_angle, c_black, 0.3);       // Shadow
+    Draw3dSprite(sprMissionArea, 0, x,   -y,   z+4, 1, 1, 0, c_white, 1.0);
     Draw3dSprite(sprite_index, image_index, x,   -y,   z+8, image_xscale, image_yscale, image_angle, image_blend, 1.0);   // Actual
     
     var mat = matrix_build(x, y, -z, 0, 0, 0, 1, 1, 1);

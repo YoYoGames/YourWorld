@@ -26,6 +26,10 @@ newInst.mission = mis;
 MissionAddMarker(newInst, mis[? "text"], mis[? "color"]);
 debug("New "+string(object_get_name(objectIndex))+" created at ("+string(xPos)+", "+string(yPos)+", "+string(zPos)+")");
 
+// Timer
+objMissionControl.missionTimer = mis[? "time"];
+MissionChainSetState(mis[? "chain"], 1);
+
 // Show notification
 MissionNotification(mis[? "startText"]);
 

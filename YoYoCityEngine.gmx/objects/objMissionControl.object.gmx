@@ -32,6 +32,8 @@ target = ds_list_create();
 mission = ds_map_create();
 markers = ds_list_create();
 
+missionTimer = -1;
+
 </string>
           </argument>
         </arguments>
@@ -84,15 +86,40 @@ if (newMissionTimer == 0)
     MissionAdd(target, newTarget, 60, "A", -1, c_lime, "testChain", 0, "Collect fare at Point A!", "Fare collected!");
     MissionAdd(target, newDestination, 60, "B", -1, c_aqua, "testChain", 1, "Take fare to Point B!", "Fare reached destination!");
     }
+    
+    
+// Mission failure
+missionTimer -= 1/room_speed;
+if (round(missionTimer) == 0)
+    {
+    MissionFail();
+    }
 
 
 // Mission chain handling
 if (ds_map_exists(mission, "testChain"))
     {
-    var currentChain;
-    currentChain = mission[? "testChain"];
     if (!MissionChainStarted("testChain"))
         MissionChainStart("testChain");
+    else if (MissionChainGetState("testChain") == 2)
+        {
+        // Try and go to the next mission
+        var newMission, index;
+        index = MissionChainGetIndex("testChain");
+        newMission = MissionGet("testChain", index);
+        if (newMission != -1)
+            MissionStart(newMission);
+        
+        // There is no next mission, end chain
+        else
+            {
+            debug("End of mission chain: "+string("testChain"));
+            MissionChainDestroy("testChain");
+            debug("Restting Mission Timer...");
+            objMissionControl.newMissionTimer = 2*room_speed;
+            debug("");
+            }
+        }
     }
 
 
@@ -108,6 +135,38 @@ with (parMissionTarget)
         }
     }
     
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+if (missionTimer &gt; 0)
+    {
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_font(fTwCenM);
+    draw_set_alpha(1.0);
+    DrawTextOutline(browser_width/2, 80, string(floor(missionTimer))+" seconds", c_white);
+    }
+
 </string>
           </argument>
         </arguments>
