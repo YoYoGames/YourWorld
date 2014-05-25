@@ -65,7 +65,6 @@
       </sprites>
       <sprites name="Minimap">
         <sprite>sprites\sprPoint</sprite>
-        <sprite>sprites\sprite139</sprite>
         <sprite>sprites\sprLosCone</sprite>
         <sprite>sprites\sprMiniMissionPointer</sprite>
         <sprite>sprites\sprMiniMissionTarget</sprite>
